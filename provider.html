@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provider — Sowo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--cream:#F5F0E8;--white:#fff;--t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;--ease:cubic-bezier(.16,1,.3,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--white);color:var(--t1)}
+a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer;border:none}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border)}
+.logo-wm{font-family:Georgia,serif;font-size:19px;font-weight:700;color:var(--black)}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);font-weight:600;transition:color .15s}
+.nav-back:hover{color:var(--black)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-sm{height:38px;padding:0 16px;font-size:13px}
+.b-amber{background:var(--amber);color:var(--black)}.b-amber:hover{background:#D4891F}
+.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal)}
+
+main{margin-top:68px;max-width:1080px;margin-left:auto;margin-right:auto;padding:0 32px 80px;display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:0 20px 60px}}
+
+/* LEFT COL */
+.profile-header{padding:40px 0 32px;display:flex;gap:24px;align-items:flex-start}
+.avatar-wrap{position:relative;flex-shrink:0}
+.avatar{width:100px;height:100px;border-radius:50%;object-fit:cover;background:var(--surf)}
+.avatar-init{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:var(--mint);background:var(--green)}
+.verified-ring{position:absolute;bottom:4px;right:4px;width:24px;height:24px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;border:2px solid #fff}
+.profile-meta{flex:1}
+.profile-name{font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
+.profile-cat{font-size:15px;color:var(--t2);font-weight:600;margin-bottom:6px}
+.profile-loc{font-size:14px;color:var(--t3);margin-bottom:10px}
+.stars-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.stars{color:var(--amber);font-size:18px}
+.rating-num{font-size:15px;font-weight:700}
+.vouch-cnt{font-size:13px;color:var(--t3)}
+.meta-pills{display:flex;flex-wrap:wrap;gap:8px}
+.meta-pill{height:30px;padding:0 12px;border-radius:999px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.pill-green{background:#E6F9F3;color:var(--teal)}
+.pill-amber{background:#FEF3E0;color:#8B5E0A}
+.pill-grey{background:var(--surf);color:var(--t2);border:1px solid var(--border)}
+
+/* SECTIONS */
+.section{margin-bottom:32px}
+.section-title{font-size:17px;font-weight:800;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+
+/* Bio */
+.bio-text{font-size:15px;color:var(--t2);line-height:1.7}
+
+/* Skills */
+.skills-grid{display:flex;flex-wrap:wrap;gap:8px}
+.skill-chip{height:32px;padding:0 14px;border-radius:999px;background:var(--surf);color:var(--t1);border:1px solid var(--border);font-size:13px;font-weight:600}
+
+/* Services */
+.services-list{display:flex;flex-direction:column;gap:12px}
+.service-card{border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;transition:border-color .15s}
+.service-card:hover{border-color:var(--teal)}
+.service-card.selected{border-color:var(--green);background:#F0FAF5}
+.service-info h3{font-size:15px;font-weight:700;margin-bottom:3px}
+.service-info p{font-size:13px;color:var(--t3)}
+.service-price{font-size:20px;font-weight:900;color:var(--black);white-space:nowrap;text-align:right}
+.service-price span{font-size:12px;font-weight:500;color:var(--t3);display:block}
+
+/* Vouches */
+.vouches-list{display:flex;flex-direction:column;gap:16px}
+.vouch-card{border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.vouch-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.vouch-av{width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--surf)}
+.vouch-av-init{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--mint);background:var(--green)}
+.vouch-author{font-size:14px;font-weight:700}
+.vouch-date{font-size:12px;color:var(--t3);margin-top:1px}
+.vouch-stars{color:var(--amber);font-size:13px;margin-left:auto}
+.vouch-text{font-size:14px;color:var(--t2);line-height:1.6}
+
+/* RIGHT COL — BOOKING WIDGET */
+.booking-card{
+  position:sticky;top:90px;
+  background:#fff;border:1px solid var(--border);border-radius:20px;padding:28px 24px;
+}
+.booking-price{font-size:30px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
+.booking-price span{font-size:14px;font-weight:500;color:var(--t3)}
+.booking-vouch{font-size:13px;color:var(--t3);margin-bottom:24px}
+
+.book-label{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:7px}
+.book-input{
+  width:100%;height:46px;border:1px solid var(--border);border-radius:10px;
+  padding:0 14px;font-size:14px;font-family:inherit;color:var(--t1);
+  outline:none;transition:border-color .2s;background:#fff;
+}
+.book-input:focus{border-color:var(--teal)}
+textarea.book-input{height:90px;padding:12px 14px;resize:none;line-height:1.5}
+.book-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.book-field{margin-bottom:14px}
+
+.btn-book{
+  width:100%;height:52px;background:var(--green);color:var(--mint);
+  border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;
+  transition:background .15s,transform .12s;margin-top:4px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-book:hover{background:#063D31}
+.btn-book:active{transform:scale(.97)}
+.btn-book:disabled{opacity:.5;cursor:not-allowed}
+
+.spin{width:20px;height:20px;border:2px solid rgba(159,225,203,.3);border-top-color:var(--mint);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.book-trust{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3);margin-top:12px;justify-content:center}
+.book-trust svg{width:14px;height:14px;fill:var(--teal)}
+.book-divider{height:1px;background:var(--border);margin:18px 0}
+.book-share{display:flex;gap:8px;justify-content:center}
+.share-btn{height:32px;padding:0 12px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--border);background:#fff;color:var(--t2);cursor:pointer;transition:all .15s}
+.share-btn:hover{border-color:var(--teal);color:var(--black)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px;padding:36px;max-width:440px;width:90%;transform:translateY(20px);transition:transform .25s var(--ease)}
+.modal-overlay.show .modal{transform:none}
+.modal-icon{font-size:40px;margin-bottom:12px}
+.modal-title{font-size:22px;font-weight:800;margin-bottom:8px}
+.modal-msg{font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:24px}
+.modal-btns{display:flex;gap:10px}
+.modal-btns .btn{flex:1;height:46px;font-size:14px}
+
+/* Loading */
+.page-loading{display:flex;align-items:center;justify-content:center;min-height:60vh;font-size:14px;color:var(--t3)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/browse" class="nav-back">← Back to browse</a>
+  <a href="/" class="logo-wm" style="position:absolute;left:50%;transform:translateX(-50%)">Sowo</a>
+  <div id="navR" style="display:flex;gap:10px">
+    <a href="/login" class="btn btn-sm b-light">Log in</a>
+    <a href="/signup" class="btn btn-sm b-amber">Sign up</a>
+  </div>
+</nav>
+
+<div id="pageContent" style="margin-top:68px">
+  <div class="page-loading">Loading provider…</div>
+</div>
+
+<!-- Booking confirmation modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <div class="modal-icon">🤝</div>
+    <div class="modal-title">Confirm your booking</div>
+    <div class="modal-msg" id="confirmMsg">Review your booking details below.</div>
+    <div class="modal-btns">
+      <button class="btn b-light" onclick="closeModal()">Cancel</button>
+      <button class="btn b-amber" id="confirmPayBtn">Pay & book →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Success modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal" style="text-align:center">
+    <div class="modal-icon">🎉</div>
+    <div class="modal-title">Booking requested!</div>
+    <div class="modal-msg">Your booking request has been sent. The provider will confirm within 24 hours. You'll get an email update.</div>
+    <div class="modal-btns">
+      <a href="/dashboard" class="btn b-green" style="flex:1;height:46px;font-size:14px;border-radius:10px;display:flex;align-items:center;justify-content:center">Go to dashboard</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/sowo.js"></script>
+<script>
+const params     = new URLSearchParams(window.location.search);
+const providerId = params.get('id');
+let providerData = null;
+let selectedServiceId = null;
+let currentUser  = null;
+
+async function init() {
+  currentUser = await Auth.getUser();
+  if (currentUser) {
+    document.getElementById('navR').innerHTML = `<a href="/dashboard" class="btn btn-sm b-green">Dashboard</a>`;
+  }
+
+  if (!providerId) {
+    document.getElementById('pageContent').innerHTML = '<div class="page-loading">Provider not found.</div>';
+    return;
+  }
+
+  try {
+    const { data, error } = await sb
+      .from('providers')
+      .select(`
+        *,
+        profiles ( id, full_name, avatar_url, location ),
+        services ( * ),
+        vouches ( *, profiles!vouches_author_id_fkey ( full_name, avatar_url ) )
+      `)
+      .eq('id', providerId)
+      .single();
+
+    if (error || !data) throw error || new Error('Not found');
+    providerData = data;
+    renderPage(data);
+
+  } catch (err) {
+    // Demo mode
+    renderDemoPage();
+  }
+}
+
+function renderPage(p) {
+  const profile  = p.profiles || {};
+  const name     = profile.full_name || 'Provider';
+  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const services = p.services || [];
+  const vouches  = p.vouches  || [];
+
+  document.title = name + ' — Sowo';
+
+  document.getElementById('pageContent').innerHTML = `
+    <main>
+      <div class="left-col">
+        <div class="profile-header">
+          <div class="avatar-wrap">
+            ${profile.avatar_url
+              ? `<img class="avatar" src="${profile.avatar_url}" alt="${name}">`
+              : `<div class="avatar-init">${initials}</div>`}
+            ${p.verified ? '<div class="verified-ring">✓</div>' : ''}
+          </div>
+          <div class="profile-meta">
+            <h1 class="profile-name">${name}</h1>
+            <div class="profile-cat">${p.category || 'Service Provider'}</div>
+            <div class="profile-loc">📍 ${profile.location || 'London, UK'}</div>
+            <div class="stars-row">
+              <span class="stars">${UI.stars(p.rating || 0)}</span>
+              <span class="rating-num">${p.rating || '—'}</span>
+              <span class="vouch-cnt">(${p.vouch_count || 0} vouches)</span>
+            </div>
+            <div class="meta-pills">
+              ${p.verified ? '<span class="meta-pill pill-green">✓ Verified</span>' : ''}
+              ${p.available ? '<span class="meta-pill pill-green">● Available now</span>' : '<span class="meta-pill pill-grey">Not available</span>'}
+              ${p.years_experience ? `<span class="meta-pill pill-grey">${p.years_experience} yrs exp</span>` : ''}
+              ${p.hourly_rate ? `<span class="meta-pill pill-amber">From ${UI.formatPrice(p.hourly_rate)}/hr</span>` : ''}
+            </div>
+          </div>
+        </div>
+
+        ${p.bio ? `
+        <div class="section">
+          <div class="section-title">About</div>
+          <p class="bio-text">${p.bio}</p>
+        </div>` : ''}
+
+        ${(p.skills||[]).length ? `
+        <div class="section">
+          <div class="section-title">Skills</div>
+          <div class="skills-grid">${(p.skills||[]).map(s=>`<span class="skill-chip">${s}</span>`).join('')}</div>
+        </div>` : ''}
+
+        ${services.length ? `
+        <div class="section">
+          <div class="section-title">Services & Pricing</div>
+          <div class="services-list" id="servicesList">
+            ${services.map(s => `
+              <div class="service-card" data-id="${s.id}" data-price="${s.price}" data-name="${s.name}" onclick="selectService(this)">
+                <div class="service-info">
+                  <h3>${s.name}</h3>
+                  <p>${s.description || ''} ${s.duration_hours ? '· ' + s.duration_hours + 'h' : ''}</p>
+                </div>
+                <div class="service-price">${UI.formatPrice(s.price)}<span>fixed price</span></div>
+              </div>
+            `).join('')}
+          </div>
+        </div>` : ''}
+
+        ${vouches.length ? `
+        <div class="section">
+          <div class="section-title">Vouches (${vouches.length})</div>
+          <div class="vouches-list">
+            ${vouches.slice(0,6).map(v => {
+              const author   = v.profiles || {};
+              const aInitials= (author.full_name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+              return `
+              <div class="vouch-card">
+                <div class="vouch-head">
+                  ${author.avatar_url
+                    ? `<img class="vouch-av" src="${author.avatar_url}" alt="${author.full_name}">`
+                    : `<div class="vouch-av-init">${aInitials}</div>`}
+                  <div>
+                    <div class="vouch-author">${author.full_name || 'Community member'}</div>
+                    <div class="vouch-date">${UI.formatDate(v.created_at)}</div>
+                  </div>
+                  <div class="vouch-stars">${UI.stars(v.rating)}</div>
+                </div>
+                <p class="vouch-text">${v.text || ''}</p>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>` : ''}
+      </div>
+
+      <div class="right-col">
+        ${buildBookingWidget(p, services)}
+      </div>
+    </main>
+  `;
+
+  // Auto-select first service
+  const firstService = document.querySelector('.service-card');
+  if (firstService) selectService(firstService);
+}
+
+function buildBookingWidget(p, services) {
+  return `
+    <div class="booking-card">
+      <div class="booking-price">
+        ${p.hourly_rate ? UI.formatPrice(p.hourly_rate) + '<span> / hr</span>' : '<span>Price on request</span>'}
+      </div>
+      <div class="booking-vouch">✦ ${p.vouch_count || 0} vouches · ${p.rating || 'New'} rating</div>
+
+      ${services.length ? `
+      <div class="book-field">
+        <div class="book-label">Select service</div>
+        <select class="book-input" id="serviceSelect" onchange="onServiceSelect(this)">
+          <option value="">Choose a service…</option>
+          ${services.map(s=>`<option value="${s.id}" data-price="${s.price}">${s.name} — ${UI.formatPrice(s.price)}</option>`).join('')}
+        </select>
+      </div>` : ''}
+
+      <div class="book-row">
+        <div>
+          <div class="book-label">Date</div>
+          <input type="date" class="book-input" id="bookDate" min="${new Date().toISOString().split('T')[0]}">
+        </div>
+        <div>
+          <div class="book-label">Time</div>
+          <input type="time" class="book-input" id="bookTime" value="09:00">
+        </div>
+      </div>
+      <div class="book-field">
+        <div class="book-label">Message to provider <span style="font-weight:400;color:var(--t3)">(optional)</span></div>
+        <textarea class="book-input" id="bookMessage" placeholder="Describe what you need…"></textarea>
+      </div>
+
+      <button class="btn-book" id="bookBtn" onclick="handleBook()">
+        Request booking
+      </button>
+      <div class="book-trust">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        Protected by Sowo escrow
+      </div>
+      <div class="book-divider"></div>
+      <div class="book-share">
+        <button class="share-btn" onclick="shareProfile()">Share profile</button>
+        <button class="share-btn" onclick="reportProvider()">Report</button>
+      </div>
+    </div>
+  `;
+}
+
+function selectService(el) {
+  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedServiceId = el.dataset.id;
+  const select = document.getElementById('serviceSelect');
+  if (select) select.value = el.dataset.id;
+}
+
+function onServiceSelect(el) {
+  selectedServiceId = el.value;
+  document.querySelectorAll('.service-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.id === el.value);
+  });
+}
+
+async function handleBook() {
+  if (!currentUser) {
+    window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+    return;
+  }
+  const date    = document.getElementById('bookDate').value;
+  const time    = document.getElementById('bookTime').value;
+  const message = document.getElementById('bookMessage').value;
+
+  if (!date) { UI.toast('Please select a date', 'error'); return; }
+
+  const service = selectedServiceId
+    ? (providerData?.services || []).find(s => s.id === selectedServiceId)
+    : null;
+
+  const priceStr = service ? UI.formatPrice(service.price) : (providerData?.hourly_rate ? UI.formatPrice(providerData.hourly_rate) + '/hr' : 'TBD');
+  const serviceName = service?.name || 'General service';
+
+  document.getElementById('confirmMsg').innerHTML = `
+    <strong>${providerData?.profiles?.full_name || 'Provider'}</strong> · ${serviceName}<br>
+    📅 ${new Date(date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} at ${time}<br>
+    💷 ${priceStr}<br><br>
+    Once confirmed, payment will be held in escrow until the job is complete.
+  `;
+
+  document.getElementById('confirmModal').classList.add('show');
+}
+
+document.getElementById('confirmPayBtn').addEventListener('click', async () => {
+  UI.setLoading(document.getElementById('confirmPayBtn'), true);
+  closeModal();
+
+  try {
+    const booking = await Bookings.create({
+      consumerId:  currentUser.id,
+      providerId:  providerId,
+      serviceId:   selectedServiceId || null,
+      date:        document.getElementById('bookDate').value,
+      time:        document.getElementById('bookTime').value,
+      message:     document.getElementById('bookMessage').value,
+      totalAmount: providerData?.hourly_rate || 0,
+    });
+
+    // If Stripe is configured, initiate checkout
+    if (SOWO_CONFIG.stripe.publishableKey !== 'YOUR_STRIPE_PUBLISHABLE_KEY' && selectedServiceId) {
+      const resp = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          bookingId: booking.id,
+          serviceId: selectedServiceId,
+          userId:    currentUser.id,
+        }),
+      });
+      const { url } = await resp.json();
+      if (url) { window.location.href = url; return; }
+    }
+
+    // No Stripe yet — just show success
+    document.getElementById('successModal').classList.add('show');
+
+  } catch (err) {
+    UI.toast(err.message || 'Booking failed. Please try again.', 'error');
+  }
+});
+
+function closeModal() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
+}
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) closeModal(); });
+});
+
+function shareProfile() {
+  navigator.share
+    ? navigator.share({ title: document.title, url: window.location.href })
+    : (navigator.clipboard.writeText(window.location.href), UI.toast('Link copied!', 'success'));
+}
+function reportProvider() { UI.toast('Report submitted. Thank you.', 'success'); }
+
+/* Demo fallback */
+function renderDemoPage() {
+  const demo = {
+    name:'Kwame Asante', cat:'Plumber', loc:'Peckham, London', rating:4.9, vouches:62,
+    bio:'Fully qualified plumber with 12 years experience across South London. Fast response, guaranteed work, no callout fee on weekdays. All work certified and insured.',
+    skills:['Leaks & Burst pipes','Boiler servicing','Bathroom installation','Emergency callouts','Central heating'],
+    verified:true, available:true, hourly_rate:3500,
+    services:[
+      {id:'s1',name:'Plumbing inspection',description:'Full system check + written report',price:8000,duration_hours:1},
+      {id:'s2',name:'Leak repair',description:'Locate and fix any leak, guaranteed',price:15000,duration_hours:2},
+      {id:'s3',name:'Bathroom fit-out',description:'Complete bathroom installation',price:85000,duration_hours:8},
+    ],
+    vouches:[
+      {author:'Ngozi A.',date:'March 2025',rating:5,text:'Kwame fixed our boiler the same day. Absolute legend. Will only use him from now on.'},
+      {author:'Tunde B.',date:'Feb 2025',rating:5,text:'Quick, clean, professional. Sorted our bathroom leak in under an hour.'},
+      {author:'Ama D.',date:'Jan 2025',rating:5,text:'Highly recommend. Fair price, excellent quality, very communicative.'},
+    ]
+  };
+
+  document.title = demo.name + ' — Sowo (Demo)';
+  document.getElementById('pageContent').innerHTML = `
+    <main>
+      <div class="left-col">
+        <div class="profile-header">
+          <div class="avatar-wrap">
+            <div class="avatar-init">${demo.name.split(' ').map(w=>w[0]).join('')}</div>
+            <div class="verified-ring">✓</div>
+          </div>
+          <div class="profile-meta">
+            <h1 class="profile-name">${demo.name} <span style="font-size:14px;color:var(--t3);font-weight:400">(Demo)</span></h1>
+            <div class="profile-cat">${demo.cat}</div>
+            <div class="profile-loc">📍 ${demo.loc}</div>
+            <div class="stars-row">
+              <span class="stars">${UI.stars(demo.rating)}</span>
+              <span class="rating-num">${demo.rating}</span>
+              <span class="vouch-cnt">(${demo.vouches} vouches)</span>
+            </div>
+            <div class="meta-pills">
+              <span class="meta-pill pill-green">✓ Verified</span>
+              <span class="meta-pill pill-green">● Available now</span>
+              <span class="meta-pill pill-amber">From ${UI.formatPrice(demo.hourly_rate)}/hr</span>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">About</div>
+          <p class="bio-text">${demo.bio}</p>
+        </div>
+        <div class="section">
+          <div class="section-title">Skills</div>
+          <div class="skills-grid">${demo.skills.map(s=>`<span class="skill-chip">${s}</span>`).join('')}</div>
+        </div>
+        <div class="section">
+          <div class="section-title">Services & Pricing</div>
+          <div class="services-list">
+            ${demo.services.map(s=>`
+              <div class="service-card" style="cursor:default">
+                <div class="service-info"><h3>${s.name}</h3><p>${s.description} · ${s.duration_hours}h</p></div>
+                <div class="service-price">${UI.formatPrice(s.price)}<span>fixed price</span></div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">Vouches (${demo.vouches})</div>
+          <div class="vouches-list">
+            ${demo.vouches.map(v=>`
+              <div class="vouch-card">
+                <div class="vouch-head">
+                  <div class="vouch-av-init">${v.author.slice(0,2).toUpperCase()}</div>
+                  <div><div class="vouch-author">${v.author}</div><div class="vouch-date">${v.date}</div></div>
+                  <div class="vouch-stars">${UI.stars(v.rating)}</div>
+                </div>
+                <p class="vouch-text">${v.text}</p>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="right-col">
+        <div class="booking-card">
+          <div class="booking-price">${UI.formatPrice(demo.hourly_rate)}<span> / hr</span></div>
+          <div class="booking-vouch">✦ ${demo.vouches} vouches · ${demo.rating} rating</div>
+          <div style="background:#FEF3E0;border:1px solid #F5D88E;border-radius:10px;padding:14px 16px;font-size:13px;color:#8B5E0A;margin-bottom:16px">
+            ⚡ This is a demo profile. <a href="/signup" style="color:var(--green);font-weight:700">Sign up</a> to book real providers.
+          </div>
+          <div class="book-row">
+            <div><div class="book-label">Date</div><input type="date" class="book-input" disabled></div>
+            <div><div class="book-label">Time</div><input type="time" class="book-input" value="09:00" disabled></div>
+          </div>
+          <a href="/signup" class="btn-book" style="text-decoration:none">Sign up to book →</a>
+          <div class="book-trust">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--teal)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+            Protected by Sowo escrow
+          </div>
+        </div>
+      </div>
+    </main>`;
+}
+
+init();
+</script>
+</body>
+</html>

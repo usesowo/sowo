@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sowo — Trusted hands, near you.</title>
+<meta name="description" content="Sowo connects you with skilled, vouched-for craftspeople in your community. No algorithms. No fake reviews. Just trusted hands.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#085041;--gm:#1D9E75;--gl:#9FE1CB;--gs:#E1F5EE;
+  --a:#EF9F27;--as-bg:#FEF3E0;--ad:#8B5E0A;
+  --bk:#0A0A0A;--cr:#F5F0E8;
+  --t1:#0A0A0A;--t2:#555555;--t3:#999999;
+  --bd:#E0E0E0;--sf:#F5F5F5;
+  --white:#FFFFFF;
+  --easing:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--white);color:var(--t1);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s var(--easing),transform 0.7s var(--easing)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+.reveal-delay-5{transition-delay:0.5s}
+.reveal-left{opacity:0;transform:translateX(-32px);transition:opacity 0.7s var(--easing),transform 0.7s var(--easing)}
+.reveal-left.visible{opacity:1;transform:none}
+.reveal-right{opacity:0;transform:translateX(32px);transition:opacity 0.7s var(--easing),transform 0.7s var(--easing)}
+.reveal-right.visible{opacity:1;transform:none}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:0 48px;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:background 0.3s,border-color 0.3s,backdrop-filter 0.3s;
+}
+nav.scrolled{
+  background:rgba(255,255,255,0.92);
+  border-bottom:0.5px solid var(--bd);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.nav-wordmark{font-family:Georgia,serif;font-size:22px;font-weight:700;letter-spacing:-0.5px;transition:color 0.3s}
+nav:not(.scrolled) .nav-wordmark{color:var(--white)}
+nav.scrolled .nav-wordmark{color:var(--bk)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;font-weight:500;text-decoration:none;transition:color 0.2s}
+nav:not(.scrolled) .nav-links a{color:rgba(255,255,255,0.6)}
+nav:not(.scrolled) .nav-links a:hover{color:var(--white)}
+nav.scrolled .nav-links a{color:var(--t2)}
+nav.scrolled .nav-links a:hover{color:var(--t1)}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  font-family:inherit;font-size:14px;font-weight:500;border:none;cursor:pointer;
+  text-decoration:none;transition:all 0.18s;border-radius:10px;white-space:nowrap;
+}
+.btn-ghost-light{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.8);
+  border:0.5px solid rgba(255,255,255,0.2);height:40px;padding:0 18px;
+}
+.btn-ghost-light:hover{background:rgba(255,255,255,0.18);color:var(--white)}
+.btn-ghost{background:transparent;color:var(--t2);border:0.5px solid var(--bd);height:40px;padding:0 18px}
+.btn-ghost:hover{border-color:var(--gm);color:var(--t1)}
+.btn-primary{background:var(--g);color:var(--gl);height:40px;padding:0 20px}
+.btn-primary:hover{background:#063D31}
+.btn-primary:active,.btn-amber:active{transform:scale(0.97)}
+.btn-amber{background:var(--a);color:var(--bk);height:52px;padding:0 32px;font-size:15px;border-radius:12px}
+.btn-amber:hover{background:#D4891F}
+.btn-xl{height:56px;padding:0 40px;font-size:16px;border-radius:14px}
+
+/* hamburger */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--white);border-radius:2px;transition:all 0.25s}
+nav.scrolled .hamburger span{background:var(--bk)}
+.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+/* mobile drawer */
+.mobile-menu{
+  display:none;position:fixed;top:68px;left:0;right:0;bottom:0;
+  background:var(--bk);z-index:190;
+  padding:32px 32px 48px;
+  flex-direction:column;gap:8px;
+  transform:translateX(100%);transition:transform 0.35s var(--easing);
+}
+.mobile-menu.open{transform:none}
+.mobile-menu a{font-size:22px;font-weight:600;color:rgba(255,255,255,0.7);text-decoration:none;padding:14px 0;border-bottom:0.5px solid rgba(255,255,255,0.08);transition:color 0.15s}
+.mobile-menu a:hover{color:var(--white)}
+.mobile-menu-actions{margin-top:32px;display:flex;flex-direction:column;gap:12px}
+.btn-mobile-amber{background:var(--a);color:var(--bk);height:52px;border-radius:12px;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:inherit;width:100%}
+.btn-mobile-ghost{background:transparent;color:rgba(255,255,255,0.5);border:0.5px solid rgba(255,255,255,0.15);height:52px;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;width:100%}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;background:var(--bk);
+  display:flex;flex-direction:column;justify-content:center;
+  padding:120px 48px 80px;position:relative;overflow:hidden;
+}
+/* animated background grid */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.028) 1px,transparent 1px);
+  background-size:64px 64px;
+  animation:gridPan 20s linear infinite;
+}
+@keyframes gridPan{
+  0%{background-position:0 0}
+  100%{background-position:64px 64px}
+}
+/* floating orbs */
+.hero-orb{
+  position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;
+  animation:orb 8s ease-in-out infinite alternate;
+}
+.orb1{width:500px;height:500px;background:rgba(8,80,65,0.35);top:-100px;right:-100px;animation-delay:0s}
+.orb2{width:360px;height:360px;background:rgba(239,159,39,0.12);bottom:-60px;left:10%;animation-delay:-4s}
+.orb3{width:260px;height:260px;background:rgba(29,158,117,0.15);top:40%;left:40%;animation-delay:-2s}
+@keyframes orb{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(30px,20px) scale(1.08)}
+}
+.hero-inner{
+  max-width:1200px;margin:0 auto;width:100%;
+  display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;
+  position:relative;z-index:1;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;
+  color:var(--a);margin-bottom:28px;
+}
+.hero-eyebrow-line{width:24px;height:1px;background:var(--a)}
+.hero-h1{
+  font-size:clamp(46px,5.5vw,80px);font-weight:700;
+  color:var(--white);line-height:1.03;letter-spacing:-2.5px;margin-bottom:24px;
+}
+.hero-h1 em{font-style:normal;color:var(--a)}
+.hero-desc{font-size:17px;color:rgba(255,255,255,0.42);line-height:1.75;max-width:460px;margin-bottom:40px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn-ghost-hero{
+  background:transparent;color:rgba(255,255,255,0.55);
+  border:0.5px solid rgba(255,255,255,0.15);
+  height:52px;padding:0 32px;font-size:15px;border-radius:12px;
+  transition:all 0.18s;
+}
+.btn-ghost-hero:hover{border-color:rgba(255,255,255,0.35);color:var(--white)}
+.hero-stats{
+  display:flex;gap:40px;flex-wrap:wrap;
+  margin-top:60px;padding-top:40px;
+  border-top:0.5px solid rgba(255,255,255,0.08);
+}
+.stat{display:flex;flex-direction:column;gap:4px}
+.stat-n{font-size:30px;font-weight:700;color:var(--white);letter-spacing:-1px;line-height:1}
+.stat-n span{color:var(--a)}
+.stat-l{font-size:12px;color:rgba(255,255,255,0.3);font-weight:500;margin-top:4px}
+
+/* hero search */
+.hero-search{
+  background:rgba(255,255,255,0.04);
+  border:0.5px solid rgba(255,255,255,0.1);
+  border-radius:16px;padding:20px;margin-top:32px;
+  backdrop-filter:blur(8px);
+}
+.hs-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:rgba(255,255,255,0.3);margin-bottom:12px}
+.hs-row{display:flex;gap:8px}
+.hs-input{
+  flex:1;background:rgba(255,255,255,0.06);
+  border:0.5px solid rgba(255,255,255,0.12);
+  border-radius:10px;height:48px;padding:0 16px;
+  font-size:14px;color:var(--white);font-family:inherit;
+  transition:border-color 0.2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:14px center;
+  padding-left:40px;
+}
+.hs-input::placeholder{color:rgba(255,255,255,0.25)}
+.hs-input:focus{outline:none;border-color:rgba(29,158,117,0.6);background:rgba(255,255,255,0.08)}
+.hs-select{
+  background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.12);
+  border-radius:10px;height:48px;padding:0 14px;
+  font-size:13px;color:rgba(255,255,255,0.6);font-family:inherit;
+  appearance:none;min-width:130px;cursor:pointer;
+}
+.hs-select:focus{outline:none;border-color:rgba(29,158,117,0.6)}
+.hs-btn{
+  background:var(--a);color:var(--bk);
+  border:none;border-radius:10px;height:48px;padding:0 22px;
+  font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;
+  transition:background 0.18s,transform 0.18s;white-space:nowrap;
+}
+.hs-btn:hover{background:#D4891F}
+.hs-btn:active{transform:scale(0.97)}
+.hs-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.hs-chip{
+  font-size:11px;font-weight:500;
+  padding:4px 10px;border-radius:999px;cursor:pointer;
+  border:0.5px solid rgba(255,255,255,0.12);
+  color:rgba(255,255,255,0.45);background:transparent;
+  transition:all 0.15s;font-family:inherit;
+}
+.hs-chip:hover,.hs-chip.active{background:rgba(255,255,255,0.1);color:var(--white);border-color:rgba(255,255,255,0.25)}
+
+/* hero right — cards */
+.hero-cards{
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;
+}
+.hero-card{
+  background:rgba(255,255,255,0.05);
+  border:0.5px solid rgba(255,255,255,0.1);
+  border-radius:18px;padding:18px;
+  backdrop-filter:blur(12px);
+  transition:transform 0.35s var(--easing),border-color 0.25s;
+}
+.hero-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.2)}
+.hc-top{display:flex;gap:13px;align-items:flex-start;margin-bottom:12px}
+.hc-av{
+  width:48px;height:48px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;
+}
+.hc-name{font-size:14px;font-weight:600;color:var(--white)}
+.hc-craft{font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px}
+.hc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.hc-tag{
+  font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;
+}
+.tag-teal{background:rgba(29,158,117,0.2);color:var(--gl)}
+.tag-amber{background:rgba(239,159,39,0.18);color:var(--a)}
+.hc-quote{
+  font-family:Georgia,serif;font-style:italic;
+  font-size:12px;color:rgba(255,255,255,0.4);line-height:1.7;
+  border-left:2px solid rgba(255,255,255,0.1);padding-left:10px;margin-bottom:12px;
+}
+.hc-footer{display:flex;align-items:center;justify-content:space-between}
+.hc-vouches{display:flex;align-items:center;gap:7px}
+.hc-stack{display:flex}
+.hc-av-sm{
+  width:18px;height:18px;border-radius:50%;
+  border:1.5px solid rgba(10,10,10,0.7);
+  margin-right:-5px;font-size:7px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+.hc-vcount{font-size:11px;color:rgba(255,255,255,0.3);margin-left:10px}
+.hc-right{display:flex;align-items:center;gap:6px}
+.dot-avail{width:7px;height:7px;border-radius:50%;background:#1D9E75;flex-shrink:0}
+.dot-busy{background:#D85A30}
+.hc-price{font-size:13px;font-weight:700;color:var(--white)}
+
+/* floating notification */
+.hero-notif{
+  background:rgba(255,255,255,0.07);
+  border:0.5px solid rgba(255,255,255,0.12);
+  border-radius:12px;padding:12px 16px;
+  display:flex;align-items:center;gap:12px;
+  animation:float 4s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--gm);flex-shrink:0;box-shadow:0 0 0 3px rgba(29,158,117,0.2)}
+.notif-text{font-size:12px;color:rgba(255,255,255,0.55)}
+.notif-text strong{color:var(--white);font-weight:600}
+
+/* ── TRUST STRIP ── */
+.trust-strip{background:var(--cr);padding:0 48px;border-bottom:0.5px solid #E0D9CC}
+.trust-strip-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0;
+}
+.trust-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:13px;color:var(--t2);
+  padding:20px 0;flex:1;min-width:200px;
+  border-right:0.5px solid #E0D9CC;padding-right:32px;padding-left:0;
+}
+.trust-item:last-child{border-right:none}
+.ti-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.trust-item strong{color:var(--t1);font-weight:600;display:block}
+.trust-item span{font-size:11px;color:var(--t3)}
+
+/* ── SECTIONS ── */
+.section{padding:112px 48px}
+.section-inner{max-width:1200px;margin:0 auto}
+.eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:var(--gm);margin-bottom:14px}
+.section-h{
+  font-size:clamp(30px,3.5vw,48px);font-weight:700;
+  color:var(--t1);letter-spacing:-1.5px;line-height:1.12;margin-bottom:18px;
+}
+.section-p{font-size:16px;color:var(--t2);line-height:1.75;max-width:540px}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:64px;flex-wrap:wrap}
+.see-all{font-size:13px;font-weight:600;color:var(--gm);text-decoration:none;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.see-all:hover{text-decoration:underline}
+
+/* ── HOW IT WORKS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.step-card{
+  background:var(--white);border:0.5px solid var(--bd);border-radius:18px;
+  padding:36px;position:relative;overflow:hidden;
+  transition:transform 0.3s var(--easing),border-color 0.2s;
+}
+.step-card:hover{transform:translateY(-4px);border-color:var(--gm)}
+.step-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:transparent;transition:background 0.3s;
+}
+.step-card:hover::before{background:var(--gm)}
+.step-num-badge{
+  width:44px;height:44px;border-radius:999px;
+  background:var(--bk);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;margin-bottom:24px;
+}
+.step-highlight .step-num-badge{background:var(--a);color:var(--bk)}
+.step-title{font-size:18px;font-weight:700;color:var(--t1);margin-bottom:12px;letter-spacing:-0.3px}
+.step-desc{font-size:14px;color:var(--t2);line-height:1.75}
+.step-big-num{
+  position:absolute;bottom:-16px;right:16px;
+  font-size:100px;font-weight:800;letter-spacing:-4px;
+  color:rgba(0,0,0,0.04);line-height:1;pointer-events:none;user-select:none;
+}
+
+/* ── SEARCH SECTION ── */
+.bg-off{background:#FAFAFA}
+.search-ui{
+  background:var(--white);border:0.5px solid var(--bd);border-radius:20px;
+  overflow:hidden;margin-top:56px;
+  box-shadow:0 2px 24px rgba(0,0,0,0.06);
+}
+.sui-header{
+  background:var(--g);padding:24px 32px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.sui-title{font-size:15px;font-weight:600;color:var(--white)}
+.sui-subtitle{font-size:12px;color:var(--gl);margin-top:2px}
+.sui-badge{
+  background:rgba(255,255,255,0.12);color:var(--gl);
+  font-size:11px;font-weight:600;padding:4px 12px;border-radius:999px;
+  border:0.5px solid rgba(255,255,255,0.2);
+}
+.sui-body{padding:28px 32px}
+.sui-search-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.sui-input{
+  flex:1;min-width:200px;height:52px;background:var(--sf);
+  border:0.5px solid var(--bd);border-radius:12px;
+  padding:0 16px 0 44px;font-size:14px;color:var(--t1);font-family:inherit;
+  transition:border-color 0.2s,background 0.2s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:14px center;
+}
+.sui-input::placeholder{color:var(--t3)}
+.sui-input:focus{outline:none;border-color:var(--gm);background:var(--white)}
+.sui-select{
+  height:52px;background:var(--sf);border:0.5px solid var(--bd);border-radius:12px;
+  padding:0 16px;font-size:14px;color:var(--t1);font-family:inherit;
+  appearance:none;min-width:140px;cursor:pointer;
+}
+.sui-select:focus{outline:none;border-color:var(--gm)}
+.sui-search-btn{
+  background:var(--g);color:var(--gl);border:none;border-radius:12px;
+  height:52px;padding:0 28px;font-size:14px;font-weight:600;
+  font-family:inherit;cursor:pointer;white-space:nowrap;
+  transition:background 0.18s,transform 0.18s;display:flex;align-items:center;gap:8px;
+}
+.sui-search-btn:hover{background:#063D31}
+.sui-search-btn:active{transform:scale(0.97)}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:0.1em;margin-right:4px}
+.filter-chip{
+  font-size:12px;font-weight:500;
+  padding:6px 14px;border-radius:999px;cursor:pointer;
+  border:0.5px solid var(--bd);
+  color:var(--t2);background:var(--white);
+  transition:all 0.15s;font-family:inherit;
+}
+.filter-chip:hover{border-color:var(--gm);color:var(--gm)}
+.filter-chip.on{background:var(--g);color:var(--gl);border-color:var(--g)}
+.sui-divider{height:0.5px;background:var(--bd);margin:20px 0}
+.sui-results-label{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;
+}
+.sui-count{font-size:13px;color:var(--t3)}
+.sui-count strong{color:var(--t1)}
+.sui-sort{
+  font-size:12px;color:var(--gm);font-weight:500;
+  background:none;border:none;cursor:pointer;font-family:inherit;
+}
+
+/* ── CATEGORIES ── */
+.bg-cream{background:var(--cr)}
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:16px}
+.cat-card{
+  background:var(--white);border:0.5px solid var(--bd);border-radius:16px;
+  padding:22px 18px;text-decoration:none;
+  display:flex;flex-direction:column;gap:10px;
+  transition:all 0.25s var(--easing);
+  position:relative;overflow:hidden;
+}
+.cat-card::after{
+  content:'';position:absolute;inset:0;border-radius:16px;
+  border:1.5px solid var(--gm);opacity:0;transition:opacity 0.2s;
+}
+.cat-card:hover{transform:translateY(-4px);background:#FAFFF9}
+.cat-card:hover::after{opacity:1}
+.cat-icon{font-size:28px;line-height:1}
+.cat-name{font-size:13px;font-weight:700;color:var(--t1)}
+.cat-count{font-size:11px;color:var(--t3)}
+.cat-arrow{
+  font-size:16px;color:var(--bd);margin-top:auto;
+  transition:color 0.2s,transform 0.2s;
+}
+.cat-card:hover .cat-arrow{color:var(--gm);transform:translateX(3px)}
+
+/* ── PROVIDER CARDS ── */
+.providers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.pc{
+  background:var(--white);border:0.5px solid var(--bd);border-radius:18px;
+  padding:20px;transition:all 0.25s var(--easing);
+}
+.pc:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.07);border-color:var(--gm)}
+.pc-top{display:flex;gap:13px;align-items:flex-start;margin-bottom:13px}
+.pc-av{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:700;position:relative;
+}
+.pc-av-ring::after{
+  content:'';position:absolute;inset:-3px;border-radius:50%;
+  border:2px solid var(--gm);
+}
+.pc-info{flex:1;min-width:0}
+.pc-name{font-size:15px;font-weight:700;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-craft{font-size:12px;color:var(--t3);margin-top:2px}
+.pc-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.pc-tag{
+  font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px;
+  background:var(--gs);color:var(--g);
+}
+.pc-follow-btn{
+  flex-shrink:0;font-size:12px;font-weight:600;
+  border:0.5px solid var(--bd);border-radius:999px;
+  padding:5px 14px;cursor:pointer;color:var(--t2);
+  background:var(--white);font-family:inherit;
+  transition:all 0.15s;align-self:flex-start;
+}
+.pc-follow-btn:hover,.pc-follow-btn.following{
+  background:var(--g);color:var(--gl);border-color:var(--g);
+}
+.pc-quote{
+  font-family:Georgia,serif;font-style:italic;
+  font-size:12.5px;color:var(--t2);line-height:1.7;
+  border-left:2px solid var(--bd);padding-left:12px;
+  margin-bottom:14px;
+}
+.pc-footer{display:flex;align-items:center;justify-content:space-between}
+.pc-vouches{display:flex;align-items:center;gap:7px}
+.pc-stack{display:flex}
+.pc-av-mini{
+  width:20px;height:20px;border-radius:50%;
+  border:1.5px solid var(--white);margin-right:-6px;
+  font-size:7px;font-weight:700;display:flex;align-items:center;justify-content:center;
+}
+.pc-vc{font-size:11px;color:var(--t3);margin-left:10px}
+.pc-right{display:flex;align-items:center;gap:8px}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:var(--gm);flex-shrink:0}
+.avail-busy{background:#D85A30}
+.pc-price-from{font-size:11px;color:var(--t3)}
+.pc-price-val{font-size:14px;font-weight:700;color:var(--t1)}
+
+/* ── TWO SIDES ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:20px;overflow:hidden;margin-top:16px}
+.side-panel{padding:52px 48px}
+.sp-consumer{background:var(--as-bg);border:0.5px solid #F5D08A}
+.sp-provider{background:var(--gs);border:0.5px solid var(--gl)}
+.sp-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;margin-bottom:10px}
+.sp-label-c{color:var(--ad)}
+.sp-label-p{color:var(--g)}
+.sp-role{font-size:36px;font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px}
+.sp-role-c{color:var(--ad)}
+.sp-role-p{color:var(--g)}
+.sp-desc{font-size:15px;line-height:1.75;margin-bottom:32px}
+.sp-desc-c{color:#6B4A0A}
+.sp-desc-p{color:#0A4030}
+.sp-items{display:flex;flex-direction:column;gap:0}
+.sp-item{
+  font-size:13px;display:flex;gap:12px;align-items:flex-start;
+  padding:12px 0;border-top:0.5px solid rgba(0,0,0,0.07);line-height:1.6;
+}
+.sp-item:first-child{border-top:none}
+.sp-dot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.sp-dot-c{background:var(--a)}
+.sp-dot-p{background:var(--gm)}
+.sp-cta{margin-top:32px}
+
+/* ── VOUCHES ── */
+.vouches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.vouch-card{
+  background:var(--white);border:0.5px solid var(--bd);border-radius:18px;
+  padding:24px;transition:all 0.25s var(--easing);
+  display:flex;flex-direction:column;
+}
+.vouch-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.06);border-color:var(--gl)}
+.vc-stars{display:flex;gap:2px;margin-bottom:14px}
+.vc-star{color:var(--a);font-size:13px}
+.vc-quote{
+  font-family:Georgia,serif;font-style:italic;
+  font-size:14px;color:var(--t2);line-height:1.8;
+  flex:1;margin-bottom:20px;
+}
+.vc-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.vc-author{display:flex;align-items:center;gap:10px}
+.vc-av{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;
+}
+.vc-name{font-size:13px;font-weight:600;color:var(--t1)}
+.vc-for{font-size:11px;color:var(--t3);margin-top:1px}
+.vouch-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--gs);color:var(--g);
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;
+  flex-shrink:0;
+}
+
+/* ── CTA BANNER ── */
+.cta-section{background:var(--bk);padding:120px 48px;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+.cta-inner{max-width:680px;margin:0 auto;position:relative;z-index:1}
+.cta-h{
+  font-size:clamp(36px,5vw,64px);font-weight:800;
+  color:var(--white);letter-spacing:-2.5px;line-height:1.05;margin-bottom:22px;
+}
+.cta-h em{font-style:normal;color:var(--a)}
+.cta-p{font-size:17px;color:rgba(255,255,255,0.38);line-height:1.75;margin-bottom:44px}
+.cta-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-outline-white{
+  background:transparent;color:rgba(255,255,255,0.55);
+  border:0.5px solid rgba(255,255,255,0.18);
+  height:56px;padding:0 36px;font-size:15px;border-radius:14px;
+  transition:all 0.18s;
+}
+.btn-outline-white:hover{border-color:rgba(255,255,255,0.4);color:var(--white)}
+
+/* ── FOOTER ── */
+footer{background:var(--bk);border-top:0.5px solid rgba(255,255,255,0.07);padding:72px 48px 40px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:56px;margin-bottom:64px}
+.footer-brand-logo{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.footer-wordmark{font-family:Georgia,serif;font-size:22px;font-weight:700;color:var(--white);letter-spacing:-0.5px}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,0.28);line-height:1.65;max-width:220px;margin-top:4px}
+.footer-col-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.14em;color:rgba(255,255,255,0.22);margin-bottom:20px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.42);text-decoration:none;margin-bottom:11px;transition:color 0.15s}
+.footer-col a:hover{color:rgba(255,255,255,0.85)}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  border-top:0.5px solid rgba(255,255,255,0.07);padding-top:28px;
+}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.2)}
+.footer-legal{display:flex;gap:24px}
+.footer-legal a{font-size:12px;color:rgba(255,255,255,0.2);text-decoration:none}
+.footer-legal a:hover{color:rgba(255,255,255,0.5)}
+
+/* ── NOTICE ── */
+.notice-box{background:var(--gs);border:0.5px solid var(--gl);border-radius:12px;padding:18px 22px;margin-top:32px}
+.notice-title{font-size:13px;font-weight:700;color:var(--g);margin-bottom:5px}
+.notice-body{font-size:13px;color:#0A4030;line-height:1.65}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:0 24px}
+  .hero{padding:100px 24px 64px}
+  .hero-inner{grid-template-columns:1fr;gap:48px}
+  .hero-cards{max-width:480px}
+  .section{padding:80px 24px}
+  .trust-strip{padding:0 24px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:36px}
+  .cta-section{padding:80px 24px}
+  footer{padding:56px 24px 32px}
+}
+@media(max-width:768px){
+  .nav-links,.nav-actions .btn-ghost,.nav-actions .btn-primary{display:none}
+  .hamburger{display:flex}
+  .mobile-menu{display:flex}
+  .steps-grid{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
+  .sp-consumer{border-radius:16px 16px 0 0}
+  .sp-provider{border-radius:0 0 16px 16px}
+  .providers-grid{grid-template-columns:1fr}
+  .hero-stats{gap:28px}
+  .hero-ctas .btn-ghost-hero{display:none}
+  .hs-row{flex-direction:column}
+}
+@media(max-width:600px){
+  .footer-top{grid-template-columns:1fr}
+  .trust-strip-inner{flex-direction:column;gap:0}
+  .trust-item{border-right:none;border-bottom:0.5px solid #E0D9CC;padding:16px 0;min-width:0;width:100%}
+  .trust-item:last-child{border-bottom:none}
+  .cats-grid{grid-template-columns:repeat(2,1fr)}
+  .cta-actions{flex-direction:column;align-items:center}
+  .cta-actions .btn{width:100%;max-width:320px;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <svg width="34" height="30" viewBox="0 0 120 110" fill="none">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="white" stroke-width="9" stroke-linecap="round" id="arc1"/>
+      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+      <circle cx="60" cy="10" r="5" fill="#0A0A0A" id="dot-inner"/>
+    </svg>
+    <span class="nav-wordmark">Sowo</span>
+  </a>
+  <div class="nav-links">
+    <a href="#how-it-works">How it works</a>
+    <a href="#services">Services</a>
+    <a href="#providers">Providers</a>
+    <a href="#community">Community</a>
+  </div>
+  <div class="nav-actions">
+    <a href="#" class="btn btn-ghost">Log in</a>
+    <a href="#" class="btn btn-primary">Get started →</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="#how-it-works" onclick="closeMobile()">How it works</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#providers" onclick="closeMobile()">Providers</a>
+  <a href="#community" onclick="closeMobile()">Community</a>
+  <div class="mobile-menu-actions">
+    <button class="btn-mobile-amber">Find a skilled hand</button>
+    <button class="btn-mobile-ghost">Offer your craft</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <div class="hero-inner">
+    <!-- LEFT -->
+    <div>
+      <div class="hero-eyebrow">
+        <span class="hero-eyebrow-line"></span>
+        Skills platform for your community
+      </div>
+      <h1 class="hero-h1">Trusted hands,<br><em>near you.</em></h1>
+      <p class="hero-desc">Sowo connects you with skilled, vouched-for craftspeople in your community. No algorithms. No fake reviews. Just real people, verified by people you know.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-amber btn-xl">Find a skilled hand</a>
+        <a href="#" class="btn-ghost-hero btn">Offer your craft</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-n">2,400<span>+</span></span><span class="stat-l">Skilled providers</span></div>
+        <div class="stat"><span class="stat-n">18k</span><span class="stat-l">Vouches given</span></div>
+        <div class="stat"><span class="stat-n">0<span>%</span></span><span class="stat-l">Commission, first 3 months</span></div>
+      </div>
+      <!-- Search -->
+      <div class="hero-search" style="margin-top:36px">
+        <div class="hs-label">Quick search</div>
+        <div class="hs-row">
+          <input class="hs-input" type="text" placeholder="e.g. hair braiding, plumber, chef…">
+          <select class="hs-select">
+            <option>London</option>
+            <option>Manchester</option>
+            <option>Birmingham</option>
+            <option>Leeds</option>
+            <option>Bristol</option>
+          </select>
+          <button class="hs-btn">Search</button>
+        </div>
+        <div class="hs-chips">
+          <button class="hs-chip active">Hair & Beauty</button>
+          <button class="hs-chip">Electrical</button>
+          <button class="hs-chip">Catering</button>
+          <button class="hs-chip">Plumbing</button>
+          <button class="hs-chip">Tailoring</button>
+          <button class="hs-chip">Childcare</button>
+        </div>
+      </div>
+    </div>
+    <!-- RIGHT -->
+    <div class="hero-cards">
+      <div class="hero-notif">
+        <div class="notif-dot"></div>
+        <div class="notif-text"><strong>Amara M.</strong> just accepted a new booking in Peckham</div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-top">
+          <div class="hc-av" style="background:#1D4038;color:#9FE1CB">AM</div>
+          <div style="flex:1">
+            <div class="hc-name">Amara Mensah</div>
+            <div class="hc-craft">Hair Braider · Peckham, London</div>
+            <div class="hc-tags">
+              <span class="hc-tag tag-teal">Braiding</span>
+              <span class="hc-tag tag-teal">Locs</span>
+              <span class="hc-tag tag-amber">Available now</span>
+            </div>
+          </div>
+        </div>
+        <div class="hc-quote">"She understood my hair without me having to explain — which never happens."</div>
+        <div class="hc-footer">
+          <div class="hc-vouches">
+            <div class="hc-stack">
+              <div class="hc-av-sm" style="background:#4A3E8A;color:#C5BFFF">TK</div>
+              <div class="hc-av-sm" style="background:#5A2A1A;color:#FFB08A">OA</div>
+              <div class="hc-av-sm" style="background:#1A4034;color:#9FE1CB">BI</div>
+            </div>
+            <span class="hc-vcount">12 vouches</span>
+          </div>
+          <div class="hc-right">
+            <div class="dot-avail"></div>
+            <span class="hc-price">from £45</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="hc-top">
+          <div class="hc-av" style="background:#3D2E0A;color:#FAEEDA">KO</div>
+          <div style="flex:1">
+            <div class="hc-name">Kofi Owusu</div>
+            <div class="hc-craft">Electrician · Brixton, London</div>
+            <div class="hc-tags">
+              <span class="hc-tag tag-teal">Rewiring</span>
+              <span class="hc-tag tag-teal">Fuse boards</span>
+            </div>
+          </div>
+        </div>
+        <div class="hc-quote">"Sorted our whole flat in one day. Neat, professional, and totally reasonable."</div>
+        <div class="hc-footer">
+          <div class="hc-vouches">
+            <div class="hc-stack">
+              <div class="hc-av-sm" style="background:#1A4034;color:#9FE1CB">YA</div>
+              <div class="hc-av-sm" style="background:#3D2E0A;color:#FAEEDA">FO</div>
+              <div class="hc-av-sm" style="background:#4A3E8A;color:#C5BFFF">DB</div>
+            </div>
+            <span class="hc-vcount">9 vouches</span>
+          </div>
+          <div class="hc-right">
+            <div class="dot-avail dot-busy"></div>
+            <span class="hc-price">from £90</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-strip-inner">
+    <div class="trust-item reveal">
+      <div class="ti-icon"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9FE1CB" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div><strong>Vouched by real people</strong><span>Not algorithms or bots</span></div>
+    </div>
+    <div class="trust-item reveal reveal-delay-1">
+      <div class="ti-icon"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9FE1CB" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+      <div><strong>Escrow payments</strong><span>Released only on completion</span></div>
+    </div>
+    <div class="trust-item reveal reveal-delay-2">
+      <div class="ti-icon"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9FE1CB" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><strong>0% commission</strong><span>Free for providers, first 3 months</span></div>
+    </div>
+    <div class="trust-item reveal reveal-delay-3">
+      <div class="ti-icon"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="#9FE1CB" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10z"/></svg></div>
+      <div><strong>Built for diaspora</strong><span>Community-first platform</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="eyebrow reveal">How Sowo works</div>
+        <h2 class="section-h reveal">Find skill. Build trust.<br>Get it done.</h2>
+        <p class="section-p reveal">Sowo replaces anonymous star ratings with real people vouching for real work — because trust should come from someone you know.</p>
+      </div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal reveal-delay-1">
+        <div class="step-num-badge">01</div>
+        <div class="step-title">Search by skill or location</div>
+        <p class="step-desc">Browse skilled providers near you by craft — hair, electrical, plumbing, childcare, carpentry, and more. Filter by availability, price, and proximity.</p>
+        <div class="step-big-num">01</div>
+      </div>
+      <div class="step-card step-highlight reveal reveal-delay-2">
+        <div class="step-num-badge">02</div>
+        <div class="step-title">Check their vouches</div>
+        <p class="step-desc">See who vouched for them — named people from your network, not strangers. Every vouch is a personal endorsement from someone who has seen their work firsthand.</p>
+        <div class="step-big-num">02</div>
+      </div>
+      <div class="step-card reveal reveal-delay-3">
+        <div class="step-num-badge">03</div>
+        <div class="step-title">Book, pay safely, vouch back</div>
+        <p class="step-desc">Book directly through the app. Payment is held in escrow and only released when you confirm the job is done well. Then pass it forward — vouch for them.</p>
+        <div class="step-big-num">03</div>
+      </div>
+    </div>
+    <div class="notice-box reveal">
+      <div class="notice-title">Real skill. Real trust.</div>
+      <div class="notice-body">Sowo uses no fake urgency, no inflated ratings, and no paid promotions. Providers rise through the quality of their work and the strength of their community vouches — nothing else.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH SECTION -->
+<section class="section bg-off" style="padding-top:0;padding-bottom:112px">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Find providers</div>
+    <h2 class="section-h reveal">Search the community.</h2>
+    <div class="search-ui reveal">
+      <div class="sui-header">
+        <div>
+          <div class="sui-title">Find a skilled hand near you</div>
+          <div class="sui-subtitle">2,400+ verified providers across the UK</div>
+        </div>
+        <span class="sui-badge">Live · Updated now</span>
+      </div>
+      <div class="sui-body">
+        <div class="sui-search-row">
+          <input class="sui-input" type="text" placeholder="Search by skill — braiding, plumbing, catering…">
+          <select class="sui-select">
+            <option>London</option>
+            <option>Manchester</option>
+            <option>Birmingham</option>
+            <option>Leeds</option>
+            <option>Bristol</option>
+            <option>Nottingham</option>
+          </select>
+          <button class="sui-search-btn">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search
+          </button>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label">Filter:</span>
+          <button class="filter-chip on" onclick="toggleChip(this)">All</button>
+          <button class="filter-chip" onclick="toggleChip(this)">Available now</button>
+          <button class="filter-chip" onclick="toggleChip(this)">Highly vouched</button>
+          <button class="filter-chip" onclick="toggleChip(this)">Under £50</button>
+          <button class="filter-chip" onclick="toggleChip(this)">5 miles</button>
+          <button class="filter-chip" onclick="toggleChip(this)">Verified ID</button>
+        </div>
+        <div class="sui-divider"></div>
+        <div class="sui-results-label">
+          <span class="sui-count">Showing <strong>2,400+</strong> providers</span>
+          <button class="sui-sort">Sort: Most vouched ↕</button>
+        </div>
+        <!-- mini result rows -->
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--sf);border-radius:12px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='#F0F9F5'" onmouseout="this.style.background='var(--sf)'">
+            <div style="width:42px;height:42px;border-radius:50%;background:#E1F5EE;color:#085041;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">AM</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600;color:#0A0A0A">Amara Mensah</div>
+              <div style="font-size:12px;color:#999">Hair Braider · Peckham · 0.8 mi</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <span style="font-size:10px;background:#E1F5EE;color:#085041;padding:2px 8px;border-radius:999px;font-weight:600">12 vouches</span>
+              <span style="font-size:13px;font-weight:700;color:#0A0A0A">from £45</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--sf);border-radius:12px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='#F0F9F5'" onmouseout="this.style.background='var(--sf)'">
+            <div style="width:42px;height:42px;border-radius:50%;background:#EEEDFE;color:#3C3489;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">NG</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600;color:#0A0A0A">Ngozi Adeyemi</div>
+              <div style="font-size:12px;color:#999">Chef & Caterer · Hackney · 1.4 mi</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <span style="font-size:10px;background:#E1F5EE;color:#085041;padding:2px 8px;border-radius:999px;font-weight:600">21 vouches</span>
+              <span style="font-size:13px;font-weight:700;color:#0A0A0A">from £120</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--sf);border-radius:12px;cursor:pointer;transition:background 0.15s" onmouseover="this.style.background='#F0F9F5'" onmouseout="this.style.background='var(--sf)'">
+            <div style="width:42px;height:42px;border-radius:50%;background:#FAEEDA;color:#633806;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">DS</div>
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:600;color:#0A0A0A">Damilola Soyinka</div>
+              <div style="font-size:12px;color:#999">Carpenter · Lewisham · 2.1 mi</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+              <span style="font-size:10px;background:#E1F5EE;color:#085041;padding:2px 8px;border-radius:999px;font-weight:600">7 vouches</span>
+              <span style="font-size:13px;font-weight:700;color:#0A0A0A">from £200</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="section bg-cream" id="services">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="eyebrow reveal">Services</div>
+        <h2 class="section-h reveal">Every skilled hand,<br>one platform.</h2>
+        <p class="section-p reveal">From hair to hard-wiring — find trusted craftspeople across every trade and service.</p>
+      </div>
+      <a href="#" class="see-all reveal">Browse all services →</a>
+    </div>
+    <div class="cats-grid">
+      <a href="#" class="cat-card reveal reveal-delay-1"><div class="cat-icon">✂️</div><div class="cat-name">Hair & Beauty</div><div class="cat-count">340 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-2"><div class="cat-icon">⚡</div><div class="cat-name">Electrical</div><div class="cat-count">128 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-3"><div class="cat-icon">🔧</div><div class="cat-name">Plumbing</div><div class="cat-count">94 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-4"><div class="cat-icon">🪵</div><div class="cat-name">Carpentry</div><div class="cat-count">87 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-1"><div class="cat-icon">🍽️</div><div class="cat-name">Catering</div><div class="cat-count">156 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-2"><div class="cat-icon">🧒</div><div class="cat-name">Childcare</div><div class="cat-count">203 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-3"><div class="cat-icon">🏠</div><div class="cat-name">Cleaning</div><div class="cat-count">275 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-4"><div class="cat-icon">🎨</div><div class="cat-name">Painting</div><div class="cat-count">112 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-1"><div class="cat-icon">👗</div><div class="cat-name">Tailoring</div><div class="cat-count">74 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-2"><div class="cat-icon">📸</div><div class="cat-name">Photography</div><div class="cat-count">118 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-3"><div class="cat-icon">🌿</div><div class="cat-name">Gardening</div><div class="cat-count">99 providers</div><div class="cat-arrow">→</div></a>
+      <a href="#" class="cat-card reveal reveal-delay-4"><div class="cat-icon">📦</div><div class="cat-name">Removals</div><div class="cat-count">68 providers</div><div class="cat-arrow">→</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- PROVIDERS -->
+<section class="section" id="providers">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="eyebrow reveal">Featured providers</div>
+        <h2 class="section-h reveal">Skilled hands your<br>community trusts.</h2>
+      </div>
+      <a href="#" class="see-all reveal">Browse all providers →</a>
+    </div>
+    <div class="providers-grid">
+      <div class="pc reveal reveal-delay-1">
+        <div class="pc-top">
+          <div class="pc-av pc-av-ring" style="background:#E1F5EE;color:#085041">AM</div>
+          <div class="pc-info"><div class="pc-name">Amara Mensah</div><div class="pc-craft">Hair Braider · Peckham, London</div><div class="pc-tags"><span class="pc-tag">Braiding</span><span class="pc-tag">Locs</span><span class="pc-tag">Twists</span></div></div>
+          <button class="pc-follow-btn">Follow</button>
+        </div>
+        <div class="pc-quote">"She understood my hair without me having to explain — which never happens."</div>
+        <div class="pc-footer">
+          <div class="pc-vouches"><div class="pc-stack"><div class="pc-av-mini" style="background:#EEEDFE;color:#3C3489">TK</div><div class="pc-av-mini" style="background:#FAECE7;color:#712B13">OA</div><div class="pc-av-mini" style="background:#E1F5EE;color:#085041">BI</div></div><span class="pc-vc">12 vouches</span></div>
+          <div class="pc-right"><div class="avail-dot"></div><span class="pc-price-from">from</span><span class="pc-price-val">£45</span></div>
+        </div>
+      </div>
+      <div class="pc reveal reveal-delay-2">
+        <div class="pc-top">
+          <div class="pc-av" style="background:#FAEEDA;color:#633806">KO</div>
+          <div class="pc-info"><div class="pc-name">Kofi Owusu</div><div class="pc-craft">Electrician · Brixton, London</div><div class="pc-tags"><span class="pc-tag">Rewiring</span><span class="pc-tag">Fuse boards</span></div></div>
+          <button class="pc-follow-btn">Follow</button>
+        </div>
+        <div class="pc-quote">"Sorted our whole flat in one day. Neat, professional, and totally reasonable."</div>
+        <div class="pc-footer">
+          <div class="pc-vouches"><div class="pc-stack"><div class="pc-av-mini" style="background:#E1F5EE;color:#085041">YA</div><div class="pc-av-mini" style="background:#FAEEDA;color:#633806">FO</div><div class="pc-av-mini" style="background:#EEEDFE;color:#3C3489">DB</div></div><span class="pc-vc">9 vouches</span></div>
+          <div class="pc-right"><div class="avail-dot avail-busy"></div><span class="pc-price-from">from</span><span class="pc-price-val">£90</span></div>
+        </div>
+      </div>
+      <div class="pc reveal reveal-delay-3">
+        <div class="pc-top">
+          <div class="pc-av pc-av-ring" style="background:#EEEDFE;color:#3C3489">NG</div>
+          <div class="pc-info"><div class="pc-name">Ngozi Adeyemi</div><div class="pc-craft">Chef & Caterer · Hackney, London</div><div class="pc-tags"><span class="pc-tag">West African</span><span class="pc-tag">Events</span></div></div>
+          <button class="pc-follow-btn">Follow</button>
+        </div>
+        <div class="pc-quote">"The jollof rice was the best I've had outside my grandmother's kitchen."</div>
+        <div class="pc-footer">
+          <div class="pc-vouches"><div class="pc-stack"><div class="pc-av-mini" style="background:#FAECE7;color:#712B13">CB</div><div class="pc-av-mini" style="background:#E1F5EE;color:#085041">SA</div><div class="pc-av-mini" style="background:#FAEEDA;color:#633806">EJ</div></div><span class="pc-vc">21 vouches</span></div>
+          <div class="pc-right"><div class="avail-dot"></div><span class="pc-price-from">from</span><span class="pc-price-val">£120</span></div>
+        </div>
+      </div>
+      <div class="pc reveal reveal-delay-1">
+        <div class="pc-top">
+          <div class="pc-av" style="background:#FAECE7;color:#712B13">DS</div>
+          <div class="pc-info"><div class="pc-name">Damilola Soyinka</div><div class="pc-craft">Carpenter · Lewisham, London</div><div class="pc-tags"><span class="pc-tag">Wardrobes</span><span class="pc-tag">Shelving</span></div></div>
+          <button class="pc-follow-btn">Follow</button>
+        </div>
+        <div class="pc-quote">"Built us custom wardrobes that fit perfectly. You can see his craft in the detail."</div>
+        <div class="pc-footer">
+          <div class="pc-vouches"><div class="pc-stack"><div class="pc-av-mini" style="background:#EEEDFE;color:#3C3489">MK</div><div class="pc-av-mini" style="background:#E1F5EE;color:#085041">PA</div></div><span class="pc-vc">7 vouches</span></div>
+          <div class="pc-right"><div class="avail-dot"></div><span class="pc-price-from">from</span><span class="pc-price-val">£200</span></div>
+        </div>
+      </div>
+      <div class="pc reveal reveal-delay-2">
+        <div class="pc-top">
+          <div class="pc-av pc-av-ring" style="background:#FBEAF0;color:#72243E">AT</div>
+          <div class="pc-info"><div class="pc-name">Adeola Taiwo</div><div class="pc-craft">Tailor · Peckham, London</div><div class="pc-tags"><span class="pc-tag">Ankara</span><span class="pc-tag">Aso-Oke</span><span class="pc-tag">Alterations</span></div></div>
+          <button class="pc-follow-btn">Follow</button>
+        </div>
+        <div class="pc-quote">"Made my wedding outfit from scratch. Every stitch was exactly how I imagined it."</div>
+        <div class="pc-footer">
+          <div class="pc-vouches"><div class="pc-stack"><div class="pc-av-mini" style="background:#FAECE7;color:#712B13">IO</div><div class="pc-av-mini" style="background:#E1F5EE;color:#085041">BB</div><div class="pc-av-mini" style="background:#EEEDFE;color:#3C3489">CE</div></div><span class="pc-vc">14 vouches</span></div>
+          <div class="pc-right"><div class="avail-dot"></div><span class="pc-price-from">from</span><span class="pc-price-val">£65</span></div>
+        </div>
+      </div>
+      <div class="pc reveal reveal-delay-3">
+        <div class="pc-top">
+          <div class="pc-av" style="background:#E1F5EE;color:#085041">JB</div>
+          <div class="pc-info"><div class="pc-name">Jacob Boateng</div><div class="pc-craft">Plumber · Streatham, London</div><div class="pc-tags"><span class="pc-tag">Boilers</span><span class="pc-tag">Leak repairs</span></div></div>
+          <button class="pc-follow-btn">Follow</button>
+        </div>
+        <div class="pc-quote">"Came within the hour on a weekend. Fixed the leak, explained everything clearly."</div>
+        <div class="pc-footer">
+          <div class="pc-vouches"><div class="pc-stack"><div class="pc-av-mini" style="background:#FAEEDA;color:#633806">NA</div><div class="pc-av-mini" style="background:#EEEDFE;color:#3C3489">KT</div><div class="pc-av-mini" style="background:#FAECE7;color:#712B13">OB</div></div><span class="pc-vc">11 vouches</span></div>
+          <div class="pc-right"><div class="avail-dot"></div><span class="pc-price-from">from</span><span class="pc-price-val">£75</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO SIDES -->
+<section class="section bg-cream">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Two sides of Sowo</div>
+    <h2 class="section-h reveal">Built for those who seek,<br>and those who deliver.</h2>
+    <div class="two-col" style="margin-top:48px">
+      <div class="side-panel sp-consumer reveal-left">
+        <div class="sp-label sp-label-c">Consumer</div>
+        <div class="sp-role sp-role-c">Find skilled<br>hands you<br>can trust</div>
+        <div class="sp-desc sp-desc-c">You're the one with the job to be done. Sowo helps you find the right person — not the highest bidder, but the most trusted hand in your community.</div>
+        <div class="sp-items">
+          <div class="sp-item"><div class="sp-dot sp-dot-c"></div><span>Browse providers vouched for by people you know</span></div>
+          <div class="sp-item"><div class="sp-dot sp-dot-c"></div><span>Book directly with a clear quote and confirmed date</span></div>
+          <div class="sp-item"><div class="sp-dot sp-dot-c"></div><span>Payment held securely — only released when you're happy</span></div>
+          <div class="sp-item"><div class="sp-dot sp-dot-c"></div><span>Pass it forward by vouching for great work</span></div>
+        </div>
+        <div class="sp-cta"><a href="#" class="btn btn-amber" style="height:48px;padding:0 28px;font-size:15px;border-radius:12px">Find a provider →</a></div>
+      </div>
+      <div class="side-panel sp-provider reveal-right">
+        <div class="sp-label sp-label-p">Provider</div>
+        <div class="sp-role sp-role-p">Grow your<br>craft on your<br>own terms</div>
+        <div class="sp-desc sp-desc-p">Your skills deserve to be seen and valued. Sowo gives your craft a home, your story a stage, and your clients a reason to trust you before you've even met.</div>
+        <div class="sp-items">
+          <div class="sp-item"><div class="sp-dot sp-dot-p"></div><span>Zero commission for your first three months</span></div>
+          <div class="sp-item"><div class="sp-dot sp-dot-p"></div><span>Your provider story leads your profile page</span></div>
+          <div class="sp-item"><div class="sp-dot sp-dot-p"></div><span>Build trust through community vouches, not star ratings</span></div>
+          <div class="sp-item"><div class="sp-dot sp-dot-p"></div><span>Set your own rates, availability, and services</span></div>
+        </div>
+        <div class="sp-cta"><a href="#" class="btn btn-primary" style="height:48px;padding:0 28px;font-size:15px">Join as a provider →</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOUCHES -->
+<section class="section" id="community">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="eyebrow reveal">Community vouches</div>
+        <h2 class="section-h reveal">What the community says.</h2>
+        <p class="section-p reveal">Every vouch on Sowo is written by a named person about real work. No anonymous reviews. No inflated stars.</p>
+      </div>
+    </div>
+    <div class="vouches-grid">
+      <div class="vouch-card reveal reveal-delay-1">
+        <div class="vc-stars">★★★★★</div>
+        <div class="vc-quote">"Amara has been braiding my daughters' hair for two years. Her patience and skill with natural hair is something you really have to see. She's become part of our family's routines."</div>
+        <div class="vc-footer"><div class="vc-author"><div class="vc-av" style="background:#FAECE7;color:#712B13">TB</div><div><div class="vc-name">Tolu Balogun</div><div class="vc-for">Vouched Amara M. · Hair Braiding</div></div></div><span class="vouch-badge">✓ Verified</span></div>
+      </div>
+      <div class="vouch-card reveal reveal-delay-2">
+        <div class="vc-stars">★★★★★</div>
+        <div class="vc-quote">"I was nervous hiring someone I didn't know for electrical work. Then I saw three people from my church had vouched for Kofi. Best decision I made. He rewired our kitchen perfectly."</div>
+        <div class="vc-footer"><div class="vc-author"><div class="vc-av" style="background:#E1F5EE;color:#085041">YA</div><div><div class="vc-name">Yetunde Ajayi</div><div class="vc-for">Vouched Kofi O. · Electrical</div></div></div><span class="vouch-badge">✓ Verified</span></div>
+      </div>
+      <div class="vouch-card reveal reveal-delay-3">
+        <div class="vc-stars">★★★★★</div>
+        <div class="vc-quote">"Ngozi catered our naming ceremony for 80 people. Every dish was perfect, everything arrived hot, and she even styled the serving table herself. I've already referred her to four people."</div>
+        <div class="vc-footer"><div class="vc-author"><div class="vc-av" style="background:#EEEDFE;color:#3C3489">CE</div><div><div class="vc-name">Chisom Ezeh</div><div class="vc-for">Vouched Ngozi A. · Catering</div></div></div><span class="vouch-badge">✓ Verified</span></div>
+      </div>
+      <div class="vouch-card reveal reveal-delay-1">
+        <div class="vc-stars">★★★★★</div>
+        <div class="vc-quote">"Jacob came out on a Sunday evening when our boiler stopped working. Fixed it in an hour, explained the issue clearly, and didn't charge anything unreasonable. Rare to find."</div>
+        <div class="vc-footer"><div class="vc-author"><div class="vc-av" style="background:#FAEEDA;color:#633806">NA</div><div><div class="vc-name">Nkechi Aneke</div><div class="vc-for">Vouched Jacob B. · Plumbing</div></div></div><span class="vouch-badge">✓ Verified</span></div>
+      </div>
+      <div class="vouch-card reveal reveal-delay-2">
+        <div class="vc-stars">★★★★★</div>
+        <div class="vc-quote">"Damilola made our bedroom built-ins from scratch. The joinery is immaculate. My husband is a carpenter himself and he was impressed — which tells you everything."</div>
+        <div class="vc-footer"><div class="vc-author"><div class="vc-av" style="background:#FBEAF0;color:#72243E">MK</div><div><div class="vc-name">Moji Kanu</div><div class="vc-for">Vouched Damilola S. · Carpentry</div></div></div><span class="vouch-badge">✓ Verified</span></div>
+      </div>
+      <div class="vouch-card reveal reveal-delay-3">
+        <div class="vc-stars">★★★★★</div>
+        <div class="vc-quote">"Adeola made my daughter's prom dress. We gave her a photo, some fabric, and a dream — and she delivered something more beautiful than we imagined. She really listens."</div>
+        <div class="vc-footer"><div class="vc-author"><div class="vc-av" style="background:#EEEDFE;color:#3C3489">IO</div><div><div class="vc-name">Ifunanya Okafor</div><div class="vc-for">Vouched Adeola T. · Tailoring</div></div></div><span class="vouch-badge">✓ Verified</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <div class="hero-eyebrow" style="justify-content:center;margin-bottom:22px">
+      <span class="hero-eyebrow-line"></span>Join Sowo today<span class="hero-eyebrow-line"></span>
+    </div>
+    <h2 class="cta-h reveal">Skills built by hands<br><em>that know.</em></h2>
+    <p class="cta-p reveal">Whether you need trusted help or want to grow your craft — Sowo is your community's platform. Free to join. Zero commission for your first three months as a provider.</p>
+    <div class="cta-actions reveal">
+      <a href="#" class="btn btn-amber btn-xl">Find a skilled hand</a>
+      <a href="#" class="btn btn-outline-white btn-xl">Offer your craft</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-logo">
+          <svg width="30" height="26" viewBox="0 0 120 110" fill="none">
+            <path d="M10 90 C10 44 30 10 60 10" stroke="white" stroke-width="9" stroke-linecap="round"/>
+            <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+            <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+          </svg>
+          <span class="footer-wordmark">Sowo</span>
+        </div>
+        <div class="footer-tagline">Trusted hands, near you.<br>The skills platform for community.</div>
+      </div>
+      <div class="footer-col"><div class="footer-col-title">Platform</div><a href="#">How it works</a><a href="#">Browse services</a><a href="#">Find providers</a><a href="#">Become a provider</a><a href="#">Pricing</a></div>
+      <div class="footer-col"><div class="footer-col-title">Community</div><a href="#">About Sowo</a><a href="#">Our values</a><a href="#">Vouch system</a><a href="#">Provider stories</a><a href="#">Blog</a></div>
+      <div class="footer-col"><div class="footer-col-title">Support</div><a href="#">Help centre</a><a href="#">Contact us</a><a href="#">Safety</a><a href="#">Disputes</a><a href="#">Escrow explained</a></div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 Sowo. All rights reserved. Inspired by <em>Ise Owo</em> — skilled hands.</div>
+      <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── NAV SCROLL EFFECT ──
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 40) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+  // update logo arc color when scrolled
+  const arc1 = document.getElementById('arc1');
+  const dotInner = document.getElementById('dot-inner');
+  if (arc1) arc1.setAttribute('stroke', window.scrollY > 40 ? '#0A0A0A' : 'white');
+  if (dotInner) dotInner.setAttribute('fill', window.scrollY > 40 ? '#FFFFFF' : '#0A0A0A');
+}, {passive:true});
+
+// ── HAMBURGER ──
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+function closeMobile() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => observer.observe(el));
+
+// ── SEARCH CHIPS ──
+document.querySelectorAll('.hs-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.hs-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+  });
+});
+
+// ── FILTER CHIPS ──
+function toggleChip(chip) {
+  chip.classList.toggle('on');
+}
+
+// ── FOLLOW BUTTONS ──
+document.querySelectorAll('.pc-follow-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('following')) {
+      btn.classList.remove('following');
+      btn.textContent = 'Follow';
+    } else {
+      btn.classList.add('following');
+      btn.textContent = 'Following ✓';
+    }
+  });
+});
+
+// ── ANIMATED COUNTER (stats) ──
+function animateCounter(el, target, suffix='') {
+  let start = 0, duration = 1400, startTime = null;
+  const isK = target >= 1000;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    const prog = Math.min((ts - startTime) / duration, 1);
+    const ease = 1 - Math.pow(1 - prog, 3);
+    const val = Math.floor(ease * target);
+    el.textContent = isK && target >= 1000 ? (val >= 1000 ? Math.floor(val/1000) + 'k' : val) : val;
+    if (prog < 1) requestAnimationFrame(step);
+    else el.textContent = isK && target >= 1000 ? Math.floor(target/1000)+'k' : target;
+  }
+  requestAnimationFrame(step);
+}
+
+// ── SMOOTH SEARCH INPUT ──
+const inputs = document.querySelectorAll('.sui-input, .hs-input');
+inputs.forEach(input => {
+  input.addEventListener('focus', () => input.parentElement && input.parentElement.classList && input.parentElement.classList.add('focused'));
+  input.addEventListener('blur', () => input.parentElement && input.parentElement.classList && input.parentElement.classList.remove('focused'));
+});
+</script>
+</body>
+</html>

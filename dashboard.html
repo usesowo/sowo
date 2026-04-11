@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Sowo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--white:#fff;--t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;--ease:cubic-bezier(.16,1,.3,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--surf);color:var(--t1);min-height:100vh}
+a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer;border:none}
+
+/* TOP BAR */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:64px;background:#fff;border-bottom:1px solid var(--border);
+  padding:0 32px;display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-logo{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--black)}
+.topbar-user{display:flex;align-items:center;gap:12px}
+.user-av{width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--mint)}
+.user-name{font-size:14px;font-weight:600}
+.btn-sm{height:36px;padding:0 14px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
+.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal)}
+.b-green{background:var(--green);color:var(--mint);border:none}.b-green:hover{background:#063D31}
+.b-amber{background:var(--amber);color:var(--black);border:none}.b-amber:hover{background:#D4891F}
+
+/* LAYOUT */
+.layout{display:flex;margin-top:64px;min-height:calc(100vh - 64px)}
+
+/* SIDEBAR */
+.sidebar{
+  width:240px;flex-shrink:0;background:#fff;border-right:1px solid var(--border);
+  padding:24px 0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;
+}
+.sidebar-section{margin-bottom:8px}
+.sidebar-label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;padding:0 20px;margin-bottom:4px}
+.sidebar a{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--t2);transition:all .15s;border-radius:0}
+.sidebar a:hover{color:var(--black);background:var(--surf)}
+.sidebar a.active{color:var(--green);background:#E6F9F3}
+.sidebar a .ico{width:18px;height:18px;flex-shrink:0}
+.sidebar-divider{height:1px;background:var(--border);margin:12px 20px}
+
+/* MAIN CONTENT */
+.content{flex:1;padding:32px 36px;max-width:900px}
+.page-title{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
+.page-sub{font-size:14px;color:var(--t3);margin-bottom:28px}
+
+/* STAT CARDS */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:32px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px}
+.stat-val{font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:2px}
+.stat-lbl{font-size:12px;color:var(--t3);font-weight:500}
+.stat-delta{font-size:11px;font-weight:600;margin-top:6px}
+.up{color:var(--teal)}.down{color:#c0392b}
+
+/* BOOKING CARDS */
+.bookings-section{margin-bottom:32px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-head h2{font-size:16px;font-weight:800}
+.section-head a{font-size:13px;color:var(--teal);font-weight:600}
+
+.booking-list{display:flex;flex-direction:column;gap:12px}
+.booking-card{
+  background:#fff;border:1px solid var(--border);border-radius:14px;
+  padding:16px 20px;display:flex;align-items:center;gap:16px;
+}
+.booking-av{width:44px;height:44px;border-radius:50%;background:var(--green);color:var(--mint);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0;object-fit:cover}
+.booking-info{flex:1;min-width:0}
+.booking-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.booking-meta{font-size:12px;color:var(--t3);margin-top:2px}
+.booking-right{text-align:right;flex-shrink:0}
+.booking-price{font-size:15px;font-weight:800}
+.booking-date{font-size:11px;color:var(--t3);margin-top:2px}
+.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;margin-top:4px}
+.s-pending{background:#FEF3E0;color:#8B5E0A}
+.s-confirmed{background:#E6F9F3;color:var(--teal)}
+.s-completed{background:#E8F4FD;color:#2471A3}
+.s-cancelled{background:#FADBD8;color:#c0392b}
+
+/* EMPTY */
+.empty-box{background:#fff;border:1px dashed var(--border);border-radius:14px;padding:48px 24px;text-align:center}
+.empty-box .ico{font-size:36px;margin-bottom:12px}
+.empty-box h3{font-size:16px;font-weight:700;margin-bottom:6px}
+.empty-box p{font-size:13px;color:var(--t3);margin-bottom:20px}
+
+/* PROVIDER SETUP BANNER */
+.setup-banner{
+  background:var(--black);border-radius:16px;padding:24px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  margin-bottom:28px;
+}
+.setup-banner-text h3{font-size:18px;font-weight:800;color:#fff;margin-bottom:4px}
+.setup-banner-text p{font-size:13px;color:rgba(255,255,255,.5)}
+.setup-banner-btns{display:flex;gap:10px;flex-shrink:0}
+
+/* VOUCH FORM */
+.vouch-form{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px}
+.vouch-form h3{font-size:15px;font-weight:800;margin-bottom:16px}
+.star-pick{display:flex;gap:4px;margin-bottom:14px}
+.star-pick span{font-size:28px;cursor:pointer;transition:transform .1s;color:var(--border)}
+.star-pick span.active{color:var(--amber)}
+.star-pick span:hover{transform:scale(1.1)}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:6px}
+.form-field textarea{width:100%;height:80px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;color:var(--t1);outline:none;resize:none;transition:border-color .2s}
+.form-field textarea:focus{border-color:var(--teal)}
+
+/* TABS */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:24px}
+.tab{height:44px;padding:0 18px;font-size:14px;font-weight:600;color:var(--t3);border:none;background:none;cursor:pointer;position:relative;transition:color .15s}
+.tab.active{color:var(--black)}
+.tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--black)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{display:none}
+  .content{padding:24px 20px}
+  .stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/" class="topbar-logo">Sowo</a>
+  <div class="topbar-user">
+    <div class="user-av" id="userAv">?</div>
+    <span class="user-name" id="userName">Loading…</span>
+    <button class="btn-sm b-light" onclick="Auth.signOut()">Log out</button>
+  </div>
+</div>
+
+<div class="layout">
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Menu</div>
+      <a href="/dashboard" class="active">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </a>
+      <a href="/browse">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Browse providers
+      </a>
+      <a href="#bookings" id="sideBookings">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        My bookings
+      </a>
+      <a href="#vouches" id="sideVouches">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Vouches
+      </a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section" id="sideProviderSection" style="display:none">
+      <div class="sidebar-label">Provider</div>
+      <a href="#requests">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.07 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.28 6.28"/></svg>
+        Booking requests
+      </a>
+      <a href="/become-provider" id="sideEditProfile">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
+        Edit profile
+      </a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <a href="/settings">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </a>
+    </div>
+  </nav>
+
+  <main class="content" id="mainContent">
+    <div style="display:flex;align-items:center;justify-content:center;min-height:40vh;color:var(--t3);font-size:14px">
+      Loading your dashboard…
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/sowo.js"></script>
+<script>
+let currentUser   = null;
+let userProfile   = null;
+let isProvider    = false;
+let activeTab     = 'bookings';
+
+async function init() {
+  currentUser = await Auth.requireAuth();
+  if (!currentUser) return;
+
+  try {
+    userProfile = await Profiles.get(currentUser.id);
+    isProvider  = userProfile?.is_provider || false;
+  } catch (e) {
+    userProfile = { full_name: currentUser.email?.split('@')[0] || 'User' };
+  }
+
+  const name     = userProfile?.full_name || 'User';
+  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('userAv').textContent   = initials;
+  document.getElementById('userName').textContent = name;
+
+  if (isProvider) {
+    document.getElementById('sideProviderSection').style.display = 'block';
+    renderProviderDashboard();
+  } else {
+    renderConsumerDashboard();
+  }
+}
+
+/* ────────────────────────────────────────────────────────
+   CONSUMER DASHBOARD
+──────────────────────────────────────────────────────── */
+async function renderConsumerDashboard() {
+  let bookings = [];
+  try { bookings = await Bookings.listForConsumer(currentUser.id); } catch (e) {}
+
+  const pending   = bookings.filter(b => b.status === 'pending').length;
+  const completed = bookings.filter(b => b.status === 'completed').length;
+  const spent     = bookings.filter(b => b.status === 'completed').reduce((s,b) => s + (b.total_amount||0), 0);
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="page-title">Good ${timeGreeting()}, ${(userProfile?.full_name||'').split(' ')[0] || 'there'} 👋</div>
+    <div class="page-sub">Here's what's happening with your bookings.</div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-val">${bookings.length}</div>
+        <div class="stat-lbl">Total bookings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${pending}</div>
+        <div class="stat-lbl">Pending confirmation</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${completed}</div>
+        <div class="stat-lbl">Completed jobs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${UI.formatPrice(spent)}</div>
+        <div class="stat-lbl">Total spent</div>
+      </div>
+    </div>
+
+    <div style="background:var(--black);border-radius:16px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Find your next provider</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.45)">Thousands of vouched professionals near you</div>
+      </div>
+      <a href="/browse" style="height:42px;padding:0 22px;background:var(--amber);color:var(--black);border-radius:10px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;text-decoration:none;flex-shrink:0">Browse providers →</a>
+    </div>
+
+    <div class="bookings-section" id="bookingsSection">
+      <div class="section-head">
+        <h2>My bookings</h2>
+        <a href="/browse">+ New booking</a>
+      </div>
+      ${bookings.length === 0 ? `
+        <div class="empty-box">
+          <div class="ico">📅</div>
+          <h3>No bookings yet</h3>
+          <p>Find a trusted professional and make your first booking.</p>
+          <a href="/browse" style="display:inline-flex;height:40px;padding:0 20px;background:var(--green);color:var(--mint);border-radius:10px;font-size:14px;font-weight:700;align-items:center;text-decoration:none">Browse providers</a>
+        </div>
+      ` : `
+        <div class="tabs">
+          <button class="tab active" onclick="filterBookings('all',this)">All (${bookings.length})</button>
+          <button class="tab" onclick="filterBookings('pending',this)">Pending (${pending})</button>
+          <button class="tab" onclick="filterBookings('completed',this)">Completed (${completed})</button>
+        </div>
+        <div class="booking-list" id="bookingList">
+          ${bookings.map(b => buildBookingCard(b, 'consumer')).join('')}
+        </div>
+      `}
+    </div>
+
+    ${buildProviderBanner()}
+  `;
+
+  window._allBookings = bookings;
+}
+
+function buildBookingCard(b, role) {
+  const isConsumer = role === 'consumer';
+  const other      = isConsumer ? (b.providers?.profiles || {}) : (b.profiles || {});
+  const name       = other.full_name || (isConsumer ? 'Provider' : 'Client');
+  const initials   = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const service    = b.services?.name || 'Service';
+  const price      = b.total_amount ? UI.formatPrice(b.total_amount) : '—';
+  const date       = b.date ? UI.formatDate(b.date) : 'Date TBC';
+  const statusClass= { pending:'s-pending', confirmed:'s-confirmed', completed:'s-completed', cancelled:'s-cancelled' }[b.status] || 's-pending';
+  const statusLabel= { pending:'Pending', confirmed:'Confirmed', completed:'Completed', in_progress:'In progress', cancelled:'Cancelled' }[b.status] || b.status;
+
+  return `
+    <div class="booking-card">
+      ${other.avatar_url
+        ? `<img class="booking-av" src="${other.avatar_url}" alt="${name}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0">`
+        : `<div class="booking-av">${initials}</div>`}
+      <div class="booking-info">
+        <div class="booking-name">${name}</div>
+        <div class="booking-meta">${service}</div>
+        <span class="status-badge ${statusClass}">● ${statusLabel}</span>
+      </div>
+      <div class="booking-right">
+        <div class="booking-price">${price}</div>
+        <div class="booking-date">${date}</div>
+        ${b.status === 'completed' && role === 'consumer' ? `<button onclick="openVouchModal('${b.id}','${name}')" style="margin-top:6px;height:28px;padding:0 10px;background:var(--amber);color:var(--black);border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer">Leave vouch</button>` : ''}
+        ${b.status === 'pending' && role === 'provider' ? `
+          <button onclick="updateStatus('${b.id}','confirmed')" style="margin-top:6px;height:28px;padding:0 10px;background:var(--green);color:var(--mint);border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer;margin-right:4px">Accept</button>
+          <button onclick="updateStatus('${b.id}','cancelled')" style="margin-top:6px;height:28px;padding:0 10px;background:var(--surf);color:var(--t2);border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer;border:1px solid var(--border)">Decline</button>
+        ` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function filterBookings(status, tabEl) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  const bookings = window._allBookings || [];
+  const filtered = status === 'all' ? bookings : bookings.filter(b => b.status === status);
+  document.getElementById('bookingList').innerHTML = filtered.map(b => buildBookingCard(b, 'consumer')).join('') || '<p style="color:var(--t3);font-size:14px;padding:20px">No bookings in this category.</p>';
+}
+
+/* ────────────────────────────────────────────────────────
+   PROVIDER DASHBOARD
+──────────────────────────────────────────────────────── */
+async function renderProviderDashboard() {
+  let incoming = [];
+  try { incoming = await Bookings.listForProvider(currentUser.id); } catch (e) {}
+
+  const pending   = incoming.filter(b => b.status === 'pending').length;
+  const confirmed = incoming.filter(b => b.status === 'confirmed').length;
+  const revenue   = incoming.filter(b => b.status === 'completed').reduce((s,b) => s + (b.total_amount||0), 0);
+
+  let vouches = [];
+  try { const v = await sb.from('vouches').select('rating').eq('provider_id', currentUser.id); vouches = v.data || []; } catch(e){}
+  const avgRating = vouches.length ? (vouches.reduce((s,v)=>s+v.rating,0)/vouches.length).toFixed(1) : '—';
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="page-title">Provider dashboard 🔧</div>
+    <div class="page-sub">Manage your bookings and profile.</div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-val">${pending}</div>
+        <div class="stat-lbl">New requests</div>
+        ${pending > 0 ? '<div class="stat-delta up">↑ Action needed</div>' : ''}
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${confirmed}</div>
+        <div class="stat-lbl">Confirmed jobs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${UI.formatPrice(revenue)}</div>
+        <div class="stat-lbl">Total earned</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">${avgRating}</div>
+        <div class="stat-lbl">Average rating</div>
+      </div>
+    </div>
+
+    <div class="bookings-section">
+      <div class="section-head">
+        <h2>Booking requests</h2>
+        <a href="/become-provider">Edit profile →</a>
+      </div>
+      ${incoming.length === 0 ? `
+        <div class="empty-box">
+          <div class="ico">📬</div>
+          <h3>No booking requests yet</h3>
+          <p>Your profile is live. Requests will appear here.</p>
+          <a href="/" style="display:inline-flex;height:40px;padding:0 20px;background:var(--green);color:var(--mint);border-radius:10px;font-size:14px;font-weight:700;align-items:center;text-decoration:none">View your profile</a>
+        </div>
+      ` : `
+        <div class="booking-list">
+          ${incoming.map(b => buildBookingCard(b, 'provider')).join('')}
+        </div>
+      `}
+    </div>
+  `;
+}
+
+async function updateStatus(bookingId, status) {
+  try {
+    await Bookings.updateStatus(bookingId, status);
+    UI.toast(status === 'confirmed' ? 'Booking confirmed! ✓' : 'Booking declined.', status === 'confirmed' ? 'success' : 'info');
+    renderProviderDashboard();
+  } catch (e) {
+    UI.toast('Failed to update booking.', 'error');
+  }
+}
+
+/* ────────────────────────────────────────────────────────
+   VOUCHING
+──────────────────────────────────────────────────────── */
+function openVouchModal(bookingId, providerName) {
+  const el = document.createElement('div');
+  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:flex;align-items:center;justify-content:center';
+  el.innerHTML = `
+    <div style="background:#fff;border-radius:20px;padding:32px;max-width:420px;width:90%">
+      <h2 style="font-size:20px;font-weight:800;margin-bottom:8px">Leave a vouch for ${providerName}</h2>
+      <p style="font-size:13px;color:var(--t3);margin-bottom:20px">Your vouch helps others in the community find trusted providers.</p>
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:8px">Rating</div>
+        <div class="star-pick" id="starPick">
+          ${[1,2,3,4,5].map(n=>`<span data-v="${n}" style="font-size:28px;cursor:pointer;color:#E8E8E8" onclick="setStars(${n})">★</span>`).join('')}
+        </div>
+      </div>
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:8px">Your vouch</div>
+        <textarea id="vouchText" style="width:100%;height:80px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;resize:none;outline:none" placeholder="What was great about working with them?"></textarea>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button onclick="this.closest('[style]').remove()" style="flex:1;height:44px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff">Cancel</button>
+        <button id="submitVouch" onclick="submitVouch('${bookingId}')" style="flex:1;height:44px;background:var(--amber);color:var(--black);border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">Submit vouch</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(el);
+  window._vouchRating = 0;
+}
+
+function setStars(n) {
+  window._vouchRating = n;
+  document.querySelectorAll('#starPick span').forEach(s => {
+    s.style.color = parseInt(s.dataset.v) <= n ? 'var(--amber)' : '#E8E8E8';
+  });
+}
+
+async function submitVouch(bookingId) {
+  const rating = window._vouchRating;
+  const text   = document.getElementById('vouchText').value.trim();
+  if (!rating) { UI.toast('Please select a star rating', 'error'); return; }
+  try {
+    // Get provider from booking
+    const { data: booking } = await sb.from('bookings').select('provider_id').eq('id', bookingId).single();
+    await Vouches.create({ authorId: currentUser.id, providerId: booking.provider_id, bookingId, rating, text });
+    document.querySelector('[style*="inset:0"]')?.remove();
+    UI.toast('Vouch submitted! Thank you 🙏', 'success');
+  } catch (e) {
+    UI.toast(e.message || 'Failed to submit vouch.', 'error');
+  }
+}
+
+/* ────────────────────────────────────────────────────────
+   HELPERS
+──────────────────────────────────────────────────────── */
+function buildProviderBanner() {
+  if (isProvider) return '';
+  return `
+    <div class="setup-banner" style="margin-top:12px">
+      <div class="setup-banner-text">
+        <h3>Are you a skilled professional?</h3>
+        <p>Set up your provider profile and start getting paid for your work.</p>
+      </div>
+      <div class="setup-banner-btns">
+        <a href="/become-provider" style="height:40px;padding:0 20px;background:var(--amber);color:var(--black);border-radius:10px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;text-decoration:none;flex-shrink:0">Become a provider →</a>
+      </div>
+    </div>`;
+}
+
+function timeGreeting() {
+  const h = new Date().getHours();
+  return h < 12 ? 'morning' : h < 18 ? 'afternoon' : 'evening';
+}
+
+init();
+</script>
+</body>
+</html>
