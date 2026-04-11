@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Become a Provider — Sowo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--white:#fff;--t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;--ease:cubic-bezier(.16,1,.3,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--surf);color:var(--t1);min-height:100vh}
+a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer;border:none}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:#fff;border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between}
+.logo-wm{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--black)}
+.nav-user{display:flex;align-items:center;gap:10px}
+.btn-sm{height:36px;padding:0 14px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center}
+.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal)}
+
+main{margin-top:64px;padding:48px 20px 80px;display:flex;flex-direction:column;align-items:center}
+
+/* PROGRESS */
+.progress-wrap{width:100%;max-width:640px;margin-bottom:40px}
+.progress-steps{display:flex;align-items:center;gap:0;margin-bottom:8px}
+.step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.step::before{content:'';position:absolute;top:18px;left:50%;right:-50%;height:2px;background:var(--border);z-index:0}
+.step:last-child::before{display:none}
+.step-circle{width:36px;height:36px;border-radius:50%;background:#fff;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--t3);z-index:1;transition:all .3s}
+.step.done .step-circle{background:var(--teal);border-color:var(--teal);color:#fff}
+.step.active .step-circle{background:var(--green);border-color:var(--green);color:var(--mint)}
+.step-label{font-size:11px;font-weight:600;color:var(--t3);margin-top:8px;text-align:center}
+.step.active .step-label{color:var(--green)}
+.step.done .step-label{color:var(--teal)}
+.progress-bar{height:4px;background:var(--border);border-radius:4px;margin-top:8px}
+.progress-fill{height:100%;background:var(--green);border-radius:4px;transition:width .4s var(--ease)}
+
+/* CARD */
+.form-card{width:100%;max-width:640px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:36px 40px}
+.step-head{margin-bottom:28px}
+.step-head h2{font-size:24px;font-weight:900;letter-spacing:-.4px;margin-bottom:6px}
+.step-head p{font-size:14px;color:var(--t3)}
+
+/* FORM ELEMENTS */
+.field{margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:700;color:var(--t1);margin-bottom:7px}
+.hint{font-size:11px;color:var(--t3);margin-top:4px}
+input[type=text],input[type=number],input[type=url],select,textarea{
+  width:100%;padding:0 14px;border:1px solid var(--border);border-radius:10px;
+  font-size:14px;font-family:inherit;color:var(--t1);outline:none;
+  transition:border-color .2s;background:#fff;
+}
+input[type=text],input[type=number],input[type=url],select{height:46px}
+textarea{height:110px;padding:12px 14px;resize:vertical;line-height:1.6}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:36px}
+
+/* CATEGORY GRID */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.cat-option{
+  padding:12px 14px;border:2px solid var(--border);border-radius:12px;
+  cursor:pointer;transition:all .2s;text-align:center;font-size:13px;font-weight:600;color:var(--t2);
+}
+.cat-option:hover{border-color:var(--teal);color:var(--black)}
+.cat-option.selected{border-color:var(--green);background:#E6F9F3;color:var(--green)}
+.cat-icon{font-size:22px;margin-bottom:4px}
+
+/* SKILLS */
+.skills-input-wrap{display:flex;gap:8px;margin-bottom:10px}
+.skills-input-wrap input{flex:1}
+.add-skill-btn{height:46px;padding:0 16px;background:var(--surf);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:700;color:var(--t1);cursor:pointer;white-space:nowrap;transition:all .15s}
+.add-skill-btn:hover{border-color:var(--teal)}
+.skills-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill-tag{height:30px;padding:0 12px;border-radius:999px;background:var(--surf);border:1px solid var(--border);font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.skill-tag button{background:none;border:none;cursor:pointer;color:var(--t3);font-size:16px;line-height:1;padding:0}
+.skill-tag button:hover{color:#c0392b}
+
+/* SERVICES */
+.service-row{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:end;margin-bottom:10px;background:var(--surf);border-radius:12px;padding:14px}
+.service-row input[type=text]{background:#fff}
+.service-row input[type=number]{background:#fff;width:100px}
+.remove-btn{height:40px;width:40px;border-radius:8px;background:none;border:1px solid var(--border);color:var(--t3);font-size:18px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.remove-btn:hover{border-color:#c0392b;color:#c0392b}
+.add-service-btn{height:40px;padding:0 16px;border:1px dashed var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--t3);background:#fff;cursor:pointer;width:100%;transition:all .15s;margin-top:4px}
+.add-service-btn:hover{border-color:var(--teal);color:var(--teal)}
+
+/* PHOTO UPLOAD */
+.photo-upload{
+  border:2px dashed var(--border);border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:36px;cursor:pointer;transition:all .2s;text-align:center;
+}
+.photo-upload:hover{border-color:var(--teal);background:#F0FAF5}
+.photo-upload input{display:none}
+.photo-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:12px}
+.photo-upload-icon{font-size:36px;margin-bottom:10px}
+.photo-upload p{font-size:13px;color:var(--t3)}
+
+/* RATE INPUT */
+.rate-input-wrap{position:relative}
+.rate-input-wrap::before{content:'£';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px;font-weight:700;color:var(--t2)}
+.rate-input-wrap input{padding-left:30px}
+
+/* NAV BUTTONS */
+.form-footer{display:flex;justify-content:space-between;align-items:center;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.btn-next{height:48px;padding:0 28px;background:var(--green);color:var(--mint);border-radius:12px;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.btn-next:hover{background:#063D31}
+.btn-next:disabled{opacity:.5;cursor:not-allowed}
+.btn-back{height:48px;padding:0 20px;background:transparent;color:var(--t2);border:1px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-back:hover{border-color:var(--teal);color:var(--black)}
+
+.spin{width:18px;height:18px;border:2px solid rgba(159,225,203,.3);border-top-color:var(--mint);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SUCCESS */
+.success-screen{text-align:center;padding:20px 0}
+.success-icon{font-size:64px;margin-bottom:16px}
+.success-title{font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:10px}
+.success-msg{font-size:15px;color:var(--t2);line-height:1.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.btn-dashboard{height:50px;padding:0 32px;background:var(--green);color:var(--mint);border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+
+@media(max-width:600px){.form-card{padding:24px 20px}.cat-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="logo-wm">Sowo</a>
+  <div class="nav-user" id="navUser">
+    <a href="/login" class="btn-sm b-light">Log in first</a>
+  </div>
+</nav>
+
+<main>
+  <div class="progress-wrap">
+    <div class="progress-steps" id="progressSteps">
+      <div class="step active" id="step-ind-0"><div class="step-circle">1</div><div class="step-label">Category</div></div>
+      <div class="step" id="step-ind-1"><div class="step-circle">2</div><div class="step-label">Profile</div></div>
+      <div class="step" id="step-ind-2"><div class="step-circle">3</div><div class="step-label">Services</div></div>
+      <div class="step" id="step-ind-3"><div class="step-circle">4</div><div class="step-label">Photo</div></div>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:12%"></div></div>
+  </div>
+
+  <div class="form-card" id="formCard"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/js/config.js"></script>
+<script src="/js/sowo.js"></script>
+<script>
+let currentStep = 0;
+let currentUser = null;
+let formData    = { category:'', bio:'', skills:[], hourly_rate:0, years_experience:0, services:[], avatar_file:null, avatar_url:'' };
+
+const CATEGORY_ICONS = {
+  'Plumber':'🔧','Electrician':'⚡','Cleaner':'🧹','Carpenter':'🪚','Painter':'🖌️',
+  'Plasterer':'🏗️','Gardener':'🌿','Handyman':'🔨','Tiler':'🧱','Locksmith':'🔐',
+  'Roofer':'🏠','Decorator':'🎨','Mechanic':'🚗','Builder':'👷','Tutor':'📚',
+  'Cook / Chef':'👨‍🍳','Tailor':'🪡','Photographer':'📷','IT Support':'💻','Childcare':'👶',
+};
+
+async function init() {
+  currentUser = await Auth.requireAuth();
+  if (!currentUser) return;
+  document.getElementById('navUser').innerHTML = `<a href="/dashboard" class="btn-sm b-light">← Dashboard</a>`;
+  renderStep(0);
+}
+
+function renderStep(step) {
+  currentStep = step;
+  const fills = [12, 37, 62, 87, 100];
+  document.getElementById('progressFill').style.width = fills[step] + '%';
+  document.querySelectorAll('.step').forEach((el, i) => {
+    el.classList.remove('active','done');
+    if (i < step) el.classList.add('done');
+    if (i === step) el.classList.add('active');
+    el.querySelector('.step-circle').textContent = i < step ? '✓' : i + 1;
+  });
+
+  const card = document.getElementById('formCard');
+  if (step === 0) card.innerHTML = stepCategory();
+  else if (step === 1) card.innerHTML = stepProfile();
+  else if (step === 2) card.innerHTML = stepServices();
+  else if (step === 3) card.innerHTML = stepPhoto();
+  else if (step === 4) card.innerHTML = stepSuccess();
+}
+
+/* ── STEP 0: CATEGORY ─────────────────────────────────── */
+function stepCategory() {
+  return `
+    <div class="step-head">
+      <h2>What do you do?</h2>
+      <p>Choose your main category. You can add more skills on the next step.</p>
+    </div>
+    <div class="cat-grid" id="catGrid">
+      ${CATEGORIES.map(cat => `
+        <div class="cat-option ${formData.category===cat?'selected':''}" onclick="selectCat('${cat}',this)">
+          <div class="cat-icon">${CATEGORY_ICONS[cat]||'⚙️'}</div>
+          ${cat}
+        </div>
+      `).join('')}
+    </div>
+    <div class="form-footer">
+      <div></div>
+      <button class="btn-next" onclick="goNext()" id="nextBtn" ${!formData.category?'disabled':''}>Next →</button>
+    </div>
+  `;
+}
+
+function selectCat(cat, el) {
+  document.querySelectorAll('.cat-option').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  formData.category = cat;
+  document.getElementById('nextBtn').disabled = false;
+}
+
+/* ── STEP 1: PROFILE ──────────────────────────────────── */
+function stepProfile() {
+  return `
+    <div class="step-head">
+      <h2>Tell us about yourself</h2>
+      <p>Clients will read this to decide whether to book you.</p>
+    </div>
+    <div class="field">
+      <label>Bio <span style="color:var(--t3);font-weight:400">(required)</span></label>
+      <textarea id="bio" placeholder="E.g. I'm a fully qualified plumber with 10 years experience across East London. All work guaranteed and insured." maxlength="500">${formData.bio}</textarea>
+      <div class="hint" id="bioCount">${formData.bio.length}/500 characters</div>
+    </div>
+    <div class="field">
+      <label>Your location <span style="color:var(--t3);font-weight:400">(e.g. Hackney, London)</span></label>
+      <input type="text" id="location" value="${formData.location||''}" placeholder="Hackney, London">
+    </div>
+    <div class="field">
+      <label>Years of experience</label>
+      <input type="number" id="years" value="${formData.years_experience||''}" min="0" max="50" placeholder="5" style="width:120px">
+    </div>
+    <div class="field">
+      <label>Hourly rate <span style="color:var(--t3);font-weight:400">(optional — clients will see this)</span></label>
+      <div class="rate-input-wrap" style="width:160px">
+        <input type="number" id="rate" value="${formData.hourly_rate?(formData.hourly_rate/100):''}" min="0" max="500" placeholder="25">
+      </div>
+      <div class="hint">Enter amount in £ per hour</div>
+    </div>
+    <div class="field">
+      <label>Skills & specialisms</label>
+      <div class="skills-input-wrap">
+        <input type="text" id="skillInput" placeholder="e.g. Boiler servicing" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}">
+        <button class="add-skill-btn" onclick="addSkill()">+ Add</button>
+      </div>
+      <div class="skills-tags" id="skillsTags">
+        ${formData.skills.map(s => skillTagHTML(s)).join('')}
+      </div>
+    </div>
+    <div class="form-footer">
+      <button class="btn-back" onclick="renderStep(0)">← Back</button>
+      <button class="btn-next" onclick="saveProfile()">Next →</button>
+    </div>
+  `;
+}
+
+document.addEventListener('input', e => {
+  if (e.target.id === 'bio') {
+    document.getElementById('bioCount').textContent = e.target.value.length + '/500 characters';
+  }
+});
+
+function skillTagHTML(skill) {
+  return `<span class="skill-tag">${skill}<button onclick="removeSkill('${skill}')">×</button></span>`;
+}
+function addSkill() {
+  const inp = document.getElementById('skillInput');
+  const val = inp.value.trim();
+  if (val && !formData.skills.includes(val)) {
+    formData.skills.push(val);
+    document.getElementById('skillsTags').insertAdjacentHTML('beforeend', skillTagHTML(val));
+  }
+  inp.value = '';
+}
+function removeSkill(skill) {
+  formData.skills = formData.skills.filter(s => s !== skill);
+  document.getElementById('skillsTags').innerHTML = formData.skills.map(skillTagHTML).join('');
+}
+
+function saveProfile() {
+  const bio      = document.getElementById('bio').value.trim();
+  const location = document.getElementById('location').value.trim();
+  const years    = parseInt(document.getElementById('years').value) || 0;
+  const rate     = parseFloat(document.getElementById('rate').value) || 0;
+  if (!bio) { UI.toast('Please add a bio', 'error'); return; }
+  formData.bio              = bio;
+  formData.location         = location;
+  formData.years_experience = years;
+  formData.hourly_rate      = Math.round(rate * 100);
+  renderStep(2);
+}
+
+/* ── STEP 2: SERVICES ─────────────────────────────────── */
+let serviceCount = 0;
+function stepServices() {
+  serviceCount = formData.services.length || 0;
+  if (formData.services.length === 0) {
+    // Add one blank service
+    formData.services.push({ name:'', description:'', price:0 });
+    serviceCount = 1;
+  }
+  return `
+    <div class="step-head">
+      <h2>Your services & prices</h2>
+      <p>List specific jobs you offer with fixed prices. Clients book directly from these.</p>
+    </div>
+    <div id="servicesList">
+      ${formData.services.map((s, i) => serviceRowHTML(i, s)).join('')}
+    </div>
+    <button class="add-service-btn" onclick="addServiceRow()">+ Add another service</button>
+    <div class="form-footer">
+      <button class="btn-back" onclick="renderStep(1)">← Back</button>
+      <button class="btn-next" onclick="saveServices()">Next →</button>
+    </div>
+  `;
+}
+
+function serviceRowHTML(i, s={}) {
+  return `
+    <div class="service-row" id="srow-${i}">
+      <div>
+        <label style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:4px;display:block">Service name</label>
+        <input type="text" placeholder="e.g. Boiler service" value="${s.name||''}" data-field="name" data-idx="${i}">
+      </div>
+      <div>
+        <label style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:4px;display:block">Price (£)</label>
+        <input type="number" placeholder="80" value="${s.price?(s.price/100):''}" min="0" style="width:90px" data-field="price" data-idx="${i}">
+      </div>
+      <button class="remove-btn" onclick="removeService(${i})" title="Remove">×</button>
+    </div>
+  `;
+}
+function addServiceRow() {
+  formData.services.push({ name:'', price:0 });
+  document.getElementById('servicesList').insertAdjacentHTML('beforeend', serviceRowHTML(formData.services.length - 1));
+}
+function removeService(i) {
+  formData.services.splice(i, 1);
+  renderStep(2);
+}
+function saveServices() {
+  const rows = document.querySelectorAll('.service-row');
+  const services = [];
+  rows.forEach(row => {
+    const name  = row.querySelector('[data-field="name"]').value.trim();
+    const price = parseFloat(row.querySelector('[data-field="price"]').value) || 0;
+    if (name) services.push({ name, price: Math.round(price * 100) });
+  });
+  formData.services = services;
+  renderStep(3);
+}
+
+/* ── STEP 3: PHOTO ───────────────────────────────────── */
+function stepPhoto() {
+  return `
+    <div class="step-head">
+      <h2>Add a profile photo</h2>
+      <p>Providers with photos get significantly more bookings.</p>
+    </div>
+    <div class="photo-upload" id="photoUpload" onclick="document.getElementById('photoFile').click()">
+      ${formData.avatar_url
+        ? `<img class="photo-preview" src="${formData.avatar_url}" id="photoPreview">`
+        : `<div class="photo-upload-icon">📷</div>`}
+      <input type="file" id="photoFile" accept="image/*" onchange="previewPhoto(this)">
+      <p id="photoHint">${formData.avatar_url ? 'Click to change photo' : 'Click to upload a photo<br><span style="font-size:11px">JPG or PNG, max 5MB</span>'}</p>
+    </div>
+    <div class="form-footer">
+      <button class="btn-back" onclick="renderStep(2)">← Back</button>
+      <button class="btn-next" onclick="submitProfile()" id="submitBtn">Create profile →</button>
+    </div>
+  `;
+}
+function previewPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  formData.avatar_file = file;
+  const reader = new FileReader();
+  reader.onload = e => {
+    formData.avatar_url = e.target.result;
+    const wrap = document.getElementById('photoUpload');
+    let preview = document.getElementById('photoPreview');
+    if (!preview) { preview = document.createElement('img'); preview.id='photoPreview'; preview.className='photo-preview'; wrap.prepend(preview); wrap.querySelector('.photo-upload-icon')?.remove(); }
+    preview.src = e.target.result;
+    document.getElementById('photoHint').textContent = 'Click to change photo';
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── SUBMIT ──────────────────────────────────────────── */
+async function submitProfile() {
+  const btn = document.getElementById('submitBtn');
+  UI.setLoading(btn, true);
+
+  try {
+    // 1. Upload avatar if provided
+    let avatarUrl = '';
+    if (formData.avatar_file) {
+      try { avatarUrl = await Storage.uploadAvatar(currentUser.id, formData.avatar_file); }
+      catch (e) { /* Storage not set up — skip */ }
+    }
+
+    // 2. Upsert profile
+    await Profiles.upsert(currentUser.id, {
+      full_name:   currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0],
+      location:    formData.location,
+      is_provider: true,
+      avatar_url:  avatarUrl || '',
+    });
+
+    // 3. Create provider record
+    await Providers.create(currentUser.id, {
+      bio:              formData.bio,
+      category:         formData.category,
+      skills:           formData.skills,
+      hourly_rate:      formData.hourly_rate,
+      years_experience: formData.years_experience,
+      available:        true,
+    });
+
+    // 4. Create services
+    for (const svc of formData.services) {
+      if (svc.name) {
+        try { await Providers.addService(currentUser.id, svc); } catch (e) {}
+      }
+    }
+
+    renderStep(4);
+
+  } catch (err) {
+    UI.toast(err.message || 'Failed to create profile. Please try again.', 'error');
+    UI.setLoading(btn, false);
+  }
+}
+
+/* ── STEP 4: SUCCESS ─────────────────────────────────── */
+function stepSuccess() {
+  document.getElementById('progressFill').style.width = '100%';
+  document.querySelectorAll('.step').forEach(el => { el.classList.remove('active'); el.classList.add('done'); el.querySelector('.step-circle').textContent = '✓'; });
+  return `
+    <div class="success-screen">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">You're live on Sowo!</div>
+      <p class="success-msg">
+        Your provider profile is now visible to clients across the community.
+        You'll get a notification when your first booking request arrives.
+      </p>
+      <a href="/dashboard" class="btn-dashboard">Go to dashboard →</a>
+    </div>
+  `;
+}
+
+function goNext() { renderStep(currentStep + 1); }
+init();
+</script>
+</body>
+</html>
