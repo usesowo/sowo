@@ -176,8 +176,25 @@ form.addEventListener('submit', async e => {
     window.location.href = redirect;
 
   } catch (err) {
-    errEl.textContent = err.message || 'Login failed. Please check your details.';
-    errEl.classList.add('show');
+    const msg = err.message || '';
+    const isInvalidCreds = msg.toLowerCase().includes('invalid login') || msg.toLowerCase().includes('invalid credentials');
+    if (isInvalidCreds) {
+      errEl.innerHTML = `Wrong email or password — or your email isn't confirmed yet.
+        <br><br>
+        <a href="#" id="resendLink" style="color:var(--amber);font-weight:600;text-decoration:underline">Resend confirmation email →</a>`;
+      errEl.classList.add('show');
+      document.getElementById('resendLink').addEventListener('click', async e => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        if (!email) { UI.toast('Enter your email address first', 'error'); return; }
+        const { error } = await sb.auth.resend({ type: 'signup', email });
+        if (error) { UI.toast(error.message, 'error'); }
+        else { UI.toast('Confirmation email resent — check your inbox', 'success'); }
+      });
+    } else {
+      errEl.textContent = msg || 'Login failed. Please check your details.';
+      errEl.classList.add('show');
+    }
     UI.setLoading(submitBtn, false);
   }
 });

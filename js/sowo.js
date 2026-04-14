@@ -244,6 +244,24 @@ const Storage = {
     const { data } = sb.storage.from('media').getPublicUrl(path);
     return data.publicUrl;
   },
+
+  async uploadPortfolioImage(userId, file) {
+    const ext  = file.name.split('.').pop();
+    const path = `portfolio/${userId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error } = await sb.storage.from('media').upload(path, file, { upsert: false });
+    if (error) throw error;
+    const { data } = sb.storage.from('media').getPublicUrl(path);
+    return data.publicUrl;
+  },
+
+  async uploadPortfolioVideo(userId, file) {
+    const ext  = file.name.split('.').pop();
+    const path = `videos/${userId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error } = await sb.storage.from('media').upload(path, file, { upsert: false });
+    if (error) throw error;
+    const { data } = sb.storage.from('media').getPublicUrl(path);
+    return data.publicUrl;
+  },
 };
 
 /* ── UI helpers ──────────────────────────────────────────────── */

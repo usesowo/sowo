@@ -13,8 +13,8 @@
 const SOWO_CONFIG = {
 
   supabase: {
-    url:     'YOUR_SUPABASE_URL',       // e.g. https://abcxyz.supabase.co
-    anonKey: 'YOUR_SUPABASE_ANON_KEY',  // eyJhbGci...
+    url:     'https://svwzsvmvqmkmtgsclatz.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2d3pzdm12cW1rbXRnc2NsYXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwMTA4MzYsImV4cCI6MjA5MTU4NjgzNn0.IFieYIoxpGOM3IWeYDb89Sy0fMxAPTfwMH88O8bz_Mo',
   },
 
   stripe: {
