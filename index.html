@@ -3,462 +3,599 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sowo — Find people who get you</title>
-<meta name="description" content="For international students and newcomers who want trusted providers, not random options.">
-<meta property="og:title" content="Sowo — Find people who get you">
+<title>Sowo — Find trusted help, or offer your service</title>
+<meta name="description" content="For newcomers who want trusted people, not random options. Request help or list your service — no sign-up required.">
+<meta property="og:title" content="Sowo — Find trusted help, or offer your service">
 <meta property="og:url" content="https://usesowo.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:        #060606;
-    --s1:        rgba(255,255,255,0.03);
-    --s2:        rgba(255,255,255,0.055);
-    --s3:        rgba(255,255,255,0.08);
-    --tp:        #F5F2EB;
-    --ts:        rgba(245,242,235,0.68);
-    --tm:        rgba(245,242,235,0.44);
-    --border:    rgba(255,255,255,0.08);
-    --amber:     #EF9F27;
-    --teal:      #1D9E75;
-    --green:     #085041;
-  }
+/* ─────────────────────────────────────
+   TOKENS
+───────────────────────────────────── */
+:root {
+  --bg:       #070707;
+  --s1:       rgba(255,255,255,0.028);
+  --s2:       rgba(255,255,255,0.052);
+  --s3:       rgba(255,255,255,0.085);
+  --tp:       #F4F1EA;
+  --ts:       rgba(244,241,234,0.64);
+  --tm:       rgba(244,241,234,0.38);
+  --border:   rgba(255,255,255,0.075);
+  --border-h: rgba(255,255,255,0.14);
+  --amber:    #EF9F27;
+  --amber-bg: rgba(239,159,39,0.08);
+  --amber-br: rgba(239,159,39,0.2);
+  --teal:     #1D9E75;
+  --teal-bg:  rgba(29,158,117,0.08);
+  --teal-br:  rgba(29,158,117,0.2);
+  --green:    #085041;
+  --ease:     cubic-bezier(.16,1,.3,1);
+}
 
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tp);line-height:1.4;overflow-x:hidden}
-  a{color:inherit;text-decoration:none}
-  button{font-family:inherit;cursor:pointer;border:none}
+/* ─────────────────────────────────────
+   RESET
+───────────────────────────────────── */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--tp); line-height:1.5; overflow-x:hidden }
+a { color:inherit; text-decoration:none }
+button { font-family:inherit; cursor:pointer; border:none; background:none; color:inherit }
+input, textarea, select { font-family:inherit; color:inherit }
 
-  /* ── REVEAL ANIMATION ── */
-  .r{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
-  .r.in{opacity:1;transform:none}
-  .r.d1{transition-delay:.08s}.r.d2{transition-delay:.16s}.r.d3{transition-delay:.24s}
-  .r.d4{transition-delay:.32s}.r.d5{transition-delay:.40s}.r.d6{transition-delay:.48s}
+/* ─────────────────────────────────────
+   LAYOUT HELPERS
+───────────────────────────────────── */
+.wrap { max-width:1120px; margin:0 auto; padding:0 56px }
+.sec-divider { border:none; border-top:1px solid var(--border) }
 
-  /* ── HEADER ── */
-  header{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0 64px;height:80px;
-    border-bottom:1px solid var(--border);
-    position:sticky;top:0;z-index:100;
-    background:rgba(6,6,6,0.88);
-    backdrop-filter:blur(14px);
-  }
-  .logo{display:flex;align-items:center;gap:10px}
-  .logo-text{font-family:Georgia,serif;font-size:20px;font-weight:700;color:var(--tp)}
-  nav{display:flex;align-items:center}
-  nav a{margin-left:28px;font-size:15px;color:var(--ts);transition:color .15s}
-  nav a:hover{color:var(--tp)}
-  nav a.btn{padding:10px 18px;border-radius:12px;border:1px solid var(--border);font-weight:600}
-  nav a.btn.primary{background:var(--amber);color:#051814;border:none;box-shadow:0 4px 12px rgba(239,159,39,.28)}
-  nav a.btn.primary:hover{box-shadow:0 6px 18px rgba(239,159,39,.38)}
+/* ─────────────────────────────────────
+   HEADER
+───────────────────────────────────── */
+header {
+  height:68px; display:flex; align-items:center; justify-content:space-between;
+  padding:0 56px;
+  position:sticky; top:0; z-index:300;
+  background:rgba(7,7,7,.9); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
 
-  /* ── SECTION WRAPPER ── */
-  .wrap{max-width:1280px;margin:0 auto;padding:0 64px}
+.logo { display:flex; align-items:center; gap:9px; cursor:pointer }
+.logo-wordmark { font-family:'Lora',Georgia,serif; font-size:19px; font-weight:600; letter-spacing:-.01em; color:var(--tp) }
 
-  /* ── HERO ── */
-  .hero{
-    display:flex;flex-wrap:wrap;
-    max-width:1280px;margin:0 auto;
-    padding:72px 64px 96px;
-    align-items:center;gap:56px;
-  }
-  .col-left{flex:1 1 calc(52% - 32px);min-width:300px}
-  .col-right{
-    flex:1 1 calc(44% - 24px);min-width:300px;
-    position:relative;display:flex;
-    justify-content:center;align-items:center;
-  }
-  .eyebrow{
-    display:inline-flex;align-items:center;
-    padding:0 14px;height:30px;border-radius:999px;
-    font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--amber);border:1px solid rgba(239,159,39,.25);
-    background:rgba(239,159,39,.06);margin-bottom:24px;
-  }
-  .hero h1{font-size:72px;line-height:.96;font-weight:800;margin-bottom:24px;max-width:620px;letter-spacing:-.02em}
-  .hero p{font-size:20px;line-height:1.5;color:var(--ts);max-width:520px;margin-bottom:28px}
-  .trust-strip{display:flex;flex-wrap:wrap;font-size:14px;color:var(--tm);margin-bottom:32px;align-items:center}
-  .trust-strip span{display:flex;align-items:center}
-  .trust-strip span+span::before{content:'·';margin:0 12px;color:var(--tm)}
-  .cta-row{display:flex;gap:12px;margin-bottom:14px}
-  .cta-row a{
-    display:inline-flex;align-items:center;justify-content:center;
-    height:52px;padding:0 24px;border-radius:12px;
-    font-size:15px;font-weight:700;transition:transform .15s,box-shadow .15s;
-  }
-  .cta-row a.primary{background:var(--amber);color:#051814;box-shadow:0 4px 12px rgba(239,159,39,.28)}
-  .cta-row a.secondary{background:transparent;color:var(--tp);border:1px solid var(--border)}
-  .cta-row a:hover{transform:translateY(-1px)}
-  .cta-row a.primary:hover{box-shadow:0 6px 20px rgba(239,159,39,.38)}
-  .micro{font-size:13px;color:var(--tm)}
+nav { display:flex; align-items:center; gap:6px }
+.nav-link { padding:7px 14px; font-size:13.5px; color:var(--ts); border-radius:8px; transition:color .15s,background .15s }
+.nav-link:hover { color:var(--tp); background:var(--s2) }
+.nav-login {
+  padding:7px 16px; font-size:13.5px; font-weight:600;
+  color:var(--ts); border:1px solid var(--border);
+  border-radius:9px; transition:color .15s,border-color .15s,background .15s;
+}
+.nav-login:hover { color:var(--tp); border-color:var(--border-h); background:var(--s1) }
 
-  /* ── MATCH PANEL ── */
-  .match-panel{
-    width:100%;max-width:540px;padding:28px;border-radius:24px;
-    background:var(--s1);border:1px solid var(--border);
-    box-shadow:0 12px 40px rgba(0,0,0,.6);position:relative;
-  }
-  .pref-label{font-size:12px;color:var(--tm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-weight:600}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
-  .chip{padding:5px 13px;border-radius:999px;font-size:13px;color:var(--tp);background:var(--s2);border:1px solid var(--border)}
-  .provider-card{
-    margin-top:20px;display:flex;align-items:flex-start;gap:18px;
-    padding:20px;border-radius:18px;
-    background:var(--s2);border:1px solid rgba(239,159,39,.18);
-    box-shadow:0 4px 20px rgba(0,0,0,.4);
-  }
-  .prov-av{
-    width:64px;height:64px;border-radius:16px;background:var(--teal);
-    display:flex;align-items:center;justify-content:center;
-    font-size:20px;font-weight:700;color:#fff;flex-shrink:0;
-  }
-  .prov-name{font-size:22px;font-weight:700;margin-bottom:2px}
-  .prov-role{font-size:14px;color:var(--ts);margin-bottom:6px}
-  .prov-desc{font-size:14px;color:var(--ts);margin-bottom:12px;max-width:260px;line-height:1.5}
-  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
-  .tag{font-size:12px;padding:5px 11px;border-radius:999px;background:var(--s1);border:1px solid var(--border);color:var(--tp)}
-  .prov-cta{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:9px 16px;border-radius:10px;
-    background:var(--amber);color:#051814;font-weight:600;font-size:13px;
-  }
-  .float-badge{
-    position:absolute;padding:10px 14px;border-radius:12px;
-    background:rgba(6,6,6,.88);border:1px solid var(--border);
-    font-size:13px;font-weight:500;color:var(--tp);
-    backdrop-filter:blur(10px);white-space:nowrap;
-  }
-  .fb-1{top:-18px;left:8%}
-  .fb-2{bottom:-18px;right:8%}
+/* ─────────────────────────────────────
+   HERO
+───────────────────────────────────── */
+.hero {
+  padding:100px 56px 88px;
+  max-width:1120px; margin:0 auto;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+}
 
-  /* ── SECTION DIVIDER ── */
-  .sec-divider{border:none;border-top:1px solid var(--border);margin:0}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  height:26px; padding:0 11px; margin-bottom:28px;
+  border-radius:999px; font-size:11px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--tm); border:1px solid var(--border); background:var(--s1);
+}
+.hero-badge-dot {
+  width:5px; height:5px; border-radius:50%; background:var(--teal);
+  box-shadow:0 0 0 2px rgba(29,158,117,.25);
+}
 
-  /* ── HOW IT WORKS ── */
-  #how{padding:96px 0}
-  .sec-label{
-    font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--tm);margin-bottom:16px;
-  }
-  .sec-title{font-size:44px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;max-width:560px}
-  .sec-sub{font-size:17px;color:var(--ts);max-width:480px;line-height:1.6;margin-bottom:56px}
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-  .step{
-    padding:36px 32px;background:var(--s1);border:1px solid var(--border);
-    position:relative;
-  }
-  .step:first-child{border-radius:20px 0 0 20px}
-  .step:last-child{border-radius:0 20px 20px 0}
-  .step-num{
-    font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--amber);margin-bottom:20px;
-  }
-  .step-icon{
-    width:48px;height:48px;border-radius:14px;
-    background:var(--s2);border:1px solid var(--border);
-    display:flex;align-items:center;justify-content:center;
-    font-size:22px;margin-bottom:20px;
-  }
-  .step h3{font-size:18px;font-weight:700;margin-bottom:10px}
-  .step p{font-size:14px;color:var(--ts);line-height:1.6}
+.hero h1 {
+  font-family:'Lora',Georgia,serif;
+  font-size:62px; line-height:1.04; font-weight:600;
+  letter-spacing:-.02em; margin-bottom:20px; max-width:680px;
+  color:var(--tp);
+}
+.hero h1 em { font-style:italic; color:var(--amber) }
 
-  /* ── CATEGORIES ── */
-  #services{padding:96px 0}
-  .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px}
-  .cat{
-    padding:24px 20px;border-radius:16px;
-    background:var(--s1);border:1px solid var(--border);
-    display:flex;align-items:center;gap:14px;
-    transition:background .15s,border-color .15s;cursor:default;
-  }
-  .cat:hover{background:var(--s2);border-color:rgba(255,255,255,.14)}
-  .cat-ico{font-size:28px;flex-shrink:0;line-height:1}
-  .cat-name{font-size:14px;font-weight:600}
-  .cat-sub{font-size:12px;color:var(--tm);margin-top:2px}
+.hero-sub {
+  font-size:17px; color:var(--ts); max-width:440px;
+  margin-bottom:40px; line-height:1.65; font-weight:400;
+}
 
-  /* ── SOCIAL PROOF ── */
-  #community{padding:96px 0}
-  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
-  .quote-card{
-    padding:28px;border-radius:20px;
-    background:var(--s1);border:1px solid var(--border);
-    display:flex;flex-direction:column;gap:20px;
-  }
-  .quote-stars{color:var(--amber);font-size:15px;letter-spacing:2px}
-  .quote-text{
-    font-size:15px;line-height:1.65;color:var(--ts);
-    font-style:italic;flex:1;
-  }
-  .quote-text::before{content:'\201C'}
-  .quote-text::after{content:'\201D'}
-  .quote-author{display:flex;align-items:center;gap:12px}
-  .q-av{
-    width:40px;height:40px;border-radius:12px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:13px;font-weight:700;color:#fff;flex-shrink:0;
-  }
-  .q-av.a0{background:#8B5CF6}.q-av.a1{background:var(--teal)}.q-av.a2{background:#F43F5E}
-  .q-name{font-size:13px;font-weight:700}
-  .q-meta{font-size:12px;color:var(--tm)}
+/* CTA buttons */
+.hero-ctas { display:flex; gap:10px; justify-content:center; margin-bottom:18px; flex-wrap:wrap }
+.btn-primary {
+  display:inline-flex; align-items:center; gap:8px;
+  height:48px; padding:0 22px; border-radius:11px;
+  font-size:14px; font-weight:700; letter-spacing:-.01em;
+  background:var(--amber); color:#0a0600;
+  transition:transform .18s var(--ease), box-shadow .18s;
+}
+.btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(239,159,39,.28) }
+.btn-ghost {
+  display:inline-flex; align-items:center; gap:8px;
+  height:48px; padding:0 22px; border-radius:11px;
+  font-size:14px; font-weight:600; letter-spacing:-.01em;
+  color:var(--tp); border:1px solid var(--border);
+  transition:border-color .15s, background .15s, transform .18s var(--ease);
+}
+.btn-ghost:hover { border-color:var(--border-h); background:var(--s1); transform:translateY(-1px) }
 
-  /* stats strip */
-  .stats{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-    background:var(--border);border-radius:20px;overflow:hidden;
-    margin-top:56px;
-  }
-  .stat{
-    padding:32px;background:var(--s1);
-    display:flex;flex-direction:column;gap:6px;
-  }
-  .stat-val{font-size:40px;font-weight:800;letter-spacing:-.02em;color:var(--tp)}
-  .stat-val span{color:var(--amber)}
-  .stat-label{font-size:14px;color:var(--ts)}
+.hero-browse {
+  display:flex; gap:20px; font-size:13px; color:var(--tm);
+}
+.hero-browse span { cursor:pointer; transition:color .15s }
+.hero-browse span:hover { color:var(--ts) }
 
-  /* ── BECOME A PROVIDER ── */
-  #providers{padding:96px 0}
-  .provider-split{
-    display:flex;flex-wrap:wrap;gap:56px;
-    padding:56px;border-radius:28px;
-    background:var(--s1);border:1px solid var(--border);
-    align-items:center;
-  }
-  .ps-left{flex:1 1 calc(55% - 28px);min-width:280px}
-  .ps-right{flex:1 1 calc(40% - 28px);min-width:280px;display:flex;flex-direction:column;gap:12px}
-  .ps-eyebrow{
-    display:inline-flex;align-items:center;height:28px;padding:0 12px;
-    border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--teal);border:1px solid rgba(29,158,117,.25);
-    background:rgba(29,158,117,.06);margin-bottom:20px;
-  }
-  .ps-left h2{font-size:40px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;line-height:1.1}
-  .ps-left p{font-size:16px;color:var(--ts);line-height:1.6;margin-bottom:28px;max-width:440px}
-  .ps-cta{
-    display:inline-flex;align-items:center;height:50px;padding:0 24px;
-    border-radius:12px;background:var(--teal);color:#fff;
-    font-size:15px;font-weight:700;
-    box-shadow:0 4px 12px rgba(29,158,117,.28);
-    transition:transform .15s,box-shadow .15s;
-  }
-  .ps-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(29,158,117,.38)}
-  .perk{
-    display:flex;align-items:flex-start;gap:14px;
-    padding:18px 20px;border-radius:14px;
-    background:var(--s2);border:1px solid var(--border);
-  }
-  .perk-ico{font-size:20px;flex-shrink:0;line-height:1.3}
-  .perk-title{font-size:14px;font-weight:600;margin-bottom:3px}
-  .perk-sub{font-size:13px;color:var(--tm)}
+/* ─────────────────────────────────────
+   LIVE BOARD
+───────────────────────────────────── */
+.live-board { padding:72px 0 88px }
 
-  /* ── FOOTER ── */
-  footer{
-    border-top:1px solid var(--border);
-    padding:48px 64px;
-    display:flex;flex-wrap:wrap;gap:32px;
-    align-items:center;justify-content:space-between;
-  }
-  .foot-logo{display:flex;align-items:center;gap:8px}
-  .foot-logo span{font-family:Georgia,serif;font-size:16px;font-weight:700;color:var(--ts)}
-  .foot-links{display:flex;gap:24px;flex-wrap:wrap}
-  .foot-links a{font-size:13px;color:var(--tm);transition:color .15s}
-  .foot-links a:hover{color:var(--ts)}
-  .foot-copy{font-size:13px;color:var(--tm)}
+.board-header {
+  display:flex; align-items:baseline; justify-content:space-between;
+  margin-bottom:20px;
+}
+.board-title {
+  font-size:13px; font-weight:700; color:var(--tp);
+  display:flex; align-items:center; gap:8px;
+}
+.live-pip {
+  width:6px; height:6px; border-radius:50%; flex-shrink:0;
+  animation:pip-pulse 2.4s ease-in-out infinite;
+}
+.live-pip.amber { background:var(--amber) }
+.live-pip.teal  { background:var(--teal) }
+@keyframes pip-pulse {
+  0%,100% { opacity:1 } 50% { opacity:.4 }
+}
+.board-action {
+  font-size:12px; color:var(--tm); cursor:pointer;
+  transition:color .15s;
+}
+.board-action:hover { color:var(--ts) }
 
-  /* ── RESPONSIVE ── */
-  @media(max-width:900px){
-    header{padding:0 24px}
-    nav a:not(.btn){display:none}
-    .hero{flex-direction:column;padding:40px 24px 56px;gap:40px}
-    .hero h1{font-size:44px}
-    .col-left,.col-right{flex:1 1 100%;max-width:100%}
-    .float-badge{display:none}
-    .wrap{padding:0 24px}
-    #how,#services,#community,#providers{padding:64px 0}
-    .sec-title{font-size:32px}
-    .steps{grid-template-columns:1fr}
-    .step:first-child{border-radius:20px 20px 0 0}
-    .step:last-child{border-radius:0 0 20px 20px}
-    .cats{grid-template-columns:repeat(2,1fr)}
-    .quotes{grid-template-columns:1fr}
-    .stats{grid-template-columns:1fr}
-    .provider-split{padding:32px 24px}
-    .ps-left h2{font-size:28px}
-    footer{padding:40px 24px;flex-direction:column;align-items:flex-start;gap:24px}
-  }
+.board-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:0 }
+.board-col-wrap { display:flex; flex-direction:column; gap:0 }
+
+.board-cards { display:flex; flex-direction:column; gap:1px; background:var(--border); border-radius:14px; overflow:hidden }
+.board-card {
+  background:var(--bg);
+  padding:14px 18px;
+  display:flex; align-items:center; gap:14px;
+  cursor:pointer; transition:background .14s;
+  position:relative;
+}
+.board-card:hover { background:var(--s1) }
+.board-card:first-child { border-radius:14px 14px 0 0 }
+.board-card:last-child  { border-radius:0 0 14px 14px }
+
+.bc-cat {
+  font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  padding:3px 8px; border-radius:5px; flex-shrink:0; white-space:nowrap;
+}
+.bc-cat.amber { color:var(--amber); background:var(--amber-bg) }
+.bc-cat.teal  { color:var(--teal);  background:var(--teal-bg) }
+
+.bc-body { flex:1; min-width:0 }
+.bc-title {
+  font-size:13px; font-weight:600; color:var(--tp);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  margin-bottom:1px;
+}
+.bc-meta { font-size:11.5px; color:var(--tm) }
+
+.bc-new-dot {
+  width:6px; height:6px; border-radius:50%; flex-shrink:0;
+}
+.bc-new-dot.amber { background:var(--amber) }
+.bc-new-dot.teal  { background:var(--teal) }
+
+/* ─────────────────────────────────────
+   HOW IT WORKS
+───────────────────────────────────── */
+#how { padding:80px 0 }
+.sec-label { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--tm); margin-bottom:12px }
+.sec-h { font-size:36px; font-weight:700; letter-spacing:-.025em; margin-bottom:12px; font-family:'Lora',Georgia,serif }
+.sec-p { font-size:15px; color:var(--ts); max-width:400px; line-height:1.65; margin-bottom:52px }
+
+.steps { display:grid; grid-template-columns:repeat(3,1fr); gap:0 }
+.step {
+  padding:28px 28px 32px;
+  border:1px solid var(--border); background:var(--s1);
+  margin-left:-1px;
+}
+.step:first-child { border-radius:14px 0 0 14px; margin-left:0 }
+.step:last-child  { border-radius:0 14px 14px 0 }
+
+.step-n {
+  font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--tm); margin-bottom:24px;
+}
+.step-num {
+  font-family:'Lora',Georgia,serif;
+  font-size:36px; font-weight:600; color:var(--border-h);
+  margin-bottom:16px; line-height:1;
+}
+.step h3 { font-size:15px; font-weight:700; margin-bottom:8px }
+.step p  { font-size:13px; color:var(--ts); line-height:1.65 }
+
+/* ─────────────────────────────────────
+   PROVIDER SPLIT
+───────────────────────────────────── */
+#providers { padding:80px 0 }
+.provider-split {
+  display:flex; flex-wrap:wrap; gap:0;
+  border:1px solid var(--border); border-radius:20px; overflow:hidden;
+}
+.ps-left {
+  flex:1 1 calc(55% - 0px); min-width:280px;
+  padding:48px 48px;
+  border-right:1px solid var(--border);
+}
+.ps-right {
+  flex:1 1 calc(45% - 0px); min-width:280px;
+  padding:48px 40px;
+  display:flex; flex-direction:column; justify-content:center; gap:1px;
+  background:var(--s1);
+}
+.ps-eye {
+  display:inline-flex; height:24px; padding:0 10px;
+  border-radius:6px; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--teal); background:var(--teal-bg); margin-bottom:20px;
+}
+.ps-left h2 {
+  font-family:'Lora',Georgia,serif;
+  font-size:30px; font-weight:600; letter-spacing:-.02em;
+  margin-bottom:14px; line-height:1.2;
+}
+.ps-left p { font-size:14px; color:var(--ts); line-height:1.7; margin-bottom:24px; max-width:360px }
+.btn-teal {
+  display:inline-flex; align-items:center; height:44px; padding:0 20px;
+  border-radius:10px; background:var(--teal); color:#fff;
+  font-size:13.5px; font-weight:700;
+  transition:transform .18s var(--ease), box-shadow .18s;
+}
+.btn-teal:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(29,158,117,.28) }
+
+.perk {
+  padding:18px 20px; display:flex; align-items:flex-start; gap:14px;
+  border-bottom:1px solid var(--border);
+}
+.perk:last-child { border-bottom:none }
+.perk-check {
+  width:18px; height:18px; border-radius:5px;
+  background:var(--teal-bg); border:1px solid var(--teal-br);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px;
+}
+.perk-check svg { width:10px; height:10px; stroke:var(--teal); fill:none; stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round }
+.perk-t { font-size:13px; font-weight:600; margin-bottom:2px }
+.perk-s { font-size:12px; color:var(--tm); line-height:1.5 }
+
+/* ─────────────────────────────────────
+   FOOTER
+───────────────────────────────────── */
+footer {
+  border-top:1px solid var(--border);
+  padding:36px 56px;
+  display:flex; flex-wrap:wrap; gap:20px;
+  align-items:center; justify-content:space-between;
+}
+.foot-logo { display:flex; align-items:center; gap:8px }
+.foot-logo span { font-family:'Lora',Georgia,serif; font-size:15px; font-weight:600; color:var(--ts) }
+.foot-links { display:flex; gap:18px; flex-wrap:wrap }
+.foot-links a { font-size:13px; color:var(--tm); transition:color .15s }
+.foot-links a:hover { color:var(--ts) }
+.foot-copy { font-size:12px; color:var(--tm) }
+
+/* ─────────────────────────────────────
+   FLOW MODAL
+───────────────────────────────────── */
+.overlay {
+  position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,.68); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none;
+  transition:opacity .2s var(--ease);
+}
+.overlay.open { opacity:1; pointer-events:all }
+
+.flow-modal {
+  width:100%; max-width:500px;
+  background:#111212; border:1px solid var(--border); border-radius:20px;
+  padding:0; position:relative;
+  transform:translateY(12px) scale(.985);
+  transition:transform .28s var(--ease);
+  max-height:92vh; overflow:hidden;
+  display:flex; flex-direction:column;
+}
+.overlay.open .flow-modal { transform:none }
+
+.modal-head {
+  padding:22px 28px 0;
+  display:flex; align-items:center; justify-content:space-between; flex-shrink:0;
+}
+.modal-close {
+  width:30px; height:30px; border-radius:8px;
+  background:var(--s2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--ts); font-size:14px; cursor:pointer;
+  transition:background .14s, color .14s;
+}
+.modal-close:hover { background:var(--s3); color:var(--tp) }
+
+.flow-progress { display:flex; gap:3px; flex:1; margin-right:16px }
+.fp { height:2px; border-radius:999px; flex:1; background:var(--s3); transition:background .3s }
+.fp.done   { background:var(--amber) }
+.fp.active { background:rgba(239,159,39,.45) }
+
+.modal-body { padding:28px; overflow-y:auto; flex:1 }
+
+.flow-step { display:none }
+.flow-step.active { display:block }
+
+.step-title { font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:4px; font-family:'Lora',Georgia,serif }
+.step-sub   { font-size:13px; color:var(--ts); margin-bottom:28px; line-height:1.55 }
+
+/* Category grid — text only, clean */
+.cat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-bottom:28px }
+.cat-opt {
+  padding:11px 6px 10px; border-radius:9px;
+  border:1px solid var(--border); background:var(--s1);
+  cursor:pointer; text-align:center;
+  font-size:11px; font-weight:600; letter-spacing:.02em; color:var(--ts);
+  transition:background .14s, border-color .14s, color .14s;
+  line-height:1.3;
+}
+.cat-opt:hover { background:var(--s2); border-color:var(--border-h); color:var(--tp) }
+.cat-opt.sel { background:var(--amber-bg); border-color:var(--amber-br); color:var(--amber) }
+
+/* Form fields */
+.field { margin-bottom:16px }
+.field label {
+  display:block; font-size:11px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.07em;
+  color:var(--tm); margin-bottom:7px;
+}
+.field input, .field textarea, .field select {
+  width:100%; padding:11px 13px;
+  border-radius:9px; background:var(--s2); border:1px solid var(--border);
+  font-size:13.5px; outline:none; transition:border-color .15s;
+  color:var(--tp);
+}
+.field input::placeholder, .field textarea::placeholder { color:var(--tm) }
+.field input:focus, .field textarea:focus, .field select:focus { border-color:var(--border-h) }
+.field textarea { min-height:78px; resize:vertical; line-height:1.55 }
+.field select option { background:#1c1c1c }
+
+/* Contact preference */
+.radio-list { display:flex; flex-direction:column; gap:6px; margin-bottom:28px }
+.radio-opt {
+  display:flex; align-items:center; gap:13px;
+  padding:12px 14px; border-radius:9px;
+  background:var(--s1); border:1px solid var(--border);
+  cursor:pointer; transition:background .14s, border-color .14s;
+}
+.radio-opt:hover { background:var(--s2) }
+.radio-opt.sel { background:var(--teal-bg); border-color:var(--teal-br) }
+.radio-dot {
+  width:16px; height:16px; border-radius:50%; flex-shrink:0;
+  border:1.5px solid var(--border); background:transparent;
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color .14s;
+}
+.radio-opt.sel .radio-dot { border-color:var(--teal) }
+.radio-dot-inner {
+  width:7px; height:7px; border-radius:50%; background:var(--teal);
+  opacity:0; transition:opacity .14s;
+}
+.radio-opt.sel .radio-dot-inner { opacity:1 }
+.radio-t { font-size:13px; font-weight:600 }
+.radio-s { font-size:12px; color:var(--tm) }
+
+/* Preference chips */
+.pref-chips { display:flex; flex-wrap:wrap; gap:7px; margin-bottom:28px }
+.pref-chip {
+  padding:6px 13px; border-radius:999px;
+  font-size:12.5px; font-weight:500;
+  background:var(--s1); border:1px solid var(--border);
+  cursor:pointer; color:var(--ts);
+  transition:background .14s, border-color .14s, color .14s;
+}
+.pref-chip:hover { background:var(--s2) }
+.pref-chip.sel { background:var(--amber-bg); border-color:var(--amber-br); color:var(--amber) }
+
+/* Review summary */
+.review-box {
+  border:1px solid var(--border); border-radius:12px;
+  overflow:hidden; margin-bottom:20px;
+}
+.review-row {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:11px 16px; border-bottom:1px solid var(--border);
+}
+.review-row:last-child { border-bottom:none }
+.rr-key { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--tm) }
+.rr-val { font-size:13px; font-weight:600; color:var(--tp); text-align:right; max-width:240px }
+
+/* Flow nav */
+.flow-nav { display:flex; gap:8px; padding-top:4px }
+.btn-back {
+  height:44px; padding:0 16px; border-radius:9px;
+  border:1px solid var(--border); color:var(--ts); font-size:13.5px; font-weight:600;
+  transition:background .14s, color .14s;
+}
+.btn-back:hover { background:var(--s2); color:var(--tp) }
+.btn-continue {
+  flex:1; height:44px; border-radius:9px;
+  background:var(--amber); color:#0a0600;
+  font-size:13.5px; font-weight:700; letter-spacing:-.01em;
+  transition:box-shadow .18s, transform .18s var(--ease);
+}
+.btn-continue:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(239,159,39,.28) }
+.btn-continue:disabled { opacity:.38; transform:none; box-shadow:none; cursor:not-allowed }
+
+/* Success */
+.success-wrap { text-align:center; padding:8px 0 4px }
+.success-mark {
+  width:52px; height:52px; border-radius:14px;
+  background:var(--teal-bg); border:1px solid var(--teal-br);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 20px;
+}
+.success-mark svg { width:24px; height:24px; stroke:var(--teal); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+.success-h { font-family:'Lora',Georgia,serif; font-size:22px; font-weight:600; margin-bottom:8px }
+.success-p { font-size:13.5px; color:var(--ts); line-height:1.6; margin-bottom:28px; max-width:340px; margin-left:auto; margin-right:auto }
+
+.nudge-card {
+  padding:20px; border-radius:13px;
+  background:var(--s2); border:1px solid var(--border);
+  text-align:left; margin-bottom:20px;
+}
+.nudge-t { font-size:14px; font-weight:700; margin-bottom:5px }
+.nudge-s { font-size:13px; color:var(--ts); line-height:1.55; margin-bottom:16px }
+.nudge-btns { display:flex; gap:8px }
+.nudge-btns a, .nudge-btns button {
+  flex:1; height:38px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700;
+}
+.nudge-primary { background:var(--teal); color:#fff }
+.nudge-skip { background:var(--s1); border:1px solid var(--border); color:var(--ts) }
+
+/* ─────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────── */
+@media(max-width:800px) {
+  .wrap { padding:0 20px }
+  header { padding:0 20px }
+  .nav-link { display:none }
+  .hero { padding:56px 20px 52px }
+  .hero h1 { font-size:40px }
+  .hero-sub { font-size:15px }
+  .live-board { padding:52px 0 64px }
+  .board-grid { grid-template-columns:1fr; gap:16px }
+  #how { padding:56px 0 }
+  .sec-h { font-size:28px }
+  .steps { grid-template-columns:1fr; gap:0 }
+  .step { margin-left:0 }
+  .step:first-child { border-radius:14px 14px 0 0 }
+  .step:last-child  { border-radius:0 0 14px 14px }
+  #providers { padding:56px 0 }
+  .ps-left { padding:32px 24px; border-right:none; border-bottom:1px solid var(--border) }
+  .ps-right { padding:28px 24px }
+  .ps-left h2 { font-size:24px }
+  footer { padding:32px 20px; flex-direction:column; align-items:flex-start }
+  .flow-modal { margin:12px; max-width:none; border-radius:16px }
+  .modal-body { padding:20px }
+  .cat-grid { grid-template-columns:repeat(4,1fr); gap:5px }
+}
 </style>
 </head>
 <body>
 
-<!-- ══ HEADER ══ -->
+<!-- ════════ HEADER ════════ -->
 <header>
-  <div class="logo">
-    <svg width="32" height="30" viewBox="0 0 120 110" fill="none">
+  <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="26" height="24" viewBox="0 0 120 110" fill="none">
       <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
       <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
       <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
       <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
     </svg>
-    <span class="logo-text">Sowo</span>
+    <span class="logo-wordmark">Sowo</span>
   </div>
   <nav>
-    <a href="#how">How it works</a>
-    <a href="#services">Services</a>
-    <a href="#community">Community</a>
-    <a href="login" class="btn">Log in</a>
-    <a href="become-provider" class="btn primary">Get started</a>
+    <a href="#board" class="nav-link">Browse</a>
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="login" class="nav-login">Log in</a>
   </nav>
 </header>
 
-<!-- ══ HERO ══ -->
+<!-- ════════ HERO ════════ -->
 <section class="hero">
-  <div class="col-left r in">
-    <div class="eyebrow">For newcomers in the UK</div>
-    <h1>Find people<br>who get you</h1>
-    <p>For international students and newcomers who want trusted providers, not random options.</p>
-    <div class="trust-strip">
-      <span>Matched to your preferences</span>
-      <span>Fewer, better options</span>
-      <span>Built for confidence</span>
-    </div>
-    <div class="cta-row">
-      <a href="login" class="primary">Get matched</a>
-      <a href="#how" class="secondary">How it works</a>
-    </div>
-    <div class="micro">No endless browsing. Just a few people who actually fit.</div>
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Live marketplace
+  </div>
+  <h1>Find trusted help,<br>or <em>offer your service</em></h1>
+  <p class="hero-sub">For newcomers who want trusted people, not random options. No account needed to get started.</p>
+
+  <div class="hero-ctas">
+    <button class="btn-primary" onclick="openFlow('request')">Request a service</button>
+    <button class="btn-ghost"   onclick="openFlow('list')">List your service</button>
   </div>
 
-  <div class="col-right r d2 in">
-    <div class="match-panel">
-      <div class="pref-label">Your match preferences</div>
-      <div class="chips">
-        <div class="chip">Barber</div>
-        <div class="chip">Manchester</div>
-        <div class="chip">Speaks Yoruba</div>
-        <div class="chip">Student-friendly</div>
-      </div>
-      <div class="provider-card">
-        <div class="prov-av">TA</div>
-        <div class="prov-info">
-          <div class="prov-name">Tunde A.</div>
-          <div class="prov-role">Barber · Manchester</div>
-          <div class="prov-desc">Knows African hair textures and works with students.</div>
-          <div class="tags">
-            <div class="tag">Nigerian</div>
-            <div class="tag">Speaks Yoruba</div>
-            <div class="tag">12 mins away</div>
-            <div class="tag">Verified</div>
+  <div class="hero-browse">
+    <span onclick="scrollToSection('board')">Browse active requests</span>
+    <span onclick="scrollToSection('board')">Browse providers</span>
+  </div>
+</section>
+
+<hr class="sec-divider">
+
+<!-- ════════ LIVE BOARD ════════ -->
+<section id="board" class="live-board">
+  <div class="wrap">
+    <div class="board-grid">
+
+      <div class="board-col-wrap">
+        <div class="board-header">
+          <div class="board-title">
+            <span class="live-pip amber"></span>
+            Active requests
           </div>
-          <a href="login" class="prov-cta">Book now →</a>
+          <span class="board-action" onclick="openFlow('request')">Post a request →</span>
         </div>
+        <div class="board-cards" id="requestCards"></div>
       </div>
-      <div class="float-badge fb-1">Matched by language</div>
-      <div class="float-badge fb-2">Matched by background</div>
+
+      <div class="board-col-wrap">
+        <div class="board-header">
+          <div class="board-title">
+            <span class="live-pip teal"></span>
+            Available providers
+          </div>
+          <span class="board-action" onclick="openFlow('list')">List your service →</span>
+        </div>
+        <div class="board-cards" id="listingCards"></div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <hr class="sec-divider">
 
-<!-- ══ HOW IT WORKS ══ -->
+<!-- ════════ HOW IT WORKS ════════ -->
 <section id="how">
   <div class="wrap">
-    <div class="sec-label r">How it works</div>
-    <div class="sec-title r d1">Three steps to the right person</div>
-    <div class="sec-sub r d2">No profiles to endlessly browse. You tell us what matters, we find the match.</div>
+    <div class="sec-label">How it works</div>
+    <div class="sec-h">Action first, account later</div>
+    <div class="sec-p">Post your request or list your service in under two minutes. No sign-up wall, no wasted time.</div>
+
     <div class="steps">
-      <div class="step r d1">
-        <div class="step-num">Step 01</div>
-        <div class="step-icon">🎯</div>
-        <h3>Tell us what matters</h3>
-        <p>Language, communication style, background, location. The things that make you feel comfortable — not just price and distance.</p>
+      <div class="step">
+        <div class="step-n">Step 01</div>
+        <div class="step-num">01</div>
+        <h3>Post or list</h3>
+        <p>Choose a category, add your location and details. Done in two minutes — no account required.</p>
       </div>
-      <div class="step r d2">
-        <div class="step-num">Step 02</div>
-        <div class="step-icon">✨</div>
-        <h3>Get 2–3 matched people</h3>
-        <p>We don't show you 50 results. You get a small, curated list of people who genuinely fit your preferences.</p>
+      <div class="step">
+        <div class="step-n">Step 02</div>
+        <div class="step-num">02</div>
+        <h3>Get matched</h3>
+        <p>Your post goes live immediately. The right people see it and connect with you directly.</p>
       </div>
-      <div class="step r d3">
-        <div class="step-num">Step 03</div>
-        <div class="step-icon">📅</div>
-        <h3>Book, message, done</h3>
-        <p>View their profile, read community vouches, and book directly. Everything in one place — no back-and-forth on WhatsApp.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="sec-divider">
-
-<!-- ══ SERVICES ══ -->
-<section id="services">
-  <div class="wrap">
-    <div class="sec-label r">Services</div>
-    <div class="sec-title r d1">Every service, matched to you</div>
-    <div class="sec-sub r d2">Whatever you need, we find someone who fits — not just someone nearby.</div>
-    <div class="cats">
-      <div class="cat r d1"><div class="cat-ico">✂️</div><div><div class="cat-name">Hair &amp; Barber</div><div class="cat-sub">Cuts, braids, locs</div></div></div>
-      <div class="cat r d2"><div class="cat-ico">🧹</div><div><div class="cat-name">Cleaning</div><div class="cat-sub">Home &amp; end of tenancy</div></div></div>
-      <div class="cat r d3"><div class="cat-ico">⚡</div><div><div class="cat-name">Electrician</div><div class="cat-sub">Wiring, faults, installs</div></div></div>
-      <div class="cat r d4"><div class="cat-ico">🔧</div><div><div class="cat-name">Plumbing</div><div class="cat-sub">Leaks, boilers, pipes</div></div></div>
-      <div class="cat r d1"><div class="cat-ico">📚</div><div><div class="cat-name">Tutoring</div><div class="cat-sub">All subjects &amp; levels</div></div></div>
-      <div class="cat r d2"><div class="cat-ico">💅</div><div><div class="cat-name">Beauty</div><div class="cat-sub">Nails, lashes, threading</div></div></div>
-      <div class="cat r d3"><div class="cat-ico">🚛</div><div><div class="cat-name">Moving help</div><div class="cat-sub">Packing &amp; transport</div></div></div>
-      <div class="cat r d4"><div class="cat-ico">👶</div><div><div class="cat-name">Childcare</div><div class="cat-sub">Babysitting &amp; nannies</div></div></div>
-    </div>
-  </div>
-</section>
-
-<hr class="sec-divider">
-
-<!-- ══ SOCIAL PROOF ══ -->
-<section id="community">
-  <div class="wrap">
-    <div class="sec-label r">Community</div>
-    <div class="sec-title r d1">Built on trust, not just ratings</div>
-    <div class="sec-sub r d2">Real people, vouched by people who know them. Not anonymous five-star reviews.</div>
-
-    <div class="quotes">
-      <div class="quote-card r d1">
-        <div class="quote-stars">★★★★★</div>
-        <div class="quote-text">Finally found a barber who actually gets my hair type. Booked through Sowo, no awkward explaining — he just knew.</div>
-        <div class="quote-author">
-          <div class="q-av a0">AO</div>
-          <div><div class="q-name">Adebola O.</div><div class="q-meta">Nigerian student · Manchester</div></div>
-        </div>
-      </div>
-      <div class="quote-card r d2">
-        <div class="quote-stars">★★★★★</div>
-        <div class="quote-text">My cleaner speaks my language and understands how I like things done. Makes such a difference when you're far from home.</div>
-        <div class="quote-author">
-          <div class="q-av a1">PS</div>
-          <div><div class="q-name">Priya S.</div><div class="q-meta">Indian student · London</div></div>
-        </div>
-      </div>
-      <div class="quote-card r d3">
-        <div class="quote-stars">★★★★★</div>
-        <div class="quote-text">Booked an electrician the same day. He was Ghanaian, we spoke Twi on the phone — felt like calling a cousin.</div>
-        <div class="quote-author">
-          <div class="q-av a2">KA</div>
-          <div><div class="q-name">Kwame A.</div><div class="q-meta">Ghanaian professional · Birmingham</div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat r d1">
-        <div class="stat-val">2,400<span>+</span></div>
-        <div class="stat-label">Verified providers across the UK</div>
-      </div>
-      <div class="stat r d2">
-        <div class="stat-val">94<span>%</span></div>
-        <div class="stat-label">Rebook rate — people come back</div>
-      </div>
-      <div class="stat r d3">
-        <div class="stat-val">48<span>h</span></div>
-        <div class="stat-label">Average time to first booking</div>
+      <div class="step">
+        <div class="step-n">Step 03</div>
+        <div class="step-num">03</div>
+        <h3>Build trust over time</h3>
+        <p>Create a profile after you see the value. Vouches, ratings, and a permanent record of your work.</p>
       </div>
     </div>
   </div>
@@ -466,36 +603,42 @@
 
 <hr class="sec-divider">
 
-<!-- ══ BECOME A PROVIDER ══ -->
+<!-- ════════ PROVIDER SPLIT ════════ -->
 <section id="providers">
   <div class="wrap">
-    <div class="provider-split r">
+    <div class="provider-split">
       <div class="ps-left">
-        <div class="ps-eyebrow">For providers</div>
-        <h2>Earn from clients<br>who trust you already</h2>
-        <p>You're already trusted in your community. Sowo makes it official — and puts paying clients in front of you without ads, algorithms, or commission races.</p>
-        <a href="become-provider" class="ps-cta">Start earning →</a>
+        <div class="ps-eye">For providers</div>
+        <h2>Earn from clients who trust you already</h2>
+        <p>List your service in two minutes. No fees to post, no algorithm to game. Clients who match your background and language find you directly.</p>
+        <button class="btn-teal" onclick="openFlow('list')">List your service →</button>
       </div>
       <div class="ps-right">
-        <div class="perk r d1">
-          <div class="perk-ico">🎯</div>
+        <div class="perk">
+          <div class="perk-check">
+            <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+          </div>
           <div>
-            <div class="perk-title">Matched clients, not random leads</div>
-            <div class="perk-sub">Every booking request fits your skills, language, and location.</div>
+            <div class="perk-t">Matched clients, not random leads</div>
+            <div class="perk-s">Every enquiry fits your skills, language, and location.</div>
           </div>
         </div>
-        <div class="perk r d2">
-          <div class="perk-ico">🤝</div>
+        <div class="perk">
+          <div class="perk-check">
+            <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+          </div>
           <div>
-            <div class="perk-title">Vouches build your reputation</div>
-            <div class="perk-sub">Community trust travels with you — not locked to one platform.</div>
+            <div class="perk-t">Community vouches</div>
+            <div class="perk-s">Your reputation travels with you — not locked to this platform.</div>
           </div>
         </div>
-        <div class="perk r d3">
-          <div class="perk-ico">💷</div>
+        <div class="perk">
+          <div class="perk-check">
+            <svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg>
+          </div>
           <div>
-            <div class="perk-title">Keep more of what you earn</div>
-            <div class="perk-sub">Low, flat fees. No bidding, no subscription tiers.</div>
+            <div class="perk-t">Keep more of what you earn</div>
+            <div class="perk-s">Low, flat fees. No bidding wars, no subscription tiers.</div>
           </div>
         </div>
       </div>
@@ -503,11 +646,11 @@
   </div>
 </section>
 
-<!-- ══ FOOTER ══ -->
+<!-- ════════ FOOTER ════════ -->
 <hr class="sec-divider">
 <footer>
   <div class="foot-logo">
-    <svg width="24" height="22" viewBox="0 0 120 110" fill="none">
+    <svg width="20" height="18" viewBox="0 0 120 110" fill="none">
       <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
       <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
       <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
@@ -517,21 +660,337 @@
   </div>
   <div class="foot-links">
     <a href="#how">How it works</a>
-    <a href="#services">Services</a>
-    <a href="become-provider">Become a provider</a>
+    <a href="#board">Browse</a>
+    <a href="login">Log in</a>
     <a href="#">Privacy</a>
     <a href="#">Terms</a>
-    <a href="#">Contact</a>
   </div>
   <div class="foot-copy">© 2025 Sowo. All rights reserved.</div>
 </footer>
 
+<!-- ════════ FLOW MODAL ════════ -->
+<div class="overlay" id="overlay" onclick="handleOvClick(event)">
+  <div class="flow-modal" id="flowModal">
+    <div class="modal-head">
+      <div class="flow-progress" id="flowProg"></div>
+      <button class="modal-close" onclick="closeFlow()">✕</button>
+    </div>
+    <div class="modal-body" id="flowBody"></div>
+  </div>
+</div>
+
 <script>
-  // Scroll reveal
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.r:not(.in)').forEach(el => obs.observe(el));
+/* ══════════════════════════════════
+   DATA
+══════════════════════════════════ */
+const CATS = [
+  'Barber','Cleaning','Electrical','Plumbing',
+  'Tutoring','Beauty','Moving','Childcare'
+];
+const CAT_SHORT = {
+  'Barber':'Barber','Cleaning':'Clean','Electrical':'Elec.','Plumbing':'Plumb.',
+  'Tutoring':'Tutor','Beauty':'Beauty','Moving':'Moving','Childcare':'Childcare'
+};
+const PREFS = [
+  'Speaks my language','Student-friendly','Female provider',
+  'Quick response','Evenings or weekends','Verified only'
+];
+const CONTACTS = [
+  { val:'sowo',     t:'Message on Sowo',   s:'They reply through the platform' },
+  { val:'whatsapp', t:'WhatsApp',           s:'Your number shared after matching' },
+  { val:'either',   t:'Either works',       s:'Let them choose what suits them' },
+];
+
+const SEED_R = [
+  { cat:'Barber',    title:'Need a barber who knows afro hair',  location:'Manchester',  age:'2h ago' },
+  { cat:'Cleaning',  title:'Looking for a reliable cleaner',     location:'East London', age:'3h ago' },
+  { cat:'Moving',    title:'Moving help needed this weekend',    location:'Salford',     age:'5h ago' },
+  { cat:'Beauty',    title:'Nail technician near Peckham',       location:'London SE15', age:'1d ago' },
+  { cat:'Tutoring',  title:'GCSE maths tutor — year 11',        location:'Birmingham',  age:'1d ago' },
+];
+const SEED_L = [
+  { cat:'Barber',    title:'Barber specialising in African hair',    location:'Manchester', age:'1h ago' },
+  { cat:'Cleaning',  title:'Professional cleaner, flexible hours',   location:'Birmingham', age:'3h ago' },
+  { cat:'Beauty',    title:'Mobile nail technician',                 location:'London',     age:'5h ago' },
+  { cat:'Electrical',title:'Certified electrician, fast response',   location:'Leeds',      age:'9h ago' },
+  { cat:'Moving',    title:'Van + driver available weekends',        location:'Salford',    age:'1d ago' },
+];
+
+function getItems(key, seed) {
+  const stored = JSON.parse(localStorage.getItem(key) || '[]');
+  return [...stored, ...seed].slice(0, 5);
+}
+function pushItem(key, item) {
+  const arr = JSON.parse(localStorage.getItem(key) || '[]');
+  arr.unshift(item);
+  localStorage.setItem(key, JSON.stringify(arr.slice(0, 12)));
+}
+
+/* ── BOARD ── */
+function renderBoard() {
+  document.getElementById('requestCards').innerHTML =
+    getItems('sowo_req', SEED_R).map((r, i) => cardHTML(r, 'amber', i === 0 && r._new)).join('');
+  document.getElementById('listingCards').innerHTML =
+    getItems('sowo_lst', SEED_L).map((l, i) => cardHTML(l, 'teal', i === 0 && l._new)).join('');
+}
+
+function cardHTML(item, color, isNew) {
+  return `<div class="board-card" onclick="openFlow('${color==='amber'?'request':'list'}')">
+    <span class="bc-cat ${color}">${CAT_SHORT[item.cat] || item.cat}</span>
+    <div class="bc-body">
+      <div class="bc-title">${item.title}</div>
+      <div class="bc-meta">${item.location} · ${item.age}</div>
+    </div>
+    ${isNew ? `<span class="bc-new-dot ${color}"></span>` : ''}
+  </div>`;
+}
+
+/* ══════════════════════════════════
+   FLOW STATE
+══════════════════════════════════ */
+let fType = '', fStep = 0, fData = {}, fTotal = 0;
+
+function openFlow(type) {
+  fType = type; fStep = 0; fData = {};
+  fTotal = type === 'list' ? 5 : 4;
+  render();
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFlow() {
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOvClick(e) {
+  if (e.target === document.getElementById('overlay')) closeFlow();
+}
+
+function render() {
+  /* progress bar */
+  document.getElementById('flowProg').innerHTML =
+    Array.from({length: fTotal}, (_,i) =>
+      `<div class="fp ${i < fStep ? 'done' : i === fStep ? 'active' : ''}"></div>`
+    ).join('');
+
+  /* step content */
+  const isReq = fType === 'request';
+  const steps = isReq ? [reqStep0,reqStep1,reqStep2,reqStep3,successStep]
+                      : [lstStep0,lstStep1,lstStep2,lstStep3,lstStep4,successStep];
+  document.getElementById('flowBody').innerHTML = steps[fStep]?.() || '';
+}
+
+function advance() {
+  persist();
+  fStep++;
+  render();
+}
+function back() {
+  fStep--;
+  render();
+}
+
+function persist() {
+  const g = id => document.getElementById(id)?.value;
+  if (g('ft')) fData.title    = g('ft');
+  if (g('fl')) fData.location = g('fl');
+  if (g('fd')) fData.desc     = g('fd');
+  if (g('fp')) fData.price    = g('fp');
+  if (g('fk')) fData.langs    = g('fk');
+}
+
+/* ── Category step (shared) ── */
+function catStep(headline, sub) {
+  return `
+    <div class="step-title">${headline}</div>
+    <p class="step-sub">${sub}</p>
+    <div class="cat-grid">
+      ${CATS.map(c => `<div class="cat-opt${fData.cat===c?' sel':''}" onclick="selCat('${c}')">${c}</div>`).join('')}
+    </div>
+    <div class="flow-nav">
+      <button class="btn-continue" ${!fData.cat?'disabled':''} onclick="advance()">Continue</button>
+    </div>`;
+}
+function selCat(c) { fData.cat = c; render(); }
+
+/* ── REQUEST steps ── */
+function reqStep0() { return catStep('What do you need?', 'Choose a category to get started.') }
+
+function reqStep1() { return `
+  <div class="step-title">Describe your request</div>
+  <p class="step-sub">The more specific you are, the better the match.</p>
+  <div class="field"><label>Title</label>
+    <input id="ft" placeholder="e.g. Need a barber who knows afro hair" value="${fData.title||''}">
+  </div>
+  <div class="field"><label>Location</label>
+    <input id="fl" placeholder="e.g. Manchester" value="${fData.location||''}">
+  </div>
+  <div class="field"><label>More details <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+    <textarea id="fd" placeholder="Timing, language preferences, anything else…">${fData.desc||''}</textarea>
+  </div>
+  <div class="flow-nav">
+    <button class="btn-back" onclick="back()">Back</button>
+    <button class="btn-continue" onclick="advance()">Continue</button>
+  </div>`; }
+
+function reqStep2() { return `
+  <div class="step-title">Your preferences</div>
+  <p class="step-sub">Select anything that matters to you — we'll use these to find the best match.</p>
+  <div class="pref-chips">
+    ${PREFS.map(p => `<div class="pref-chip${(fData.prefs||[]).includes(p)?' sel':''}" onclick="togPref('${p}')">${p}</div>`).join('')}
+  </div>
+  <div class="flow-nav">
+    <button class="btn-back" onclick="back()">Back</button>
+    <button class="btn-continue" onclick="advance()">Continue</button>
+  </div>`; }
+
+function reqStep3() { return `
+  <div class="step-title">Review your request</div>
+  <p class="step-sub">Ready to post? It goes live on the board immediately.</p>
+  ${reviewBox([
+    ['Category', fData.cat || '—'],
+    ['Title',    fData.title || '—'],
+    ['Location', fData.location || '—'],
+    fData.prefs?.length ? ['Preferences', fData.prefs.join(', ')] : null,
+  ])}
+  <div class="flow-nav">
+    <button class="btn-back" onclick="back()">Back</button>
+    <button class="btn-continue" onclick="submitReq()">Post request</button>
+  </div>`; }
+
+/* ── LIST steps ── */
+function lstStep0() { return catStep('What do you offer?', 'Pick the category that best describes your service.') }
+
+function lstStep1() { return `
+  <div class="step-title">Your listing details</div>
+  <p class="step-sub">This is what potential clients will see.</p>
+  <div class="field"><label>Title</label>
+    <input id="ft" placeholder="e.g. Barber specialising in African hair" value="${fData.title||''}">
+  </div>
+  <div class="field"><label>Short description</label>
+    <textarea id="fd" placeholder="Your experience, languages spoken, what makes you a good fit…">${fData.desc||''}</textarea>
+  </div>
+  <div class="field"><label>Starting price <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+    <input id="fp" placeholder="e.g. From £25" value="${fData.price||''}">
+  </div>
+  <div class="flow-nav">
+    <button class="btn-back" onclick="back()">Back</button>
+    <button class="btn-continue" onclick="advance()">Continue</button>
+  </div>`; }
+
+function lstStep2() { return `
+  <div class="step-title">Location and languages</div>
+  <p class="step-sub">Clients searching nearby will find you first.</p>
+  <div class="field"><label>Location</label>
+    <input id="fl" placeholder="e.g. Manchester city centre" value="${fData.location||''}">
+  </div>
+  <div class="field"><label>Languages spoken <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+    <input id="fk" placeholder="e.g. English, Yoruba, French" value="${fData.langs||''}">
+  </div>
+  <div class="flow-nav">
+    <button class="btn-back" onclick="back()">Back</button>
+    <button class="btn-continue" onclick="advance()">Continue</button>
+  </div>`; }
+
+function lstStep3() { return `
+  <div class="step-title">How should clients reach you?</div>
+  <p class="step-sub">You can always change this later.</p>
+  <div class="radio-list">
+    ${CONTACTS.map(c => `
+      <div class="radio-opt${fData.contact===c.val?' sel':''}" onclick="selContact('${c.val}')">
+        <div class="radio-dot"><div class="radio-dot-inner"></div></div>
+        <div>
+          <div class="radio-t">${c.t}</div>
+          <div class="radio-s">${c.s}</div>
+        </div>
+      </div>`).join('')}
+  </div>
+  <div class="flow-nav">
+    <button class="btn-back" onclick="back()">Back</button>
+    <button class="btn-continue" ${!fData.contact?'disabled':''} onclick="advance()">Continue</button>
+  </div>`; }
+
+function lstStep4() { return `
+  <div class="step-title">Review your listing</div>
+  <p class="step-sub">Ready to go live? It appears on the board immediately.</p>
+  ${reviewBox([
+    ['Category', fData.cat || '—'],
+    ['Title',    fData.title || '—'],
+    ['Location', fData.location || '—'],
+    fData.langs  ? ['Languages', fData.langs]  : null,
+    fData.price  ? ['Price',     fData.price]  : null,
+    ['Contact',  CONTACTS.find(c=>c.val===fData.contact)?.t || '—'],
+  ])}
+  <div class="flow-nav">
+    <button class="btn-back" onclick="back()">Back</button>
+    <button class="btn-continue" onclick="submitLst()">Publish listing</button>
+  </div>`; }
+
+/* ── Success ── */
+function successStep() {
+  const isReq = fType === 'request';
+  return `
+    <div class="success-wrap">
+      <div class="success-mark">
+        <svg viewBox="0 0 24 24"><polyline points="4,13 9,18 20,6"/></svg>
+      </div>
+      <div class="success-h">${isReq ? 'Request posted' : 'Listing is live'}</div>
+      <p class="success-p">${isReq
+        ? 'Your request is on the board. Matching providers will reach out shortly.'
+        : 'Your service is now visible to people who need exactly what you offer.'}</p>
+      <div class="nudge-card">
+        <div class="nudge-t">${isReq ? 'Get notified when someone responds' : 'Manage your listing and enquiries'}</div>
+        <div class="nudge-s">${isReq
+          ? 'Create a free profile to track your request, receive messages, and book faster next time.'
+          : 'Create a free profile to receive direct enquiries, collect vouches, and grow your reputation.'}</div>
+        <div class="nudge-btns">
+          <a href="login" class="nudge-primary">Create a profile</a>
+          <button class="nudge-skip" onclick="closeFlow()">Maybe later</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ── Helpers ── */
+function reviewBox(rows) {
+  const valid = rows.filter(Boolean);
+  return `<div class="review-box">
+    ${valid.map(([k,v]) => `
+      <div class="review-row">
+        <span class="rr-key">${k}</span>
+        <span class="rr-val">${v}</span>
+      </div>`).join('')}
+  </div>`;
+}
+
+function togPref(p) {
+  if (!fData.prefs) fData.prefs = [];
+  const i = fData.prefs.indexOf(p);
+  i >= 0 ? fData.prefs.splice(i,1) : fData.prefs.push(p);
+  render();
+}
+function selContact(v) { fData.contact = v; render(); }
+
+function submitReq() {
+  persist();
+  pushItem('sowo_req', { cat:fData.cat, title:fData.title||fData.cat+' needed', location:fData.location||'UK', age:'just now', _new:true });
+  renderBoard();
+  fStep++;
+  render();
+}
+function submitLst() {
+  persist();
+  pushItem('sowo_lst', { cat:fData.cat, title:fData.title||fData.cat, location:fData.location||'UK', age:'just now', _new:true });
+  renderBoard();
+  fStep++;
+  render();
+}
+
+function scrollToSection(id) {
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+}
+
+/* ── Init ── */
+renderBoard();
 </script>
 </body>
 </html>
