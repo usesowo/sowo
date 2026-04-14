@@ -3,1138 +3,276 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sowo — Trusted hands, near you.</title>
-<meta name="description" content="Find skilled, vouched-for craftspeople in your community. Real people, verified by people you know.">
-<meta property="og:title" content="Sowo — Trusted hands, near you.">
+<title>Sowo — Find people who get you</title>
+<meta name="description" content="For international students and newcomers who want trusted providers, not random options.">
+<meta property="og:title" content="Sowo — Find people who get you">
 <meta property="og:url" content="https://usesowo.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-/* ─────────────────────────────────────
-   TOKENS
-───────────────────────────────────── */
-:root {
-  --green:    #085041;
-  --teal:     #1D9E75;
-  --mint:     #9FE1CB;
-  --mint-bg:  #E1F5EE;
-  --amber:    #EF9F27;
-  --amber-bg: #FEF3E0;
-  --amber-dk: #8B5E0A;
-  --black:    #0A0A0A;
-  --off:      #0F0F0F;
-  --cream:    #F5F0E8;
-  --white:    #FFFFFF;
-  --t1:       #0A0A0A;
-  --t2:       #555555;
-  --t3:       #999999;
-  --border:   #E8E8E8;
-  --surf:     #F6F6F6;
-  --ease:     cubic-bezier(0.16,1,0.3,1);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--white);color:var(--t1);overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-button{font-family:inherit;cursor:pointer;border:none}
+  :root {
+    --bg:           #060606;
+    --surface-1:    rgba(255,255,255,0.03);
+    --surface-2:    rgba(255,255,255,0.05);
+    --tp:           #F5F2EB;
+    --ts:           rgba(245,242,235,0.72);
+    --tm:           rgba(245,242,235,0.48);
+    --border:       rgba(255,255,255,0.08);
+    --amber:        #EF9F27;
+    --teal:         #1D9E75;
+    --green:        #085041;
+  }
 
-/* ─────────────────────────────────────
-   REVEAL
-───────────────────────────────────── */
-.r{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.r.in{opacity:1;transform:none}
-.r.d1{transition-delay:.08s}.r.d2{transition-delay:.16s}
-.r.d3{transition-delay:.24s}.r.d4{transition-delay:.32s}
-.r.d5{transition-delay:.40s}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tp);line-height:1.4;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none}
 
-/* ─────────────────────────────────────
-   NAV
-───────────────────────────────────── */
-.nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  height:68px;padding:0 48px;
-  display:flex;align-items:center;justify-content:space-between;
-  transition:background .3s,border-color .3s;
-}
-.nav.up{
-  background:rgba(10,10,10,.96);
-  border-bottom:1px solid rgba(255,255,255,.07);
-  backdrop-filter:blur(20px);
-}
-.logo{display:flex;align-items:center;gap:9px}
-.logo-wm{font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff;letter-spacing:-.5px}
-.nav-links{display:flex;gap:32px}
-.nav-links a{font-size:13px;font-weight:500;color:rgba(255,255,255,.45);transition:color .15s}
-.nav-links a:hover{color:#fff}
-.nav-r{display:flex;align-items:center;gap:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:10px;transition:all .18s;white-space:nowrap;cursor:pointer}
-.btn-xs{height:36px;padding:0 14px;font-size:12px;border-radius:8px}
-.btn-sm{height:40px;padding:0 18px}
-.btn-md{height:48px;padding:0 26px}
-.btn-lg{height:54px;padding:0 36px;font-size:16px;border-radius:14px}
-.btn-xl{height:60px;padding:0 44px;font-size:17px;border-radius:16px}
-.g-dark{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.12)}
-.g-dark:hover{background:rgba(255,255,255,.14);color:#fff}
-.b-amber{background:var(--amber);color:var(--black)}.b-amber:hover{background:#D4891F}.b-amber:active{transform:scale(.97)}
-.b-white{background:#fff;color:var(--black)}.b-white:hover{background:#f0f0f0}.b-white:active{transform:scale(.97)}
-.b-green{background:var(--green);color:var(--mint)}.b-green:hover{background:#063D31}.b-green:active{transform:scale(.97)}
-.b-outline{background:transparent;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.18)}.b-outline:hover{color:#fff;border-color:rgba(255,255,255,.35)}
-.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal);color:var(--t1)}
+  /* ── HEADER ── */
+  header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 64px;height:80px;
+    border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:100;
+    background:rgba(6,6,6,0.85);
+    backdrop-filter:blur(12px);
+  }
 
-/* ham */
-.ham{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none}
-.ham span{display:block;width:22px;height:1.5px;background:#fff;border-radius:2px;transition:all .25s}
-.ham.o span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-.ham.o span:nth-child(2){opacity:0}
-.ham.o span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-.mob{display:none;position:fixed;top:68px;left:0;right:0;bottom:0;background:var(--black);z-index:490;padding:40px 32px 56px;flex-direction:column;gap:0;transform:translateX(100%);transition:transform .35s var(--ease)}
-.mob.o{transform:none}
-.mob a{font-size:24px;font-weight:800;color:rgba(255,255,255,.55);padding:16px 0;border-bottom:1px solid rgba(255,255,255,.06);transition:color .15s}
-.mob a:hover{color:#fff}
-.mob-btns{margin-top:36px;display:flex;flex-direction:column;gap:12px}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-text{font-family:Georgia,serif;font-size:20px;font-weight:700;color:var(--tp)}
 
-/* ─────────────────────────────────────
-   HERO
-───────────────────────────────────── */
-.hero{
-  background:var(--black);min-height:100vh;
-  padding:130px 48px 100px;
-  display:flex;align-items:center;
-  position:relative;overflow:hidden;
-}
-/* dot grid */
-.hero::before{
-  content:'';position:absolute;inset:0;pointer-events:none;
-  background-image:radial-gradient(circle,rgba(255,255,255,.055) 1px,transparent 1px);
-  background-size:30px 30px;
-}
-/* glows */
-.glow{position:absolute;border-radius:50%;filter:blur(110px);pointer-events:none}
-.g1{width:700px;height:700px;background:rgba(8,80,65,.45);top:-200px;right:-150px;animation:gf 12s ease-in-out infinite alternate}
-.g2{width:450px;height:450px;background:rgba(239,159,39,.08);bottom:-100px;left:0;animation:gf 9s ease-in-out infinite alternate;animation-delay:-5s}
-@keyframes gf{0%{transform:translate(0,0) scale(1)}100%{transform:translate(50px,40px) scale(1.12)}}
+  nav{display:flex;align-items:center;gap:0}
+  nav a{
+    margin-left:28px;font-size:15px;color:var(--ts);
+    transition:color .15s;
+  }
+  nav a:hover{color:var(--tp)}
+  nav a.btn{
+    padding:10px 18px;border-radius:12px;
+    border:1px solid var(--border);margin-left:28px;
+    font-weight:600;
+  }
+  nav a.btn.primary{
+    background:var(--amber);color:#051814;
+    border:none;box-shadow:0 4px 12px rgba(239,159,39,.28);
+  }
+  nav a.btn.primary:hover{box-shadow:0 6px 18px rgba(239,159,39,.38)}
 
-.hero-in{
-  max-width:1240px;margin:0 auto;width:100%;
-  display:grid;grid-template-columns:1fr 520px;
-  gap:80px;align-items:center;
-  position:relative;z-index:1;
-}
+  /* ── HERO ── */
+  .hero{
+    display:flex;flex-wrap:wrap;
+    max-width:1280px;margin:0 auto;
+    padding:72px 64px 80px;
+    align-items:center;gap:56px;
+  }
 
-/* pill */
-.pill{
-  display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-  border-radius:999px;padding:6px 14px 6px 8px;margin-bottom:32px;
-}
-.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pb 2s ease infinite}
-@keyframes pb{0%,100%{box-shadow:0 0 0 3px rgba(239,159,39,.2)}50%{box-shadow:0 0 0 7px rgba(239,159,39,.07)}}
-.pill span{font-size:11px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.12em}
+  .col-left{flex:1 1 calc(52% - 32px);min-width:300px}
+  .col-right{
+    flex:1 1 calc(44% - 24px);min-width:300px;
+    position:relative;display:flex;
+    justify-content:center;align-items:center;
+  }
 
-/* headline */
-.h-h1{
-  font-size:clamp(54px,6.5vw,96px);font-weight:900;
-  color:#fff;line-height:.98;letter-spacing:-4px;
-  margin-bottom:28px;
-}
-.h-h1 .am{color:var(--amber)}
-.h-h1 .dim{color:rgba(255,255,255,.18)}
+  .eyebrow{
+    display:inline-flex;align-items:center;
+    padding:0 14px;height:30px;border-radius:999px;
+    font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--amber);border:1px solid rgba(239,159,39,.25);
+    background:rgba(239,159,39,.06);margin-bottom:24px;
+  }
 
-.h-sub{font-size:17px;color:rgba(255,255,255,.38);line-height:1.75;max-width:460px;margin-bottom:40px;font-weight:400}
+  .hero h1{
+    font-size:72px;line-height:.96;
+    font-weight:800;margin-bottom:24px;
+    max-width:620px;letter-spacing:-.02em;
+  }
 
-.h-ctas{display:flex;gap:12px;flex-wrap:wrap}
+  .hero p{
+    font-size:20px;line-height:1.5;
+    color:var(--ts);max-width:520px;margin-bottom:28px;
+  }
 
-/* stores */
-.h-stores{display:flex;align-items:center;gap:14px;margin-top:28px}
-.store-badge{
-  display:flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;padding:9px 14px;transition:background .18s;cursor:pointer;
-}
-.store-badge:hover{background:rgba(255,255,255,.12)}
-.sb-icon{font-size:18px}
-.sb-text{display:flex;flex-direction:column}
-.sb-top{font-size:9px;color:rgba(255,255,255,.35);font-weight:500;letter-spacing:.05em;text-transform:uppercase}
-.sb-name{font-size:13px;font-weight:700;color:#fff}
+  .trust-strip{
+    display:flex;flex-wrap:wrap;
+    font-size:14px;color:var(--tm);
+    gap:0;margin-bottom:32px;align-items:center;
+  }
+  .trust-strip span{display:flex;align-items:center;gap:12px}
+  .trust-strip span+span::before{content:'·';margin-right:12px;color:var(--tm)}
 
-/* stats row */
-.h-stats{
-  display:flex;gap:40px;flex-wrap:wrap;
-  margin-top:52px;padding-top:40px;
-  border-top:1px solid rgba(255,255,255,.07);
-}
-.hs-item{}
-.hs-n{font-size:30px;font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1}
-.hs-n .acc{color:var(--amber)}
-.hs-l{font-size:11px;font-weight:600;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.1em;margin-top:5px}
+  .cta-row{display:flex;gap:12px;margin-bottom:14px}
+  .cta-row a{
+    display:inline-flex;align-items:center;justify-content:center;
+    height:52px;padding:0 24px;border-radius:12px;
+    font-size:15px;font-weight:700;
+    transition:transform .15s,box-shadow .15s;
+  }
+  .cta-row a.primary{
+    background:var(--amber);color:#051814;
+    box-shadow:0 4px 12px rgba(239,159,39,.28);
+  }
+  .cta-row a.secondary{
+    background:transparent;color:var(--tp);
+    border:1px solid var(--border);
+  }
+  .cta-row a:hover{transform:translateY(-1px)}
+  .cta-row a.primary:hover{box-shadow:0 6px 20px rgba(239,159,39,.38)}
 
-/* ─────────────────────────────────────
-   PHONE MOCKUP
-───────────────────────────────────── */
-.phone-wrap{
-  position:relative;display:flex;justify-content:center;
-}
-.phone{
-  width:280px;height:570px;
-  background:var(--off);
-  border-radius:44px;
-  border:2px solid rgba(255,255,255,.12);
-  position:relative;overflow:hidden;
-  box-shadow:0 40px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);
-}
-/* dynamic island */
-.di{
-  position:absolute;top:14px;left:50%;transform:translateX(-50%);
-  width:88px;height:26px;background:#000;border-radius:999px;z-index:10;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.di-cam{width:8px;height:8px;border-radius:50%;background:#1a1a1a;border:1.5px solid #222}
-.di-dot{width:5px;height:5px;border-radius:50%;background:var(--teal)}
-/* screen content */
-.screen{
-  position:absolute;inset:0;
-  background:#0C0C0C;
-  display:flex;flex-direction:column;
-  padding-top:56px;
-  overflow:hidden;
-}
-/* app header */
-.app-header{
-  padding:0 18px 14px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.app-logo-row{display:flex;align-items:center;gap:7px}
-.app-wm{font-family:Georgia,serif;font-size:16px;font-weight:700;color:#fff;letter-spacing:-.5px}
-.app-notif{
-  width:30px;height:30px;border-radius:50%;
-  background:rgba(255,255,255,.07);
-  display:flex;align-items:center;justify-content:center;
-  font-size:14px;
-}
-/* search in app */
-.app-search-bar{
-  margin:0 16px 16px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  height:40px;display:flex;align-items:center;padding:0 13px;gap:8px;
-}
-.app-search-bar span{font-size:12px;color:rgba(255,255,255,.3)}
-/* chips */
-.app-chips{display:flex;gap:7px;padding:0 16px 14px;overflow-x:auto}
-.app-chips::-webkit-scrollbar{display:none}
-.ac{
-  font-size:10px;font-weight:600;white-space:nowrap;
-  padding:5px 11px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.1);
-  color:rgba(255,255,255,.45);background:transparent;
-}
-.ac.on{background:var(--amber);color:#000;border-color:var(--amber)}
-/* provider cards in app */
-.app-cards{display:flex;flex-direction:column;gap:8px;padding:0 16px;overflow:hidden}
-.app-card{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;padding:12px;
-}
-.ap-row{display:flex;align-items:center;gap:9px;margin-bottom:6px}
-.ap-av{
-  width:34px;height:34px;border-radius:50%;flex-shrink:0;
-  overflow:hidden;display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;
-}
-.ap-av img{width:100%;height:100%;object-fit:cover}
-.ap-name{font-size:12px;font-weight:700;color:#fff}
-.ap-role{font-size:10px;color:rgba(255,255,255,.35);margin-top:1px}
-.ap-price{font-size:12px;font-weight:800;color:var(--amber);margin-left:auto;flex-shrink:0}
-.ap-foot{display:flex;align-items:center;justify-content:space-between}
-.ap-vouches{font-size:10px;color:rgba(255,255,255,.3)}
-.ap-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--teal);margin-right:4px;vertical-align:middle}
-.ap-avail{font-size:10px;color:var(--mint)}
-/* bottom nav */
-.app-bnav{
-  position:absolute;bottom:0;left:0;right:0;
-  background:rgba(10,10,10,.98);
-  border-top:1px solid rgba(255,255,255,.06);
-  height:60px;display:flex;align-items:center;justify-content:space-around;
-  padding-bottom:8px;
-}
-.app-bnav-item{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  font-size:9px;font-weight:600;color:rgba(255,255,255,.25);flex:1;
-}
-.app-bnav-item.active{color:var(--teal)}
-.bnav-icon{font-size:16px}
+  .micro{font-size:13px;color:var(--tm)}
 
-/* floating cards around phone */
-.float-card{
-  position:absolute;background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:14px;backdrop-filter:blur(10px);
-  padding:12px 14px;animation:fc 4s ease-in-out infinite alternate;
-}
-.fc1{top:60px;right:-90px;animation-delay:0s}
-.fc2{bottom:120px;left:-90px;animation-delay:-2s}
-@keyframes fc{0%{transform:translateY(0)}100%{transform:translateY(-10px)}}
-.fc-label{font-size:10px;color:rgba(255,255,255,.4);font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
-.fc-val{font-size:18px;font-weight:900;color:#fff;letter-spacing:-1px}
-.fc-sub{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+  /* ── MATCH PANEL ── */
+  .match-panel{
+    width:100%;max-width:540px;
+    padding:28px;border-radius:24px;
+    background:var(--surface-1);
+    border:1px solid var(--border);
+    box-shadow:0 12px 40px rgba(0,0,0,.6);
+    position:relative;
+  }
 
-/* ─────────────────────────────────────
-   AMBER BAND
-───────────────────────────────────── */
-.band{background:var(--amber);padding:0}
-.band-in{
-  max-width:1240px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(4,1fr);
-}
-.band-stat{
-  padding:32px 40px;
-  border-right:1px solid rgba(10,10,10,.12);
-}
-.band-stat:last-child{border-right:none}
-.bs-n{font-size:40px;font-weight:900;color:var(--black);letter-spacing:-2px;line-height:1}
-.bs-l{font-size:11px;font-weight:700;color:rgba(10,10,10,.45);text-transform:uppercase;letter-spacing:.1em;margin-top:6px}
+  .pref-label{font-size:12px;color:var(--tm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+  .chip{
+    padding:5px 13px;border-radius:999px;
+    font-size:13px;color:var(--tp);
+    background:var(--surface-2);border:1px solid var(--border);
+  }
 
-/* ─────────────────────────────────────
-   MARQUEE
-───────────────────────────────────── */
-.mq{background:var(--black);padding:22px 0;overflow:hidden;border-top:1px solid rgba(255,255,255,.05)}
-.mq-track{display:flex;animation:mqs 30s linear infinite;width:max-content}
-.mq-track:hover{animation-play-state:paused}
-.mq-item{
-  display:flex;align-items:center;gap:10px;padding:0 30px;
-  font-size:13px;font-weight:600;color:rgba(255,255,255,.25);
-  white-space:nowrap;border-right:1px solid rgba(255,255,255,.05);
-}
-.mq-item .dot{width:4px;height:4px;border-radius:50%;background:var(--amber);flex-shrink:0}
-@keyframes mqs{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .provider-card{
+    margin-top:20px;display:flex;align-items:flex-start;gap:18px;
+    padding:20px;border-radius:18px;
+    background:var(--surface-2);
+    border:1px solid rgba(239,159,39,.18);
+    box-shadow:0 4px 20px rgba(0,0,0,.4);
+  }
 
-/* ─────────────────────────────────────
-   SECTION BASE
-───────────────────────────────────── */
-.sec{padding:120px 48px}
-.sec-in{max-width:1240px;margin:0 auto}
-.ey{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--teal);margin-bottom:16px}
-.sh{
-  font-size:clamp(34px,4vw,56px);font-weight:900;
-  letter-spacing:-2px;line-height:1.06;
-  color:var(--t1);margin-bottom:18px;
-}
-.sh .am{color:var(--amber)}
-.sh .gr{color:var(--green)}
-.sh .wh{color:#fff}
-.sp{font-size:17px;color:var(--t2);line-height:1.75;max-width:500px}
+  .prov-av{
+    width:64px;height:64px;border-radius:16px;
+    background:var(--teal);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;font-weight:700;color:#fff;flex-shrink:0;
+  }
 
-/* ─────────────────────────────────────
-   FEATURE SPLIT SECTIONS
-───────────────────────────────────── */
-.feat{padding:0 48px 120px}
-.feat-in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
-.feat-in.flip{direction:rtl}.feat-in.flip>*{direction:ltr}
-.feat-visual{border-radius:24px;overflow:hidden;background:var(--surf);position:relative}
-.feat-visual img{width:100%;height:100%;object-fit:cover;display:block}
+  .prov-name{font-size:22px;font-weight:700;margin-bottom:2px}
+  .prov-role{font-size:14px;color:var(--ts);margin-bottom:6px}
+  .prov-desc{font-size:14px;color:var(--ts);margin-bottom:12px;max-width:260px;line-height:1.5}
 
-/* visual placeholder with icon pattern */
-.feat-vis-inner{
-  background:var(--black);border-radius:24px;
-  padding:48px 40px;
-  border:1px solid rgba(255,255,255,.07);
-  min-height:420px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  position:relative;overflow:hidden;
-}
-.feat-vis-inner::before{
-  content:'';position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:24px 24px;
-}
-.fv-glow{
-  position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;
-}
-.fv-glow-green{width:300px;height:300px;background:rgba(8,80,65,.5);top:-50px;right:-50px}
-.fv-glow-amber{width:200px;height:200px;background:rgba(239,159,39,.15);bottom:-30px;left:20px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .tag{
+    font-size:12px;padding:5px 11px;border-radius:999px;
+    background:var(--surface-1);border:1px solid var(--border);color:var(--tp);
+  }
 
-.fv-content{position:relative;z-index:1}
-.fv-big{font-size:72px;font-weight:900;letter-spacing:-4px;line-height:1;color:#fff;margin-bottom:12px}
-.fv-big .acc{color:var(--amber)}
-.fv-label{font-size:13px;color:rgba(255,255,255,.3);font-weight:500;line-height:1.6;max-width:240px}
+  .prov-cta{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 16px;border-radius:10px;
+    background:var(--amber);color:#051814;
+    font-weight:600;font-size:13px;
+  }
 
-/* profiles row in feature visual */
-.fv-profiles{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1}
-.fv-prof{
-  background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;padding:10px 12px;
-  display:flex;align-items:center;gap:9px;
-  transition:border-color .2s;
-}
-.fv-prof:hover{border-color:rgba(255,255,255,.18)}
-.fv-prof-av{
-  width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;
-}
-.fv-prof-av img{width:100%;height:100%;object-fit:cover}
-.fv-prof-name{font-size:11px;font-weight:700;color:#fff}
-.fv-prof-role{font-size:10px;color:rgba(255,255,255,.3)}
-.fv-prof-price{font-size:11px;font-weight:700;color:var(--amber);margin-left:auto}
+  /* WhatsApp icon */
+  .prov-cta svg{width:16px;height:16px}
 
-/* escrow visual */
-.escrow-box{
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;padding:24px;
-  position:relative;z-index:1;
-}
-.eb-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
-.eb-amount{font-size:40px;font-weight:900;color:#fff;letter-spacing:-2px;margin-bottom:4px}
-.eb-status{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(29,158,117,.15);
-  color:var(--mint);
-  font-size:11px;font-weight:700;
-  padding:4px 10px;border-radius:999px;
-}
-.eb-steps{display:flex;flex-direction:column;gap:8px;margin-top:16px}
-.eb-step{
-  display:flex;align-items:center;gap:10px;
-  font-size:12px;color:rgba(255,255,255,.45);
-  padding:8px 0;border-top:1px solid rgba(255,255,255,.05);
-}
-.eb-step:first-child{border-top:none}
-.eb-check{width:16px;height:16px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px}
-.ec-done{background:var(--teal);color:#fff}
-.ec-pend{background:rgba(255,255,255,.08);color:rgba(255,255,255,.3)}
+  /* floating badges */
+  .float-badge{
+    position:absolute;
+    padding:10px 14px;border-radius:12px;
+    background:rgba(6,6,6,.82);
+    border:1px solid var(--border);
+    font-size:13px;font-weight:500;color:var(--tp);
+    backdrop-filter:blur(10px);white-space:nowrap;
+  }
+  .fb-1{top:-18px;left:8%}
+  .fb-2{bottom:-18px;right:8%}
 
-/* text side */
-.feat-text{}
-.feat-list{display:flex;flex-direction:column;gap:0;margin:32px 0}
-.feat-item{
-  display:flex;gap:16px;padding:18px 0;
-  border-bottom:1px solid var(--border);
-}
-.feat-item:last-child{border-bottom:none}
-.fi-icon{
-  width:40px;height:40px;border-radius:10px;
-  background:var(--mint-bg);
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;flex-shrink:0;margin-top:2px;
-}
-.fi-title{font-size:15px;font-weight:800;color:var(--t1);margin-bottom:5px}
-.fi-body{font-size:13px;color:var(--t2);line-height:1.65}
-
-/* ─────────────────────────────────────
-   SERVICES
-───────────────────────────────────── */
-.services-bg{background:var(--cream)}
-.sv-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
-  gap:10px;margin-top:16px;
-}
-.sv-card{
-  background:var(--white);border:1px solid var(--border);
-  border-radius:18px;padding:22px 16px;
-  display:flex;flex-direction:column;gap:8px;
-  transition:all .25s var(--ease);position:relative;overflow:hidden;
-}
-.sv-card::after{
-  content:'';position:absolute;inset:0;border-radius:18px;
-  border:2px solid var(--teal);opacity:0;transition:opacity .2s;pointer-events:none;
-}
-.sv-card:hover{transform:translateY(-4px)}
-.sv-card:hover::after{opacity:1}
-.sv-icon{font-size:26px}
-.sv-name{font-size:13px;font-weight:800;color:var(--t1)}
-.sv-count{font-size:11px;color:var(--t3)}
-.sv-arrow{font-size:14px;color:var(--border);margin-top:auto;transition:color .2s,transform .2s}
-.sv-card:hover .sv-arrow{color:var(--teal);transform:translateX(3px)}
-
-/* ─────────────────────────────────────
-   PROVIDERS
-───────────────────────────────────── */
-.pv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
-.pv-card{
-  background:var(--white);border:1px solid var(--border);
-  border-radius:22px;padding:24px;
-  transition:all .3s var(--ease);
-}
-.pv-card:hover{transform:translateY(-4px);border-color:var(--teal);box-shadow:0 16px 48px rgba(8,80,65,.09)}
-.pv-top{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
-.pv-av{
-  width:56px;height:56px;border-radius:50%;overflow:hidden;flex-shrink:0;
-  position:relative;
-}
-.pv-av img{width:100%;height:100%;object-fit:cover}
-.pv-av-ring{position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--teal);pointer-events:none}
-.pv-info{flex:1;min-width:0}
-.pv-name{font-size:15px;font-weight:800;color:var(--t1)}
-.pv-role{font-size:12px;color:var(--t3);margin-top:2px}
-.pv-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-.pv-tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--mint-bg);color:var(--green)}
-.pv-follow{
-  flex-shrink:0;font-size:12px;font-weight:700;
-  border:1px solid var(--border);border-radius:999px;
-  padding:5px 14px;color:var(--t2);background:var(--white);
-  transition:all .15s;align-self:flex-start;
-}
-.pv-follow:hover,.pv-follow.on{background:var(--green);color:var(--mint);border-color:var(--green)}
-.pv-quote{
-  font-family:Georgia,serif;font-style:italic;
-  font-size:13px;color:var(--t2);line-height:1.72;
-  border-left:2px solid var(--border);padding-left:12px;margin-bottom:14px;
-}
-.pv-foot{display:flex;align-items:center;justify-content:space-between}
-.pv-stack{display:flex}
-.pv-av-mini{
-  width:20px;height:20px;border-radius:50%;overflow:hidden;
-  border:1.5px solid var(--white);margin-right:-6px;flex-shrink:0;
-}
-.pv-av-mini img{width:100%;height:100%;object-fit:cover}
-.pv-vc{font-size:11px;color:var(--t3);margin-left:12px}
-.pv-pr{display:flex;align-items:center;gap:6px}
-.avdot{width:7px;height:7px;border-radius:50%;background:var(--teal)}
-.avbusy{background:#D85A30}
-.pv-from{font-size:11px;color:var(--t3)}
-.pv-price{font-size:15px;font-weight:900;color:var(--t1)}
-
-/* ─────────────────────────────────────
-   TWO SIDES
-───────────────────────────────────── */
-.two-bg{background:#FAFAFA}
-.two-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
-.side{border-radius:22px;padding:52px 48px;position:relative;overflow:hidden}
-.side-c{background:var(--amber-bg);border:1px solid #F5D08A}
-.side-p{background:var(--mint-bg);border:1px solid var(--mint)}
-.side-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;
-  padding:4px 12px;border-radius:999px;margin-bottom:24px;
-}
-.sc-badge{background:var(--amber);color:var(--black)}
-.sp-badge{background:var(--green);color:var(--mint)}
-.side-title{font-size:34px;font-weight:900;letter-spacing:-1.5px;line-height:1.08;margin-bottom:18px}
-.side-c .side-title{color:var(--amber-dk)}
-.side-p .side-title{color:var(--green)}
-.side-body{font-size:15px;line-height:1.75;margin-bottom:32px}
-.side-c .side-body{color:#6B4A0A}.side-p .side-body{color:#0A4030}
-.side-items{display:flex;flex-direction:column;gap:0;margin-bottom:36px}
-.si{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid rgba(0,0,0,.06);font-size:14px}
-.si:first-child{border-top:none}
-.side-c .si{color:#6B4A0A}.side-p .si{color:#0A4030}
-.si-dot{width:6px;height:6px;border-radius:50%;margin-top:7px;flex-shrink:0}
-.dc{background:var(--amber)}.dp{background:var(--teal)}
-
-/* ─────────────────────────────────────
-   VOUCHES
-───────────────────────────────────── */
-.vc-bg{background:var(--black)}
-.vc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px;margin-top:16px}
-.vc{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:22px;padding:28px;
-  display:flex;flex-direction:column;
-  transition:all .25s var(--ease);
-}
-.vc:hover{border-color:rgba(239,159,39,.25);transform:translateY(-3px)}
-.vc-stars{color:var(--amber);font-size:13px;letter-spacing:1px;margin-bottom:16px}
-.vc-q{
-  font-family:Georgia,serif;font-style:italic;
-  font-size:14px;color:rgba(255,255,255,.55);line-height:1.8;
-  flex:1;margin-bottom:24px;
-}
-.vc-au{display:flex;align-items:center;gap:12px}
-.vc-photo{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0}
-.vc-photo img{width:100%;height:100%;object-fit:cover}
-.vc-name{font-size:13px;font-weight:800;color:#fff}
-.vc-for{font-size:11px;color:rgba(255,255,255,.28);margin-top:1px}
-.vc-tick{
-  margin-left:auto;flex-shrink:0;
-  display:inline-flex;align-items:center;gap:4px;
-  background:rgba(29,158,117,.15);color:var(--mint);
-  font-size:10px;font-weight:700;
-  padding:3px 9px;border-radius:999px;
-}
-
-/* ─────────────────────────────────────
-   CTA
-───────────────────────────────────── */
-.cta-sec{
-  background:var(--green);
-  padding:140px 48px;text-align:center;position:relative;overflow:hidden;
-}
-.cta-sec::before{
-  content:'';position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:26px 26px;
-}
-.cta-in{max-width:720px;margin:0 auto;position:relative;z-index:1}
-.cta-h{
-  font-size:clamp(44px,6vw,80px);font-weight:900;
-  color:#fff;letter-spacing:-3px;line-height:1.0;margin-bottom:24px;
-}
-.cta-h .am{color:var(--amber)}
-.cta-sub{font-size:18px;color:rgba(255,255,255,.45);line-height:1.75;margin-bottom:48px}
-.cta-acts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-
-/* ─────────────────────────────────────
-   FOOTER
-───────────────────────────────────── */
-footer{background:var(--black);border-top:1px solid rgba(255,255,255,.05);padding:80px 48px 40px}
-.ft-in{max-width:1240px;margin:0 auto}
-.ft-top{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:56px;margin-bottom:72px}
-.ft-logo{display:flex;align-items:center;gap:9px;margin-bottom:12px}
-.ft-wm{font-family:Georgia,serif;font-size:20px;font-weight:700;color:#fff}
-.ft-tag{font-size:13px;color:rgba(255,255,255,.22);line-height:1.7;max-width:220px}
-.ft-col-h{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.18);margin-bottom:20px}
-.ft-col a{display:block;font-size:13px;color:rgba(255,255,255,.38);margin-bottom:11px;transition:color .15s}
-.ft-col a:hover{color:rgba(255,255,255,.85)}
-.ft-bot{
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:12px;
-  border-top:1px solid rgba(255,255,255,.06);padding-top:28px;
-}
-.ft-copy{font-size:12px;color:rgba(255,255,255,.18)}
-.ft-legal{display:flex;gap:24px}
-.ft-legal a{font-size:12px;color:rgba(255,255,255,.18);transition:color .15s}
-.ft-legal a:hover{color:rgba(255,255,255,.5)}
-
-/* ─────────────────────────────────────
-   RESPONSIVE
-───────────────────────────────────── */
-@media(max-width:1100px){
-  .nav{padding:0 24px}
-  .hero{padding:120px 24px 80px}
-  .hero-in{grid-template-columns:1fr;gap:56px}
-  .phone-wrap{justify-content:flex-start}
-  .sec{padding:80px 24px}
-  .feat{padding:0 24px 80px}
-  .feat-in{grid-template-columns:1fr;gap:48px}
-  .feat-in.flip{direction:ltr}
-  .band-in{grid-template-columns:repeat(2,1fr)}
-  .band-stat{border-right:none;border-bottom:1px solid rgba(10,10,10,.1)}
-  .cta-sec,footer{padding-left:24px;padding-right:24px}
-  .ft-top{grid-template-columns:1fr 1fr;gap:36px}
-}
-@media(max-width:768px){
-  .nav-links,.nav-r .btn-sm:first-child{display:none}
-  .ham{display:flex}
-  .mob{display:flex}
-  .two-grid{grid-template-columns:1fr}
-  .h-stores{flex-wrap:wrap}
-  .h-stats{gap:24px}
-  .pv-grid{grid-template-columns:1fr}
-  .vc-grid{grid-template-columns:1fr}
-  .feat-vis-inner{min-height:320px}
-}
-@media(max-width:600px){
-  .ft-top{grid-template-columns:1fr}
-  .h-ctas{flex-direction:column}
-  .h-ctas .btn{width:100%;justify-content:center}
-  .cta-acts{flex-direction:column;align-items:center}
-  .cta-acts .btn{width:100%;max-width:320px;justify-content:center}
-  .sv-grid{grid-template-columns:repeat(2,1fr)}
-  .band-in{grid-template-columns:1fr}
-}
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    header{padding:0 24px}
+    nav a:not(.btn){display:none}
+    .hero{flex-direction:column;padding:40px 24px 56px;min-height:auto;gap:40px}
+    .hero h1{font-size:48px}
+    .col-left,.col-right{flex:1 1 100%;max-width:100%}
+    .float-badge{display:none}
+  }
 </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
-<nav class="nav" id="nav">
-  <a href="#" class="logo">
-    <svg width="30" height="26" viewBox="0 0 120 110" fill="none">
-      <path d="M10 90 C10 44 30 10 60 10" stroke="white" stroke-width="9" stroke-linecap="round"/>
+<header>
+  <div class="logo">
+    <!-- Real Sowo logo: green arc left, amber arc right, amber circle, black dot -->
+    <svg width="32" height="30" viewBox="0 0 120 110" fill="none">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
       <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
       <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
       <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
     </svg>
-    <span class="logo-wm">Sowo</span>
-  </a>
-  <div class="nav-links">
-    <a href="/browse">Browse providers</a>
-    <a href="/become-provider">List your services</a>
+    <span class="logo-text">Sowo</span>
+  </div>
+  <nav>
     <a href="#how">How it works</a>
-    <a href="#vouches">Community</a>
-  </div>
-  <div class="nav-r">
-    <a href="/login" class="btn btn-sm g-dark">Log in</a>
-    <a href="/signup" class="btn btn-sm b-amber">Get started →</a>
-  </div>
-  <button class="ham" id="ham"><span></span><span></span><span></span></button>
-</nav>
-<nav class="mob" id="mob">
-  <a href="/browse">Browse providers</a>
-  <a href="/become-provider">List your services</a>
-  <a href="#how">How it works</a>
-  <a href="#vouches">Community</a>
-  <div class="mob-btns">
-    <a href="/browse" class="btn btn-lg b-amber" style="width:100%;justify-content:center;text-decoration:none">Find a skilled hand →</a>
-    <a href="/become-provider" class="btn btn-lg g-dark" style="width:100%;justify-content:center;text-decoration:none">Offer your craft →</a>
-  </div>
-</nav>
+    <a href="#services">Services</a>
+    <a href="#community">Community</a>
+    <a href="login" class="btn">Log in</a>
+    <a href="become-provider" class="btn primary">Get started</a>
+  </nav>
+</header>
 
-<!-- ══ HERO ══ -->
 <section class="hero">
-  <div class="glow g1"></div><div class="glow g2"></div>
-  <div class="hero-in">
+  <div class="col-left">
+    <div class="eyebrow">For newcomers in the UK</div>
+    <h1>Find people<br>who get you</h1>
+    <p>For international students and newcomers who want trusted providers, not random options.</p>
 
-    <!-- TEXT -->
-    <div>
-      <div class="pill"><div class="pill-dot"></div><span>Skills Platform · Diaspora Community</span></div>
-      <h1 class="h-h1">
-        Trusted<br>
-        <span class="am">hands,</span><br>
-        <span class="dim">near you.</span>
-      </h1>
-      <p class="h-sub">Find skilled, vouched-for craftspeople in your community. No fake reviews, no algorithms — just real people, verified by people you actually know.</p>
-      <div class="h-ctas">
-        <a href="/browse" class="btn btn-lg b-amber">Find a skilled hand</a>
-        <a href="/become-provider" class="btn btn-lg b-outline">Offer your craft</a>
-      </div>
-      <div class="h-stores">
-        <div class="store-badge">
-          <span class="sb-icon">🍎</span>
-          <div class="sb-text"><span class="sb-top">Download on the</span><span class="sb-name">App Store</span></div>
-        </div>
-        <div class="store-badge">
-          <span class="sb-icon">▶</span>
-          <div class="sb-text"><span class="sb-top">Get it on</span><span class="sb-name">Google Play</span></div>
-        </div>
-      </div>
-      <div class="h-stats">
-        <div class="hs-item"><div class="hs-n">2,400<span class="acc">+</span></div><div class="hs-l">Skilled providers</div></div>
-        <div class="hs-item"><div class="hs-n">18<span class="acc">k</span></div><div class="hs-l">Vouches given</div></div>
-        <div class="hs-item"><div class="hs-n">0<span class="acc">%</span></div><div class="hs-l">Commission first 3 months</div></div>
-      </div>
+    <div class="trust-strip">
+      <span>Matched to your preferences</span>
+      <span>Fewer, better options</span>
+      <span>Built for confidence</span>
     </div>
 
-    <!-- PHONE MOCKUP -->
-    <div class="phone-wrap">
-      <div class="phone">
-        <div class="di"><div class="di-cam"></div><div class="di-dot"></div></div>
-        <div class="screen">
-          <div class="app-header">
-            <div class="app-logo-row">
-              <svg width="18" height="16" viewBox="0 0 120 110" fill="none"><path d="M10 90 C10 44 30 10 60 10" stroke="white" stroke-width="10" stroke-linecap="round"/><path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="10" stroke-linecap="round"/><circle cx="60" cy="10" r="12" fill="#EF9F27"/><circle cx="60" cy="10" r="5" fill="#0A0A0A"/></svg>
-              <span class="app-wm">Sowo</span>
-            </div>
-            <div class="app-notif">🔔</div>
+    <div class="cta-row">
+      <a href="login" class="primary">Get matched</a>
+      <a href="#how" class="secondary">How it works</a>
+    </div>
+
+    <div class="micro">No endless browsing. Just a few people who actually fit.</div>
+  </div>
+
+  <div class="col-right">
+    <div class="match-panel">
+      <div class="pref-label">Your match preferences</div>
+      <div class="chips">
+        <div class="chip">Barber</div>
+        <div class="chip">Manchester</div>
+        <div class="chip">Speaks Yoruba</div>
+        <div class="chip">Student-friendly</div>
+      </div>
+
+      <div class="provider-card">
+        <div class="prov-av">TA</div>
+        <div class="prov-info">
+          <div class="prov-name">Tunde A.</div>
+          <div class="prov-role">Barber · Manchester</div>
+          <div class="prov-desc">Knows African hair textures and works with students.</div>
+          <div class="tags">
+            <div class="tag">Nigerian</div>
+            <div class="tag">Speaks Yoruba</div>
+            <div class="tag">12 mins away</div>
+            <div class="tag">Verified</div>
           </div>
-          <div class="app-search-bar">
-            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="rgba(255,255,255,.3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span>Search skills near you…</span>
-          </div>
-          <div class="app-chips">
-            <div class="ac on">All</div>
-            <div class="ac">Hair</div>
-            <div class="ac">Electric</div>
-            <div class="ac">Catering</div>
-          </div>
-          <div class="app-cards">
-            <div class="app-card">
-              <div class="ap-row">
-                <div class="ap-av"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Amara M." onerror="this.style.display='none';this.parentElement.style.background='#1D4038';this.parentElement.style.color='#9FE1CB';this.parentElement.innerHTML='AM'"></div>
-                <div><div class="ap-name">Amara M.</div><div class="ap-role">Hair Braider · 0.8mi</div></div>
-                <div class="ap-price">£45</div>
-              </div>
-              <div class="ap-foot">
-                <div class="ap-vouches">👥 12 vouches</div>
-                <div class="ap-avail"><span class="ap-dot"></span>Available</div>
-              </div>
-            </div>
-            <div class="app-card">
-              <div class="ap-row">
-                <div class="ap-av"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Kofi O." onerror="this.style.display='none';this.parentElement.style.background='#3D2E0A';this.parentElement.style.color='#FAEEDA';this.parentElement.innerHTML='KO'"></div>
-                <div><div class="ap-name">Kofi O.</div><div class="ap-role">Electrician · 1.2mi</div></div>
-                <div class="ap-price">£90</div>
-              </div>
-              <div class="ap-foot">
-                <div class="ap-vouches">👥 9 vouches</div>
-                <div class="ap-avail"><span class="ap-dot"></span>Available</div>
-              </div>
-            </div>
-            <div class="app-card">
-              <div class="ap-row">
-                <div class="ap-av"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ngozi A." onerror="this.style.display='none';this.parentElement.style.background='#4A3E8A';this.parentElement.style.color='#C5BFFF';this.parentElement.innerHTML='NG'"></div>
-                <div><div class="ap-name">Ngozi A.</div><div class="ap-role">Caterer · 1.4mi</div></div>
-                <div class="ap-price">£120</div>
-              </div>
-              <div class="ap-foot">
-                <div class="ap-vouches">👥 21 vouches</div>
-                <div class="ap-avail"><span class="ap-dot"></span>Available</div>
-              </div>
-            </div>
-          </div>
-          <div class="app-bnav">
-            <div class="app-bnav-item active"><div class="bnav-icon">🔍</div><div>Search</div></div>
-            <div class="app-bnav-item"><div class="bnav-icon">❤️</div><div>Saved</div></div>
-            <div class="app-bnav-item"><div class="bnav-icon">📋</div><div>Bookings</div></div>
-            <div class="app-bnav-item"><div class="bnav-icon">👤</div><div>Profile</div></div>
-          </div>
+          <a href="login" class="prov-cta">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.108.549 4.089 1.515 5.808L.057 23.928l6.284-1.648C8.084 23.408 10.01 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.857 0-3.611-.5-5.126-1.373l-.368-.219-3.78.992 1.01-3.685-.24-.381C2.558 15.71 2 13.918 2 12 2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Contact on WhatsApp
+          </a>
         </div>
       </div>
-      <div class="float-card fc1">
-        <div class="fc-label">Vouches</div>
-        <div class="fc-val">18,000<span style="color:var(--amber)">+</span></div>
-        <div class="fc-sub">Community verified</div>
-      </div>
-      <div class="float-card fc2">
-        <div class="fc-label">Commission</div>
-        <div class="fc-val">£0</div>
-        <div class="fc-sub">First 3 months free</div>
-      </div>
-    </div>
 
-  </div>
-</section>
-
-<!-- ══ BAND ══ -->
-<div class="band">
-  <div class="band-in">
-    <div class="band-stat"><div class="bs-n">2,400+</div><div class="bs-l">Skilled providers</div></div>
-    <div class="band-stat"><div class="bs-n">18,000</div><div class="bs-l">Vouches given</div></div>
-    <div class="band-stat"><div class="bs-n">12+</div><div class="bs-l">Service categories</div></div>
-    <div class="band-stat"><div class="bs-n">0%</div><div class="bs-l">Commission, first 3 months</div></div>
-  </div>
-</div>
-
-<!-- ══ MARQUEE ══ -->
-<div class="mq">
-  <div class="mq-track" id="mqt">
-    <div class="mq-item"><span>✂️</span> Hair & Beauty <span class="dot"></span></div>
-    <div class="mq-item"><span>⚡</span> Electrical <span class="dot"></span></div>
-    <div class="mq-item"><span>🔧</span> Plumbing <span class="dot"></span></div>
-    <div class="mq-item"><span>🪵</span> Carpentry <span class="dot"></span></div>
-    <div class="mq-item"><span>🍽️</span> Catering <span class="dot"></span></div>
-    <div class="mq-item"><span>🧒</span> Childcare <span class="dot"></span></div>
-    <div class="mq-item"><span>🏠</span> Cleaning <span class="dot"></span></div>
-    <div class="mq-item"><span>🎨</span> Painting <span class="dot"></span></div>
-    <div class="mq-item"><span>👗</span> Tailoring <span class="dot"></span></div>
-    <div class="mq-item"><span>📸</span> Photography <span class="dot"></span></div>
-    <div class="mq-item"><span>🌿</span> Gardening <span class="dot"></span></div>
-    <div class="mq-item"><span>📦</span> Removals <span class="dot"></span></div>
-  </div>
-</div>
-
-<!-- ══ HOW IT WORKS ══ -->
-<section class="sec" id="how">
-  <div class="sec-in">
-    <div class="ey r">How Sowo works</div>
-    <h2 class="sh r">Find skill. Build trust.<br><span class="am">Get it done.</span></h2>
-  </div>
-</section>
-
-<!-- FEAT 1: Find & browse -->
-<div class="feat">
-  <div class="feat-in">
-    <div class="feat-vis-inner r d1">
-      <div class="fv-glow fv-glow-green"></div>
-      <div class="fv-glow fv-glow-amber"></div>
-      <div class="fv-content">
-        <div class="fv-big">2,400<span class="acc">+</span></div>
-        <div class="fv-label">Skilled providers across your community, ready to be found</div>
-      </div>
-      <div class="fv-profiles">
-        <div class="fv-prof"><div class="fv-prof-av"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt=""></div><div><div class="fv-prof-name">Amara M.</div><div class="fv-prof-role">Hair Braider</div></div><div class="fv-prof-price">£45</div></div>
-        <div class="fv-prof"><div class="fv-prof-av"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt=""></div><div><div class="fv-prof-name">Kofi O.</div><div class="fv-prof-role">Electrician</div></div><div class="fv-prof-price">£90</div></div>
-        <div class="fv-prof"><div class="fv-prof-av"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt=""></div><div><div class="fv-prof-name">Ngozi A.</div><div class="fv-prof-role">Caterer</div></div><div class="fv-prof-price">£120</div></div>
-        <div class="fv-prof"><div class="fv-prof-av"><img src="https://randomuser.me/api/portraits/men/75.jpg" alt=""></div><div><div class="fv-prof-name">Dami S.</div><div class="fv-prof-role">Carpenter</div></div><div class="fv-prof-price">£200</div></div>
-      </div>
-    </div>
-    <div class="feat-text r d2">
-      <div class="ey">Step 01</div>
-      <h3 class="sh" style="font-size:clamp(28px,3vw,44px)">Search by skill<br>or location.</h3>
-      <p class="sp">Browse skilled providers near you by craft. Filter by availability, price, distance, and proximity to you — then see who in your network has vouched for them.</p>
-      <div class="feat-list">
-        <div class="feat-item"><div class="fi-icon">📍</div><div><div class="fi-title">Location-aware search</div><div class="fi-body">Find providers within miles of you, across every neighbourhood.</div></div></div>
-        <div class="feat-item"><div class="fi-icon">🏷️</div><div><div class="fi-title">Filter by price and availability</div><div class="fi-body">Set your budget and see who's free — no wasted enquiries.</div></div></div>
-        <div class="feat-item"><div class="fi-icon">✂️</div><div><div class="fi-title">12+ service categories</div><div class="fi-body">Hair, electrical, plumbing, catering, tailoring, childcare and more.</div></div></div>
-      </div>
-      <a href="/browse" class="btn btn-md b-green">Search now →</a>
-    </div>
-  </div>
-</div>
-
-<!-- FEAT 2: Vouches (flipped) -->
-<div class="feat">
-  <div class="feat-in flip">
-    <div class="feat-vis-inner r d1" style="background:var(--amber)">
-      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,.06) 1px,transparent 1px);background-size:24px 24px"></div>
-      <div style="position:relative;z-index:1">
-        <div class="fv-big" style="color:var(--black);font-size:56px;margin-bottom:8px">Named people.<br>Real trust.</div>
-        <div class="fv-label" style="color:rgba(10,10,10,.55)">Every vouch on Sowo is written by a real, named person who has personally experienced the provider's work.</div>
-      </div>
-      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:10px">
-        <div style="background:rgba(10,10,10,.08);border-radius:14px;padding:16px 18px">
-          <div style="font-family:Georgia,serif;font-style:italic;font-size:13px;color:rgba(10,10,10,.7);line-height:1.7;margin-bottom:10px">"She understood my hair without me having to explain — which never happens."</div>
-          <div style="display:flex;align-items:center;gap:8px"><img src="https://randomuser.me/api/portraits/women/55.jpg" style="width:24px;height:24px;border-radius:50%;object-fit:cover" alt=""><span style="font-size:11px;font-weight:700;color:rgba(10,10,10,.6)">Tolu B. vouched Amara M.</span></div>
-        </div>
-        <div style="background:rgba(10,10,10,.08);border-radius:14px;padding:16px 18px">
-          <div style="font-family:Georgia,serif;font-style:italic;font-size:13px;color:rgba(10,10,10,.7);line-height:1.7;margin-bottom:10px">"Sorted our whole flat in one day. Neat, professional, totally reasonable."</div>
-          <div style="display:flex;align-items:center;gap:8px"><img src="https://randomuser.me/api/portraits/women/72.jpg" style="width:24px;height:24px;border-radius:50%;object-fit:cover" alt=""><span style="font-size:11px;font-weight:700;color:rgba(10,10,10,.6)">Yetunde A. vouched Kofi O.</span></div>
-        </div>
-      </div>
-    </div>
-    <div class="feat-text r d2">
-      <div class="ey">Step 02</div>
-      <h3 class="sh" style="font-size:clamp(28px,3vw,44px)">Check their<br>vouches.</h3>
-      <p class="sp">Instead of anonymous star ratings, Sowo uses a community vouch system. See who vouched — named people from your network who have personally seen the work.</p>
-      <div class="feat-list">
-        <div class="feat-item"><div class="fi-icon">🤝</div><div><div class="fi-title">Named vouches only</div><div class="fi-body">Every vouch shows the real name of the person who wrote it — no anonymity.</div></div></div>
-        <div class="feat-item"><div class="fi-icon">🌐</div><div><div class="fi-title">Your network first</div><div class="fi-body">See if someone you follow has vouched for this provider before you book.</div></div></div>
-        <div class="feat-item"><div class="fi-icon">✍️</div><div><div class="fi-title">Written endorsements</div><div class="fi-body">Not just a star — a real written account of the experience and quality of work.</div></div></div>
-      </div>
-      <a href="#" class="btn btn-md b-amber">See how vouching works →</a>
-    </div>
-  </div>
-</div>
-
-<!-- FEAT 3: Book & Pay -->
-<div class="feat">
-  <div class="feat-in">
-    <div class="feat-vis-inner r d1" style="background:#0D1A16">
-      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(29,158,117,.06) 1px,transparent 1px);background-size:24px 24px"></div>
-      <div class="fv-content">
-        <div class="fv-big" style="font-size:52px;margin-bottom:8px">Pay with<br><span class="acc">confidence.</span></div>
-        <div class="fv-label">Your payment is held safely in escrow and only released when you confirm the job is complete.</div>
-      </div>
-      <div class="escrow-box">
-        <div class="eb-label">Booking — Amara Mensah</div>
-        <div class="eb-amount">£180</div>
-        <div class="eb-status"><span style="font-size:8px">●</span> Held in escrow</div>
-        <div class="eb-steps">
-          <div class="eb-step"><div class="eb-check ec-done">✓</div>Payment received</div>
-          <div class="eb-step"><div class="eb-check ec-done">✓</div>Booking confirmed — Sat 14 Jun</div>
-          <div class="eb-step"><div class="eb-check ec-done">✓</div>Job completed</div>
-          <div class="eb-step"><div class="eb-check ec-pend">○</div>Release payment to provider</div>
-        </div>
-      </div>
-    </div>
-    <div class="feat-text r d2">
-      <div class="ey">Step 03</div>
-      <h3 class="sh" style="font-size:clamp(28px,3vw,44px)">Book, pay safely,<br>vouch back.</h3>
-      <p class="sp">Book directly through Sowo. Your payment is held in escrow and only released once you confirm the job is done — so you're always protected.</p>
-      <div class="feat-list">
-        <div class="feat-item"><div class="fi-icon">🔒</div><div><div class="fi-title">Escrow payments</div><div class="fi-body">Money is held safely between booking and completion. You release it when happy.</div></div></div>
-        <div class="feat-item"><div class="fi-icon">💬</div><div><div class="fi-title">In-app messaging</div><div class="fi-body">Coordinate directly with providers through the Sowo app — no need to share numbers.</div></div></div>
-        <div class="feat-item"><div class="fi-icon">⭐</div><div><div class="fi-title">Pass it forward</div><div class="fi-body">After your job — vouch for the provider and grow the community's trust network.</div></div></div>
-      </div>
-      <a href="#" class="btn btn-md b-green">Learn about escrow →</a>
-    </div>
-  </div>
-</div>
-
-<!-- ══ SERVICES ══ -->
-<section class="sec services-bg" id="services">
-  <div class="sec-in">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:56px">
-      <div>
-        <div class="ey r">Services</div>
-        <h2 class="sh r">Every skilled hand,<br><span class="gr">one platform.</span></h2>
-      </div>
-      <a href="/browse" style="font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap" class="r">Browse all →</a>
-    </div>
-    <div class="sv-grid">
-      <a href="/browse" class="sv-card r d1"><div class="sv-icon">✂️</div><div class="sv-name">Hair & Beauty</div><div class="sv-count">340 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d2"><div class="sv-icon">⚡</div><div class="sv-name">Electrical</div><div class="sv-count">128 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d3"><div class="sv-icon">🔧</div><div class="sv-name">Plumbing</div><div class="sv-count">94 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d4"><div class="sv-icon">🪵</div><div class="sv-name">Carpentry</div><div class="sv-count">87 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d1"><div class="sv-icon">🍽️</div><div class="sv-name">Catering</div><div class="sv-count">156 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d2"><div class="sv-icon">🧒</div><div class="sv-name">Childcare</div><div class="sv-count">203 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d3"><div class="sv-icon">🏠</div><div class="sv-name">Cleaning</div><div class="sv-count">275 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d4"><div class="sv-icon">🎨</div><div class="sv-name">Painting</div><div class="sv-count">112 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d1"><div class="sv-icon">👗</div><div class="sv-name">Tailoring</div><div class="sv-count">74 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d2"><div class="sv-icon">📸</div><div class="sv-name">Photography</div><div class="sv-count">118 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d3"><div class="sv-icon">🌿</div><div class="sv-name">Gardening</div><div class="sv-count">99 providers</div><div class="sv-arrow">→</div></a>
-      <a href="/browse" class="sv-card r d4"><div class="sv-icon">📦</div><div class="sv-name">Removals</div><div class="sv-count">68 providers</div><div class="sv-arrow">→</div></a>
+      <div class="float-badge fb-1">Matched by language</div>
+      <div class="float-badge fb-2">Matched by background</div>
     </div>
   </div>
 </section>
 
-<!-- ══ PROVIDERS ══ -->
-<section class="sec" id="providers">
-  <div class="sec-in">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:56px">
-      <div>
-        <div class="ey r">Featured providers</div>
-        <h2 class="sh r">Skilled hands your<br>community trusts.</h2>
-      </div>
-      <a href="/browse" style="font-size:13px;font-weight:700;color:var(--teal);white-space:nowrap" class="r">Browse all →</a>
-    </div>
-    <div class="pv-grid">
-
-      <div class="pv-card r d1">
-        <div class="pv-top">
-          <div class="pv-av"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Amara"><div class="pv-av-ring"></div></div>
-          <div class="pv-info"><div class="pv-name">Amara Mensah</div><div class="pv-role">Hair Braider · Peckham, London</div><div class="pv-tags"><span class="pv-tag">Braiding</span><span class="pv-tag">Locs</span><span class="pv-tag">Twists</span></div></div>
-          <button class="pv-follow">Follow</button>
-        </div>
-        <div class="pv-quote">"She understood my hair without me having to explain — which never happens."</div>
-        <div class="pv-foot"><div style="display:flex;align-items:center"><div class="pv-stack"><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/55.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/62.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/28.jpg" alt=""></div></div><span class="pv-vc">12 vouches</span></div><div class="pv-pr"><div class="avdot"></div><span class="pv-from">from</span><span class="pv-price">£45</span></div></div>
-      </div>
-
-      <div class="pv-card r d2">
-        <div class="pv-top">
-          <div class="pv-av"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Kofi"></div>
-          <div class="pv-info"><div class="pv-name">Kofi Owusu</div><div class="pv-role">Electrician · Brixton, London</div><div class="pv-tags"><span class="pv-tag">Rewiring</span><span class="pv-tag">Fuse boards</span></div></div>
-          <button class="pv-follow">Follow</button>
-        </div>
-        <div class="pv-quote">"Sorted our whole flat in one day. Neat, professional, and totally reasonable."</div>
-        <div class="pv-foot"><div style="display:flex;align-items:center"><div class="pv-stack"><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/72.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/men/41.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/men/87.jpg" alt=""></div></div><span class="pv-vc">9 vouches</span></div><div class="pv-pr"><div class="avdot avbusy"></div><span class="pv-from">from</span><span class="pv-price">£90</span></div></div>
-      </div>
-
-      <div class="pv-card r d3">
-        <div class="pv-top">
-          <div class="pv-av"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ngozi"><div class="pv-av-ring"></div></div>
-          <div class="pv-info"><div class="pv-name">Ngozi Adeyemi</div><div class="pv-role">Chef & Caterer · Hackney, London</div><div class="pv-tags"><span class="pv-tag">West African</span><span class="pv-tag">Events</span></div></div>
-          <button class="pv-follow">Follow</button>
-        </div>
-        <div class="pv-quote">"The jollof rice was the best I've had outside my grandmother's kitchen."</div>
-        <div class="pv-foot"><div style="display:flex;align-items:center"><div class="pv-stack"><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/14.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/39.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/men/52.jpg" alt=""></div></div><span class="pv-vc">21 vouches</span></div><div class="pv-pr"><div class="avdot"></div><span class="pv-from">from</span><span class="pv-price">£120</span></div></div>
-      </div>
-
-      <div class="pv-card r d1">
-        <div class="pv-top">
-          <div class="pv-av"><img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Damilola"></div>
-          <div class="pv-info"><div class="pv-name">Damilola Soyinka</div><div class="pv-role">Carpenter · Lewisham, London</div><div class="pv-tags"><span class="pv-tag">Wardrobes</span><span class="pv-tag">Shelving</span></div></div>
-          <button class="pv-follow">Follow</button>
-        </div>
-        <div class="pv-quote">"Built our wardrobes from scratch. You can see his craft in every detail."</div>
-        <div class="pv-foot"><div style="display:flex;align-items:center"><div class="pv-stack"><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/85.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/men/91.jpg" alt=""></div></div><span class="pv-vc">7 vouches</span></div><div class="pv-pr"><div class="avdot"></div><span class="pv-from">from</span><span class="pv-price">£200</span></div></div>
-      </div>
-
-      <div class="pv-card r d2">
-        <div class="pv-top">
-          <div class="pv-av"><img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Adeola"><div class="pv-av-ring"></div></div>
-          <div class="pv-info"><div class="pv-name">Adeola Taiwo</div><div class="pv-role">Tailor · Peckham, London</div><div class="pv-tags"><span class="pv-tag">Ankara</span><span class="pv-tag">Aso-Oke</span><span class="pv-tag">Alterations</span></div></div>
-          <button class="pv-follow">Follow</button>
-        </div>
-        <div class="pv-quote">"Made my wedding outfit from scratch. Every stitch was exactly as I imagined."</div>
-        <div class="pv-foot"><div style="display:flex;align-items:center"><div class="pv-stack"><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/48.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/33.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/77.jpg" alt=""></div></div><span class="pv-vc">14 vouches</span></div><div class="pv-pr"><div class="avdot"></div><span class="pv-from">from</span><span class="pv-price">£65</span></div></div>
-      </div>
-
-      <div class="pv-card r d3">
-        <div class="pv-top">
-          <div class="pv-av"><img src="https://randomuser.me/api/portraits/men/58.jpg" alt="Jacob"></div>
-          <div class="pv-info"><div class="pv-name">Jacob Boateng</div><div class="pv-role">Plumber · Streatham, London</div><div class="pv-tags"><span class="pv-tag">Boilers</span><span class="pv-tag">Leak repairs</span></div></div>
-          <button class="pv-follow">Follow</button>
-        </div>
-        <div class="pv-quote">"Came within the hour on a weekend. Fixed it, explained everything clearly."</div>
-        <div class="pv-foot"><div style="display:flex;align-items:center"><div class="pv-stack"><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/women/93.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/men/66.jpg" alt=""></div><div class="pv-av-mini"><img src="https://randomuser.me/api/portraits/men/19.jpg" alt=""></div></div><span class="pv-vc">11 vouches</span></div><div class="pv-pr"><div class="avdot"></div><span class="pv-from">from</span><span class="pv-price">£75</span></div></div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══ TWO SIDES ══ -->
-<section class="sec two-bg">
-  <div class="sec-in">
-    <div class="ey r">Two sides of Sowo</div>
-    <h2 class="sh r">Built for those who seek,<br>and those who deliver.</h2>
-    <div class="two-grid">
-      <div class="side side-c r d1">
-        <div class="side-badge sc-badge">Consumer</div>
-        <div class="side-title">Find skilled hands you can trust</div>
-        <div class="side-body">You're the one with the job to be done. Sowo helps you find the right person — not the highest bidder, but the most trusted hand in your community.</div>
-        <div class="side-items">
-          <div class="si"><div class="si-dot dc"></div><span>Browse providers vouched for by people you know</span></div>
-          <div class="si"><div class="si-dot dc"></div><span>Book with a clear quote and confirmed date</span></div>
-          <div class="si"><div class="si-dot dc"></div><span>Payment held safely — only released when you're happy</span></div>
-          <div class="si"><div class="si-dot dc"></div><span>Pass it forward by vouching for great work</span></div>
-        </div>
-        <a href="#" class="btn btn-md b-amber">Find a provider →</a>
-      </div>
-      <div class="side side-p r d2">
-        <div class="side-badge sp-badge">Provider</div>
-        <div class="side-title">Grow your craft on your own terms</div>
-        <div class="side-body">Your skills deserve to be seen and valued. Sowo gives your craft a home, your story a stage, and your clients a reason to trust you before you've even met.</div>
-        <div class="side-items">
-          <div class="si"><div class="si-dot dp"></div><span>Zero commission for your first three months</span></div>
-          <div class="si"><div class="si-dot dp"></div><span>Your provider story leads your profile page</span></div>
-          <div class="si"><div class="si-dot dp"></div><span>Build trust through community vouches, not stars</span></div>
-          <div class="si"><div class="si-dot dp"></div><span>Set your own rates, availability, and services</span></div>
-        </div>
-        <a href="#" class="btn btn-md b-green">Join as a provider →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ VOUCHES ══ -->
-<section class="sec vc-bg" id="vouches">
-  <div class="sec-in">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:56px">
-      <div>
-        <div class="ey r" style="color:var(--amber)">Community vouches</div>
-        <h2 class="sh r" style="color:#fff">What the<br>community says.</h2>
-      </div>
-      <p class="r" style="font-size:15px;color:rgba(255,255,255,.3);max-width:280px;line-height:1.7">Every vouch is written by a named person about real, first-hand experience.</p>
-    </div>
-    <div class="vc-grid">
-      <div class="vc r d1"><div class="vc-stars">★★★★★</div><div class="vc-q">"Amara has been braiding my daughters' hair for two years. Her patience and skill is something you really have to see. She's become part of our family's routines."</div><div class="vc-au"><div class="vc-photo"><img src="https://randomuser.me/api/portraits/women/55.jpg" alt="Tolu"></div><div><div class="vc-name">Tolu Balogun</div><div class="vc-for">Vouched Amara M. · Hair Braiding</div></div><span class="vc-tick">✓ Verified</span></div></div>
-      <div class="vc r d2"><div class="vc-stars">★★★★★</div><div class="vc-q">"I was nervous hiring someone I didn't know for electrical work. Three people from my church vouched for Kofi. Best decision. He rewired our kitchen perfectly."</div><div class="vc-au"><div class="vc-photo"><img src="https://randomuser.me/api/portraits/women/72.jpg" alt="Yetunde"></div><div><div class="vc-name">Yetunde Ajayi</div><div class="vc-for">Vouched Kofi O. · Electrical</div></div><span class="vc-tick">✓ Verified</span></div></div>
-      <div class="vc r d3"><div class="vc-stars">★★★★★</div><div class="vc-q">"Ngozi catered our naming ceremony for 80 people. Every dish was perfect, arrived hot, and she styled the serving table herself. I've referred her to four people."</div><div class="vc-au"><div class="vc-photo"><img src="https://randomuser.me/api/portraits/women/14.jpg" alt="Chisom"></div><div><div class="vc-name">Chisom Ezeh</div><div class="vc-for">Vouched Ngozi A. · Catering</div></div><span class="vc-tick">✓ Verified</span></div></div>
-      <div class="vc r d1"><div class="vc-stars">★★★★★</div><div class="vc-q">"Jacob came out on a Sunday evening when our boiler broke. Fixed it in an hour, explained the issue clearly, didn't overcharge. Genuinely rare to find."</div><div class="vc-au"><div class="vc-photo"><img src="https://randomuser.me/api/portraits/women/93.jpg" alt="Nkechi"></div><div><div class="vc-name">Nkechi Aneke</div><div class="vc-for">Vouched Jacob B. · Plumbing</div></div><span class="vc-tick">✓ Verified</span></div></div>
-      <div class="vc r d2"><div class="vc-stars">★★★★★</div><div class="vc-q">"Damilola made our bedroom built-ins from scratch. The joinery is immaculate. My husband is a carpenter and he was impressed — which tells you everything."</div><div class="vc-au"><div class="vc-photo"><img src="https://randomuser.me/api/portraits/women/85.jpg" alt="Moji"></div><div><div class="vc-name">Moji Kanu</div><div class="vc-for">Vouched Damilola S. · Carpentry</div></div><span class="vc-tick">✓ Verified</span></div></div>
-      <div class="vc r d3"><div class="vc-stars">★★★★★</div><div class="vc-q">"Adeola made my daughter's prom dress. We gave her a photo, fabric, and a dream — she delivered something more beautiful than we imagined. She really listens."</div><div class="vc-au"><div class="vc-photo"><img src="https://randomuser.me/api/portraits/women/48.jpg" alt="Ifunanya"></div><div><div class="vc-name">Ifunanya Okafor</div><div class="vc-for">Vouched Adeola T. · Tailoring</div></div><span class="vc-tick">✓ Verified</span></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ CTA ══ -->
-<section class="cta-sec">
-  <div class="cta-in">
-    <h2 class="cta-h r">Skills built by hands<br>that <span class="am">know.</span></h2>
-    <p class="cta-sub r">Free to join. Zero commission for your first three months as a provider. Your community is waiting.</p>
-    <div class="cta-acts r">
-      <a href="#" class="btn btn-xl b-white">Find a skilled hand</a>
-      <a href="#" class="btn btn-xl b-outline">Offer your craft</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <div class="ft-in">
-    <div class="ft-top">
-      <div>
-        <div class="ft-logo">
-          <svg width="26" height="22" viewBox="0 0 120 110" fill="none"><path d="M10 90 C10 44 30 10 60 10" stroke="white" stroke-width="9" stroke-linecap="round"/><path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/><circle cx="60" cy="10" r="12" fill="#EF9F27"/><circle cx="60" cy="10" r="5" fill="#0A0A0A"/></svg>
-          <span class="ft-wm">Sowo</span>
-        </div>
-        <div class="ft-tag">Trusted hands, near you.<br>The skills platform for community.</div>
-      </div>
-      <div class="ft-col"><div class="ft-col-h">Platform</div><a href="#">How it works</a><a href="#">Browse services</a><a href="#">Find providers</a><a href="#">Become a provider</a><a href="#">Pricing</a></div>
-      <div class="ft-col"><div class="ft-col-h">Community</div><a href="#">About Sowo</a><a href="#">Our values</a><a href="#">Vouch system</a><a href="#">Provider stories</a><a href="#">Blog</a></div>
-      <div class="ft-col"><div class="ft-col-h">Support</div><a href="#">Help centre</a><a href="#">Contact us</a><a href="#">Safety</a><a href="#">Disputes</a><a href="#">Escrow explained</a></div>
-    </div>
-    <div class="ft-bot">
-      <div class="ft-copy">© 2026 Sowo. Inspired by <em>Ise Owo</em> — skilled hands.</div>
-      <div class="ft-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
-    </div>
-  </div>
-</footer>
-
-<script>
-// NAV
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('up',scrollY>50),{passive:true});
-
-// HAM
-const ham=document.getElementById('ham'),mob=document.getElementById('mob');
-ham.addEventListener('click',()=>{const o=ham.classList.toggle('o');mob.classList.toggle('o',o);document.body.style.overflow=o?'hidden':''});
-document.querySelectorAll('.mob a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('o');mob.classList.remove('o');document.body.style.overflow=''}));
-
-// REVEAL
-const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.1,rootMargin:'0px 0px -48px 0px'});
-document.querySelectorAll('.r').forEach(el=>obs.observe(el));
-
-// FOLLOW
-document.querySelectorAll('.pv-follow').forEach(b=>b.addEventListener('click',()=>{const o=b.classList.toggle('on');b.textContent=o?'Following ✓':'Follow'}));
-
-// MARQUEE duplicate
-const t=document.getElementById('mqt');if(t){t.innerHTML+=t.innerHTML}
-</script>
 </body>
 </html>
