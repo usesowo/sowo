@@ -1091,6 +1091,231 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   .spd-pipe{grid-template-columns:1fr 1fr}
   .spd-top-row{flex-direction:column}
 }
+
+/* ════════════════════════════════════════
+   PROVIDER DASHBOARD — DARK REDESIGN
+════════════════════════════════════════ */
+.pvd-wrap{
+  background:#112118;min-height:calc(100vh - var(--topbar-h));display:flex;flex-direction:column;
+}
+
+/* Hero */
+.pvd-hero{
+  background:#0C2019;
+  padding:26px 32px 22px;
+  position:relative;
+}
+.pvd-hero-inner{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.pvd-good-morning{
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:#1D9E75;margin-bottom:6px;
+}
+.pvd-name{
+  font-family:'Lora',Georgia,serif;font-size:30px;font-weight:600;
+  color:#fff;letter-spacing:-.02em;line-height:1.15;margin-bottom:4px;
+}
+.pvd-sub{font-size:13px;color:rgba(255,255,255,.45);letter-spacing:.01em}
+.pvd-hero-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex-shrink:0}
+.pvd-live{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11.5px;font-weight:700;color:#22C55E;
+  background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);
+  padding:4px 10px;border-radius:999px;letter-spacing:.02em;
+}
+.pvd-live::before{content:'';width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0}
+.pvd-bell{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  color:rgba(255,255,255,.6);transition:background .13s;
+}
+.pvd-bell:hover{background:rgba(255,255,255,.12)}
+.pvd-bell svg{width:16px;height:16px}
+
+/* Stats row */
+.pvd-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid rgba(255,255,255,.07);
+}
+.pvd-stat{
+  padding:18px 24px;border-right:1px solid rgba(255,255,255,.07);
+}
+.pvd-stat:last-child{border-right:none}
+.pvd-stat-label{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:6px;
+}
+.pvd-stat-val{
+  font-size:26px;font-weight:800;letter-spacing:-.03em;color:#fff;line-height:1;
+  margin-bottom:4px;
+}
+.pvd-stat-val.green{color:#4AE3A0}
+.pvd-stat-note{font-size:11.5px;color:rgba(255,255,255,.35)}
+.pvd-stat-note.green{color:#1D9E75}
+
+/* Content area */
+.pvd-content{padding:28px 32px 56px;flex:1}
+
+/* Section headings */
+.pvd-sec-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.pvd-sec-label{
+  font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+}
+.pvd-badge-new{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10.5px;font-weight:700;color:#22C55E;
+  background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);
+  padding:2px 9px;border-radius:999px;
+}
+.pvd-badge-new::before{content:'';width:5px;height:5px;border-radius:50%;background:#22C55E;flex-shrink:0}
+.pvd-see-all{
+  margin-left:auto;
+  height:32px;padding:0 14px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.7);cursor:pointer;
+  transition:background .13s,border-color .13s;
+}
+.pvd-see-all:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
+.pvd-cal-btn{
+  margin-left:auto;
+  height:32px;padding:0 14px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.7);cursor:pointer;
+  transition:background .13s;
+}
+.pvd-cal-btn:hover{background:rgba(255,255,255,.1)}
+
+/* Request cards */
+.pvd-req-list{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.pvd-req{
+  background:#1A2E26;border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:18px 20px;
+  transition:border-color .15s;
+}
+.pvd-req:hover{border-color:rgba(255,255,255,.15)}
+.pvd-req-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.pvd-req-av{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;color:#fff;overflow:hidden;
+}
+.pvd-req-av img{width:100%;height:100%;object-fit:cover}
+.pvd-req-body{flex:1;min-width:0}
+.pvd-req-header{display:flex;align-items:center;gap:8px;margin-bottom:3px;flex-wrap:wrap}
+.pvd-req-name{font-size:14.5px;font-weight:700;color:#fff}
+.pvd-req-svc-tag{
+  font-size:11px;font-weight:600;color:#1D9E75;
+  background:rgba(29,158,117,.12);border:1px solid rgba(29,158,117,.25);
+  padding:3px 9px;border-radius:999px;
+}
+.pvd-req-time{margin-left:auto;font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;white-space:nowrap}
+.pvd-req-meta{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:6px}
+.pvd-req-msg{
+  font-size:13px;color:rgba(255,255,255,.6);font-style:italic;line-height:1.5;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.pvd-req-actions{display:flex;gap:8px;padding-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.pvd-btn-accept{
+  height:34px;padding:0 16px;border-radius:8px;
+  background:rgba(29,158,117,.15);border:1px solid rgba(29,158,117,.35);
+  color:#4AE3A0;font-size:12.5px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;gap:6px;transition:background .13s;
+}
+.pvd-btn-accept:hover{background:rgba(29,158,117,.25)}
+.pvd-btn-accept:disabled{opacity:.4;cursor:default}
+.pvd-btn-msg-dark{
+  height:34px;padding:0 14px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);
+  font-size:12.5px;font-weight:600;color:rgba(255,255,255,.7);cursor:pointer;
+  display:flex;align-items:center;gap:6px;transition:background .13s,border-color .13s;
+}
+.pvd-btn-msg-dark:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+.pvd-btn-decline-dark{
+  height:34px;padding:0 14px;border-radius:8px;
+  border:none;background:transparent;
+  font-size:12.5px;font-weight:500;color:rgba(255,255,255,.3);cursor:pointer;
+  margin-left:auto;transition:color .13s;
+}
+.pvd-btn-decline-dark:hover{color:#F87171}
+.pvd-btn-decline-dark:disabled{opacity:.4;cursor:default}
+
+/* Upcoming bookings */
+.pvd-bk-list{display:flex;flex-direction:column;gap:8px;margin-bottom:32px}
+.pvd-bk-row{
+  background:#1A2E26;border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:14px 18px;
+  display:flex;align-items:center;gap:14px;
+  transition:border-color .15s;
+}
+.pvd-bk-row:hover{border-color:rgba(255,255,255,.14)}
+.pvd-bk-av{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;color:#fff;overflow:hidden;
+}
+.pvd-bk-av img{width:100%;height:100%;object-fit:cover}
+.pvd-bk-info{flex:1;min-width:0}
+.pvd-bk-name{font-size:14px;font-weight:700;color:#fff}
+.pvd-bk-svc{font-size:12px;color:rgba(255,255,255,.4);margin-top:1px}
+.pvd-bk-date-badge{
+  flex-shrink:0;text-align:right;
+}
+.pvd-date-pill{
+  display:inline-block;font-size:11.5px;font-weight:700;
+  padding:4px 10px;border-radius:6px;margin-bottom:3px;
+}
+.pvd-date-pill.green{background:rgba(34,197,94,.15);color:#22C55E;border:1px solid rgba(34,197,94,.25)}
+.pvd-date-pill.amber{background:rgba(245,158,11,.12);color:#F59E0B;border:1px solid rgba(245,158,11,.2)}
+.pvd-date-pill.teal{background:rgba(29,158,117,.12);color:#4AE3A0;border:1px solid rgba(29,158,117,.2)}
+.pvd-bk-time{font-size:11px;color:rgba(255,255,255,.35);text-align:right;display:block}
+
+/* Pipeline */
+.pvd-pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:32px}
+.pvd-pipe-tile{
+  background:#1A2E26;border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:18px 20px;
+  transition:border-color .15s;
+}
+.pvd-pipe-tile:hover{border-color:rgba(255,255,255,.15)}
+.pvd-pipe-label{
+  font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:10px;
+}
+.pvd-pipe-val{
+  font-size:30px;font-weight:900;letter-spacing:-.03em;color:#fff;line-height:1;
+  margin-bottom:5px;
+}
+.pvd-pipe-val.green{color:#4AE3A0}
+.pvd-pipe-note{font-size:11.5px;color:rgba(255,255,255,.3)}
+
+/* Latest vouch */
+.pvd-vouch-card{
+  background:#F0F0FF;border-radius:14px;padding:18px 20px;
+}
+.pvd-vouch-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pvd-vouch-av{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;color:#fff;overflow:hidden;
+}
+.pvd-vouch-name{font-size:13.5px;font-weight:700;color:#1A1A2E}
+.pvd-vouch-badge{
+  margin-left:auto;font-size:10.5px;font-weight:700;color:#5B4FCF;
+  background:rgba(91,79,207,.12);border:1px solid rgba(91,79,207,.2);
+  padding:2px 8px;border-radius:999px;
+}
+.pvd-vouch-text{
+  font-size:13.5px;color:#3D3A5C;font-style:italic;line-height:1.65;
+}
+
+@media(max-width:900px){
+  .pvd-stats{grid-template-columns:1fr 1fr}
+  .pvd-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}
+  .pvd-pipe{grid-template-columns:1fr 1fr}
+  .pvd-content{padding:20px 16px 48px}
+  .pvd-hero{padding:20px 16px 18px}
+}
 </style>
 </head>
 <body>
@@ -1790,121 +2015,227 @@ function renderProviderDashboard() {
     ? (_vouches.reduce((s,v)=>s+v.rating,0)/_vouches.length).toFixed(1) : '4.9';
   const hour  = new Date().getHours();
   const greet = hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
-  const name  = (userProfile?.full_name||'there').split(' ')[0];
-  const dateStr = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'});
+  const name  = userProfile?.full_name || (userProfile?.full_name||'there').split(' ')[0];
+  const cat   = userProfile?.category || 'Service provider';
+  const loc   = userProfile?.location || '';
 
   /* requests — real or preview */
   const realReqs = _bookings.filter(b=>b.status==='pending');
-  const previewReqs = preview && !realReqs.length ? [
-    {id:'pr1',profiles:{full_name:'Sarah Chen'},services:{name:'Deep Cleaning'},status:'pending',
-     created_at:new Date().toISOString(),_msg:'2-bed flat, need a thorough clean before moving in',_date:'Tomorrow · 2:00 PM'},
-    {id:'pr2',profiles:{full_name:'James Kofi'},services:{name:'Plumbing'},status:'pending',
-     created_at:new Date().toISOString(),_msg:'Leaking pipe under kitchen sink, quite urgent',_date:'Saturday · 10:00 AM'},
-    {id:'pr3',profiles:{full_name:'Amara Osei'},services:{name:'Moving Help'},status:'pending',
-     created_at:new Date().toISOString(),_msg:'Small studio, 3rd floor no lift — boxes and a sofa',_date:'Sunday · 9:00 AM'},
-  ] : realReqs;
-  const displayReqs  = previewReqs.slice(0,4);
-  const reqCount     = preview ? 3 : pending;
+  const previewReqs = [
+    {id:'pr1',profiles:{full_name:'Zara Ahmadi'},  services:{name:'Knotless braids'}, status:'pending',
+     _ago:'2m ago', _meta:'Wed 15 Apr · 11:00am · £85',
+     _msg:'"Hi, I saw your profile and I\'d love knotless braids for mid-April..."'},
+    {id:'pr2',profiles:{full_name:'Temi Dosunmu'}, services:{name:'Loc maintenance'}, status:'pending',
+     _ago:'14m ago', _meta:'Fri 17 Apr · 2:00pm · £50',
+     _msg:'"My locs need a retwist, I\'ve been referred by Adaeze..."'},
+  ];
+  const displayReqs = (preview || !realReqs.length ? previewReqs : realReqs).slice(0,4);
+  const reqCount    = preview ? previewReqs.length : (realReqs.length || 0);
 
-  /* active jobs — real or preview */
-  const realJobs = _bookings.filter(b=>b.status==='confirmed'||b.status==='in_progress');
-  const previewJobs = preview && !realJobs.length ? [
-    {id:'j1',profiles:{full_name:'Aisha Kamara'},services:{name:'House Cleaning'},status:'confirmed'},
-    {id:'j2',profiles:{full_name:'Tom Adeyemi'},services:{name:'Plumbing'},status:'in_progress'},
-  ] : realJobs;
-  const displayJobs = previewJobs.slice(0,4);
+  /* upcoming bookings — real confirmed or preview */
+  const realConfirmed = _bookings.filter(b=>b.status==='confirmed'||b.status==='in_progress');
+  const previewBks = [
+    {id:'bk1',profiles:{full_name:'Zara Ahmadi'},  services:{name:'Knotless braids',price:85},  _datePill:'Wed 15 Apr',_pillColor:'green', _time:'11:00am'},
+    {id:'bk2',profiles:{full_name:'Temi Dosunmu'}, services:{name:'Loc maintenance', price:50},  _datePill:'Fri 17 Apr', _pillColor:'amber', _time:'2:00pm'},
+    {id:'bk3',profiles:{full_name:'Amara Mensah'}, services:{name:'Cornrows',         price:40},  _datePill:'Sun 20 Apr',_pillColor:'teal',  _time:'10:00am'},
+  ];
+  const displayBks = (preview || !realConfirmed.length) ? previewBks : realConfirmed.slice(0,4);
+
+  /* latest vouch */
+  const latestVouch = _vouches[0] || {
+    profiles:{full_name:'Zara Ahmadi'},
+    text:'Ngozi was incredible. My braids are so neat and she really took her time. She understood my hair type without me over-explaining — which never happens.',
+    isNew: true,
+  };
+
+  /* avatar bg palette */
+  const avBgs = ['#1D9E75','#5B4FCF','#D97706','#0F766E','#7C3AED'];
+  function avBg(name){let h=0;for(const c of name)h=(h*31+c.charCodeAt(0))%5;return avBgs[h];}
 
   document.getElementById('page').innerHTML = `
-    <div class="spd-wrap">
+    <div class="pvd-wrap">
 
-      <!-- Greeting -->
-      <div class="spd-top-row">
-        <div>
-          <div class="spd-greeting">${greet}, ${name}</div>
-          <div class="spd-sub">${dateStr}</div>
-        </div>
-        <div class="spd-actions">
-          <button class="p-btn-primary" onclick="navigateTo('profile')">
-            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            My profile
-          </button>
-          <button class="p-btn-primary" onclick="location.href='/profile?u=${userProfile?.slug||'me'}'">
-            <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-            View public profile
-          </button>
+      <!-- HERO -->
+      <div class="pvd-hero">
+        <div class="pvd-hero-inner">
+          <div>
+            <div class="pvd-good-morning">${greet.toUpperCase()}</div>
+            <div class="pvd-name">${name}</div>
+            <div class="pvd-sub">${cat}${loc?' · '+loc:''}</div>
+          </div>
+          <div class="pvd-hero-right">
+            <span class="pvd-live">Live</span>
+            <button class="pvd-bell" title="Notifications" onclick="document.getElementById('notifBtn').click()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Earnings strip -->
-      <div class="spd-earn-strip">
-        <div class="spd-earn-item">
-          <div class="spd-earn-label">Earned this month</div>
-          <div class="spd-earn-val">${preview?'£1,240':'£—'}</div>
-          <div class="spd-earn-note">${preview?'+12% from last month':'Complete jobs to track earnings'}</div>
+      <!-- STATS ROW -->
+      <div class="pvd-stats">
+        <div class="pvd-stat">
+          <div class="pvd-stat-label">This month</div>
+          <div class="pvd-stat-val green">${preview?'£640':'£—'}</div>
+          <div class="pvd-stat-note green">${preview?'8 sessions':'Complete jobs to track'}</div>
         </div>
-        <div class="spd-earn-item">
-          <div class="spd-earn-label">Trust score</div>
-          <div class="spd-earn-val">${preview?'4.9':avgRating} <span style="font-size:16px;color:var(--amber)">★</span></div>
-          <div class="spd-earn-note">${preview||parseFloat(avgRating)>=4.5?'Excellent':'Good'}</div>
+        <div class="pvd-stat">
+          <div class="pvd-stat-label">Vouches</div>
+          <div class="pvd-stat-val">${preview?14:_vouches.length}</div>
+          <div class="pvd-stat-note">${preview?'+3 this week':_vouches.length?'reviews received':'No reviews yet'}</div>
         </div>
-        <div class="spd-earn-item">
-          <div class="spd-earn-label">Response rate</div>
-          <div class="spd-earn-val">${preview||_bookings.length?'92%':'—'}</div>
-          <div class="spd-earn-note">last 30 days</div>
+        <div class="pvd-stat">
+          <div class="pvd-stat-label">Trust score</div>
+          <div class="pvd-stat-val">${preview?'4.9':avgRating}</div>
+          <div class="pvd-stat-note">${preview||parseFloat(avgRating)>=4.5?'Excellent':'Good'}</div>
+        </div>
+        <div class="pvd-stat">
+          <div class="pvd-stat-label">Response rate</div>
+          <div class="pvd-stat-val">${preview||_bookings.length?'92%':'—'}</div>
+          <div class="pvd-stat-note">last 30 days</div>
         </div>
       </div>
 
-      <!-- New requests -->
-      <div class="spd-sec">
-        <div class="spd-sec-left">
-          New requests
-          ${reqCount>0?`<span class="spd-sec-badge"><span class="spd-sec-dot"></span>${reqCount} waiting</span>`:''}
+      <!-- MAIN CONTENT -->
+      <div class="pvd-content">
+
+        <!-- NEW REQUESTS -->
+        <div class="pvd-sec-row">
+          <span class="pvd-sec-label">New requests</span>
+          ${reqCount>0?`<span class="pvd-badge-new">${reqCount} new</span>`:''}
+          <button class="pvd-see-all" onclick="navigateTo('matches')">See all</button>
         </div>
-        <button class="spd-sec-link" onclick="navigateTo('jobs')">View all →</button>
+
+        ${displayReqs.length ? `
+        <div class="pvd-req-list">
+          ${displayReqs.map(b=>pvdRequestCard(b, avBg)).join('')}
+        </div>` : `
+        <div style="background:#1A2E26;border:1px dashed rgba(255,255,255,.1);border-radius:14px;padding:40px 24px;text-align:center;margin-bottom:32px">
+          <div style="font-size:28px;margin-bottom:10px">📬</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px">No new requests yet</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.4)">Your profile is live — requests will show up here.</div>
+        </div>`}
+
+        <!-- UPCOMING BOOKINGS -->
+        <div class="pvd-sec-row">
+          <span class="pvd-sec-label">Upcoming bookings</span>
+          <button class="pvd-cal-btn" onclick="navigateTo('jobs')">Calendar</button>
+        </div>
+        <div class="pvd-bk-list">
+          ${displayBks.map(b=>pvdBookingRow(b, avBg)).join('')}
+        </div>
+
+        <!-- PIPELINE -->
+        <div class="pvd-sec-row" style="margin-bottom:14px">
+          <span class="pvd-sec-label">Pipeline</span>
+        </div>
+        <div class="pvd-pipe">
+          <div class="pvd-pipe-tile">
+            <div class="pvd-pipe-label">Pending</div>
+            <div class="pvd-pipe-val">${preview?2:pending}</div>
+            <div class="pvd-pipe-note">requests</div>
+          </div>
+          <div class="pvd-pipe-tile">
+            <div class="pvd-pipe-label">Confirmed</div>
+            <div class="pvd-pipe-val">${preview?3:awaiting}</div>
+            <div class="pvd-pipe-note">this week</div>
+          </div>
+          <div class="pvd-pipe-tile">
+            <div class="pvd-pipe-label">Completed</div>
+            <div class="pvd-pipe-val">${preview?8:completed}</div>
+            <div class="pvd-pipe-note">this month</div>
+          </div>
+          <div class="pvd-pipe-tile">
+            <div class="pvd-pipe-label">Awaiting</div>
+            <div class="pvd-pipe-val green">${preview?'£175':'£'+(_bookings.filter(b=>b.status==='confirmed').reduce((s,b)=>s+(b.services?.price||0),0))}</div>
+            <div class="pvd-pipe-note">in escrow</div>
+          </div>
+        </div>
+
+        <!-- LATEST VOUCH -->
+        ${latestVouch ? `
+        <div class="pvd-sec-row" style="margin-top:32px;margin-bottom:14px">
+          <span class="pvd-sec-label">Latest vouch</span>
+        </div>
+        <div class="pvd-vouch-card">
+          <div class="pvd-vouch-head">
+            <div class="pvd-vouch-av" style="background:${avBg(latestVouch.profiles?.full_name||'Client')}">
+              ${(latestVouch.profiles?.full_name||'C').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2)}
+            </div>
+            <span class="pvd-vouch-name">${latestVouch.profiles?.full_name||'Client'}</span>
+            <span class="pvd-vouch-badge">New</span>
+          </div>
+          <p class="pvd-vouch-text">"${latestVouch.text||''}"</p>
+        </div>` : ''}
+
       </div>
+    </div>`;
+}
 
-      ${displayReqs.length ? `
-        <div class="spd-req-list">
-          ${displayReqs.map(b=>simpleRequestCard(b)).join('')}
+/* ── Provider dashboard dark — request card ── */
+function pvdRequestCard(b, avBg) {
+  const name     = b.profiles?.full_name || 'Client';
+  const svc      = b.services?.name || 'Service';
+  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const ago      = b._ago || (b.created_at ? (() => {
+    const diff = Date.now() - new Date(b.created_at);
+    const mins = Math.floor(diff/60000);
+    return mins < 60 ? mins+'m ago' : Math.floor(mins/60)+'h ago';
+  })() : '');
+  const meta = b._meta || (b.created_at
+    ? new Date(b.created_at).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})
+    : '');
+  const msg  = b._msg || (b.message ? `"${b.message}"` : '"No additional message provided."');
+  const bg   = avBg ? avBg(name) : '#1D9E75';
+  return `
+    <div class="pvd-req" id="pvd-${b.id}">
+      <div class="pvd-req-top">
+        <div class="pvd-req-av" style="background:${bg}">${initials}</div>
+        <div class="pvd-req-body">
+          <div class="pvd-req-header">
+            <span class="pvd-req-name">${name}</span>
+            <span class="pvd-req-svc-tag">${svc}</span>
+            <span class="pvd-req-time">${ago}</span>
+          </div>
+          <div class="pvd-req-meta">${meta}</div>
+          <div class="pvd-req-msg">${msg}</div>
         </div>
-      ` : `
-        <div class="empty-box" style="margin-bottom:32px">
-          <div class="empty-ico">📬</div>
-          <h3>No new requests yet</h3>
-          <p>Your profile is live — requests will show up here.</p>
-        </div>
-      `}
+      </div>
+      <div class="pvd-req-actions">
+        <button class="pvd-btn-accept" onclick="updateBookingStatus('${b.id}','confirmed',this)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Accept
+        </button>
+        <button class="pvd-btn-msg-dark" onclick="openMsg('c-${b.id}','${name}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Message
+        </button>
+        <button class="pvd-btn-decline-dark" onclick="updateBookingStatus('${b.id}','cancelled',this)">Decline</button>
+      </div>
+    </div>`;
+}
 
-      <!-- Active jobs -->
-      ${displayJobs.length ? `
-        <div class="spd-sec">
-          <div class="spd-sec-left">Active jobs</div>
-          <button class="spd-sec-link" onclick="navigateTo('jobs')">View all →</button>
-        </div>
-        <div class="spd-job-list" style="margin-bottom:36px">
-          ${displayJobs.map(b=>simpleJobCard(b)).join('')}
-        </div>
-      ` : ''}
-
-      <!-- Pipeline -->
-      <div class="spd-sec"><div class="spd-sec-left">Your pipeline</div></div>
-      <div class="spd-pipe">
-        <div class="spd-pipe-tile">
-          <div class="spd-pipe-label">New requests</div>
-          <div class="spd-pipe-val">${preview?3:pending}</div>
-        </div>
-        <div class="spd-pipe-tile">
-          <div class="spd-pipe-label">Awaiting</div>
-          <div class="spd-pipe-val">${preview?1:awaiting}</div>
-        </div>
-        <div class="spd-pipe-tile">
-          <div class="spd-pipe-label">Active jobs</div>
-          <div class="spd-pipe-val">${preview?5:accepted}</div>
-        </div>
-        <div class="spd-pipe-tile">
-          <div class="spd-pipe-label">Completed</div>
-          <div class="spd-pipe-val">${preview?28:completed}</div>
-        </div>
+/* ── Provider dashboard dark — upcoming booking row ── */
+function pvdBookingRow(b, avBg) {
+  const name     = b.profiles?.full_name || 'Client';
+  const svc      = b.services?.name || 'Service';
+  const price    = b.services?.price ? ' · £'+b.services.price : '';
+  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const bg       = avBg ? avBg(name) : '#1D9E75';
+  const datePill = b._datePill || (b.created_at
+    ? new Date(b.created_at).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}) : '');
+  const pillColor = b._pillColor || 'teal';
+  const time     = b._time || '';
+  return `
+    <div class="pvd-bk-row">
+      <div class="pvd-bk-av" style="background:${bg}">${initials}</div>
+      <div class="pvd-bk-info">
+        <div class="pvd-bk-name">${name}</div>
+        <div class="pvd-bk-svc">${svc}${price}</div>
+      </div>
+      <div class="pvd-bk-date-badge">
+        <span class="pvd-date-pill ${pillColor}">${datePill}</span>
+        <span class="pvd-bk-time">${time}</span>
       </div>
     </div>`;
 }
