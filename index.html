@@ -308,9 +308,40 @@ footer a:hover{color:#fff}
 </head>
 <body>
 
-<!-- ══════════════════════════════════
-     NAV
-══════════════════════════════════════ -->
+<!--
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  SOWO HOMEPAGE  –  SECTION MAP                                               ║
+║  10 sections, in order top → bottom                                          ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  §1  NAV              Sticky top bar — logo, links, sign-in, get started     ║
+║  §2  HERO             Split layout — search, category pills, provider card   ║
+║  §3  POPULAR SERVICES Editorial image grid — 5 service categories            ║
+║  §4  STATS BAND       Dark green strip — 4 headline numbers                  ║
+║  §5  DUAL ROLE        "One account. Two sides." — client & provider modes    ║
+║  §6  REVIEWS          6 client review cards with coloured initials           ║
+║  §7  TRUST PILLARS    3 trust signals — Sowo Protect, ID-verified, Support   ║
+║  §8  HOW IT WORKS     Photo + 3-step process (id="how")                      ║
+║  §9  PROVIDER BANNER  Dark CTA card — "Turn your skill into income"          ║
+║  §10 FOOTER           4-column dark footer + legal bar                       ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §1  NAV
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    • Sowo SVG logo (inline, colour: green #085041 + amber #EF9F27)
+    • Three text links:  Services (jumps to #services)
+                         How it works (jumps to #how)
+                         Become a Provider (→ /become-provider.html)
+    • Right side CTAs:  "Sign in" (→ /login.html)  |  "Get started" (→ /signup.html)
+
+  To edit:
+    • Change nav link text or URLs directly in the <a> tags
+    • Add a new nav link inside <div class="nav-links">
+    • To change CTA button labels, edit the two <a> tags at the end of <nav>
+    • Nav background / scroll behaviour: .nav and .nav.up rules in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <nav>
   <a href="/" class="nav-logo">
     <svg width="32" height="30" viewBox="0 0 120 110" fill="none">
@@ -332,9 +363,36 @@ footer a:hover{color:#fff}
   </div>
 </nav>
 
-<!-- ══════════════════════════════════
-     HERO — split layout
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §2  HERO
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    LEFT COLUMN (.hero-left):
+      • Eyebrow badge  — "Providers online now in London"
+      • H1 headline   — "Book the help you need, today"
+      • Sub-copy      — one-line description
+      • Search bar    — text input + "Find help" button  (handleSearch() in JS)
+      • Category pills — 6 emoji shortcut buttons that pre-fill the search box
+
+    RIGHT COLUMN (.hero-right):
+      • Full-bleed background photo (hairdresser, Unsplash)
+      • Floating provider card (.hero-card) — avatar, name, role, rating badge
+
+  To edit:
+    • Headline copy    → change the text inside <h1>
+    • Sub-copy         → change <p class="hero-sub">
+    • Eyebrow badge    → change text after <span></span> in .hero-eyebrow
+    • Search placeholder → "placeholder=" on the <input>
+    • Category pills   → edit/add <button class="h-pill"> items; update the
+                          onclick="setPill(this,'...')" query string to match
+    • Hero photo       → swap the Unsplash URL in the <img src="..."> inside
+                          .hero-right; keep loading="eager" to avoid blank display
+    • Provider card    → change name (.hc-name), role (.hc-role), stars/count
+                          (.hc-rating), badge text (.hc-badge)
+    • Card avatar      → swap the Unsplash URL inside .hc-av > img
+    • Hero height      → .hero { min-height / max-height } in <style>
+    • Column widths    → .hero { grid-template-columns } in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <section class="hero">
 
   <!-- Left: search + pills -->
@@ -383,9 +441,35 @@ footer a:hover{color:#fff}
 
 </section>
 
-<!-- ══════════════════════════════════
-     POPULAR SERVICES
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §3  POPULAR SERVICES
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    • Section header — "Popular services" title + "Browse all services" link
+    • Editorial image grid (3-column, asymmetric):
+        - FEATURED card (.svc-card.featured) — spans 2 columns, taller image
+          Currently: Beauty & Makeup (most booked)
+        - 4 regular cards (1 column each):
+          Nail Technicians | Hairdressers | Barbers | Private Chefs
+
+  Layout rules:
+    • .services-grid is a 3-column CSS grid (1fr 1fr 1fr)
+    • .svc-card.featured spans grid-column: span 2 (so it takes cols 1+2)
+    • The 3 regular cards fill col 3 (first), then wrap to cols 1+2+3 below
+    • Featured image height: 320px  |  Regular image height: 260px
+
+  To edit:
+    • Section title / sub-copy → .section-title and .section-sub inside .section-top
+    • "Browse all services" link → change href on <a class="section-link">
+    • Change which service is "featured" → move .featured class to a different card
+      and update the "Most booked" .svc-tag and image accordingly
+    • Add/remove a service card → copy a <div class="svc-card"> block; keep the
+      grid to 5 cards total (1 featured + 4 regular) for the layout to balance
+    • Update service name / price copy → edit <h3> and <p> inside .svc-body
+    • Swap a photo → replace the Unsplash URL in that card's <img src="...">
+      Use loading="eager" for any card likely in the initial viewport
+    • Overlay darkness → .svc-overlay background opacity in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <section class="services" id="services">
   <div class="wrap">
     <div class="section-top">
@@ -462,9 +546,24 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     STATS — dark green band
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §4  STATS BAND
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    Full-width dark green (<div class="stats">) strip with 4 metrics side-by-side:
+      1. 24,000+  Tasks completed
+      2. 3,800+   Verified providers
+      3. All 32   London boroughs covered
+      4. 4.9 ★    Average client rating
+
+  To edit:
+    • Change a number  → edit .stat-val text
+    • Change a label   → edit .stat-label text
+    • Add a 5th stat   → add another <div> with .stat-val + .stat-label inside
+      .stats-inner (CSS uses flex with space-around, so it adapts)
+    • Background colour → .stats { background } in <style>  (currently #085041)
+    • Text colour       → .stat-val and .stat-label rules in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <div class="stats">
   <div class="wrap">
     <div class="stats-inner">
@@ -488,9 +587,35 @@ footer a:hover{color:#fff}
   </div>
 </div>
 
-<!-- ══════════════════════════════════
-     DUAL ROLE — Sowo's differentiator
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §5  DUAL ROLE  —  Sowo's unique differentiator
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    Left text column (.dual-text):
+      • Eyebrow:   "One account. Two sides."
+      • H2:        "Hire help today. Earn from it tomorrow."
+      • Body copy: explains the dual-role concept
+      • Mode cards (.dual-modes) — two clickable cards:
+          Client mode  → wraps /login.html
+          Provider mode → wraps /become-provider.html
+      • CTA link:  "Create your free account" → /signup.html
+
+    Right visual column (.dual-visual):
+      • Photo  — person at work (Unsplash)
+      • Two floating stat bubbles (.dual-bubble):
+          .b1  "As a client"   — tasks hired, trust score, service tags (green)
+          .b2  "As a provider" — earnings, job count/rating, tags (amber)
+
+  To edit:
+    • Eyebrow / headline / body copy → text inside .dual-text
+    • CTA button label/link          → <a class="dual-cta">
+    • Mode card labels & descriptions → <h4> and <p> inside each .mode-card
+    • Mode card links                 → the wrapping <a href="..."> around each card
+    • Photo                           → swap Unsplash URL in .dual-img > img
+    • Bubble "As a client" stats      → .b1 .db-val / .db-sub / .db-tags
+    • Bubble "As a provider" stats    → .b2 .db-val / .db-sub / .db-tags
+    • Bubble positions                → .b1 and .b2 top/right/bottom/left in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <section class="dual">
   <div class="wrap">
     <div class="dual-inner">
@@ -554,9 +679,36 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     REVIEWS
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §6  REVIEWS
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    • Section header — "What clients are saying" + sub-copy
+    • 6 review cards (.rv-card) in a responsive grid (3 cols → 2 → 1)
+      Each card has:
+        - Coloured initial avatar (.rv-av  background set inline)
+        - Name (.rv-name)  +  Service & Borough (.rv-svc)
+        - 5 SVG gold stars (.rv-stars)
+        - Review text (.rv-text)
+
+    Current reviewers (in order):
+      Elizabeth F. – Beauty & Makeup, Hackney   (purple #7c3aed)
+      Lisa K.      – Nail Technician, Peckham   (teal   #0891b2)
+      James O.     – Private Chef, Islington     (red    #dc2626)
+      Anne-Lise V. – Barber, Brixton             (green  #0d9488)
+      Fatima A.    – Hairdresser, Lewisham       (amber  #b45309)
+      Sophie S.    – Beauty & Makeup, Camden     (indigo #4f46e5)
+
+  To edit:
+    • Change reviewer name/service/borough → .rv-name and .rv-svc text
+    • Change avatar colour → background: value in the inline style on .rv-av
+    • Change avatar initials → text inside <div class="rv-av">
+    • Change review text → paragraph inside .rv-text
+    • Add a 7th card → copy a full .rv-card block; grid auto-wraps
+    • Remove a card   → delete the full .rv-card block
+    • Section title/sub → .section-title and .section-sub inside .section-top
+    • Grid columns → .reviews-grid { grid-template-columns } in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <section class="reviews">
   <div class="wrap">
     <div class="section-top" style="margin-bottom:40px">
@@ -679,9 +831,26 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     TRUST PILLARS
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §7  TRUST PILLARS
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    • Section headline — "Your satisfaction, guaranteed" (italic "guaranteed")
+    • Sub-copy
+    • 3 pillar cards (.pillar) side-by-side:
+        1. Sowo Protect    — shield icon  — up to £1,000 coverage
+        2. ID-verified Providers — ID card icon — identity-checked before booking
+        3. 7-day Support   — chat bubble icon — team available daily
+
+  To edit:
+    • Section headline / italic word → the <h2> text; <em> wraps the italic word
+    • Sub-copy → <p class="trust-sub">
+    • Pillar icon  → swap the <svg> inside .p-icon (use any Heroicons outline 24px)
+    • Pillar title → <h3> inside .pillar
+    • Pillar body  → <p> inside .pillar
+    • Add a 4th pillar → copy a <div class="pillar"> block (flex layout wraps)
+    • Section background → .trust { background } in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <section class="trust">
   <div class="wrap">
     <h2>Your satisfaction, <em>guaranteed</em></h2>
@@ -712,9 +881,29 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     HOW IT WORKS
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §8  HOW IT WORKS
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    2-column layout (photo left, steps right):
+      LEFT  (.how-img-wrap): lifestyle photo of a provider at work
+      RIGHT (.how-text):
+        • H2 — "From request to done, in three steps"
+        • Step 1: Post what you need
+        • Step 2: Compare vetted providers
+        • Step 3: Book, pay, and review
+      Each step (.step) has a numbered badge (.step-n) and body (.step-body > h3 + p)
+
+  Anchor: id="how" on the <section> — nav "How it works" link points here
+
+  To edit:
+    • Section headline → <h2> text inside .how-text
+    • Step title/copy  → <h3> and <p> inside each .step-body
+    • Add a 4th step   → copy a <div class="step"> block; number badge is manual
+    • Photo            → swap Unsplash URL in .how-img-wrap > img
+    • Layout direction → flip col order by swapping .how-img-wrap and .how-text
+      in the HTML (grid is defined with .how-inner { display:grid })
+  ───────────────────────────────────────────────────────────────────────── -->
 <section class="how" id="how">
   <div class="wrap">
     <div class="how-inner">
@@ -749,9 +938,33 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     PROVIDER BANNER
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §9  PROVIDER BANNER
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    Dark split card (.provider-banner) inside the standard .wrap container:
+      LEFT (.pb-left):
+        • H2 — "Turn your skill into income"
+        • Body copy — earn on Sowo pitch
+        • CTA button — "Become a Provider" → /become-provider.html
+
+      RIGHT (.pb-right):
+        • Photo — provider/chef image (Unsplash), decorative
+        • 4 perk items (.pb-perk) with check-mark SVG icons:
+            Set your own prices
+            No monthly fees
+            Get paid directly
+            Work when you want
+
+  To edit:
+    • Headline / body copy → <h2> and <p> inside .pb-left
+    • CTA button label/link → <a class="pb-btn"> text and href
+    • Perk items → text inside each .pb-perk (after the SVG icon)
+    • Add/remove a perk → copy/delete a <div class="pb-perk"> block
+    • Photo → swap Unsplash URL in .pb-right > img
+    • Card background → .provider-banner { background } in <style>  (dark green)
+    • Card border-radius / padding → .provider-banner in <style>
+  ───────────────────────────────────────────────────────────────────────── -->
 <div class="wrap" style="padding-bottom:88px">
   <div class="provider-banner">
     <div class="pb-left">
@@ -786,9 +999,33 @@ footer a:hover{color:#fff}
   </div>
 </div>
 
-<!-- ══════════════════════════════════
-     FOOTER
-══════════════════════════════════════ -->
+<!-- ─────────────────────────────────────────────────────────────────────────
+  §10  FOOTER
+  ─────────────────────────────────────────────────────────────────────────
+  What's here:
+    4-column dark footer (.footer-top):
+      Col 1 (.fb): Sowo logo (mint + amber SVG) + brand tagline
+      Col 2: Services links — Beauty & Makeup, Nail Technicians, Hairdressers,
+                              Barbers, Private Chefs, Massage
+      Col 3: Company links  — About, How it works, Safety & Trust, Blog, Careers
+      Col 4: Support links  — Help Centre, Contact, Sowo Protect,
+                              Become a Provider, Sign in
+
+    Legal bar (.footer-bottom):
+      "© 2025 Sowo Ltd. Registered in England & Wales."
+      Privacy | Terms | Cookies
+
+  To edit:
+    • Brand tagline → <p> inside .fb
+    • Footer logo colours → stroke and fill on the two <path> and <circle> SVG
+      elements (currently mint #9FE1CB + amber #EF9F27 on dark background)
+    • Add/rename a services link → inside the "Services" <ul>
+    • Add/rename a company link  → inside the "Company" <ul>
+    • Add/rename a support link  → inside the "Support" <ul>
+    • Copyright year / company name → text in .footer-bottom > p
+    • Legal links → the <a> tags in .footer-bottom > nav
+    • Footer background colour → footer { background } in <style>  (currently #0A0A0A)
+  ───────────────────────────────────────────────────────────────────────── -->
 <footer>
   <div class="wrap">
     <div class="footer-top">
