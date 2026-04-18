@@ -5,7 +5,49 @@
 
 /* ── Supabase client ─────────────────────────────────────────── */
 const { createClient } = supabase;
-const sb = createClient(SOWO_CONFIG.supabase.url, SOWO_CONFIG.supabase.anonKey);
+const _sbConfigured = SOWO_CONFIG.supabase.url !== 'YOUR_SUPABASE_URL';
+
+// Stub used when credentials are not yet set — keeps all pages functional
+function _sbStubChain() {
+  const notConfigured = { data: null, error: { message: 'Supabase not configured' } };
+  const chain = {
+    select:  () => chain,
+    insert:  () => chain,
+    upsert:  () => chain,
+    update:  () => chain,
+    delete:  () => chain,
+    eq:      () => chain,
+    neq:     () => chain,
+    order:   () => chain,
+    range:   () => chain,
+    limit:   () => chain,
+    single:  () => Promise.resolve(notConfigured),
+    ilike:   () => chain,
+    or:      () => chain,
+    then:    (fn) => Promise.resolve({ data: [], error: null, count: 0 }).then(fn),
+  };
+  return chain;
+}
+
+const _sbStub = {
+  auth: {
+    getUser:               () => Promise.resolve({ data: { user: null } }),
+    getSession:            () => Promise.resolve({ data: { session: null } }),
+    signUp:                () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+    signInWithPassword:    () => Promise.resolve({ data: null, error: { message: 'Supabase not configured' } }),
+    signOut:               () => Promise.resolve({}),
+    onAuthStateChange:     () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+    signInWithOAuth:       () => Promise.resolve({ error: null }),
+    resetPasswordForEmail: () => Promise.resolve({ error: null }),
+    updateUser:            () => Promise.resolve({ error: null }),
+  },
+  from:    () => _sbStubChain(),
+  storage: { from: () => ({ upload: () => Promise.resolve({ error: null }), getPublicUrl: () => ({ data: { publicUrl: '' } }) }) },
+};
+
+const sb = _sbConfigured
+  ? createClient(SOWO_CONFIG.supabase.url, SOWO_CONFIG.supabase.anonKey)
+  : _sbStub;
 
 /* ── Auth helpers ────────────────────────────────────────────── */
 const Auth = {
@@ -244,24 +286,6 @@ const Storage = {
     const { data } = sb.storage.from('media').getPublicUrl(path);
     return data.publicUrl;
   },
-
-  async uploadPortfolioImage(userId, file) {
-    const ext  = file.name.split('.').pop();
-    const path = `portfolio/${userId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await sb.storage.from('media').upload(path, file, { upsert: false });
-    if (error) throw error;
-    const { data } = sb.storage.from('media').getPublicUrl(path);
-    return data.publicUrl;
-  },
-
-  async uploadPortfolioVideo(userId, file) {
-    const ext  = file.name.split('.').pop();
-    const path = `videos/${userId}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const { error } = await sb.storage.from('media').upload(path, file, { upsert: false });
-    if (error) throw error;
-    const { data } = sb.storage.from('media').getPublicUrl(path);
-    return data.publicUrl;
-  },
 };
 
 /* ── UI helpers ──────────────────────────────────────────────── */
@@ -352,10 +376,8 @@ const UI = {
 
 /* ── Categories ──────────────────────────────────────────────── */
 const CATEGORIES = [
-  'Plumber','Electrician','Cleaner','Carpenter','Painter',
-  'Plasterer','Gardener','Handyman','Tiler','Locksmith',
-  'Roofer','Decorator','Mechanic','Builder','Tutor',
-  'Cook / Chef','Tailor','Photographer','IT Support','Childcare',
+  'Beauty & Makeup','Nail Technician','Hairdresser','Barber','Private Chef',
+  'Massage Therapist','Lash Technician','Skincare & Facials','Photographer','Personal Trainer',
 ];
 
 /* ── Auto-init on DOMContentLoaded ──────────────────────────── */
