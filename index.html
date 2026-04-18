@@ -35,129 +35,143 @@ nav{
 .nav-cta{background:#085041;color:#fff;font-size:.875rem;font-weight:600;padding:9px 20px;border-radius:8px;transition:background .15s}
 .nav-cta:hover{background:#064033}
 
-/* ─── HERO — centred layout (Taskrabbit style) ─── */
-.hero{background:#fff;overflow:hidden}
-.hero-top{
+/* ─── HERO ─── */
+.hero{background:#fff;position:relative;overflow:hidden}
+
+/* Decorative corner — top-left diagonal stripes in Sowo green */
+.hero-stripes{
+  position:absolute;top:0;left:0;width:200px;height:280px;
+  background-image:repeating-linear-gradient(
+    135deg,#085041 0,#085041 2px,transparent 2px,transparent 13px
+  );
+  clip-path:polygon(0 0,100% 0,0 100%);
+  opacity:.18;pointer-events:none;z-index:0;
+}
+/* Decorative corner — top-right amber blob */
+.hero-blob{
+  position:absolute;top:-40px;right:-40px;width:260px;height:220px;
+  background:radial-gradient(ellipse at 60% 40%,#EF9F27 0%,rgba(239,159,39,.3) 60%,transparent 80%);
+  pointer-events:none;z-index:0;
+  border-radius:0 0 0 100%;
+}
+
+/* Main centred content */
+.hero-main{
+  position:relative;z-index:1;
   text-align:center;
-  padding:72px 24px 48px;
-  max-width:760px;margin:0 auto;
+  padding:64px 24px 0;
+  max-width:800px;margin:0 auto;
 }
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:7px;
   background:#f0fdf9;border:1px solid #a7f3d0;
   color:#065f46;font-size:.78rem;font-weight:600;letter-spacing:.04em;
-  padding:5px 12px;border-radius:50px;margin-bottom:28px;
+  padding:5px 14px;border-radius:50px;margin-bottom:24px;
 }
 .hero-eyebrow span{width:6px;height:6px;background:#10b981;border-radius:50%;display:block;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .hero h1{
-  font-family:'Lora',serif;font-size:clamp(3rem,6vw,5.2rem);
+  font-family:'Lora',serif;font-size:clamp(2.8rem,5.5vw,5rem);
   font-weight:700;line-height:1.08;color:#0a0a0a;letter-spacing:-.04em;
-  margin-bottom:20px;
+  margin-bottom:36px;
 }
 .hero h1 em{font-style:italic;color:#085041}
-.hero-sub{font-size:1.1rem;color:#6b7280;line-height:1.7;max-width:540px;margin:0 auto 40px}
 
-/* Search — wide, centred */
+/* Search bar */
 .search-bar{
   display:flex;align-items:center;
-  background:#fff;border:1.5px solid #e5e7eb;border-radius:50px;
-  box-shadow:0 4px 20px rgba(0,0,0,.09);overflow:hidden;
-  max-width:620px;margin:0 auto 36px;
+  background:#fff;border:1.5px solid #d1d5db;border-radius:50px;
+  box-shadow:0 4px 24px rgba(0,0,0,.10);overflow:hidden;
+  max-width:640px;margin:0 auto 40px;
   transition:border-color .2s,box-shadow .2s;
 }
 .search-bar:focus-within{border-color:#085041;box-shadow:0 6px 28px rgba(8,80,65,.14)}
 .search-bar input{
-  flex:1;padding:16px 24px;font-size:1rem;
+  flex:1;padding:17px 24px;font-size:1rem;
   border:none;outline:none;background:transparent;color:#111;
 }
 .search-bar input::placeholder{color:#9ca3af}
 .search-btn{
-  padding:11px 28px;margin:6px;background:#085041;color:#fff;
+  padding:11px 28px;margin:7px;background:#085041;color:#fff;
   font-size:.9rem;font-weight:600;border-radius:50px;
   flex-shrink:0;transition:background .15s;white-space:nowrap;
 }
 .search-btn:hover{background:#064033}
 
-/* Category icon tabs — plain style (icon + label + underline) */
-.hero-cats{
-  display:flex;justify-content:center;gap:0;
-  flex-wrap:nowrap;overflow-x:auto;padding-bottom:0;
-  scrollbar-width:none;margin-top:8px;
-  border-bottom:1.5px solid #e5e7eb;
+/* Category nav — exact Taskrabbit structure */
+.cat-nav{
+  display:flex;justify-content:center;
+  gap:8px;flex-wrap:nowrap;overflow-x:auto;
+  padding:0 24px;scrollbar-width:none;
+  position:relative;z-index:1;
+  max-width:1200px;margin:0 auto;
 }
-.hero-cats::-webkit-scrollbar{display:none}
-.hcat{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  padding:14px 24px 16px;cursor:pointer;
-  background:none;border:none;border-bottom:3px solid transparent;
-  margin-bottom:-1.5px;
-  transition:border-color .15s;
-  min-width:80px;flex-shrink:0;
+.cat-nav::-webkit-scrollbar{display:none}
+.cat-item{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  cursor:pointer;padding:12px 20px;border-radius:12px;
+  border:1.5px solid transparent;
+  min-width:96px;flex-shrink:0;
+  transition:background .15s,border-color .15s;
 }
-.hcat:hover .hcat-icon svg{stroke:#0a0a0a}
-.hcat:hover .hcat-label{color:#0a0a0a}
-.hcat.active{border-bottom-color:#085041}
-.hcat-icon{display:flex;align-items:center;justify-content:center}
-.hcat-icon svg{width:26px;height:26px;stroke:#9ca3af;transition:stroke .15s;stroke-width:1.7}
-.hcat.active .hcat-icon svg{stroke:#085041}
-.hcat-label{
-  font-size:.8rem;font-weight:600;color:#9ca3af;white-space:nowrap;
-  transition:color .15s;
-}
-.hcat.active .hcat-label{color:#085041}
-.hcat-bar{display:none}
+.cat-item svg{width:34px;height:34px;stroke:#6b7280;fill:none;stroke-width:1.6;transition:stroke .15s}
+.cat-item span{font-size:.875rem;color:#6b7280;font-weight:500;white-space:nowrap;transition:color .15s}
+.cat-item:hover{background:#f9fafb}
+.cat-item:hover svg{stroke:#0a0a0a}
+.cat-item:hover span{color:#0a0a0a}
+.cat-item.active{background:#f0fdf9;border-color:#085041}
+.cat-item.active svg{stroke:#085041}
+.cat-item.active span{color:#085041;font-weight:700}
 
-/* Sub-service pills (below tabs) */
-.hero-subpills{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
-  padding:20px 24px 0;max-width:860px;margin:0 auto;
+/* Filter pills */
+.hero-pills{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+  max-width:960px;margin:28px auto 36px;
+  padding:0 24px;position:relative;z-index:1;
 }
-.h-subpill{
-  padding:9px 20px;border:1.5px solid #d1d5db;border-radius:50px;
-  font-size:.85rem;font-weight:500;color:#374151;
-  background:#fff;cursor:pointer;transition:all .15s;white-space:nowrap;
+.h-pill{
+  padding:11px 24px;
+  border:1.5px solid #0a0a0a;border-radius:30px;
+  font-size:.9rem;font-weight:600;
+  background:#fff;cursor:pointer;color:#0a0a0a;
+  white-space:nowrap;transition:background .15s,color .15s;
 }
-.h-subpill:hover{border-color:#085041;color:#085041}
+.h-pill:hover{background:#0a0a0a;color:#fff}
 
-/* Hero bottom — wide image card */
-.hero-bottom{
-  max-width:1060px;margin:0 auto;
-  padding:0 48px 0;
-  position:relative;
+/* Hero image card wrapper */
+.hero-card-wrap{
+  background:#e6f5ef;
+  border-radius:20px;
+  padding:20px;
+  max-width:1140px;
+  margin:0 auto 0;
+  position:relative;z-index:1;
 }
-.hero-img-wrap{
-  border-radius:24px 24px 0 0;overflow:hidden;position:relative;
-  height:420px;
+.hero-inner{
+  position:relative;border-radius:14px;overflow:hidden;min-height:460px;
 }
-.hero-img-wrap img{
-  width:100%;height:100%;object-fit:cover;object-position:center 25%;
-  display:block;
+.hero-inner img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center 20%;display:block;
 }
-.hero-img-wrap::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,.45) 0%, transparent 55%);
+/* Info card floating top-left on the image */
+.hero-info-card{
+  position:absolute;top:48px;left:48px;
+  background:#fff;padding:28px 32px;border-radius:12px;
+  max-width:340px;box-shadow:0 4px 20px rgba(0,0,0,.08);z-index:2;
 }
-.hero-card{
-  position:absolute;bottom:28px;left:76px;
-  background:rgba(255,255,255,.96);backdrop-filter:blur(12px);
-  border-radius:16px;padding:16px 20px;
-  box-shadow:0 8px 32px rgba(0,0,0,.16);
-  display:flex;align-items:center;gap:14px;
-  z-index:2;min-width:300px;
+.hero-info-card h2{
+  font-family:'Lora',serif;font-size:1.4rem;font-weight:700;
+  color:#0a0a0a;margin-bottom:18px;
 }
-.hc-av{width:48px;height:48px;border-radius:12px;overflow:hidden;flex-shrink:0}
-.hc-av img{width:100%;height:100%;object-fit:cover}
-.hc-info{flex:1;min-width:0}
-.hc-name{font-weight:700;font-size:.9rem;color:#0a0a0a}
-.hc-role{font-size:.75rem;color:#6b7280;margin-top:1px}
-.hc-rating{display:flex;align-items:center;gap:4px;margin-top:4px}
-.hc-rating span{font-size:.78rem;font-weight:600;color:#0a0a0a}
-.hc-stars{color:#F59E0B;font-size:.78rem}
-.hc-badge{
-  background:#ecfdf5;color:#065f46;font-size:.72rem;font-weight:700;
-  padding:4px 10px;border-radius:50px;border:1px solid #a7f3d0;flex-shrink:0;
+.hero-info-card ul{list-style:none}
+.hero-info-card li{
+  display:flex;gap:10px;margin-bottom:14px;
+  font-size:.9rem;line-height:1.5;color:#374151;
 }
+.hero-info-card li:last-child{margin-bottom:0}
+.hic-check{flex-shrink:0;margin-top:2px}
+.hic-check svg{width:16px;height:16px;stroke:#085041;fill:none;stroke-width:2.5}
 
 /* ─── Services ─── */
 .services{padding:80px 0 88px}
@@ -408,159 +422,118 @@ footer a:hover{color:#fff}
 </nav>
 
 <!-- ─────────────────────────────────────────────────────────────────────────
-  §2  HERO
+  §2  HERO  (Taskrabbit-structure, Sowo brand)
   ─────────────────────────────────────────────────────────────────────────
-  What's here:
-    LEFT COLUMN (.hero-left):
-      • Eyebrow badge  — "Providers online now in London"
-      • H1 headline   — "Book the help you need, today"
-      • Sub-copy      — one-line description
-      • Search bar    — text input + "Find help" button  (handleSearch() in JS)
-      • Category pills — 6 emoji shortcut buttons that pre-fill the search box
-
-    RIGHT COLUMN (.hero-right):
-      • Full-bleed background photo (hairdresser, Unsplash)
-      • Floating provider card (.hero-card) — avatar, name, role, rating badge
+  Structure (top → bottom):
+    1. Decorative corners (.hero-stripes top-left, .hero-blob top-right)
+    2. Centred content (.hero-main): eyebrow badge, h1, search bar
+    3. Category nav (.cat-nav): 8 services with SVG icons
+    4. Filter pills (.hero-pills): dynamic sub-service shortcuts
+    5. Hero image card (.hero-card-wrap > .hero-inner):
+         - Full-bleed Unsplash photo
+         - Floating white info card (.hero-info-card) top-left of image
 
   To edit:
-    • Headline copy    → change the text inside <h1>
-    • Sub-copy         → change <p class="hero-sub">
-    • Eyebrow badge    → change text after <span></span> in .hero-eyebrow
-    • Search placeholder → "placeholder=" on the <input>
-    • Category pills   → edit/add <button class="h-pill"> items; update the
-                          onclick="setPill(this,'...')" query string to match
-    • Hero photo       → swap the Unsplash URL in the <img src="..."> inside
-                          .hero-right; keep loading="eager" to avoid blank display
-    • Provider card    → change name (.hc-name), role (.hc-role), stars/count
-                          (.hc-rating), badge text (.hc-badge)
-    • Card avatar      → swap the Unsplash URL inside .hc-av > img
-    • Hero height      → .hero { min-height / max-height } in <style>
-    • Column widths    → .hero { grid-template-columns } in <style>
+    • Headline     → <h1> inside .hero-main
+    • Search       → placeholder on <input>, button text
+    • Categories   → .cat-item elements in .cat-nav; update onclick data-pills
+    • Pills        → JS object CAT_PILLS — keys match data-cat on each .cat-item
+    • Hero photo   → Unsplash URL on .hero-inner > img
+    • Info card    → .hero-info-card h2 + <li> bullet points
+    • Corner decor → .hero-stripes (colour/opacity) + .hero-blob in <style>
+    • Card bg      → .hero-card-wrap { background } in <style>
   ───────────────────────────────────────────────────────────────────────── -->
 <section class="hero">
 
-  <!-- Centred top: eyebrow, headline, search, category tabs -->
-  <div class="hero-top">
+  <!-- Decorative corners -->
+  <div class="hero-stripes"></div>
+  <div class="hero-blob"></div>
+
+  <!-- 1. Centred: eyebrow + headline + search -->
+  <div class="hero-main">
     <div class="hero-eyebrow">
       <span></span>
       Providers online now in London
     </div>
-    <h1>Book the help you need,<br><em>today</em></h1>
-    <p class="hero-sub">Describe what you need, get quotes from vetted local providers, and hire with confidence — all in one place.</p>
+    <h1>Find trusted help<br>for every beauty need</h1>
 
     <div class="search-bar">
       <input id="search-input" type="text" placeholder="What are you looking for?" autocomplete="off">
       <button class="search-btn" onclick="handleSearch()">Find help</button>
     </div>
-
-    <!-- Category icon tabs -->
-    <div class="hero-cats">
-
-      <!-- Makeup -->
-      <button class="hcat active" onclick="setHcat(this,'Makeup artist')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7 4v16M7 4c0 0 2-2 5-2s5 2 5 2v4c0 0-2 2-5 2S7 8 7 8V4z"/><path stroke-linecap="round" stroke-linejoin="round" d="M7 8v8a5 5 0 0010 0V8"/></svg>
-        </span>
-        <span class="hcat-label">Makeup</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-      <!-- Nails -->
-      <button class="hcat" onclick="setHcat(this,'Nail technician')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.75a.75.75 0 00-1.5 0v.386A3.75 3.75 0 005 7.875v8.25A4.875 4.875 0 0012 21a4.875 4.875 0 007-4.375v-8.25a3.75 3.75 0 00-3.25-3.739V3.75a.75.75 0 00-1.5 0"/><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5h7.5"/></svg>
-        </span>
-        <span class="hcat-label">Nails</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-      <!-- Hair -->
-      <button class="hcat" onclick="setHcat(this,'Hairdresser')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2v8M6 2C6 2 3 4 3 7s3 5 3 5M6 10c0 0 3 2 3 5s-3 5-3 5M6 20l3-3M18 2l-6 10 6 10"/></svg>
-        </span>
-        <span class="hcat-label">Hair</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-      <!-- Barber -->
-      <button class="hcat" onclick="setHcat(this,'Barber')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 3l12 18M6 21l12-18M7.5 10.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm9 8a2.5 2.5 0 110-5 2.5 2.5 0 010 5z"/></svg>
-        </span>
-        <span class="hcat-label">Barber</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-      <!-- Chef -->
-      <button class="hcat" onclick="setHcat(this,'Private chef')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2a5 5 0 015 5c0 1.5-.7 2.9-1.8 3.8L15 20H9l-.2-9.2A5 5 0 0112 2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 20h6"/></svg>
-        </span>
-        <span class="hcat-label">Chef</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-      <!-- Massage -->
-      <button class="hcat" onclick="setHcat(this,'Massage therapist')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/><circle cx="12" cy="8" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 17c2-2 4-3 9-3s7 1 9 3"/></svg>
-        </span>
-        <span class="hcat-label">Massage</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-      <!-- Lashes -->
-      <button class="hcat" onclick="setHcat(this,'Lash technician')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><ellipse cx="12" cy="13" rx="8" ry="5"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 9c0-2 1.3-4 4-4s4 2 4 4"/><path stroke-linecap="round" d="M9 7l-1-3M12 6V3M15 7l1-3"/></svg>
-        </span>
-        <span class="hcat-label">Lashes</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-      <!-- Fitness -->
-      <button class="hcat" onclick="setHcat(this,'Personal trainer')">
-        <span class="hcat-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12h12M4 12H2m20 0h-2M7 9l-1-3m12 6l1 3M17 9l1-3M7 15l-1 3"/><rect x="6" y="9" width="12" height="6" rx="2"/></svg>
-        </span>
-        <span class="hcat-label">Fitness</span>
-        <div class="hcat-bar"></div>
-      </button>
-
-    </div>
-
-    <!-- Sub-service pills -->
-    <div class="hero-subpills" id="hero-subpills">
-      <button class="h-subpill" onclick="setSearch('Bridal makeup')">Bridal makeup</button>
-      <button class="h-subpill" onclick="setSearch('Wedding hair')">Wedding hair</button>
-      <button class="h-subpill" onclick="setSearch('Gel nails')">Gel nails</button>
-      <button class="h-subpill" onclick="setSearch('Lash extensions')">Lash extensions</button>
-      <button class="h-subpill" onclick="setSearch('Afro hair specialist')">Afro hair specialist</button>
-      <button class="h-subpill" onclick="setSearch('Dinner party chef')">Dinner party chef</button>
-    </div>
-
   </div>
 
-  <!-- Wide image below — rounds into the section -->
-  <div class="hero-bottom">
-    <div class="hero-img-wrap">
-      <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1200&auto=format&fit=crop&q=85"
-           alt="Hairdresser at work" loading="eager">
-      <!-- Floating provider card -->
-      <div class="hero-card">
-        <div class="hc-av">
-          <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=120&auto=format&fit=crop&q=80" alt="Provider">
-        </div>
-        <div class="hc-info">
-          <div class="hc-name">Adeola Williams</div>
-          <div class="hc-role">Makeup Artist · Brixton, London</div>
-          <div class="hc-rating">
-            <span class="hc-stars">★★★★★</span>
-            <span>4.9 · 138 reviews</span>
-          </div>
-        </div>
-        <div class="hc-badge">Available today</div>
+  <!-- 2. Category nav -->
+  <nav class="cat-nav">
+
+    <div class="cat-item active" data-cat="Makeup artist" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><path d="M7 4v16M7 4c0 0 2-2 5-2s5 2 5 2v4c0 0-2 2-5 2S7 8 7 8V4z" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 8v8a5 5 0 0010 0V8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Makeup</span>
+    </div>
+
+    <div class="cat-item" data-cat="Nail technician" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><path d="M9 3.5V4a3 3 0 00-3 3v8a6 6 0 0012 0V7a3 3 0 00-3-3v-.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4h6" stroke-linecap="round"/></svg>
+      <span>Nails</span>
+    </div>
+
+    <div class="cat-item" data-cat="Hairdresser" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><path d="M5 3c0 5 3 7 3 12M5 3c0 5-3 7-3 12M8 15l-6 0M13 3l-4 9 4 9M13 3l4 9-4 9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Hair</span>
+    </div>
+
+    <div class="cat-item" data-cat="Barber" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><path d="M6 3l12 18M6 21L18 3M7.5 10.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm9 8a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Barber</span>
+    </div>
+
+    <div class="cat-item" data-cat="Private chef" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><path d="M6 13.5V19a1 1 0 001 1h10a1 1 0 001-1v-5.5M4 13.5h16M12 2a4 4 0 00-4 4h8a4 4 0 00-4-4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Chef</span>
+    </div>
+
+    <div class="cat-item" data-cat="Massage therapist" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14c2-1.5 4-2 9-2s7 .5 9 2" stroke-linecap="round"/></svg>
+      <span>Massage</span>
+    </div>
+
+    <div class="cat-item" data-cat="Lash technician" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="8" ry="4.5"/><path d="M8 10.5c0-2 1.8-4 4-4s4 2 4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 8l-1-3M12 7V4M15 8l1-3" stroke-linecap="round"/></svg>
+      <span>Lashes</span>
+    </div>
+
+    <div class="cat-item" data-cat="Personal trainer" onclick="setHcat(this)">
+      <svg viewBox="0 0 24 24"><path d="M6 12h12M3 12H1m22 0h-2M7 8l-1-4m12 8l1 4M17 8l1-4M7 16l-1 4" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="9" width="12" height="6" rx="2" stroke-linecap="round"/></svg>
+      <span>Fitness</span>
+    </div>
+
+  </nav>
+
+  <!-- 3. Filter pills (dynamic per category) -->
+  <div class="hero-pills" id="hero-pills">
+    <button class="h-pill" onclick="setSearch('Bridal makeup')">Bridal makeup</button>
+    <button class="h-pill" onclick="setSearch('Event glam')">Event glam</button>
+    <button class="h-pill" onclick="setSearch('Photoshoot makeup')">Photoshoot makeup</button>
+    <button class="h-pill" onclick="setSearch('Natural look')">Natural look</button>
+    <button class="h-pill" onclick="setSearch('Airbrush makeup')">Airbrush makeup</button>
+  </div>
+
+  <!-- 4. Hero image card -->
+  <div class="hero-card-wrap">
+    <div class="hero-inner" id="hero-inner">
+      <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1400&auto=format&fit=crop&q=85"
+           alt="Provider at work" loading="eager" id="hero-img">
+      <div class="hero-info-card" id="hero-info-card">
+        <h2>Makeup</h2>
+        <ul>
+          <li>
+            <span class="hic-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>Bridal, editorial &amp; special occasion looks by fully vetted artists — from £65.</span>
+          </li>
+          <li>
+            <span class="hic-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>Now trending: dewy glass skin, bold lipliner &amp; soft glam for events.</span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -1211,30 +1184,81 @@ footer a:hover{color:#fff}
 </footer>
 
 <script>
-const CAT_PILLS = {
-  'Makeup artist':      ['Bridal makeup','Event glam','Photoshoot makeup','Natural look','Airbrush makeup'],
-  'Nail technician':    ['Gel nails','Acrylic nails','Nail art','Manicure','Pedicure'],
-  'Hairdresser':        ['Afro hair specialist','Braids & twists','Cut & colour','Blowout','Wedding hair'],
-  'Barber':             ['Skin fade','Beard trim','Line-up','Kids cut','Hot towel shave'],
-  'Private chef':       ['Dinner party chef','Meal prep','Birthday celebration','Date night','Brunch catering'],
-  'Massage therapist':  ['Deep tissue','Swedish massage','Sports massage','Couple massage','Prenatal massage'],
-  'Lash technician':    ['Lash extensions','Lash lift & tint','Russian volume','Hybrid lashes','Removal'],
-  'Personal trainer':   ['Weight loss plan','Strength training','Home workout','Yoga & flexibility','Nutrition coaching'],
+const CAT_DATA = {
+  'Makeup artist': {
+    pills: ['Bridal makeup','Event glam','Photoshoot makeup','Natural look','Airbrush makeup'],
+    img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1400&auto=format&fit=crop&q=85',
+    title: 'Makeup',
+    bullets: ['Bridal, editorial &amp; special occasion looks by fully vetted artists — from £65.','Now trending: dewy glass skin, bold lipliner &amp; soft glam for events.'],
+  },
+  'Nail technician': {
+    pills: ['Gel nails','Acrylic nails','Nail art','Manicure','Pedicure'],
+    img: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1400&auto=format&fit=crop&q=85',
+    title: 'Nails',
+    bullets: ['Gel, acrylics, nail art &amp; more — your nail tech comes to you, from £35.','Now trending: chrome finishes, French tips &amp; 3D nail art.'],
+  },
+  'Hairdresser': {
+    pills: ['Afro hair specialist','Braids &amp; twists','Cut &amp; colour','Blowout','Wedding hair'],
+    img: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=1400&auto=format&fit=crop&q=85',
+    title: 'Hair',
+    bullets: ['Expert hairdressers for all hair types — cuts, colour, braids &amp; more, from £45.','Now trending: curtain bangs, butterfly cuts &amp; rich brunette tones.'],
+  },
+  'Barber': {
+    pills: ['Skin fade','Beard trim','Line-up','Kids cut','Hot towel shave'],
+    img: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1400&auto=format&fit=crop&q=85',
+    title: 'Barber',
+    bullets: ['Fades, trims, beard work &amp; more — a barber at your door, from £20.','Now trending: textured crops, taper fades &amp; skin fades.'],
+  },
+  'Private chef': {
+    pills: ['Dinner party','Meal prep','Birthday celebration','Date night','Brunch catering'],
+    img: 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=1400&auto=format&fit=crop&q=85',
+    title: 'Private Chef',
+    bullets: ['Restaurant-quality meals in your home — from intimate dinners to full events, from £120.','Now trending: mezze sharing boards, tasting menus &amp; plant-based feasts.'],
+  },
+  'Massage therapist': {
+    pills: ['Deep tissue','Swedish massage','Sports massage','Couple massage','Prenatal massage'],
+    img: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1400&auto=format&fit=crop&q=85',
+    title: 'Massage',
+    bullets: ['Qualified therapists who come to you — relaxation, sports &amp; deep tissue, from £60.','Now trending: hot stone therapy, lymphatic drainage &amp; couple\'s massage.'],
+  },
+  'Lash technician': {
+    pills: ['Lash extensions','Lash lift &amp; tint','Russian volume','Hybrid lashes','Infill'],
+    img: 'https://images.unsplash.com/photo-1583001931096-959e9a1a6223?w=1400&auto=format&fit=crop&q=85',
+    title: 'Lashes',
+    bullets: ['Classic, hybrid &amp; volume sets from certified technicians — from £50.','Now trending: wispy cat-eye, coloured tips &amp; mega volume sets.'],
+  },
+  'Personal trainer': {
+    pills: ['Weight loss plan','Strength training','Home workout','Yoga &amp; flexibility','Nutrition coaching'],
+    img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&auto=format&fit=crop&q=85',
+    title: 'Fitness',
+    bullets: ['Certified personal trainers who come to your home or garden — from £50/session.','Now trending: strength &amp; conditioning, Pilates reformer &amp; outdoor HIIT.'],
+  },
 };
 
-function setHcat(el, query) {
-  document.querySelectorAll('.hcat').forEach(b => b.classList.remove('active'));
+function setHcat(el) {
+  document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('search-input').value = '';
-  const pills = CAT_PILLS[query] || [];
-  const container = document.getElementById('hero-subpills');
-  container.innerHTML = pills.map(p =>
-    `<button class="h-subpill" onclick="setSearch('${p}')">${p}</button>`
+  const cat = el.dataset.cat;
+  const d = CAT_DATA[cat];
+  if (!d) return;
+  // update pills
+  document.getElementById('hero-pills').innerHTML =
+    d.pills.map(p => `<button class="h-pill" onclick="setSearch('${p}')">${p}</button>`).join('');
+  // update image
+  document.getElementById('hero-img').src = d.img;
+  document.getElementById('hero-img').alt = d.title;
+  // update info card
+  const card = document.getElementById('hero-info-card');
+  card.querySelector('h2').textContent = d.title;
+  card.querySelector('ul').innerHTML = d.bullets.map(b =>
+    `<li><span class="hic-check"><svg viewBox="0 0 24 24" fill="none" stroke="#085041" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg></span><span>${b}</span></li>`
   ).join('');
+  document.getElementById('search-input').value = '';
 }
 
 function setSearch(q) {
   document.getElementById('search-input').value = q;
+  document.getElementById('search-input').focus();
 }
 
 function handleSearch() {
