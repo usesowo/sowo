@@ -3,441 +3,711 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Browse Providers — Sowo</title>
+<title>Marketplace - Sowo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--amber-dk:#8B5E0A;
-  --black:#0A0A0A;--cream:#F5F0E8;--white:#fff;
-  --t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;
-  --ease:cubic-bezier(.16,1,.3,1)
+  --green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;
+  --black:#0A0A0A;--border:#E8E8E8;--surf:#F6F6F6;
+  --t1:#0A0A0A;--t2:#555;--t3:#999;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--white);color:var(--t1);overflow-x:hidden}
+body{font-family:'Inter',-apple-system,sans-serif;background:#fff;color:var(--t1);overflow-x:hidden}
 a{text-decoration:none;color:inherit}
-button{font-family:inherit;cursor:pointer;border:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;padding:0 40px;
+nav{
+  position:sticky;top:0;z-index:500;height:68px;padding:0 48px;
   display:flex;align-items:center;justify-content:space-between;
-  background:#fff;border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.96);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);
 }
-.logo{display:flex;align-items:center;gap:8px}
-.logo-wm{font-family:Georgia,serif;font-size:19px;font-weight:700;color:var(--black)}
-.nav-links{display:flex;gap:28px}
-.nav-links a{font-size:13px;font-weight:500;color:var(--t2);transition:color .15s}
-.nav-links a:hover{color:var(--black)}
-.nav-links a.active{color:var(--green);font-weight:700}
-.nav-r{display:flex;align-items:center;gap:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .18s;white-space:nowrap}
-.btn-sm{height:38px;padding:0 16px;font-size:13px}
-.b-green{background:var(--green);color:var(--mint)}.b-green:hover{background:#063D31}
-.b-amber{background:var(--amber);color:var(--black)}.b-amber:hover{background:#D4891F}
-.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal);color:var(--black)}
-.ham{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none}
-.ham span{display:block;width:22px;height:1.5px;background:var(--black);border-radius:2px}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.nav-logo span{font-family:'Lora',serif;font-weight:700;font-size:1.3rem;color:#0a0a0a;letter-spacing:-.02em}
+.nav-right{display:flex;align-items:center;gap:28px}
+.nav-link{font-size:.875rem;font-weight:600;color:#085041}
+.nav-auth{font-size:.875rem;font-weight:500;color:#222;transition:color .15s}
+.nav-auth:hover{color:#085041}
+.nav-cta{font-size:.875rem;font-weight:600;color:#1a1a1a;border:1.5px solid #1a1a1a;padding:8px 20px;border-radius:8px;transition:background .15s,color .15s}
+.nav-cta:hover{background:#1a1a1a;color:#fff}
+/* Auth nav */
+.nav-user{position:relative;display:none}
+.nav-user.visible{display:flex;align-items:center}
+.nav-avatar{width:34px;height:34px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s;background-size:cover;background-position:center;user-select:none;flex-shrink:0}
+.nav-avatar:hover{border-color:#085041}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:200px;padding:6px;z-index:999;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s}
+.nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.nav-dd-info{padding:10px 12px 8px;border-bottom:1px solid #f3f4f6;margin-bottom:4px}
+.nav-dd-info .dd-name{font-size:13px;font-weight:700;color:#111}
+.nav-dd-info .dd-email{font-size:11.5px;color:#9ca3af;margin-top:1px}
+.nav-dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .12s}
+.nav-dd-item:hover{background:#f9fafb;color:#085041}
+.nav-dd-item.danger{color:#dc2626}
+.nav-dd-item.danger:hover{background:#fff5f5}
 
-/* HERO SEARCH BAR */
+/* HERO */
 .search-hero{
-  background:var(--black);margin-top:68px;
-  padding:48px 40px 52px;
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:40px 48px 36px;
 }
-.search-hero h1{font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;letter-spacing:-.5px;margin-bottom:6px}
-.search-hero p{font-size:15px;color:rgba(255,255,255,.45);margin-bottom:28px}
+.search-hero h1{
+  font-family:'Lora',serif;font-size:clamp(22px,3.5vw,34px);
+  font-weight:700;color:var(--black);letter-spacing:-.03em;margin-bottom:6px;
+}
+.search-hero h1 em{font-style:italic;color:var(--green)}
+.search-hero p{font-size:14px;color:var(--t2);margin-bottom:24px}
+
 .search-bar{
-  display:flex;gap:10px;max-width:680px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  border-radius:14px;padding:6px 6px 6px 16px;
+  display:flex;align-items:center;
+  background:#fff;border:1.5px solid var(--border);border-radius:50px;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);
+  max-width:680px;transition:border-color .2s,box-shadow .2s;
 }
+.search-bar:focus-within{border-color:var(--teal);box-shadow:0 4px 20px rgba(29,158,117,.12)}
 .search-bar input{
-  flex:1;background:none;border:none;outline:none;font-size:15px;
-  font-family:inherit;color:#fff;min-width:0;
+  flex:1;padding:14px 20px;font-size:.95rem;
+  border:none;outline:none;background:transparent;color:var(--t1);min-width:0;
 }
-.search-bar input::placeholder{color:rgba(255,255,255,.3)}
-.search-bar-btn{
-  height:44px;padding:0 22px;background:var(--amber);color:var(--black);
-  border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;
-  transition:background .15s;flex-shrink:0;
+.search-bar input::placeholder{color:#aaa}
+.search-divider{width:1px;height:24px;background:var(--border);flex-shrink:0}
+.loc-wrap{display:flex;align-items:center;gap:6px;padding:0 14px;flex-shrink:0}
+.loc-icon{color:#aaa;display:flex;flex-shrink:0}
+.loc-input{width:130px;padding:14px 0;font-size:.95rem;border:none;outline:none;background:transparent;color:var(--t1)}
+.loc-input::placeholder{color:#aaa}
+.loc-btn{background:none;border:none;cursor:pointer;color:var(--green);font-size:.75rem;font-weight:600;white-space:nowrap;padding:4px 8px;border-radius:20px;transition:background .15s}
+.loc-btn:hover{background:#f0fdf9}
+.search-btn{
+  padding:10px 24px;margin:6px;background:var(--green);color:var(--mint);
+  font-size:.875rem;font-weight:700;border-radius:50px;
+  flex-shrink:0;transition:background .15s;white-space:nowrap;
 }
-.search-bar-btn:hover{background:#D4891F}
+.search-btn:hover{background:#064033}
 
-/* FILTER CHIPS */
-.filters{padding:20px 40px;border-bottom:1px solid var(--border);background:#fff;overflow-x:auto;display:flex;gap:8px;align-items:center}
-.filters::-webkit-scrollbar{display:none}
-.chip{
-  height:34px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;
-  background:var(--surf);color:var(--t2);border:1px solid var(--border);
-  cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;
+/* FILTER BAR */
+.filter-bar{
+  padding:16px 48px;border-bottom:1px solid var(--border);
+  background:#fff;display:flex;align-items:center;gap:12px;
 }
-.chip:hover{border-color:var(--teal);color:var(--black)}
-.chip.active{background:var(--green);color:var(--mint);border-color:var(--green)}
-.filter-count{font-size:13px;color:var(--t3);margin-left:8px;flex-shrink:0;white-space:nowrap}
+.filter-btn{
+  height:40px;padding:0 16px;border:1.5px solid var(--border);border-radius:10px;
+  background:#fff;font-size:13px;font-weight:600;color:var(--t1);
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  transition:border-color .15s,box-shadow .15s;white-space:nowrap;
+}
+.filter-btn:hover{border-color:var(--teal)}
+.filter-btn.has-value{border-color:var(--green);color:var(--green);background:#f0fdf9}
+.filter-btn svg{transition:transform .2s}
+.filter-btn.open svg{transform:rotate(180deg)}
 
-/* SORT */
-.browse-header{display:flex;align-items:center;justify-content:space-between;padding:20px 40px 0}
-.browse-header h2{font-size:15px;font-weight:600;color:var(--t2)}
-.browse-header span{color:var(--black);font-weight:700}
+/* DROPDOWN */
+.filter-dropdown{
+  position:relative;
+}
+.cat-dropdown{
+  position:absolute;top:calc(100% + 8px);left:0;z-index:300;
+  background:#fff;border:1.5px solid var(--border);border-radius:16px;
+  box-shadow:0 16px 48px rgba(0,0,0,.12);
+  padding:12px;width:220px;
+  display:none;
+}
+.cat-dropdown.open{display:block}
+.cat-dropdown-title{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);margin-bottom:14px}
+.cat-grid{
+  display:flex;flex-direction:column;gap:4px;
+}
+.cat-tile{
+  display:flex;align-items:center;
+  padding:10px 14px;border-radius:8px;border:none;
+  background:transparent;cursor:pointer;
+  transition:background .15s;
+}
+.cat-tile:hover{background:#f5f5f5}
+.cat-tile.active{background:#f0fdf9}
+.cat-tile-label{font-size:13px;font-weight:500;color:var(--t2);line-height:1.3}
+.cat-tile.active .cat-tile-label{color:var(--green);font-weight:700}
+
+.cat-dropdown-footer{margin-top:16px;display:flex;justify-content:flex-end;gap:8px}
+.btn-clear{height:34px;padding:0 14px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;color:var(--t2);background:#fff;cursor:pointer;transition:border-color .15s}
+.btn-clear:hover{border-color:var(--t2)}
+.btn-apply{height:34px;padding:0 18px;border-radius:8px;font-size:13px;font-weight:700;color:var(--mint);background:var(--green);border:none;cursor:pointer;transition:background .15s}
+.btn-apply:hover{background:#064033}
+
+/* BROWSE HEADER */
+.browse-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 48px 0;
+}
+.browse-header h2{font-size:14px;font-weight:500;color:var(--t2)}
+.browse-header h2 span{color:var(--black);font-weight:700}
 .sort-select{
   height:36px;padding:0 12px;border:1px solid var(--border);border-radius:8px;
   font-size:13px;font-family:inherit;color:var(--t1);background:#fff;cursor:pointer;outline:none;
 }
 
 /* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:20px 40px 60px}
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;padding:20px 48px 60px;
+}
 
 /* PROVIDER CARD */
 .pcard{
   border:1px solid var(--border);border-radius:16px;overflow:hidden;
-  background:#fff;transition:transform .2s var(--ease),box-shadow .2s;cursor:pointer;
-  display:flex;flex-direction:column;
+  background:#fff;transition:transform .2s var(--ease),box-shadow .2s;
+  display:flex;flex-direction:column;cursor:pointer;
 }
-.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
-.pcard-top{padding:20px 20px 16px;display:flex;align-items:flex-start;gap:14px}
-.pcard-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--surf)}
-.pcard-avatar-init{
-  width:56px;height:56px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;font-weight:800;color:var(--mint);background:var(--green);
-}
-.pcard-info{flex:1;min-width:0}
-.pcard-name{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard-cat{font-size:12px;color:var(--t3);margin-top:2px}
-.pcard-loc{font-size:12px;color:var(--t3);margin-top:2px;display:flex;align-items:center;gap:4px}
-.pcard-stars{color:var(--amber);font-size:13px;margin-top:4px}
-.pcard-rating{font-size:12px;color:var(--t3);font-weight:600;margin-left:4px}
-
-.pcard-mid{padding:0 20px 14px}
-.pcard-bio{font-size:13px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-
-.pcard-skills{padding:0 20px;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-.skill-tag{
-  height:24px;padding:0 10px;border-radius:999px;
-  background:var(--surf);color:var(--t2);border:1px solid var(--border);font-size:11px;font-weight:600;
-}
-
-.pcard-foot{
-  margin-top:auto;padding:14px 20px;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.pcard-price{font-size:18px;font-weight:800;color:var(--black)}
-.pcard-price span{font-size:12px;font-weight:500;color:var(--t3)}
-.pcard-vouch{font-size:12px;color:var(--t3);display:flex;align-items:center;gap:4px}
-.pcard-cta{
-  height:34px;padding:0 16px;background:var(--green);color:var(--mint);
-  border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;
-  transition:background .15s;
-}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.10)}
+.pcard-img{width:100%;height:160px;object-fit:cover;display:block;background:var(--surf)}
+.pcard-img-placeholder{width:100%;height:160px;background:linear-gradient(135deg,#f0fdf9 0%,#e6f4f0 100%);display:flex;align-items:center;justify-content:center}
+.pcard-initials{width:72px;height:72px;border-radius:50%;background:var(--green);color:var(--mint);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800}
+.pcard-body{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:4px}
+.pcard-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.pcard-name{font-size:15px;font-weight:700;color:var(--black)}
+.pcard-verified{background:rgba(255,255,255,.92);color:var(--teal);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid rgba(29,158,117,.2);white-space:nowrap}
+.pcard-cat{font-size:12px;color:var(--t3);margin-top:1px}
+.pcard-loc{font-size:12px;color:var(--t3);display:flex;align-items:center;gap:4px;margin-top:2px}
+.pcard-stars{color:var(--amber);font-size:12px;margin-top:4px}
+.pcard-rating-text{font-size:11px;color:var(--t3);font-weight:600;margin-left:4px}
+.pcard-bio{font-size:13px;color:var(--t2);line-height:1.5;margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcard-skills{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.skill-tag{height:22px;padding:0 10px;border-radius:999px;background:var(--surf);color:var(--t2);border:1px solid var(--border);font-size:11px;font-weight:600}
+.pcard-foot{margin-top:auto;padding:12px 18px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.pcard-price{font-size:17px;font-weight:800;color:var(--black)}
+.pcard-price-unit{font-size:11px;font-weight:500;color:var(--t3)}
+.pcard-cta{height:32px;padding:0 14px;background:var(--green);color:var(--mint);border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:background .15s}
 .pcard-cta:hover{background:#063D31}
 
-/* VERIFIED BADGE */
-.verified-badge{display:inline-flex;align-items:center;gap:4px;background:#E6F9F3;color:var(--teal);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700;margin-top:4px}
-
-/* LOADING / EMPTY */
-.skeleton{animation:pulse 1.5s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.sk-card{border:1px solid var(--border);border-radius:16px;padding:20px}
-.sk-line{background:var(--surf);border-radius:6px;margin-bottom:10px}
-.sk-avatar{width:56px;height:56px;background:var(--surf);border-radius:50%;margin-bottom:12px}
-
+/* EMPTY */
 .empty-state{grid-column:1/-1;text-align:center;padding:80px 20px}
-.empty-icon{font-size:48px;margin-bottom:16px}
 .empty-title{font-size:20px;font-weight:700;margin-bottom:8px}
 .empty-msg{font-size:14px;color:var(--t3)}
 
-/* LOAD MORE */
-.load-more-wrap{text-align:center;padding:0 0 60px}
-.btn-load{
-  height:46px;padding:0 32px;background:var(--surf);color:var(--t1);
-  border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;
-  transition:all .15s;cursor:pointer;
-}
-.btn-load:hover{border-color:var(--teal);color:var(--green)}
+/* FOOTER */
+footer{background:#0a0a0a;color:#fff;padding:60px 0 0}
+.footer-wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid #1f1f1f}
+.fb p{color:#9ca3af;font-size:.875rem;line-height:1.6;margin-top:12px}
+.footer-logo{display:flex;align-items:center;gap:8px;font-family:'Lora',serif;font-weight:700;font-size:1.1rem;color:#fff}
+footer h4{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin-bottom:16px}
+footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+footer ul li a{color:#d1d5db;font-size:.875rem;transition:color .15s}
+footer ul li a:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-size:.8rem;color:#6b7280}
+.footer-bottom-links{display:flex;gap:20px}
+.footer-bottom-links a{color:#6b7280;font-size:.8rem}
+.footer-bottom-links a:hover{color:#fff}
 
-/* RESPONSIVE */
+/* PAGE BLUR OVERLAY */
+.page-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,0.18);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s ease;
+}
+.page-overlay.visible{opacity:1;pointer-events:auto}
+
 @media(max-width:768px){
-  .nav{padding:0 20px}
-  .nav-links{display:none}
-  .ham{display:flex}
-  .search-hero{padding:32px 20px 36px}
-  .filters{padding:16px 20px}
+  nav,.search-hero,.filters,.browse-header{padding-left:20px;padding-right:20px}
   .grid{padding:16px 20px 40px;grid-template-columns:1fr}
-  .browse-header{padding:16px 20px 0}
+  .footer-wrap{padding:0 20px}
+  .footer-top{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <a href="/" class="logo"><span class="logo-wm">Sowo</span></a>
-  <div class="nav-links">
-    <a href="/browse" class="active">Browse</a>
-    <a href="/become-provider">Become a provider</a>
-    <a href="/how-it-works">How it works</a>
+<div class="page-overlay" id="pageOverlay"></div>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="32" height="30" viewBox="0 0 120 110" fill="none">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
+      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+      <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+    </svg>
+    <span>Sowo</span>
+  </a>
+  <div class="nav-right">
+    <a href="/browse.html" class="nav-link">Marketplace</a>
+    <a href="/login.html" class="nav-auth" id="nav-login-btn">Sign up / Log in</a>
+    <a href="/become-provider.html" class="nav-cta" id="nav-provider-btn">Become a Provider</a>
+      <div class="nav-user" id="nav-user">
+      <div class="nav-avatar" id="nav-av">?</div>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <div class="nav-dd-info">
+          <div class="dd-name" id="nav-dd-name"></div>
+          <div class="dd-email" id="nav-dd-email"></div>
+        </div>
+        <a href="/dashboard.html" class="nav-dd-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </a>
+        <a href="/dashboard.html" class="nav-dd-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          My Profile
+        </a>
+        <button class="nav-dd-item danger" id="nav-signout-btn">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Sign out
+        </button>
+      </div>
+    </div>
   </div>
-  <div class="nav-r" id="navR">
-    <a href="/login" class="btn btn-sm b-light">Log in</a>
-    <a href="/signup" class="btn btn-sm b-amber">Sign up</a>
-  </div>
-  <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
+<!-- HERO SEARCH -->
 <section class="search-hero">
-  <h1>Find trusted hands, near you</h1>
-  <p>Vouched-for professionals from your community — cleaners, plumbers, tutors and more.</p>
+  <h1>Find someone who <em>gets you</em></h1>
+  <p>Vetted professionals, real reviews, ready to book today.</p>
   <div class="search-bar">
     <input type="text" id="searchInput" placeholder="Search by skill, name, or category…" autocomplete="off">
-    <button class="search-bar-btn" id="searchBtn">Search</button>
+    <div class="search-divider"></div>
+    <div class="loc-wrap">
+      <span class="loc-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+      </span>
+      <input type="text" id="locationInput" class="loc-input" placeholder="Location" autocomplete="off">
+      <button class="loc-btn" id="useLocationBtn">Use my location</button>
+    </div>
+    <button class="search-btn" id="searchBtn">Search</button>
   </div>
 </section>
 
-<div class="filters" id="filters">
-  <div class="chip active" data-cat="all">All categories</div>
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-dropdown" id="catDropdownWrap">
+    <button class="filter-btn" id="catFilterBtn">
+      <span id="catFilterLabel">All categories</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="cat-dropdown" id="catDropdown">
+      <div class="cat-dropdown-title">Browse by category</div>
+      <div class="cat-grid" id="catGrid">
+        <div class="cat-tile active" data-cat="all"><span class="cat-tile-label">All</span></div>
+        <div class="cat-tile" data-cat="Beauty & Makeup"><span class="cat-tile-label">Beauty &amp; Makeup</span></div>
+        <div class="cat-tile" data-cat="Nail Technician"><span class="cat-tile-label">Nail Technician</span></div>
+        <div class="cat-tile" data-cat="Hairdresser"><span class="cat-tile-label">Hairdresser</span></div>
+        <div class="cat-tile" data-cat="Barber"><span class="cat-tile-label">Barber</span></div>
+        <div class="cat-tile" data-cat="Private Chef"><span class="cat-tile-label">Private Chef</span></div>
+        <div class="cat-tile" data-cat="Massage Therapist"><span class="cat-tile-label">Massage</span></div>
+        <div class="cat-tile" data-cat="Lash Technician"><span class="cat-tile-label">Lash Technician</span></div>
+        <div class="cat-tile" data-cat="Skincare & Facials"><span class="cat-tile-label">Skincare</span></div>
+        <div class="cat-tile" data-cat="Photographer"><span class="cat-tile-label">Photographer</span></div>
+        <div class="cat-tile" data-cat="Personal Trainer"><span class="cat-tile-label">Personal Trainer</span></div>
+      </div>
+      <div class="cat-dropdown-footer">
+        <button class="btn-clear" id="catClear">Clear</button>
+        <button class="btn-apply" id="catApply">Apply</button>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- RESULTS HEADER -->
 <div class="browse-header">
   <h2>Showing <span id="countLabel">…</span> providers</h2>
   <select class="sort-select" id="sortSelect">
-    <option value="vouches">Most vouched</option>
     <option value="rating">Highest rated</option>
     <option value="price_asc">Price: Low to high</option>
     <option value="price_desc">Price: High to low</option>
+    <option value="newest">Newest</option>
   </select>
 </div>
 
-<div class="grid" id="grid">
-  <!-- Skeleton loaders -->
-  <div class="sk-card skeleton"><div class="sk-avatar"></div><div class="sk-line" style="height:16px;width:60%"></div><div class="sk-line" style="height:12px;width:40%"></div><div class="sk-line" style="height:12px;width:80%;margin-top:16px"></div><div class="sk-line" style="height:12px;width:70%"></div></div>
-  <div class="sk-card skeleton"><div class="sk-avatar"></div><div class="sk-line" style="height:16px;width:55%"></div><div class="sk-line" style="height:12px;width:45%"></div><div class="sk-line" style="height:12px;width:75%;margin-top:16px"></div><div class="sk-line" style="height:12px;width:65%"></div></div>
-  <div class="sk-card skeleton"><div class="sk-avatar"></div><div class="sk-line" style="height:16px;width:65%"></div><div class="sk-line" style="height:12px;width:35%"></div><div class="sk-line" style="height:12px;width:80%;margin-top:16px"></div><div class="sk-line" style="height:12px;width:60%"></div></div>
-</div>
+<!-- GRID -->
+<div class="grid" id="grid"></div>
 
-<div class="load-more-wrap" id="loadMoreWrap" style="display:none">
-  <button class="btn-load" id="loadMoreBtn">Load more providers</button>
-</div>
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-top">
+      <div class="fb">
+        <div class="footer-logo">
+          <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
+            <path d="M10 90 C10 44 30 10 60 10" stroke="#9FE1CB" stroke-width="9" stroke-linecap="round"/>
+            <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+            <circle cx="60" cy="10" r="5" fill="#fff"/>
+          </svg>
+          <span>Sowo</span>
+        </div>
+        <p>Trusted help, near you. Find vetted providers or earn doing what you love.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Beauty &amp; Makeup</a></li>
+          <li><a href="#">Nail Technicians</a></li>
+          <li><a href="#">Hairdressers</a></li>
+          <li><a href="#">Barbers</a></li>
+          <li><a href="#">Private Chefs</a></li>
+          <li><a href="#">Massage</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Sowo</a></li>
+          <li><a href="#">Safety &amp; Trust</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Centre</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="/become-provider.html">Become a Provider</a></li>
+          <li><a href="/login.html">Sign in</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Sowo. Early-stage MVP. Not yet a registered company.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/js/config.js"></script>
-<script src="/js/sowo.js"></script>
 <script>
-let currentQuery    = '';
-let currentCategory = 'all';
-let currentSort     = 'vouches';
-let currentOffset   = 0;
-const PAGE_SIZE     = 18;
-let totalCount      = 0;
+/* ── Demo providers ──────────────────────────────────────────── */
+const DEMO_PROVIDERS = [
+  {
+    id:'d1', name:'Amara Osei', category:'Beauty & Makeup', location:'Hackney, London',
+    rating:4.9, reviews:47, price:8500, bio:'Award-winning makeup artist. Bridal, editorial, events. 8 years experience. Fully insured.',
+    skills:['Bridal','Editorial','Airbrush'], verified:true,
+    img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80'
+  },
+  {
+    id:'d2', name:'Jade Chen', category:'Nail Technician', location:'Shoreditch, London',
+    rating:4.8, reviews:62, price:5500, bio:'Specialising in gel, acrylic, and nail art. Walk-ins welcome most days.',
+    skills:['Gel nails','Nail art','Acrylics'], verified:true,
+    img:'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80'
+  },
+  {
+    id:'d3', name:'Sofia Mensah', category:'Barber', location:'Moss Side, Manchester',
+    rating:4.9, reviews:38, price:4000, bio:'Master barber specialising in afro-textured hair. Fades, tapers, line-ups.',
+    skills:['Fades','Tapers','Afro hair'], verified:true,
+    img:'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80'
+  },
+  {
+    id:'d4', name:'Kofi Asante', category:'Private Chef', location:'Islington, London',
+    rating:5.0, reviews:29, price:15000, bio:'Trained in Paris. Specialising in West African fusion and contemporary European cuisine.',
+    skills:['West African','European','Events'], verified:true,
+    img:'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=80'
+  },
+  {
+    id:'d5', name:'Maya Patel', category:'Hairdresser', location:'Brixton, London',
+    rating:4.7, reviews:91, price:7000, bio:'Creative colourist and stylist. Natural hair specialist. Balayage, locs, protective styles.',
+    skills:['Balayage','Natural hair','Locs'], verified:false,
+    img:'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80'
+  },
+  {
+    id:'d6', name:'Zara Ahmed', category:'Massage Therapist', location:'Canary Wharf, London',
+    rating:4.9, reviews:54, price:9500, bio:'Swedish, deep tissue, and pregnancy massage. ITEC qualified. Home visits available.',
+    skills:['Deep tissue','Swedish','Pregnancy'], verified:true,
+    img:'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=600&q=80'
+  },
+  {
+    id:'d7', name:'Lola Adewumi', category:'Lash Technician', location:'Peckham, London',
+    rating:4.8, reviews:77, price:6000, bio:'Classic, hybrid, and volume lashes. Lash lifts. 5-star rated on Google.',
+    skills:['Classic','Volume','Lash lift'], verified:true,
+    img:'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80'
+  },
+  {
+    id:'d8', name:'Priya Sharma', category:'Skincare & Facials', location:'Kensington, London',
+    rating:4.9, reviews:43, price:11000, bio:'Clinical aesthetician. HydraFacial, microneedling, chemical peels. Results-driven skincare.',
+    skills:['HydraFacial','Peels','Microneedling'], verified:true,
+    img:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80'
+  },
+  {
+    id:'d9', name:'Marcus Reid', category:'Photographer', location:'Shoreditch, London',
+    rating:4.8, reviews:33, price:20000, bio:'Commercial and portrait photographer. Beauty and editorial specialist. Studio + location.',
+    skills:['Beauty','Editorial','Studio'], verified:false,
+    img:'https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=600&q=80'
+  },
+  {
+    id:'d10', name:'Fatima Al-Hassan', category:'Personal Trainer', location:'Camden, London',
+    rating:5.0, reviews:61, price:8000, bio:'NASM certified. Specialising in strength, nutrition coaching, and body recomposition.',
+    skills:['Strength','Nutrition','HIIT'], verified:true,
+    img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80'
+  },
+];
 
-/* ── Build category chips ─────────────────────────────────── */
-const filtersEl = document.getElementById('filters');
-CATEGORIES.forEach(cat => {
-  const chip = document.createElement('div');
-  chip.className = 'chip';
-  chip.dataset.cat = cat;
-  chip.textContent = cat;
-  filtersEl.appendChild(chip);
+function stars(r) {
+  const n = Math.round(r);
+  return '★'.repeat(n) + '☆'.repeat(5 - n);
+}
+function formatPrice(p) {
+  return '£' + (p / 100).toFixed(0);
+}
+
+/* Merge localStorage providers (from become-provider.html) */
+function getAllProviders() {
+  let all = [...DEMO_PROVIDERS];
+  try {
+    const stored = JSON.parse(localStorage.getItem('sowo_providers') || '[]');
+    stored.forEach((p, i) => {
+      all.unshift({
+        id: 'local_' + i,
+        name: p.name || 'Provider',
+        category: p.category || 'Beauty & Makeup',
+        location: p.location || 'UK',
+        rating: null,
+        reviews: 0,
+        price: p.price ? parseInt(p.price) * 100 : null,
+        bio: p.bio || '',
+        skills: p.services ? p.services.map(s => s.name || s) : [],
+        verified: false,
+        img: p.photo || null,
+      });
+    });
+  } catch(e) {}
+  return all;
+}
+
+let allProviders = getAllProviders();
+let currentCat   = 'all';
+let currentQuery = '';
+let currentSort  = 'rating';
+
+function filtered() {
+  let list = allProviders.filter(p => {
+    const matchCat   = currentCat === 'all' || p.category === currentCat;
+    const q          = currentQuery.toLowerCase();
+    const matchQuery = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || (p.bio||'').toLowerCase().includes(q) || (p.skills||[]).some(s=>s.toLowerCase().includes(q));
+    return matchCat && matchQuery;
+  });
+
+  list.sort((a, b) => {
+    if (currentSort === 'rating')     return (b.rating||0) - (a.rating||0);
+    if (currentSort === 'price_asc')  return (a.price||999999) - (b.price||999999);
+    if (currentSort === 'price_desc') return (b.price||0) - (a.price||0);
+    return 0; // newest = insertion order
+  });
+
+  return list;
+}
+
+function buildCard(p) {
+  const initials = p.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  const priceStr = p.price ? formatPrice(p.price) : 'Contact';
+  const priceUnit = p.price ? '/hr' : '';
+  const starsStr = p.rating ? stars(p.rating) : '☆☆☆☆☆';
+  const ratingText = p.rating ? `${p.rating} · ${p.reviews} reviews` : 'New provider';
+
+  const card = document.createElement('div');
+  card.className = 'pcard';
+  card.innerHTML = `
+    ${p.img
+      ? `<img class="pcard-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.parentNode.querySelector('.pcard-img-placeholder').style.display='flex';this.remove()">`
+      : ''}
+    <div class="pcard-img-placeholder" style="${p.img ? 'display:none' : 'display:flex'}">
+      <div class="pcard-initials">${initials}</div>
+    </div>
+    <div class="pcard-body">
+      <div class="pcard-top-row">
+        <div class="pcard-name">${p.name}</div>
+        ${p.verified ? '<span class="pcard-verified">✓ Verified</span>' : ''}
+      </div>
+      <div class="pcard-cat">${p.category}</div>
+      <div class="pcard-loc">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        ${p.location}
+      </div>
+      <div class="pcard-stars">${starsStr} <span class="pcard-rating-text">${ratingText}</span></div>
+      ${p.bio ? `<p class="pcard-bio">${p.bio}</p>` : ''}
+      ${p.skills && p.skills.length ? `<div class="pcard-skills">${p.skills.slice(0,3).map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>` : ''}
+    </div>
+    <div class="pcard-foot">
+      <div>
+        <span class="pcard-price">${priceStr}</span>
+        <span class="pcard-price-unit">${priceUnit}</span>
+      </div>
+      <button class="pcard-cta" data-id="${p.id}">View →</button>
+    </div>
+  `;
+  card.querySelector('.pcard-cta').addEventListener('click', e => {
+    e.stopPropagation();
+    sessionStorage.setItem('sowo_preview', JSON.stringify(p));
+    window.location = '/provider.html';
+  });
+  card.addEventListener('click', () => {
+    sessionStorage.setItem('sowo_preview', JSON.stringify(p));
+    window.location = '/provider.html';
+  });
+  return card;
+}
+
+function render() {
+  const list = filtered();
+  const grid = document.getElementById('grid');
+  document.getElementById('countLabel').textContent = list.length;
+  grid.innerHTML = '';
+  if (!list.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-title">No providers found</div>
+        <p class="empty-msg">Try a different search or category.</p>
+      </div>`;
+    return;
+  }
+  list.forEach(p => grid.appendChild(buildCard(p)));
+}
+
+/* ── Category chips ──────────────────────────────────────────── */
+/* ── Category dropdown ───────────────────────────────────────── */
+const catBtn      = document.getElementById('catFilterBtn');
+const catDropdown = document.getElementById('catDropdown');
+const catLabel    = document.getElementById('catFilterLabel');
+const pageOverlay = document.getElementById('pageOverlay');
+
+function openDropdown() {
+  catDropdown.classList.add('open');
+  catBtn.classList.add('open');
+  pageOverlay.classList.add('visible');
+}
+function closeDropdown() {
+  catDropdown.classList.remove('open');
+  catBtn.classList.remove('open');
+  pageOverlay.classList.remove('visible');
+}
+
+catBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  catDropdown.classList.contains('open') ? closeDropdown() : openDropdown();
 });
 
-filtersEl.addEventListener('click', e => {
-  const chip = e.target.closest('.chip');
-  if (!chip) return;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
-  currentCategory = chip.dataset.cat;
-  currentOffset = 0;
-  loadProviders(true);
+pageOverlay.addEventListener('click', closeDropdown);
+
+document.addEventListener('click', e => {
+  if (!document.getElementById('catDropdownWrap').contains(e.target)) {
+    closeDropdown();
+  }
 });
 
-/* ── Search ───────────────────────────────────────────────── */
+document.getElementById('catGrid').addEventListener('click', e => {
+  const tile = e.target.closest('.cat-tile');
+  if (!tile) return;
+  document.querySelectorAll('.cat-tile').forEach(c => c.classList.remove('active'));
+  tile.classList.add('active');
+  currentCat = tile.dataset.cat;
+  const label = tile.querySelector('.cat-tile-label').textContent;
+  catLabel.textContent = currentCat === 'all' ? 'All categories' : label;
+  catBtn.classList.toggle('has-value', currentCat !== 'all');
+  closeDropdown();
+  render();
+});
+
+document.getElementById('catApply').addEventListener('click', () => {
+  const active = document.querySelector('.cat-tile.active');
+  const label  = active ? active.querySelector('.cat-tile-label').textContent : 'All categories';
+  catLabel.textContent = currentCat === 'all' ? 'All categories' : label;
+  catBtn.classList.toggle('has-value', currentCat !== 'all');
+  closeDropdown();
+  render();
+});
+
+document.getElementById('catClear').addEventListener('click', () => {
+  currentCat = 'all';
+  document.querySelectorAll('.cat-tile').forEach(c => c.classList.remove('active'));
+  document.querySelector('.cat-tile[data-cat="all"]').classList.add('active');
+  catLabel.textContent = 'All categories';
+  catBtn.classList.remove('has-value');
+  closeDropdown();
+  render();
+});
+
+/* ── Search ──────────────────────────────────────────────────── */
 let searchTimer;
 document.getElementById('searchInput').addEventListener('input', e => {
   clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    currentQuery  = e.target.value.trim();
-    currentOffset = 0;
-    loadProviders(true);
-  }, 350);
+  searchTimer = setTimeout(() => { currentQuery = e.target.value.trim(); render(); }, 280);
 });
 document.getElementById('searchBtn').addEventListener('click', () => {
-  currentQuery  = document.getElementById('searchInput').value.trim();
-  currentOffset = 0;
-  loadProviders(true);
+  currentQuery = document.getElementById('searchInput').value.trim();
+  render();
 });
 document.getElementById('searchInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('searchBtn').click();
+  if (e.key === 'Enter') { currentQuery = e.target.value.trim(); render(); }
 });
 
-/* ── Sort ─────────────────────────────────────────────────── */
+/* ── Sort ────────────────────────────────────────────────────── */
 document.getElementById('sortSelect').addEventListener('change', e => {
-  currentSort   = e.target.value;
-  currentOffset = 0;
-  loadProviders(true);
+  currentSort = e.target.value;
+  render();
 });
 
-/* ── Load providers ───────────────────────────────────────── */
-async function loadProviders(reset = false) {
-  if (reset) {
-    currentOffset = 0;
-    document.getElementById('grid').innerHTML = '';
-  }
+/* ── Use my location ─────────────────────────────────────────── */
+document.getElementById('useLocationBtn').addEventListener('click', function() {
+  const btn = this;
+  const input = document.getElementById('locationInput');
+  if (!navigator.geolocation) { input.placeholder = 'Not supported'; return; }
+  btn.textContent = 'Locating…';
+  navigator.geolocation.getCurrentPosition(async pos => {
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`);
+      const d = await res.json();
+      input.value = d.address.city || d.address.town || d.address.village || 'Near you';
+    } catch { input.value = 'Near you'; }
+    btn.textContent = '✓ Located';
+    setTimeout(() => btn.textContent = 'Use my location', 3000);
+  }, () => { btn.textContent = 'Use my location'; input.placeholder = 'Permission denied'; }, { timeout: 8000 });
+});
 
+/* ── Pre-fill search from homepage ──────────────────────────── */
+const params = new URLSearchParams(window.location.search);
+if (params.get('q')) {
+  document.getElementById('searchInput').value = params.get('q');
+  currentQuery = params.get('q');
+}
+if (params.get('location')) {
+  document.getElementById('locationInput').value = params.get('location');
+}
+
+render();
+</script>
+<script>
+(function() {
+  var raw = sessionStorage.getItem('sowo_session');
+  if (!raw) return;
   try {
-    let q = sb
-      .from('providers')
-      .select(`
-        id, bio, category, skills, hourly_rate, vouch_count, rating, verified, available,
-        profiles ( id, full_name, avatar_url, location )
-      `, { count: 'exact' })
-      .eq('available', true)
-      .range(currentOffset, currentOffset + PAGE_SIZE - 1);
-
-    if (currentCategory !== 'all') q = q.eq('category', currentCategory);
-    if (currentQuery) q = q.or(`bio.ilike.%${currentQuery}%,category.ilike.%${currentQuery}%`);
-
-    switch (currentSort) {
-      case 'rating':      q = q.order('rating',      { ascending: false }); break;
-      case 'price_asc':   q = q.order('hourly_rate',  { ascending: true  }); break;
-      case 'price_desc':  q = q.order('hourly_rate',  { ascending: false }); break;
-      default:            q = q.order('vouch_count',  { ascending: false });
+    var user = JSON.parse(raw);
+    var name = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0]);
+    var initials = name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+    var email = user.email || '';
+    document.querySelectorAll('.nav-auth, .nav-cta').forEach(function(b){ b.style.display='none'; });
+    var userEl = document.getElementById('nav-user');
+    if (userEl) userEl.classList.add('visible');
+    var av = document.getElementById('nav-av');
+    if (av) {
+      var photo = localStorage.getItem('sowo_avatar_' + email);
+      if (photo) { av.style.backgroundImage='url('+photo+')'; av.style.backgroundSize='cover'; av.style.backgroundPosition='center'; av.textContent=''; }
+      else { av.textContent = initials; }
     }
-
-    const { data, error, count } = await q;
-    if (error) throw error;
-
-    totalCount = count || 0;
-    document.getElementById('countLabel').textContent = totalCount.toLocaleString();
-
-    const grid = document.getElementById('grid');
-    if (reset) grid.innerHTML = '';
-
-    if (!data || data.length === 0) {
-      if (currentOffset === 0) {
-        grid.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">🔍</div>
-            <div class="empty-title">No providers found</div>
-            <p class="empty-msg">Try a different search or category.</p>
-          </div>`;
-      }
-    } else {
-      data.forEach(p => grid.appendChild(buildCard(p)));
-      currentOffset += data.length;
+    var n = document.getElementById('nav-dd-name'); if(n) n.textContent = name;
+    var e = document.getElementById('nav-dd-email'); if(e) e.textContent = email;
+    if (av) {
+      av.addEventListener('click', function(ev){ ev.stopPropagation(); document.getElementById('nav-dropdown').classList.toggle('open'); });
+      document.addEventListener('click', function(){ var d=document.getElementById('nav-dropdown'); if(d) d.classList.remove('open'); });
+      document.getElementById('nav-dropdown').addEventListener('click', function(ev){ ev.stopPropagation(); });
     }
-
-    // Load more button
-    const lmw = document.getElementById('loadMoreWrap');
-    lmw.style.display = currentOffset < totalCount ? 'block' : 'none';
-
-  } catch (err) {
-    console.error(err);
-    // Show demo cards if Supabase isn't configured yet
-    if (currentOffset === 0) renderDemoCards();
-  }
-}
-
-/* ── Build a provider card ────────────────────────────────── */
-function buildCard(p) {
-  const profile = p.profiles || {};
-  const name    = profile.full_name  || 'Provider';
-  const loc     = profile.location   || 'London';
-  const initials= name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  const price   = p.hourly_rate ? UI.formatPrice(p.hourly_rate) + '<span>/hr</span>' : '<span>Contact for price</span>';
-  const stars   = p.rating ? UI.stars(p.rating) : '☆☆☆☆☆';
-  const skills  = (p.skills || []).slice(0,3).map(s => `<span class="skill-tag">${s}</span>`).join('');
-
-  const div = document.createElement('div');
-  div.className = 'pcard';
-  div.innerHTML = `
-    <div class="pcard-top">
-      ${profile.avatar_url
-        ? `<img class="pcard-avatar" src="${profile.avatar_url}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-        : ''}
-      <div class="pcard-avatar-init" ${profile.avatar_url ? 'style="display:none"' : ''}>${initials}</div>
-      <div class="pcard-info">
-        <div class="pcard-name">${name}</div>
-        <div class="pcard-cat">${p.category || 'Service Provider'}</div>
-        <div class="pcard-loc">📍 ${loc}</div>
-        <div class="pcard-stars">${stars} <span class="pcard-rating">${p.rating ? p.rating + ' · ' + p.vouch_count + ' vouches' : 'New provider'}</span></div>
-        ${p.verified ? '<div class="verified-badge">✓ Verified</div>' : ''}
-      </div>
-    </div>
-    ${p.bio ? `<div class="pcard-mid"><p class="pcard-bio">${p.bio}</p></div>` : ''}
-    ${skills ? `<div class="pcard-skills">${skills}</div>` : ''}
-    <div class="pcard-foot">
-      <div class="pcard-price">${price}</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span class="pcard-vouch">✦ ${p.vouch_count || 0} vouches</span>
-        <button class="pcard-cta" onclick="window.location='/provider?id=${p.id}'">View →</button>
-      </div>
-    </div>
-  `;
-  div.addEventListener('click', e => {
-    if (!e.target.closest('.pcard-cta')) {
-      window.location = '/provider?id=' + p.id;
-    }
-  });
-  return div;
-}
-
-/* ── Load more ─────────────────────────────────────────────── */
-document.getElementById('loadMoreBtn').addEventListener('click', () => loadProviders(false));
-
-/* ── Demo cards (shown before Supabase is wired up) ────────── */
-function renderDemoCards() {
-  const DEMOS = [
-    { name:'Kwame Asante', cat:'Plumber', loc:'Peckham, London', rating:4.9, vouches:62, price:3500, bio:'Fully qualified plumber. Fast response, no callout fee on weekdays.', skills:['Leaks','Boilers','Bathrooms'], verified:true },
-    { name:'Ngozi Williams', cat:'Cleaner', loc:'Hackney, London', rating:5.0, vouches:88, price:1800, bio:'Eco-friendly deep cleaning for homes and offices. References available.', skills:['Deep clean','Move-out','Weekly'], verified:true },
-    { name:'Seun Adeyemi', cat:'Electrician', loc:'Tottenham, London', rating:4.8, vouches:41, price:4200, bio:'18th Edition qualified electrician. All work certified.', skills:['Rewiring','Fault finding','EV charging'], verified:false },
-    { name:'Ama Darko', cat:'Tutor', loc:'Brixton, London', rating:4.9, vouches:35, price:2500, bio:'Maths + Sciences tutor. GCSE and A-Level specialist. Flexible hours.', skills:['Maths','Physics','Chemistry'], verified:true },
-    { name:'Tunde Bello', cat:'Carpenter', loc:'Stratford, London', rating:4.7, vouches:29, price:3800, bio:'Bespoke furniture and fitted wardrobes. 10+ years experience.', skills:['Wardrobes','Kitchens','Floors'], verified:false },
-    { name:'Fatima Al-Hassan', cat:'Painter', loc:'Lewisham, London', rating:4.8, vouches:54, price:2200, bio:'Interior and exterior painting. Clean, neat, reliable.', skills:['Interior','Exterior','Feature walls'], verified:true },
-  ];
-
-  document.getElementById('countLabel').textContent = DEMOS.length;
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  DEMOS.forEach((d, i) => {
-    const initials = d.name.split(' ').map(w=>w[0]).join('').toUpperCase();
-    const stars = UI.stars(d.rating);
-    const price = UI.formatPrice(d.price);
-    const div = document.createElement('div');
-    div.className = 'pcard';
-    div.innerHTML = `
-      <div class="pcard-top">
-        <div class="pcard-avatar-init">${initials}</div>
-        <div class="pcard-info">
-          <div class="pcard-name">${d.name}</div>
-          <div class="pcard-cat">${d.cat}</div>
-          <div class="pcard-loc">📍 ${d.loc}</div>
-          <div class="pcard-stars">${stars} <span class="pcard-rating">${d.rating} · ${d.vouches} vouches</span></div>
-          ${d.verified ? '<div class="verified-badge">✓ Verified</div>' : ''}
-        </div>
-      </div>
-      <div class="pcard-mid"><p class="pcard-bio">${d.bio}</p></div>
-      <div class="pcard-skills">${d.skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
-      <div class="pcard-foot">
-        <div class="pcard-price">${price}<span>/hr</span></div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="pcard-vouch">✦ ${d.vouches} vouches</span>
-          <button class="pcard-cta" onclick="alert('Connect Supabase to enable profiles')">View →</button>
-        </div>
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
-
-/* ── Update nav for logged-in user ─────────────────────────── */
-Auth.getUser().then(user => {
-  if (user) {
-    document.getElementById('navR').innerHTML = `
-      <a href="/dashboard" class="btn btn-sm b-green">Dashboard</a>
-    `;
-  }
-});
-
-/* ── Init ──────────────────────────────────────────────────── */
-loadProviders(true);
+    var so = document.getElementById('nav-signout-btn');
+    if (so) so.addEventListener('click', function(){ sessionStorage.removeItem('sowo_session'); window.location.reload(); });
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>

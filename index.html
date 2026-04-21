@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sowo — Find trusted help, near you</title>
-<meta name="description" content="Post a request, get quotes from vetted local providers, and hire with confidence. Beauty, food, home — Sowo connects you with trusted help across the UK.">
+<title>Sowo: Find trusted help, near you</title>
+<meta name="description" content="Post a request, get quotes from vetted local providers, and hire with confidence. Beauty, food, home. Sowo connects you with trusted help across the UK.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,300;9..144,0,400;9..144,1,300;9..144,1,400&family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -25,15 +26,32 @@ nav{
   background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
   border-bottom:1px solid rgba(0,0,0,.07);
 }
+.nav-right{display:flex;align-items:center;gap:28px}
 .nav-logo{display:flex;align-items:center;gap:9px}
 .nav-logo span{font-family:'Lora',serif;font-weight:700;font-size:1.3rem;color:#0a0a0a;letter-spacing:-.02em}
 .nav-links{display:flex;align-items:center;gap:32px}
 .nav-links a{font-size:.875rem;font-weight:500;color:#555;transition:color .15s}
 .nav-links a:hover{color:#085041}
-.nav-auth{font-size:.875rem;font-weight:500;color:#085041;border:1.5px solid #085041;padding:8px 18px;border-radius:8px;transition:background .15s,color .15s}
-.nav-auth:hover{background:#085041;color:#fff}
-.nav-cta{background:#085041;color:#fff;font-size:.875rem;font-weight:600;padding:9px 20px;border-radius:8px;transition:background .15s}
-.nav-cta:hover{background:#064033}
+.nav-links-item{font-size:.875rem;font-weight:500;color:#555;transition:color .15s}
+.nav-links-item:hover{color:#085041}
+.nav-auth{font-size:.875rem;font-weight:500;color:#222;transition:color .15s}
+.nav-auth:hover{color:#085041}
+.nav-cta{font-size:.875rem;font-weight:600;color:#1a1a1a;border:1.5px solid #1a1a1a;padding:8px 20px;border-radius:8px;transition:background .15s,color .15s,border-color .15s}
+.nav-cta:hover{background:#1a1a1a;color:#fff}
+/* ─── User avatar menu ─── */
+.nav-user{position:relative;display:none}
+.nav-user.visible{display:flex;align-items:center}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s;background-size:cover;background-position:center;user-select:none}
+.nav-avatar:hover{border-color:#085041}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:200px;padding:6px;z-index:300;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s}
+.nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.nav-dropdown-name{padding:10px 12px 8px;border-bottom:1px solid #f3f4f6;margin-bottom:4px}
+.nav-dropdown-name div:first-child{font-size:13px;font-weight:700;color:#111}
+.nav-dropdown-name div:last-child{font-size:11.5px;color:#9ca3af;margin-top:1px}
+.nav-dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .12s}
+.nav-dd-item:hover{background:#f9fafb;color:#085041}
+.nav-dd-item.danger{color:#dc2626}
+.nav-dd-item.danger:hover{background:#fff5f5;color:#dc2626}
 
 /* ─── HERO ─── */
 .hero{background:#fff;position:relative;overflow:hidden}
@@ -81,16 +99,34 @@ nav{
 .search-bar{
   display:flex;align-items:center;
   background:#fff;border:1.5px solid #d1d5db;border-radius:50px;
-  box-shadow:0 4px 24px rgba(0,0,0,.10);overflow:hidden;
-  max-width:640px;margin:0 auto 40px;
+  box-shadow:0 4px 24px rgba(0,0,0,.10);
+  max-width:720px;margin:0 auto 40px;
   transition:border-color .2s,box-shadow .2s;
 }
 .search-bar:focus-within{border-color:#085041;box-shadow:0 6px 28px rgba(8,80,65,.14)}
 .search-bar input{
-  flex:1;padding:17px 24px;font-size:1rem;
-  border:none;outline:none;background:transparent;color:#111;
+  flex:1;padding:17px 20px;font-size:.95rem;
+  border:none;outline:none;background:transparent;color:#111;min-width:0;
 }
 .search-bar input::placeholder{color:#9ca3af}
+.search-divider{width:1px;height:28px;background:#e5e7eb;flex-shrink:0}
+.loc-wrap{
+  display:flex;align-items:center;gap:6px;
+  padding:0 14px;flex-shrink:0;min-width:0;
+}
+.loc-icon{color:#9ca3af;flex-shrink:0;display:flex}
+.loc-input{
+  width:140px;padding:17px 0;font-size:.95rem;
+  border:none;outline:none;background:transparent;color:#111;
+}
+.loc-input::placeholder{color:#9ca3af}
+.loc-btn{
+  background:none;border:none;cursor:pointer;
+  color:#085041;font-size:.75rem;font-weight:600;
+  white-space:nowrap;padding:4px 8px;border-radius:20px;
+  transition:background .15s;flex-shrink:0;
+}
+.loc-btn:hover{background:#f0fdf9}
 .search-btn{
   padding:11px 28px;margin:7px;background:#085041;color:#fff;
   font-size:.9rem;font-weight:600;border-radius:50px;
@@ -110,16 +146,15 @@ nav{
 .cat-item{
   display:flex;flex-direction:column;align-items:center;gap:8px;
   cursor:pointer;padding:12px 20px;border-radius:12px;
-  border:1.5px solid transparent;
   min-width:96px;flex-shrink:0;
-  transition:background .15s,border-color .15s;
+  transition:background .15s;
 }
 .cat-item svg{width:34px;height:34px;stroke:#6b7280;fill:none;stroke-width:1.6;transition:stroke .15s}
 .cat-item span{font-size:.875rem;color:#6b7280;font-weight:500;white-space:nowrap;transition:color .15s}
 .cat-item:hover{background:#f9fafb}
 .cat-item:hover svg{stroke:#0a0a0a}
 .cat-item:hover span{color:#0a0a0a}
-.cat-item.active{background:#f0fdf9;border-color:#085041}
+.cat-item.active{background:#f0fdf9}
 .cat-item.active svg{stroke:#085041}
 .cat-item.active span{color:#085041;font-weight:700}
 
@@ -140,38 +175,46 @@ nav{
 
 /* Hero image card wrapper */
 .hero-card-wrap{
-  background:#e6f5ef;
-  border-radius:20px;
-  padding:20px;
   max-width:1140px;
-  margin:0 auto 0;
+  margin:0 auto;
+  padding:0 20px 20px;
   position:relative;z-index:1;
 }
-.hero-inner{
-  position:relative;border-radius:14px;overflow:hidden;min-height:460px;
+/* Slideshow */
+.hero-card-wrap{padding:0 24px 40px}
+.hero-slideshow-frame{
+  background:transparent;
+  border-radius:24px;
+  padding:0;
 }
-.hero-inner img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center 20%;display:block;
+.hero-slideshow{
+  position:relative;overflow:hidden;
+  border-radius:24px;
+  height:72vh;min-height:480px;max-height:740px;
+  background:#f3f4f6;
+  box-shadow:0 20px 60px rgba(0,0,0,0.13), 0 4px 16px rgba(0,0,0,0.07);
 }
-/* Info card floating top-left on the image */
-.hero-info-card{
-  position:absolute;top:48px;left:48px;
-  background:#fff;padding:28px 32px;border-radius:12px;
-  max-width:340px;box-shadow:0 4px 20px rgba(0,0,0,.08);z-index:2;
+@media(max-width:700px){
+  .hero-slideshow-frame{padding:0}
+  .hero-slideshow{height:44vw;min-height:220px}
 }
-.hero-info-card h2{
-  font-family:'Lora',serif;font-size:1.4rem;font-weight:700;
-  color:#0a0a0a;margin-bottom:18px;
+.hslide{
+  position:absolute;inset:0;
+  opacity:0;
+  transition:opacity 1.4s cubic-bezier(.4,0,.2,1);
+  will-change:opacity;
 }
-.hero-info-card ul{list-style:none}
-.hero-info-card li{
-  display:flex;gap:10px;margin-bottom:14px;
-  font-size:.9rem;line-height:1.5;color:#374151;
+.hslide.active{opacity:1;z-index:1}
+.hslide.prev{opacity:0;z-index:0}
+.hslide img{
+  width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;
 }
-.hero-info-card li:last-child{margin-bottom:0}
-.hic-check{flex-shrink:0;margin-top:2px}
-.hic-check svg{width:16px;height:16px;stroke:#085041;fill:none;stroke-width:2.5}
+/* dark gradient overlay so headline stays legible */
+.hslide::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.18) 0%,rgba(0,0,0,0) 40%);
+  pointer-events:none;z-index:2;
+}
 
 /* ─── Services ─── */
 .services{padding:80px 0 88px}
@@ -180,6 +223,87 @@ nav{
 .section-sub{color:#6b7280;font-size:.875rem;margin-top:6px}
 .section-link{font-size:.875rem;font-weight:600;color:#085041;display:flex;align-items:center;gap:5px;transition:gap .2s}
 .section-link:hover{gap:8px}
+
+/* ── Stats bar ───────────────────────────────────────────────── */
+.stats-bar{background:#F5F0E6;padding:36px 40px;margin-top:48px;overflow-x:auto}
+.stats-bar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:0;min-width:480px}
+.stat-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
+.stat-num{font-family:'Fraunces',serif;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:400;color:#0a0a0a;letter-spacing:-.02em;line-height:1}
+.stat-lbl{font-size:.75rem;color:#3B3933;font-weight:500;white-space:nowrap}
+.stat-divider{width:1px;height:40px;background:#D9D2C2;flex-shrink:0;margin:0 16px}
+
+
+/* ── Live feed ────────────────────────────────────────────────── */
+.feed-section{padding:64px 40px;background:#fff}
+.feed-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:700px){.feed-inner{grid-template-columns:1fr}}
+.feed-col-head{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.feed-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.feed-dot--amber{background:#f59e0b}
+.feed-dot--green{background:#22c55e}
+.feed-col-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6b7280}
+.feed-col-link{margin-left:auto;font-size:.8rem;font-weight:600;color:#085041;text-decoration:none}
+.feed-col-link:hover{text-decoration:underline}
+.feed-list{display:flex;flex-direction:column;gap:10px}
+.feed-card{display:block;border-radius:14px;padding:16px 18px;text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s}
+.feed-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.09);transform:translateY(-2px)}
+.feed-card--request{background:#f0faf5;border:1px solid #bbf0d8}
+.feed-card--request:hover{border-color:#6ee7b7}
+.feed-card--provider{background:#fffbeb;border:1px solid #fde68a}
+.feed-card--provider:hover{border-color:#fbbf24}
+.feed-tag{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-radius:20px;padding:3px 10px;margin-bottom:8px}
+/* Request cards — all tags green */
+.feed-card--request .feed-tag{background:#dcfce7;color:#166534}
+/* Provider cards — all tags amber */
+.feed-card--provider .feed-tag{background:#fef3c7;color:#92400e}
+.feed-card-title{font-size:.95rem;font-weight:600;color:#0a0a0a;line-height:1.3;margin-bottom:6px}
+.feed-card-meta{font-size:.78rem;color:#9ca3af}
+
+/* ── Manifesto ────────────────────────────────────────────────── */
+.manifesto-section{padding:100px 40px;background:#F5F0E6}
+.manifesto-inner{max-width:900px;margin:0 auto;text-align:center}
+.manifesto-text{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.35;letter-spacing:-.02em;color:#1B1A17}
+.manifesto-text em{font-style:italic;color:#C65D3F}
+.m-strike{color:#807A6E;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(128,122,110,.5)}
+
+/* ── Featured providers ───────────────────────────────────────── */
+.providers-section{padding:72px 0 56px;background:#f9fafb}
+.providers-inner{max-width:1200px;margin:0 auto;padding:0 40px}
+.providers-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px}
+.providers-title{font-family:'Lora',serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:700;color:#0a0a0a;line-height:1.15}
+.providers-sub{color:#6b7280;font-size:.9rem;margin-top:6px}
+.see-all-link{display:flex;align-items:center;gap:5px;font-size:.875rem;font-weight:700;color:#085041;transition:gap .2s;white-space:nowrap}
+.see-all-link:hover{gap:9px}
+.providers-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media(max-width:900px){.providers-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.providers-row{grid-template-columns:1fr}}
+
+/* Skeleton loaders */
+.pcard-skeleton{height:320px;border-radius:20px;background:linear-gradient(90deg,#e9ebee 25%,#f0f2f5 50%,#e9ebee 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* Provider card */
+.pcard{background:#fff;border-radius:20px;overflow:hidden;border:1px solid #e5e7eb;transition:transform .22s,box-shadow .22s;display:flex;flex-direction:column}
+.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.10)}
+.pcard-img-wrap{position:relative;height:180px;overflow:hidden;background:#f3f4f6}
+.pcard-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .35s}
+.pcard:hover .pcard-img-wrap img{transform:scale(1.04)}
+.pcard-verified{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.92);color:#085041;font-size:.7rem;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:20px;text-transform:uppercase;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.pcard-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column;gap:6px}
+.pcard-avatar-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.pcard-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #e5e7eb;background:#f0fdf9;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#085041}
+.pcard-name{font-weight:700;font-size:.95rem;color:#0a0a0a}
+.pcard-cat{font-size:.8rem;color:#6b7280;margin-top:1px}
+.pcard-location{font-size:.8rem;color:#6b7280;display:flex;align-items:center;gap:4px}
+.pcard-location svg{flex-shrink:0}
+.pcard-stars{display:flex;align-items:center;gap:5px;font-size:.82rem}
+.pcard-stars .star{color:#f59e0b;font-size:.95rem;letter-spacing:-.04em}
+.pcard-stars .rcount{color:#6b7280}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px;border-top:1px solid #f3f4f6}
+.pcard-price{font-size:.82rem;color:#6b7280}
+.pcard-price strong{font-size:1rem;color:#0a0a0a;font-weight:700}
+.pcard-book{background:#085041;color:#fff;border:none;padding:9px 20px;border-radius:30px;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .18s}
+.pcard-book:hover{background:#0a6b52}
 
 /* Editorial grid */
 .services-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:20px}
@@ -360,7 +484,8 @@ footer a{font-size:.84rem;transition:color .15s}
 footer a:hover{color:#fff}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .footer-bottom p{font-size:.8rem}
-.footer-bottom nav a{font-size:.8rem;margin-left:24px}
+.footer-bottom nav{position:static;height:auto;background:transparent;border:none;padding:0;box-shadow:none;backdrop-filter:none}
+.footer-bottom nav a{font-size:.8rem;margin-left:24px;color:#9ca3af}
 .footer-bottom nav a:hover{color:#fff}
 </style>
 </head>
@@ -410,14 +535,35 @@ footer a:hover{color:#fff}
     </svg>
     <span>Sowo</span>
   </a>
-  <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#how">How it works</a>
-    <a href="/become-provider.html">Become a Provider</a>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <a href="/login.html" class="nav-auth">Sign in</a>
-    <a href="/signup.html" class="nav-cta">Get started</a>
+  <div class="nav-right">
+    <a href="/browse.html" class="nav-links-item">Marketplace</a>
+
+    <!-- Logged-out state -->
+    <a href="/login.html" class="nav-auth" id="nav-login-btn">Sign up / Log in</a>
+    <a href="/become-provider.html" class="nav-cta" id="nav-provider-btn">Become a Provider</a>
+
+    <!-- Logged-in state -->
+    <div class="nav-user" id="nav-user">
+      <div class="nav-avatar" id="nav-av">?</div>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <div class="nav-dropdown-name">
+          <div id="nav-dd-name"></div>
+          <div id="nav-dd-email"></div>
+        </div>
+        <a href="/dashboard.html" class="nav-dd-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </a>
+        <a href="/dashboard.html#profile" class="nav-dd-item" id="nav-dd-profile">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          My Profile
+        </a>
+        <button class="nav-dd-item danger" id="nav-signout-btn">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Sign out
+        </button>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -449,334 +595,114 @@ footer a:hover{color:#fff}
   <div class="hero-stripes"></div>
   <div class="hero-blob"></div>
 
-  <!-- 1. Centred: eyebrow + headline + search -->
+  <!-- Centred headline -->
   <div class="hero-main">
-    <div class="hero-eyebrow">
-      <span></span>
-      Providers online now in London
-    </div>
-    <h1>Find trusted help<br>for every beauty need</h1>
 
-    <div class="search-bar">
-      <input id="search-input" type="text" placeholder="What are you looking for?" autocomplete="off">
-      <button class="search-btn" onclick="handleSearch()">Find help</button>
-    </div>
+    <h1>Find someone who<br><em>gets you</em></h1>
+
+    <form class="search-bar" action="/browse.html" method="get" role="search">
+      <input type="text" name="q" placeholder="What do you need help with?" autocomplete="off">
+      <div class="search-divider"></div>
+      <div class="loc-wrap">
+        <span class="loc-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+        </span>
+        <input type="text" name="location" id="locationInput" class="loc-input" placeholder="Location" autocomplete="off">
+        <button type="button" class="loc-btn" id="useLocationBtn">Use my location</button>
+      </div>
+      <button type="submit" class="search-btn">Search</button>
+    </form>
   </div>
 
-  <!-- 2. Category nav -->
-  <nav class="cat-nav">
 
-    <div class="cat-item active" data-cat="Makeup artist" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><path d="M7 4v16M7 4c0 0 2-2 5-2s5 2 5 2v4c0 0-2 2-5 2S7 8 7 8V4z" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 8v8a5 5 0 0010 0V8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Makeup</span>
-    </div>
-
-    <div class="cat-item" data-cat="Nail technician" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><path d="M9 3.5V4a3 3 0 00-3 3v8a6 6 0 0012 0V7a3 3 0 00-3-3v-.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4h6" stroke-linecap="round"/></svg>
-      <span>Nails</span>
-    </div>
-
-    <div class="cat-item" data-cat="Hairdresser" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><path d="M5 3c0 5 3 7 3 12M5 3c0 5-3 7-3 12M8 15l-6 0M13 3l-4 9 4 9M13 3l4 9-4 9" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Hair</span>
-    </div>
-
-    <div class="cat-item" data-cat="Barber" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><path d="M6 3l12 18M6 21L18 3M7.5 10.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm9 8a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Barber</span>
-    </div>
-
-    <div class="cat-item" data-cat="Private chef" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><path d="M6 13.5V19a1 1 0 001 1h10a1 1 0 001-1v-5.5M4 13.5h16M12 2a4 4 0 00-4 4h8a4 4 0 00-4-4z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Chef</span>
-    </div>
-
-    <div class="cat-item" data-cat="Massage therapist" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 14c2-1.5 4-2 9-2s7 .5 9 2" stroke-linecap="round"/></svg>
-      <span>Massage</span>
-    </div>
-
-    <div class="cat-item" data-cat="Lash technician" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><ellipse cx="12" cy="14" rx="8" ry="4.5"/><path d="M8 10.5c0-2 1.8-4 4-4s4 2 4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 8l-1-3M12 7V4M15 8l1-3" stroke-linecap="round"/></svg>
-      <span>Lashes</span>
-    </div>
-
-    <div class="cat-item" data-cat="Personal trainer" onclick="setHcat(this)">
-      <svg viewBox="0 0 24 24"><path d="M6 12h12M3 12H1m22 0h-2M7 8l-1-4m12 8l1 4M17 8l1-4M7 16l-1 4" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="9" width="12" height="6" rx="2" stroke-linecap="round"/></svg>
-      <span>Fitness</span>
-    </div>
-
-  </nav>
-
-  <!-- 3. Filter pills (dynamic per category) -->
-  <div class="hero-pills" id="hero-pills">
-    <button class="h-pill" onclick="setSearch('Bridal makeup')">Bridal makeup</button>
-    <button class="h-pill" onclick="setSearch('Event glam')">Event glam</button>
-    <button class="h-pill" onclick="setSearch('Photoshoot makeup')">Photoshoot makeup</button>
-    <button class="h-pill" onclick="setSearch('Natural look')">Natural look</button>
-    <button class="h-pill" onclick="setSearch('Airbrush makeup')">Airbrush makeup</button>
-  </div>
-
-  <!-- 4. Hero image card -->
+  <!-- Slideshow -->
   <div class="hero-card-wrap">
-    <div class="hero-inner" id="hero-inner">
-      <img src="/images/makeup-hero.jpg"
-           alt="Makeup artist" loading="eager" id="hero-img">
-      <div class="hero-info-card" id="hero-info-card">
-        <h2>Makeup</h2>
-        <ul>
-          <li>
-            <span class="hic-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <span>Bridal, editorial &amp; special occasion looks by fully vetted artists — from £65.</span>
-          </li>
-          <li>
-            <span class="hic-check"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <span>Now trending: dewy glass skin, bold lipliner &amp; soft glam for events.</span>
-          </li>
-        </ul>
-      </div>
+    <div class="hero-slideshow-frame">
+    <div class="hero-slideshow" id="hero-slideshow">
+      <img src="/images/hero-main.jpg" alt="Beauty provider" loading="eager" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;">
     </div>
+    </div><!-- /hero-slideshow-frame -->
   </div>
 
 </section>
 
 <!-- ─────────────────────────────────────────────────────────────────────────
-  §3  POPULAR SERVICES
+  §2b  WHY SOWO
   ─────────────────────────────────────────────────────────────────────────
   What's here:
-    • Section header — "Popular services" title + "Browse all services" link
-    • Editorial image grid (3-column, asymmetric):
-        - FEATURED card (.svc-card.featured) — spans 2 columns, taller image
-          Currently: Beauty & Makeup (most booked)
-        - 4 regular cards (1 column each):
-          Nail Technicians | Hairdressers | Barbers | Private Chefs
+    • Eyebrow + headline + lead paragraph
+    • Two-column contrast card: "How it works elsewhere" vs "How Sowo works"
+    • Three pillars: Trust · Relatability · Shared context
+  ─────────────────────────────────────────────────────────────────────────
+-->
 
-  Layout rules:
-    • .services-grid is a 3-column CSS grid (1fr 1fr 1fr)
-    • .svc-card.featured spans grid-column: span 2 (so it takes cols 1+2)
-    • The 3 regular cards fill col 3 (first), then wrap to cols 1+2+3 below
-    • Featured image height: 320px  |  Regular image height: 260px
-
-  To edit:
-    • Section title / sub-copy → .section-title and .section-sub inside .section-top
-    • "Browse all services" link → change href on <a class="section-link">
-    • Change which service is "featured" → move .featured class to a different card
-      and update the "Most booked" .svc-tag and image accordingly
-    • Add/remove a service card → copy a <div class="svc-card"> block; keep the
-      grid to 5 cards total (1 featured + 4 regular) for the layout to balance
-    • Update service name / price copy → edit <h3> and <p> inside .svc-body
-    • Swap a photo → replace the Unsplash URL in that card's <img src="...">
-      Use loading="eager" for any card likely in the initial viewport
-    • Overlay darkness → .svc-overlay background opacity in <style>
-  ───────────────────────────────────────────────────────────────────────── -->
-<section class="services" id="services">
-  <div class="wrap">
-    <div class="section-top">
-      <div>
-        <h2 class="section-title">Popular services</h2>
-        <p class="section-sub">Vetted providers, transparent pricing, real reviews</p>
+<!-- LIVE FEED -->
+<section class="feed-section" id="marketplace">
+  <div class="feed-inner">
+    <div class="feed-col">
+      <div class="feed-col-head">
+        <div class="feed-dot feed-dot--green"></div>
+        <span class="feed-col-label">Active Requests</span>
+        <a href="/login.html" class="feed-col-link">Post a request →</a>
       </div>
-      <a href="/login.html" class="section-link">
-        Browse all services
-        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-      </a>
+      <div class="feed-list" id="feed-requests"></div>
     </div>
-
-    <!-- Editorial grid: featured (span 2) + 3 smaller -->
-    <div class="services-grid">
-
-      <!-- Featured: Makeup (wide) -->
-      <div class="svc-card featured">
-        <img src="/images/makeup-hero.jpg"
-             alt="Beauty makeup artist" loading="eager">
-        <div class="svc-overlay"></div>
-        <div class="svc-body">
-          <div class="svc-tag">Most booked</div>
-          <h3>Beauty &amp; Makeup</h3>
-          <p>Bridal, editorial, special events — from £65</p>
-        </div>
+    <div class="feed-col">
+      <div class="feed-col-head">
+        <div class="feed-dot feed-dot--amber"></div>
+        <span class="feed-col-label">Available Providers</span>
+        <a href="/become-provider.html" class="feed-col-link" style="color:#d97706">List your service →</a>
       </div>
-
-      <!-- Nail Technicians -->
-      <div class="svc-card">
-        <img src="/images/nails-hero.jpg"
-             alt="Nail technician" loading="lazy">
-        <div class="svc-overlay"></div>
-        <div class="svc-body">
-          <h3>Nail Technicians</h3>
-          <p>Gel, acrylics, nail art — from £35</p>
-        </div>
-      </div>
-
-      <!-- Hairdressers -->
-      <div class="svc-card">
-        <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=600&auto=format&fit=crop&q=80"
-             alt="Hairdresser" loading="eager">
-        <div class="svc-overlay"></div>
-        <div class="svc-body">
-          <h3>Hairdressers</h3>
-          <p>Cut, colour, braids &amp; more — from £45</p>
-        </div>
-      </div>
-
-      <!-- Barbers -->
-      <div class="svc-card">
-        <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&auto=format&fit=crop&q=80"
-             alt="Barber" loading="lazy">
-        <div class="svc-overlay"></div>
-        <div class="svc-body">
-          <h3>Barbers</h3>
-          <p>Cuts, fades, beard trims — from £20</p>
-        </div>
-      </div>
-
-      <!-- Chefs -->
-      <div class="svc-card">
-        <img src="/images/chef-hero.jpg"
-             alt="Private chef" loading="lazy">
-        <div class="svc-overlay"></div>
-        <div class="svc-body">
-          <h3>Private Chefs</h3>
-          <p>Dinner parties, meal prep — from £120</p>
-        </div>
-      </div>
-
+      <div class="feed-list" id="feed-providers"></div>
     </div>
   </div>
 </section>
 
-<!-- ─────────────────────────────────────────────────────────────────────────
-  §4  STATS BAND
-  ─────────────────────────────────────────────────────────────────────────
-  What's here:
-    Full-width dark green (<div class="stats">) strip with 4 metrics side-by-side:
-      1. 24,000+  Tasks completed
-      2. 3,800+   Verified providers
-      3. All 32   London boroughs covered
-      4. 4.9 ★    Average client rating
-
-  To edit:
-    • Change a number  → edit .stat-val text
-    • Change a label   → edit .stat-label text
-    • Add a 5th stat   → add another <div> with .stat-val + .stat-label inside
-      .stats-inner (CSS uses flex with space-around, so it adapts)
-    • Background colour → .stats { background } in <style>  (currently #085041)
-    • Text colour       → .stat-val and .stat-label rules in <style>
-  ───────────────────────────────────────────────────────────────────────── -->
-<div class="stats">
-  <div class="wrap">
-    <div class="stats-inner">
-      <div>
-        <div class="stat-val">24,000+</div>
-        <div class="stat-label">Tasks completed</div>
-      </div>
-      <div>
-        <div class="stat-val">3,800+</div>
-        <div class="stat-label">Verified providers</div>
-      </div>
-      <div>
-        <div class="stat-val">All 32</div>
-        <div class="stat-label">London boroughs covered</div>
-      </div>
-      <div>
-        <div class="stat-val">4.9 ★</div>
-        <div class="stat-label">Average client rating</div>
-      </div>
-    </div>
+<!-- MANIFESTO strip -->
+<section class="manifesto-section">
+  <div class="manifesto-inner">
+    <p class="manifesto-text">
+      We didn't build Sowo for <span class="m-strike">availability.</span><br>
+      We didn't build it for <span class="m-strike">five stars.</span><br>
+      We built it for the moment you say, <em>"finally, someone who gets it."</em>
+    </p>
   </div>
-</div>
+</section>
 
 <!-- ─────────────────────────────────────────────────────────────────────────
-  §5  DUAL ROLE  —  Sowo's unique differentiator
+  §2c  FEATURED PROVIDERS
   ─────────────────────────────────────────────────────────────────────────
   What's here:
-    Left text column (.dual-text):
-      • Eyebrow:   "One account. Two sides."
-      • H2:        "Hire help today. Earn from it tomorrow."
-      • Body copy: explains the dual-role concept
-      • Mode cards (.dual-modes) — two clickable cards:
-          Client mode  → wraps /login.html
-          Provider mode → wraps /become-provider.html
-      • CTA link:  "Create your free account" → /signup.html
-
-    Right visual column (.dual-visual):
-      • Photo  — person at work (Unsplash)
-      • Two floating stat bubbles (.dual-bubble):
-          .b1  "As a client"   — tasks hired, trust score, service tags (green)
-          .b2  "As a provider" — earnings, job count/rating, tags (amber)
-
-  To edit:
-    • Eyebrow / headline / body copy → text inside .dual-text
-    • CTA button label/link          → <a class="dual-cta">
-    • Mode card labels & descriptions → <h4> and <p> inside each .mode-card
-    • Mode card links                 → the wrapping <a href="..."> around each card
-    • Photo                           → swap Unsplash URL in .dual-img > img
-    • Bubble "As a client" stats      → .b1 .db-val / .db-sub / .db-tags
-    • Bubble "As a provider" stats    → .b2 .db-val / .db-sub / .db-tags
-    • Bubble positions                → .b1 and .b2 top/right/bottom/left in <style>
-  ───────────────────────────────────────────────────────────────────────── -->
-<section class="dual">
-  <div class="wrap">
-    <div class="dual-inner">
-      <div class="dual-text">
-        <div class="eyebrow">One account. Two sides.</div>
-        <h2>Hire help today.<br>Earn from it tomorrow.</h2>
-        <p>Most people live on both sides of a marketplace — they hire and get hired. Sowo is built for that. One account switches between client and provider mode, no second sign-up needed.</p>
-
-        <div class="dual-modes">
-          <a href="/login.html" style="text-decoration:none;color:inherit;display:block;flex:1">
-          <div class="mode-card">
-            <div class="mode-icon client">
-              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-            </div>
-            <h4>Client mode</h4>
-            <p>Post requests, get quotes, hire, pay and review — all in one place.</p>
-          </div>
-          </a>
-          <a href="/become-provider.html" style="text-decoration:none;color:inherit;display:block;flex:1">
-          <div class="mode-card">
-            <div class="mode-icon provider">
-              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            </div>
-            <h4>Provider mode</h4>
-            <p>Set your services, accept jobs, build your reputation, get paid.</p>
-          </div>
-          </a>
-        </div>
-
-        <a href="/signup.html" class="dual-cta">
-          Create your free account
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-        </a>
+    • Section header — "Top-rated providers near you" + "See all" link
+    • Horizontal scrolling row of provider cards (avatar, name, category,
+      location, star rating + review count, starting price, Book CTA)
+    • JS: loadFeaturedProviders() — calls Providers.list() when Supabase
+      is live; falls back to MOCK_PROVIDERS for the static preview
+  ─────────────────────────────────────────────────────────────────────────
+-->
+<section class="providers-section">
+  <div class="providers-inner">
+    <div class="providers-header">
+      <div>
+        <h2 class="providers-title">Top-rated providers near you</h2>
+        <p class="providers-sub">Vetted professionals, real reviews, ready to book today</p>
       </div>
+      <a href="/browse.html" class="see-all-link">See all <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
 
-      <div class="dual-visual">
-        <div class="dual-img">
-          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&auto=format&fit=crop&q=80" alt="Provider at work">
-        </div>
-        <div class="dual-bubble b1">
-          <div class="db-label">As a client</div>
-          <div class="db-val">8 tasks hired</div>
-          <div class="db-sub">4.9★ trust score</div>
-          <div class="db-tags">
-            <span class="db-tag green">Hair ✓</span>
-            <span class="db-tag green">Chef ✓</span>
-            <span class="db-tag green">Nails ✓</span>
-          </div>
-        </div>
-        <div class="dual-bubble b2">
-          <div class="db-label">As a provider</div>
-          <div class="db-val">£2,840 earned</div>
-          <div class="db-sub">12 jobs · 4.8★ rating</div>
-          <div class="db-tags">
-            <span class="db-tag amber">Makeup ✓</span>
-            <span class="db-tag amber">Available</span>
-          </div>
-        </div>
-      </div>
+    <!-- Provider cards scroll row -->
+    <div class="providers-row" id="providers-row">
+      <!-- populated by loadFeaturedProviders() -->
+      <div class="pcard-skeleton"></div>
+      <div class="pcard-skeleton"></div>
+      <div class="pcard-skeleton"></div>
+      <div class="pcard-skeleton"></div>
     </div>
   </div>
 </section>
+
 
 <!-- ─────────────────────────────────────────────────────────────────────────
   §6  REVIEWS
@@ -812,8 +738,8 @@ footer a:hover{color:#fff}
   <div class="wrap">
     <div class="section-top" style="margin-bottom:40px">
       <div>
-        <h2 class="section-title">What clients are saying</h2>
-        <p class="section-sub">Real reviews from real people across London</p>
+        <h2 class="section-title">What users are saying</h2>
+        <p class="section-sub">Real reviews from real people across the UK</p>
       </div>
     </div>
     <div class="reviews-grid">
@@ -851,7 +777,7 @@ footer a:hover{color:#fff}
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">Found a nail tech through Sowo who came to my flat on a Sunday morning. Her nail art was stunning — got so many compliments. Already booked her for next month.</p>
+        <p class="rv-text">Found a nail tech through Sowo who came to my flat on a Sunday morning. Her nail art was stunning. Got so many compliments. Already booked her for next month.</p>
       </div>
 
       <div class="rv-card">
@@ -869,7 +795,7 @@ footer a:hover{color:#fff}
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">Hired a private chef for my wife's 40th birthday dinner. The food was restaurant quality — three courses, perfectly timed. Every guest asked how we pulled it off. Sowo.</p>
+        <p class="rv-text">Hired a private chef for my wife's 40th birthday dinner. The food was restaurant quality: three courses, perfectly timed. Every guest asked how we pulled it off. Sowo.</p>
       </div>
 
       <div class="rv-card">
@@ -905,7 +831,7 @@ footer a:hover{color:#fff}
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">I have natural hair and it's hard finding someone who knows how to treat it properly. My hairdresser from Sowo was incredible — listened, used the right products, and gave me the best braid style I've ever had.</p>
+        <p class="rv-text">I have natural hair and it's hard finding someone who knows how to treat it properly. My hairdresser from Sowo was incredible. She listened, used the right products, and gave me the best braid style I've ever had.</p>
       </div>
 
       <div class="rv-card">
@@ -923,7 +849,7 @@ footer a:hover{color:#fff}
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">Honestly the best platform for booking beauty services. I've used it three times now — each provider has been top quality. No more scrolling Instagram hoping someone responds.</p>
+        <p class="rv-text">Honestly the best platform for booking beauty services. I've used it three times now and each provider has been top quality. No more scrolling Instagram hoping someone responds.</p>
       </div>
 
     </div>
@@ -952,29 +878,29 @@ footer a:hover{color:#fff}
   ───────────────────────────────────────────────────────────────────────── -->
 <section class="trust">
   <div class="wrap">
-    <h2>Your satisfaction, <em>guaranteed</em></h2>
-    <p class="trust-sub">Every provider on Sowo is vetted, reviewed, and held to our standards — or we make it right.</p>
+    <h2>Built to earn your <em>trust</em></h2>
+    <p class="trust-sub">We are early. These are the commitments we are building toward, and we will not launch them until they are done properly.</p>
     <div class="pillars">
       <div class="pillar">
         <div class="p-icon">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
         </div>
-        <h3>Sowo Protect</h3>
-        <p>Up to £1,000 in coverage if anything goes wrong. We stand behind every booking made on our platform. T&amp;Cs apply.</p>
+        <h3>Sowo Protect <span style="font-size:.72rem;font-weight:600;color:#d97706;background:#fef3c7;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle">Coming soon</span></h3>
+        <p>Up to £1,000 in coverage if something goes wrong. We are working with partners to build this properly before we switch it on.</p>
       </div>
       <div class="pillar">
         <div class="p-icon">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
         </div>
-        <h3>ID-verified Providers</h3>
-        <p>Every provider is identity-checked before their first booking. You always know exactly who you're inviting in.</p>
+        <h3>ID-verified Providers <span style="font-size:.72rem;font-weight:600;color:#d97706;background:#fef3c7;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle">Coming soon</span></h3>
+        <p>Every provider will be identity-checked before their first booking. We are setting up the verification process now.</p>
       </div>
       <div class="pillar">
         <div class="p-icon">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
         </div>
-        <h3>7-day Support</h3>
-        <p>Our team is here every day of the week — before, during, or after the job. Just send us a message.</p>
+        <h3>Dedicated Support <span style="font-size:.72rem;font-weight:600;color:#d97706;background:#fef3c7;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle">Coming soon</span></h3>
+        <p>A real support team, available every day of the week. Right now you can reach us directly at <a href="mailto:hello@sowo.co.uk" style="color:#085041;text-decoration:underline">hello@sowo.co.uk</a>.</p>
       </div>
     </div>
   </div>
@@ -1003,100 +929,6 @@ footer a:hover{color:#fff}
     • Layout direction → flip col order by swapping .how-img-wrap and .how-text
       in the HTML (grid is defined with .how-inner { display:grid })
   ───────────────────────────────────────────────────────────────────────── -->
-<section class="how" id="how">
-  <div class="wrap">
-    <div class="how-inner">
-      <div class="how-img-wrap">
-        <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&auto=format&fit=crop&q=80" alt="Provider in action">
-      </div>
-      <div class="how-text">
-        <h2>From request to done,<br>in three steps</h2>
-        <div class="step">
-          <div class="step-n">1</div>
-          <div class="step-body">
-            <h3>Post what you need</h3>
-            <p>Describe the service, add photos if helpful, set your budget. Takes under two minutes.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-n">2</div>
-          <div class="step-body">
-            <h3>Compare vetted providers</h3>
-            <p>Get quotes from ID-verified local providers with real reviews. Chat with them directly before you decide.</p>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-n">3</div>
-          <div class="step-body">
-            <h3>Book, pay, and review</h3>
-            <p>Hire the one you want, pay securely through Sowo, and leave a review once the job is done. Simple.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────────────────────────────────────────────────
-  §9  PROVIDER BANNER
-  ─────────────────────────────────────────────────────────────────────────
-  What's here:
-    Dark split card (.provider-banner) inside the standard .wrap container:
-      LEFT (.pb-left):
-        • H2 — "Turn your skill into income"
-        • Body copy — earn on Sowo pitch
-        • CTA button — "Become a Provider" → /become-provider.html
-
-      RIGHT (.pb-right):
-        • Photo — provider/chef image (Unsplash), decorative
-        • 4 perk items (.pb-perk) with check-mark SVG icons:
-            Set your own prices
-            No monthly fees
-            Get paid directly
-            Work when you want
-
-  To edit:
-    • Headline / body copy → <h2> and <p> inside .pb-left
-    • CTA button label/link → <a class="pb-btn"> text and href
-    • Perk items → text inside each .pb-perk (after the SVG icon)
-    • Add/remove a perk → copy/delete a <div class="pb-perk"> block
-    • Photo → swap Unsplash URL in .pb-right > img
-    • Card background → .provider-banner { background } in <style>  (dark green)
-    • Card border-radius / padding → .provider-banner in <style>
-  ───────────────────────────────────────────────────────────────────────── -->
-<div class="wrap" style="padding-bottom:88px">
-  <div class="provider-banner">
-    <div class="pb-left">
-      <h2>Turn your skill<br>into income</h2>
-      <p>Join 3,800+ providers already earning on Sowo. Set your own rates, work when you want, and build a reputation that travels with you.</p>
-      <a href="/become-provider.html" class="pb-btn">
-        Become a Provider
-        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
-      </a>
-    </div>
-    <div class="pb-right">
-      <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=700&auto=format&fit=crop&q=80" alt="Provider working">
-      <div class="pb-perks">
-        <div class="pb-perk">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-          Set your own prices
-        </div>
-        <div class="pb-perk">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-          No monthly fees
-        </div>
-        <div class="pb-perk">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-          Get paid directly
-        </div>
-        <div class="pb-perk">
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-          Work when you want
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ─────────────────────────────────────────────────────────────────────────
   §10  FOOTER
@@ -1138,7 +970,7 @@ footer a:hover{color:#fff}
           </svg>
           <span>Sowo</span>
         </div>
-        <p>Trusted help, near you. Find vetted providers or earn doing what you love — one account, both sides.</p>
+        <p>Trusted help, near you. Find vetted providers or earn doing what you love. One account, both sides.</p>
       </div>
       <div>
         <h4>Services</h4>
@@ -1173,7 +1005,7 @@ footer a:hover{color:#fff}
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2025 Sowo Ltd. Registered in England &amp; Wales.</p>
+      <p>© 2025 Sowo. This is an early-stage MVP. Features are still being tested and some things may not work as expected. Not yet a registered company.</p>
       <nav>
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
@@ -1184,90 +1016,251 @@ footer a:hover{color:#fff}
 </footer>
 
 <script>
-const CAT_DATA = {
-  'Makeup artist': {
-    pills: ['Bridal makeup','Event glam','Photoshoot makeup','Natural look','Airbrush makeup'],
-    img: '/images/makeup-hero.jpg',
-    title: 'Makeup',
-    bullets: ['Bridal, editorial &amp; special occasion looks by fully vetted artists — from £65.','Now trending: dewy glass skin, bold lipliner &amp; soft glam for events.'],
-  },
-  'Nail technician': {
-    pills: ['Gel nails','Acrylic nails','Nail art','Manicure','Pedicure'],
-    img: '/images/nails-hero.jpg',
-    title: 'Nails',
-    bullets: ['Gel, acrylics, nail art &amp; more — your nail tech comes to you, from £35.','Now trending: tortoiseshell patterns, chrome finishes &amp; 3D nail art.'],
-  },
-  'Hairdresser': {
-    pills: ['Afro hair specialist','Braids &amp; twists','Cut &amp; colour','Blowout','Wedding hair'],
-    img: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?w=1400&auto=format&fit=crop&q=85',
-    title: 'Hair',
-    bullets: ['Expert hairdressers for all hair types — cuts, colour, braids &amp; more, from £45.','Now trending: curtain bangs, butterfly cuts &amp; rich brunette tones.'],
-  },
-  'Barber': {
-    pills: ['Skin fade','Beard trim','Line-up','Kids cut','Hot towel shave'],
-    img: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1400&auto=format&fit=crop&q=85',
-    title: 'Barber',
-    bullets: ['Fades, trims, beard work &amp; more — a barber at your door, from £20.','Now trending: textured crops, taper fades &amp; skin fades.'],
-  },
-  'Private chef': {
-    pills: ['Dinner party','Meal prep','Birthday celebration','Date night','Brunch catering'],
-    img: '/images/chef-hero.jpg',
-    title: 'Private Chef',
-    bullets: ['Restaurant-quality meals in your home — from intimate dinners to full events, from £120.','Now trending: mezze sharing boards, tasting menus &amp; plant-based feasts.'],
-  },
-  'Massage therapist': {
-    pills: ['Deep tissue','Swedish massage','Sports massage','Couple massage','Prenatal massage'],
-    img: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1400&auto=format&fit=crop&q=85',
-    title: 'Massage',
-    bullets: ['Qualified therapists who come to you — relaxation, sports &amp; deep tissue, from £60.','Now trending: hot stone therapy, lymphatic drainage &amp; couple\'s massage.'],
-  },
-  'Lash technician': {
-    pills: ['Lash extensions','Lash lift &amp; tint','Russian volume','Hybrid lashes','Infill'],
-    img: '/images/lashes-hero.jpg',
-    title: 'Lashes',
-    bullets: ['Classic, hybrid &amp; volume sets from certified technicians — from £50.','Now trending: wispy cat-eye, coloured tips &amp; mega volume sets.'],
-  },
-  'Personal trainer': {
-    pills: ['Weight loss plan','Strength training','Home workout','Yoga &amp; flexibility','Nutrition coaching'],
-    img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&auto=format&fit=crop&q=85',
-    title: 'Fitness',
-    bullets: ['Certified personal trainers who come to your home or garden — from £50/session.','Now trending: strength &amp; conditioning, Pilates reformer &amp; outdoor HIIT.'],
-  },
-};
+/* ── Auth nav state ─────────────────────────────────────────────── */
+(function() {
+  const raw = sessionStorage.getItem('sowo_session');
+  if (!raw) return;
+  try {
+    const user = JSON.parse(raw);
+    const name     = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : user.name || (user.email || '').split('@')[0];
+    const initials = name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0, 2);
+    const email    = user.email || '';
 
-function setHcat(el) {
-  document.querySelectorAll('.cat-item').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  const cat = el.dataset.cat;
-  const d = CAT_DATA[cat];
-  if (!d) return;
-  // update pills
-  document.getElementById('hero-pills').innerHTML =
-    d.pills.map(p => `<button class="h-pill" onclick="setSearch('${p}')">${p}</button>`).join('');
-  // update image
-  document.getElementById('hero-img').src = d.img;
-  document.getElementById('hero-img').alt = d.title;
-  // update info card
-  const card = document.getElementById('hero-info-card');
-  card.querySelector('h2').textContent = d.title;
-  card.querySelector('ul').innerHTML = d.bullets.map(b =>
-    `<li><span class="hic-check"><svg viewBox="0 0 24 24" fill="none" stroke="#085041" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg></span><span>${b}</span></li>`
-  ).join('');
-  document.getElementById('search-input').value = '';
-}
+    // Show user menu, hide guest links
+    document.getElementById('nav-login-btn').style.display    = 'none';
+    document.getElementById('nav-provider-btn').style.display = 'none';
+    const userEl = document.getElementById('nav-user');
+    userEl.classList.add('visible');
 
-function setSearch(q) {
-  document.getElementById('search-input').value = q;
-  document.getElementById('search-input').focus();
-}
+    // Populate avatar + dropdown
+    const av = document.getElementById('nav-av');
+    const avatarKey = 'sowo_avatar_' + email;
+    const savedPhoto = localStorage.getItem(avatarKey);
+    if (savedPhoto) {
+      av.style.backgroundImage = 'url(' + savedPhoto + ')';
+      av.textContent = '';
+    } else {
+      av.textContent = initials;
+    }
+    document.getElementById('nav-dd-name').textContent  = name;
+    document.getElementById('nav-dd-email').textContent = email;
 
-function handleSearch() {
-  const q = document.getElementById('search-input').value.trim();
-  window.location.href = q ? `/login.html?q=${encodeURIComponent(q)}` : '/login.html';
-}
-document.getElementById('search-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleSearch();
+    // Toggle dropdown on avatar click
+    av.addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.getElementById('nav-dropdown').classList.toggle('open');
+    });
+    document.addEventListener('click', function() {
+      document.getElementById('nav-dropdown').classList.remove('open');
+    });
+    document.getElementById('nav-dropdown').addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
+
+    // Sign out
+    document.getElementById('nav-signout-btn').addEventListener('click', function() {
+      sessionStorage.removeItem('sowo_session');
+      window.location.reload();
+    });
+
+    // Profile link — go to dashboard and open profile tab
+    document.getElementById('nav-dd-profile').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '/dashboard.html';
+    });
+  } catch(e) {}
+})();
+
+/* ── Location ──────────────────────────────────────────────────── */
+document.getElementById('useLocationBtn').addEventListener('click', function() {
+  const btn = this;
+  const input = document.getElementById('locationInput');
+  if (!navigator.geolocation) {
+    input.value = 'Location not supported';
+    return;
+  }
+  btn.textContent = 'Locating...';
+  btn.style.opacity = '.5';
+  navigator.geolocation.getCurrentPosition(
+    async pos => {
+      const { latitude, longitude } = pos.coords;
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
+        const data = await res.json();
+        const city = data.address.city || data.address.town || data.address.village || data.address.county || '';
+        const postcode = data.address.postcode || '';
+        input.value = city ? `${city}${postcode ? ', ' + postcode : ''}` : `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
+      } catch {
+        input.value = `${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
+      }
+      btn.textContent = '✓ Located';
+      btn.style.opacity = '1';
+      btn.style.color = '#085041';
+      setTimeout(() => { btn.textContent = 'Use my location'; }, 3000);
+    },
+    err => {
+      btn.textContent = 'Use my location';
+      btn.style.opacity = '1';
+      input.placeholder = 'Permission denied';
+    },
+    { timeout: 8000 }
+  );
 });
+
+/* ── Featured providers ──────────────────────────────────────── */
+const MOCK_PROVIDERS = [
+  {
+    name: 'Amara Osei',
+    category: 'Makeup artist',
+    location: 'Brixton, London',
+    rating: 4.9,
+    reviews: 134,
+    price: 65,
+    verified: true,
+    img: '/images/makeup-hero.jpg',
+    initials: 'AO',
+  },
+  {
+    name: 'Priya Nair',
+    category: 'Nail technician',
+    location: 'Shoreditch, London',
+    rating: 4.8,
+    reviews: 98,
+    price: 45,
+    verified: true,
+    img: '/images/nails-hero.jpg',
+    initials: 'PN',
+  },
+  {
+    name: 'Sofia Mensah',
+    category: 'Barber',
+    location: 'Hackney, London',
+    rating: 5.0,
+    reviews: 62,
+    price: 55,
+    verified: true,
+    img: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80',
+    initials: 'SM',
+  },
+  {
+    name: 'Marcus Reid',
+    category: 'Private chef',
+    location: 'Islington, London',
+    rating: 4.9,
+    reviews: 47,
+    price: 120,
+    verified: true,
+    img: '/images/chef-hero.jpg',
+    initials: 'MR',
+  },
+];
+
+function renderProviderCard(p) {
+  const stars = Math.round(p.rating);
+  const starStr = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+  return `
+    <div class="pcard">
+      <div class="pcard-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy"
+             onerror="this.style.display='none'">
+        ${p.verified ? '<span class="pcard-verified">Verified</span>' : ''}
+      </div>
+      <div class="pcard-body">
+        <div class="pcard-avatar-row">
+          <div class="pcard-avatar">${p.initials}</div>
+          <div>
+            <div class="pcard-name">${p.name}</div>
+            <div class="pcard-cat">${p.category}</div>
+          </div>
+        </div>
+        <div class="pcard-location">
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          ${p.location}
+        </div>
+        <div class="pcard-stars">
+          <span class="star">${starStr}</span>
+          <span>${p.rating.toFixed(1)}</span>
+          <span class="rcount">(${p.reviews} reviews)</span>
+        </div>
+        <div class="pcard-foot">
+          <div class="pcard-price">From <strong>£${p.price}</strong></div>
+          <button class="pcard-book" onclick="location.href='/providers'">Book</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function loadFeaturedProviders() {
+  const row = document.getElementById('providers-row');
+  if (!row) return;
+  try {
+    // Use real Supabase data if configured, else fall back to mocks
+    let providers = [];
+    if (typeof Providers !== 'undefined') {
+      providers = await Providers.list({ limit: 4 });
+    }
+    if (!providers || providers.length === 0) providers = MOCK_PROVIDERS;
+    row.innerHTML = providers.slice(0, 4).map(p => {
+      // Normalise shape whether real or mock
+      const profile = p.profiles || {};
+      const svc = (p.services && p.services[0]) || {};
+      return renderProviderCard({
+        name:      profile.full_name || p.name || 'Provider',
+        category:  p.category       || p.category || 'Beauty',
+        location:  profile.location || p.location || 'London',
+        rating:    parseFloat(p.rating || p.rating) || 4.8,
+        reviews:   p.vouch_count    || p.reviews   || 0,
+        price:     svc.price ? Math.round(svc.price / 100) : (p.price || 50),
+        verified:  p.available !== false,
+        img:       profile.avatar_url || p.img || '',
+        initials:  (profile.full_name || p.name || 'P').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),
+      });
+    }).join('');
+  } catch (e) {
+    // Silent fallback to mocks
+    row.innerHTML = MOCK_PROVIDERS.map(renderProviderCard).join('');
+  }
+}
+
+
+
+// Boot featured providers after page paint
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', loadFeaturedProviders);
+} else {
+  loadFeaturedProviders();
+}
+
+// ── Marketplace feed (static) ─────────────────────────────────────────────
+(function() {
+  const REQUESTS = [
+    { tag:'barber',   cls:'feed-tag--barber',   title:'Need a barber who knows afro hair',       meta:'Manchester · just now' },
+    { tag:'beauty',   cls:'feed-tag--beauty',   title:'Bridal makeup artist for June wedding',    meta:'Birmingham · 1m ago' },
+    { tag:'cleaning', cls:'feed-tag--cleaning', title:'Looking for a reliable cleaner',           meta:'East London · 2m ago' },
+    { tag:'chef',     cls:'feed-tag--chef',     title:'Private chef for dinner party of 10',      meta:'Chelsea · 3m ago' },
+  ];
+  const PROVIDERS = [
+    { tag:'barber',   cls:'feed-tag--barber',   title:'Barber specialising in African hair',      meta:'Manchester · just now',  demo:'1' },
+    { tag:'chef',     cls:'feed-tag--chef',     title:'Pastry chef available for events',         meta:'Bristol · 13m ago',      demo:'2' },
+    { tag:'beauty',   cls:'feed-tag--beauty',   title:'Makeup artist, bridal and editorial',      meta:'Birmingham · 7m ago',    demo:'3' },
+    { tag:'cleaning', cls:'feed-tag--cleaning', title:'Eco-friendly home cleaner, DBS checked',  meta:'Hackney · 5m ago',       demo:'4' },
+  ];
+  function makeCard(item, href, variant) {
+    const el = document.createElement('a');
+    el.className = `feed-card feed-card--${variant}`;
+    el.href = href;
+    el.innerHTML = `
+      <span class="feed-tag ${item.cls}">${item.tag}</span>
+      <div class="feed-card-title">${item.title}</div>
+      <div class="feed-card-meta">${item.meta}</div>`;
+    return el;
+  }
+  const reqList = document.getElementById('feed-requests');
+  const prvList = document.getElementById('feed-providers');
+  if (!reqList || !prvList) return;
+  REQUESTS.forEach(item => reqList.appendChild(makeCard(item, '/request.html', 'request')));
+  PROVIDERS.forEach(item => prvList.appendChild(makeCard(item, `/provider.html?demo=${item.demo}`, 'provider')));
+})();
 </script>
 </body>
 </html>

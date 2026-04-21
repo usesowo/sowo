@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Provider — Sowo</title>
+<title>Provider Profile - Sowo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -131,20 +131,94 @@ textarea.book-input{height:90px;padding:12px 14px;resize:none;line-height:1.5}
 
 /* Loading */
 .page-loading{display:flex;align-items:center;justify-content:center;min-height:60vh;font-size:14px;color:var(--t3)}
+
+/* STANDARD NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.1rem;color:var(--black);text-decoration:none}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font-size:13px;font-weight:500;color:var(--t2);text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--black)}
+.nav-auth{font-size:13px;font-weight:600;color:var(--t2);text-decoration:none;transition:color .15s}
+.nav-auth:hover{color:var(--black)}
+/* Auth nav */
+.nav-user{position:relative;display:none}
+.nav-user.visible{display:flex;align-items:center}
+.nav-avatar{width:34px;height:34px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s;background-size:cover;background-position:center;user-select:none;flex-shrink:0}
+.nav-avatar:hover{border-color:#085041}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:200px;padding:6px;z-index:999;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s}
+.nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.nav-dd-info{padding:10px 12px 8px;border-bottom:1px solid #f3f4f6;margin-bottom:4px}
+.nav-dd-info .dd-name{font-size:13px;font-weight:700;color:#111}
+.nav-dd-info .dd-email{font-size:11.5px;color:#9ca3af;margin-top:1px}
+.nav-dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .12s}
+.nav-dd-item:hover{background:#f9fafb;color:#085041}
+.nav-dd-item.danger{color:#dc2626}
+.nav-dd-item.danger:hover{background:#fff5f5}
+.nav-cta{height:38px;padding:0 16px;background:var(--green);color:var(--mint);border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;transition:background .15s}
+.nav-cta:hover{background:#063D31}
+
+/* FOOTER */
+.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
+footer{background:#0a0a0a;color:#fff;padding:60px 0 0}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid #1f1f1f}
+.fb p{color:#9ca3af;font-size:.875rem;line-height:1.6;margin-top:12px}
+footer h4{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin-bottom:16px}
+footer ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:10px}
+footer ul li a{color:#d1d5db;font-size:.875rem;text-decoration:none;transition:color .15s}
+footer ul li a:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-size:.8rem;color:#6b7280}
+.footer-bottom nav{display:flex;gap:20px;position:static;height:auto;background:none;border:none;padding:0}
+.footer-bottom nav a{color:#6b7280;text-decoration:none;font-size:.8rem;font-weight:400}
+.footer-bottom nav a:hover{color:#fff}
+.footer-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.1rem;color:#fff}
+@media(max-width:768px){.footer-top{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <a href="/browse" class="nav-back">← Back to browse</a>
-  <a href="/" class="logo-wm" style="position:absolute;left:50%;transform:translateX(-50%)">Sowo</a>
-  <div id="navR" style="display:flex;gap:10px">
-    <a href="/login" class="btn btn-sm b-light">Log in</a>
-    <a href="/signup" class="btn btn-sm b-amber">Sign up</a>
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="32" height="30" viewBox="0 0 120 110" fill="none">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
+      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+      <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+    </svg>
+    <span>Sowo</span>
+  </a>
+  <div class="nav-links">
+    <a href="/#marketplace">Marketplace</a>
+    <a href="/become-provider.html">Become a Provider</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="/login.html" class="nav-auth" id="nav-login-btn">Sign in</a>
+    <a href="/signup.html" class="nav-cta" id="nav-cta-btn">Get started</a>
+      <div class="nav-user" id="nav-user">
+      <div class="nav-avatar" id="nav-av">?</div>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <div class="nav-dd-info">
+          <div class="dd-name" id="nav-dd-name"></div>
+          <div class="dd-email" id="nav-dd-email"></div>
+        </div>
+        <a href="/dashboard.html" class="nav-dd-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </a>
+        <a href="/dashboard.html" class="nav-dd-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          My Profile
+        </a>
+        <button class="nav-dd-item danger" id="nav-signout-btn">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Sign out
+        </button>
+      </div>
+    </div>
   </div>
 </nav>
 
 <div id="pageContent" style="margin-top:68px">
+  <div style="max-width:1080px;margin:0 auto;padding:16px 32px 0"><a href="/#marketplace" class="nav-back">← Back to home</a></div>
   <div class="page-loading">Loading provider…</div>
 </div>
 
@@ -173,47 +247,204 @@ textarea.book-input{height:90px;padding:12px 14px;resize:none;line-height:1.5}
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/js/config.js"></script>
-<script src="/js/sowo.js"></script>
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="fb">
+        <div class="footer-logo">
+          <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
+            <path d="M10 90 C10 44 30 10 60 10" stroke="#9FE1CB" stroke-width="9" stroke-linecap="round"/>
+            <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+            <circle cx="60" cy="10" r="5" fill="#fff"/>
+          </svg>
+          <span>Sowo</span>
+        </div>
+        <p>Trusted help, near you. Find vetted providers or earn doing what you love. One account, both sides.</p>
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Beauty &amp; Makeup</a></li>
+          <li><a href="#">Nail Technicians</a></li>
+          <li><a href="#">Hairdressers</a></li>
+          <li><a href="#">Barbers</a></li>
+          <li><a href="#">Private Chefs</a></li>
+          <li><a href="#">Massage</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Sowo</a></li>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Safety &amp; Trust</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Help Centre</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="/become-provider.html">Become a Provider</a></li>
+          <li><a href="/login.html">Sign in</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Sowo. This is an early-stage MVP. Features are still being tested and some things may not work as expected. Not yet a registered company.</p>
+      <nav>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
 <script>
 const params     = new URLSearchParams(window.location.search);
 const providerId = params.get('id');
+const demoId     = params.get('demo');
 let providerData = null;
 let selectedServiceId = null;
 let currentUser  = null;
 
-async function init() {
-  currentUser = await Auth.getUser();
-  if (currentUser) {
-    document.getElementById('navR').innerHTML = `<a href="/dashboard" class="btn btn-sm b-green">Dashboard</a>`;
+/* Minimal UI helpers so the page works without sowo.js */
+if (typeof UI === 'undefined') {
+  window.UI = {
+    stars(r) { const n=Math.round(r||0); return '★'.repeat(n)+'☆'.repeat(5-n); },
+    formatPrice(p) { return p ? '£'+(p/100).toFixed(0) : '£0'; },
+    toast(msg, type='info') {
+      const t=document.createElement('div');
+      t.textContent=msg;
+      t.style.cssText=`position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;background:${type==='error'?'#c0392b':type==='success'?'#085041':'#333'};color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.2)`;
+      document.body.appendChild(t);
+      setTimeout(()=>t.remove(),3000);
+    },
+    setLoading(btn,on){ if(on){btn.dataset.orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span>';btn.disabled=true;}else{btn.innerHTML=btn.dataset.orig||'Submit';btn.disabled=false;} }
+  };
+}
+
+function init() {
+  /* Check sessionStorage first — set by browse.html when a card is clicked */
+  const raw = sessionStorage.getItem('sowo_preview');
+  if (raw) {
+    sessionStorage.removeItem('sowo_preview');
+    const p = JSON.parse(raw);
+    if (p && p.name) { renderPreviewPage(p); return; }
   }
 
-  if (!providerId) {
-    document.getElementById('pageContent').innerHTML = '<div class="page-loading">Provider not found.</div>';
+  if (demoId) {
+    renderDemoPage(demoId);
     return;
   }
 
-  try {
-    const { data, error } = await sb
-      .from('providers')
-      .select(`
-        *,
-        profiles ( id, full_name, avatar_url, location ),
-        services ( * ),
-        vouches ( *, profiles!vouches_author_id_fkey ( full_name, avatar_url ) )
-      `)
+  /* Nothing to show — send back to marketplace */
+  window.location.replace('/browse.html');
+  return;
+
+  /* Real provider lookup — only runs if ?id= is set and backend is available */
+  if (typeof sb !== 'undefined') {
+    sb.from('providers')
+      .select(`*, profiles(*), services(*), vouches(*)`)
       .eq('id', providerId)
-      .single();
-
-    if (error || !data) throw error || new Error('Not found');
-    providerData = data;
-    renderPage(data);
-
-  } catch (err) {
-    // Demo mode
+      .single()
+      .then(({ data, error }) => {
+        if (error || !data) { renderDemoPage(); return; }
+        providerData = data;
+        renderPage(data);
+      })
+      .catch(() => renderDemoPage());
+  } else {
     renderDemoPage();
   }
+}
+
+
+function renderPreviewPage(p) {
+  /* real = has local_ id, OR has an email (came from sowo_providers) */
+  const isReal  = (p.id && String(p.id).startsWith('local_')) || !!p.email;
+  /* check if viewing user is the owner */
+  var sessionRaw = sessionStorage.getItem('sowo_session');
+  var isOwn = false;
+  try { var sess = JSON.parse(sessionRaw || '{}'); isOwn = sess.email && p.email && sess.email.toLowerCase() === p.email.toLowerCase(); } catch(e) {}
+
+  const initials  = p.name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+  const starsStr  = p.rating ? UI.stars(p.rating) : '☆☆☆☆☆';
+  const ratingText= p.rating ? p.rating + ' · ' + p.reviews + ' reviews' : 'New provider';
+
+  /* resolve rate: p.price (pence from demo data), p.hourly_rate (pence from sowo_providers) */
+  var rawPrice = p.price || p.hourly_rate || 0;
+  var priceStr = rawPrice ? ('£' + (rawPrice / 100).toFixed(0)) : 'Contact';
+
+  const skillChips = (p.skills || []).map(function(s){ return '<span class="skill-chip">'+s+'</span>'; }).join('');
+
+  /* build services rows */
+  var servicesHtml = '';
+  if (p.services && p.services.length) {
+    servicesHtml = p.services.map(function(s) {
+      if (!s || typeof s !== 'object') return '';
+      var sp = s.price ? ('£' + (s.price / 100).toFixed(0)) : priceStr;
+      return '<div class="service-card" style="cursor:default">' +
+        '<div class="service-info"><h3>'+s.name+'</h3><p>'+p.category+'</p></div>' +
+        '<div class="service-price">'+sp+'</div>' +
+      '</div>';
+    }).join('');
+  } else {
+    servicesHtml = '<div class="service-card" style="cursor:default">' +
+      '<div class="service-info"><h3>Standard session</h3><p>'+p.category+' &middot; 1h</p></div>' +
+      '<div class="service-price">'+priceStr+'<span>/hr</span></div>' +
+    '</div>';
+  }
+
+  var bannerHtml = '';
+  if (isOwn) {
+    bannerHtml = '<div style="background:#edf4f1;border:1px solid #a4ccbd;border-radius:10px;padding:14px 16px;font-size:13px;color:#085041;margin-bottom:16px">' +
+      'This is a preview of your public listing.' +
+    '</div>';
+  }
+
+  document.title = p.name + ' - Sowo';
+  document.getElementById('pageContent').innerHTML =
+    '<div style="max-width:1080px;margin:0 auto;padding:16px 32px 0"><a href="/browse.html" class="nav-back">&larr; Back to marketplace</a></div>' +
+    '<main>' +
+      '<div class="left-col">' +
+        '<div class="profile-header">' +
+          '<div class="avatar-wrap">' +
+            (p.img ? '<img src="'+p.img+'" alt="'+p.name+'" style="width:88px;height:88px;border-radius:50%;object-fit:cover;display:block">' : '<div class="avatar-init">'+initials+'</div>') +
+            (p.verified ? '<div class="verified-ring">\u2713</div>' : '') +
+          '</div>' +
+          '<div class="profile-meta">' +
+            '<h1 class="profile-name">'+p.name+'</h1>' +
+            '<div class="profile-cat">'+(p.category||'')+'</div>' +
+            (p.location ? '<div class="profile-loc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> '+p.location+'</div>' : '') +
+            '<div style="margin-top:6px;color:#EF9F27;font-size:14px">'+starsStr+' <span style="color:#666;font-size:12px">'+ratingText+'</span></div>' +
+            '<div class="meta-pills" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' +
+              (p.verified ? '<span class="meta-pill pill-green">\u2713 Verified</span>' : '') +
+              '<span class="meta-pill pill-green">\u25cf Available now</span>' +
+              (rawPrice ? '<span class="meta-pill pill-amber">From '+priceStr+'/hr</span>' : '') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        (p.bio ? '<div class="section"><div class="section-title">About</div><p class="bio-text">'+p.bio+'</p></div>' : '') +
+        (skillChips ? '<div class="section"><div class="section-title">Skills</div><div class="skills-grid">'+skillChips+'</div></div>' : '') +
+        '<div class="section"><div class="section-title">Services &amp; Pricing</div><div class="services-list">'+servicesHtml+'</div></div>' +
+      '</div>' +
+      '<div class="right-col">' +
+        '<div class="booking-card">' +
+          '<div class="booking-price">'+priceStr+'<span> / hr</span></div>' +
+          '<div class="booking-vouch">'+(p.rating ? '\u2605 '+p.rating+' \u00b7 '+p.reviews+' reviews' : 'New provider')+'</div>' +
+          bannerHtml +
+          (isOwn
+            ? '<a href="/dashboard.html" class="btn-book" style="text-decoration:none">Back to dashboard</a>'
+            : '<a href="/signup.html" class="btn-book" style="text-decoration:none">Request to book \u2192</a>') +
+          '<div class="book-trust"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--teal)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> Protected by Sowo escrow</div>' +
+        '</div>' +
+      '</div>' +
+    '</main>';
 }
 
 function renderPage(p) {
@@ -223,7 +454,7 @@ function renderPage(p) {
   const services = p.services || [];
   const vouches  = p.vouches  || [];
 
-  document.title = name + ' — Sowo';
+  document.title = name + ' - Sowo';
 
   document.getElementById('pageContent').innerHTML = `
     <main>
@@ -241,7 +472,7 @@ function renderPage(p) {
             <div class="profile-loc">📍 ${profile.location || 'London, UK'}</div>
             <div class="stars-row">
               <span class="stars">${UI.stars(p.rating || 0)}</span>
-              <span class="rating-num">${p.rating || '—'}</span>
+              <span class="rating-num">${p.rating || 'N/A'}</span>
               <span class="vouch-cnt">(${p.vouch_count || 0} vouches)</span>
             </div>
             <div class="meta-pills">
@@ -331,7 +562,7 @@ function buildBookingWidget(p, services) {
         <div class="book-label">Select service</div>
         <select class="book-input" id="serviceSelect" onchange="onServiceSelect(this)">
           <option value="">Choose a service…</option>
-          ${services.map(s=>`<option value="${s.id}" data-price="${s.price}">${s.name} — ${UI.formatPrice(s.price)}</option>`).join('')}
+          ${services.map(s=>`<option value="${s.id}" data-price="${s.price}">${s.name} (${UI.formatPrice(s.price)})</option>`).join('')}
         </select>
       </div>` : ''}
 
@@ -439,7 +670,7 @@ document.getElementById('confirmPayBtn').addEventListener('click', async () => {
       if (url) { window.location.href = url; return; }
     }
 
-    // No Stripe yet — just show success
+    // No Stripe yet, just show success
     document.getElementById('successModal').classList.add('show');
 
   } catch (err) {
@@ -462,25 +693,182 @@ function shareProfile() {
 function reportProvider() { UI.toast('Report submitted. Thank you.', 'success'); }
 
 /* Demo fallback */
-function renderDemoPage() {
-  const demo = {
-    name:'Kwame Asante', cat:'Plumber', loc:'Peckham, London', rating:4.9, vouches:62,
-    bio:'Fully qualified plumber with 12 years experience across South London. Fast response, guaranteed work, no callout fee on weekdays. All work certified and insured.',
-    skills:['Leaks & Burst pipes','Boiler servicing','Bathroom installation','Emergency callouts','Central heating'],
-    verified:true, available:true, hourly_rate:3500,
-    services:[
-      {id:'s1',name:'Plumbing inspection',description:'Full system check + written report',price:8000,duration_hours:1},
-      {id:'s2',name:'Leak repair',description:'Locate and fix any leak, guaranteed',price:15000,duration_hours:2},
-      {id:'s3',name:'Bathroom fit-out',description:'Complete bathroom installation',price:85000,duration_hours:8},
-    ],
-    vouches:[
-      {author:'Ngozi A.',date:'March 2025',rating:5,text:'Kwame fixed our boiler the same day. Absolute legend. Will only use him from now on.'},
-      {author:'Tunde B.',date:'Feb 2025',rating:5,text:'Quick, clean, professional. Sorted our bathroom leak in under an hour.'},
-      {author:'Ama D.',date:'Jan 2025',rating:5,text:'Highly recommend. Fair price, excellent quality, very communicative.'},
-    ]
+function renderDemoPage(demoId) {
+  const profiles = {
+    '1': {
+      name:'Amara Osei', cat:'Beauty & Makeup', loc:'Hackney, London',rating:4.9,vouch_count:47,
+      bio:'Award-winning makeup artist with 8 years of experience in bridal, editorial, and event makeup. Fully insured, specialising in all skin tones.',
+      skills:['Bridal','Editorial','Airbrush','Glam','Natural looks'],
+      verified:true,available:true,hourly_rate:8500,
+      img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80',
+      services:[
+        {id:'s1',name:'Bridal makeup',description:'Full glam for your wedding day',price:15000,duration_hours:2},
+        {id:'s2',name:'Editorial look',description:'High-fashion or campaign makeup',price:12000,duration_hours:2},
+        {id:'s3',name:'Event glam',description:'Party or occasion makeup',price:8500,duration_hours:1},
+      ],
+      vouches:[
+        {author:'Sade O.',date:'March 2026',rating:5,text:'Amara did my bridal makeup and I was blown away. She understood exactly what I wanted.'},
+        {author:'Kezia T.',date:'Feb 2026',rating:5,text:'Incredible skill with deeper skin tones. The finish lasted all day. Highly recommend.'},
+        {author:'Rachel B.',date:'Jan 2026',rating:5,text:'So professional and talented. Great communication the whole way through.'},
+      ]
+    },
+    '2': {
+      name:'Jade Chen', cat:'Nail Technician', loc:'Shoreditch, London',rating:4.8,vouch_count:62,
+      bio:'Specialising in gel, acrylic, and nail art. Known for intricate designs and long-lasting results. Walk-ins welcome most days.',
+      skills:['Gel nails','Nail art','Acrylics','Nail extensions','Nail repair'],
+      verified:true,available:true,hourly_rate:5500,
+      img:'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80',
+      services:[
+        {id:'s1',name:'Gel manicure',description:'Long-lasting gel colour and finish',price:4500,duration_hours:1},
+        {id:'s2',name:'Acrylic full set',description:'Full acrylic extensions with design',price:7000,duration_hours:2},
+        {id:'s3',name:'Nail art session',description:'Custom nail art on your existing set',price:3500,duration_hours:1},
+      ],
+      vouches:[
+        {author:'Lucy W.',date:'March 2026',rating:5,text:'My nails have never looked this good. Jade is incredibly talented and so precise.'},
+        {author:'Mia P.',date:'Feb 2026',rating:5,text:'The designs she creates are unreal. Always gets compliments when I leave.'},
+        {author:'Emma H.',date:'Jan 2026',rating:4,text:'Great service, really clean setup and the nails lasted over 3 weeks.'},
+      ]
+    },
+    '3': {
+      name:'Sofia Mensah', cat:'Barber', loc:'Moss Side, Manchester',rating:4.9,vouch_count:38,
+      bio:'Master barber specialising in afro-textured hair. Fades, tapers, and line-ups done with precision. 6 years in the industry.',
+      skills:['Fades','Tapers','Afro hair','Line-ups','Kids cuts'],
+      verified:true,available:true,hourly_rate:4000,
+      img:'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80',
+      services:[
+        {id:'s1',name:'Fresh cut & lineup',description:'Full cut with precision lineup',price:4000,duration_hours:1},
+        {id:'s2',name:'Skin fade',description:'Bald or skin fade with clean finish',price:4500,duration_hours:1},
+        {id:'s3',name:'Kids cut',description:'Relaxed cut for children under 12',price:2500,duration_hours:1},
+      ],
+      vouches:[
+        {author:'Theo W.',date:'March 2026',rating:5,text:'Best barber I have found. Gets it right every single time without me having to explain twice.'},
+        {author:'Jabril H.',date:'Feb 2026',rating:5,text:'My son loves coming here. Sofia is patient and the cuts are always clean.'},
+        {author:'Ryan O.',date:'Jan 2026',rating:5,text:'Professional, precise, and the fade is always on point. Will not go anywhere else.'},
+      ]
+    },
+    '4': {
+      name:'Kofi Asante', cat:'Private Chef', loc:'Islington, London',rating:5.0,vouch_count:29,
+      bio:'Trained in Paris. Specialising in West African fusion and contemporary European cuisine. Available for dinner parties, events, and bespoke dining experiences.',
+      skills:['West African','European','Events','Meal prep','Dietary adaptations'],
+      verified:true,available:true,hourly_rate:15000,
+      img:'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=80',
+      services:[
+        {id:'s1',name:'Dinner party (up to 8)',description:'3-course meal, ingredients included',price:60000,duration_hours:4},
+        {id:'s2',name:'Weekly meal prep',description:'5 days of meals for 2 people',price:30000,duration_hours:3},
+        {id:'s3',name:'Pop-up supper club',description:'Immersive dining for up to 20 guests',price:120000,duration_hours:6},
+      ],
+      vouches:[
+        {author:'James L.',date:'March 2026',rating:5,text:'Kofi cooked for my birthday and every guest was raving. Absolutely outstanding food.'},
+        {author:'Sophie M.',date:'Feb 2026',rating:5,text:'The West African fusion menu was unlike anything I have tasted. Truly special.'},
+        {author:'Dan P.',date:'Jan 2026',rating:5,text:'Reliable, creative, and the food is world-class. Booked him three times already.'},
+      ]
+    },
+    '5': {
+      name:'Maya Patel', cat:'Hairdresser', loc:'Brixton, London',rating:4.7,vouch_count:91,
+      bio:'Creative colourist and stylist with a speciality in natural hair. Balayage, locs, and protective styles done beautifully.',
+      skills:['Balayage','Natural hair','Locs','Protective styles','Colour correction'],
+      verified:false,available:true,hourly_rate:7000,
+      img:'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80',
+      services:[
+        {id:'s1',name:'Balayage & colour',description:'Full balayage or colour service',price:12000,duration_hours:3},
+        {id:'s2',name:'Loc maintenance',description:'Retwist, tighten and style',price:8000,duration_hours:2},
+        {id:'s3',name:'Protective style',description:'Braids, twists or cornrows',price:9000,duration_hours:3},
+      ],
+      vouches:[
+        {author:'Ama D.',date:'March 2026',rating:5,text:'Maya transformed my hair. The balayage looks so natural and the condition improved too.'},
+        {author:'Tia R.',date:'Feb 2026',rating:5,text:'Finally found someone who really understands natural hair. My locs have never looked better.'},
+        {author:'Kezia N.',date:'Dec 2025',rating:4,text:'Great skills and really relaxed atmosphere. Took a bit longer than expected but worth it.'},
+      ]
+    },
+    '6': {
+      name:'Zara Ahmed', cat:'Massage Therapist', loc:'Canary Wharf, London',rating:4.9,vouch_count:54,
+      bio:'Swedish, deep tissue, and pregnancy massage. ITEC qualified with 7 years experience. Home visits available across East and Central London.',
+      skills:['Deep tissue','Swedish','Pregnancy','Sports massage','Hot stone'],
+      verified:true,available:true,hourly_rate:9500,
+      img:'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=600&q=80',
+      services:[
+        {id:'s1',name:'Swedish massage (60 min)',description:'Full-body relaxation massage',price:9500,duration_hours:1},
+        {id:'s2',name:'Deep tissue (90 min)',description:'Targeted muscle relief and tension release',price:13000,duration_hours:1},
+        {id:'s3',name:'Pregnancy massage',description:'Safe, soothing massage for expectant mothers',price:11000,duration_hours:1},
+      ],
+      vouches:[
+        {author:'Claire S.',date:'March 2026',rating:5,text:'Zara is amazing. I came in with serious back tension and left feeling completely new.'},
+        {author:'Nina B.',date:'Feb 2026',rating:5,text:'Best massage I have ever had. Her deep tissue work is exceptional and she is so professional.'},
+        {author:'Aisha K.',date:'Jan 2026',rating:5,text:'Had a pregnancy massage and it was exactly what I needed. Gentle, caring, and effective.'},
+      ]
+    },
+    '7': {
+      name:'Lola Adewumi', cat:'Lash Technician', loc:'Peckham, London',rating:4.8,vouch_count:77,
+      bio:'Classic, hybrid, and volume lashes done to perfection. Lash lifts also available. 5-star rated on Google with a loyal client base.',
+      skills:['Classic lashes','Volume lashes','Hybrid','Lash lift','Lash tint'],
+      verified:true,available:true,hourly_rate:6000,
+      img:'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80',
+      services:[
+        {id:'s1',name:'Classic lash set',description:'Natural, individual lash extensions',price:6000,duration_hours:2},
+        {id:'s2',name:'Volume lash set',description:'Full, dramatic volume fan lashes',price:8000,duration_hours:2},
+        {id:'s3',name:'Lash lift & tint',description:'Curl and lift your natural lashes',price:5500,duration_hours:1},
+      ],
+      vouches:[
+        {author:'Bianca O.',date:'March 2026',rating:5,text:'Lola is the only person I trust with my lashes. So precise and the retention is incredible.'},
+        {author:'Fatou D.',date:'Feb 2026',rating:5,text:'My lashes lasted over 5 weeks with no gaps. Will never go anywhere else.'},
+        {author:'Priya M.',date:'Jan 2026',rating:5,text:'Really clean studio, super professional and the results are stunning every time.'},
+      ]
+    },
+    '8': {
+      name:'Priya Sharma', cat:'Skincare & Facials', loc:'Kensington, London',rating:4.9,vouch_count:43,
+      bio:'Clinical aesthetician with a results-driven approach. HydraFacial, microneedling, and chemical peels tailored to your skin goals.',
+      skills:['HydraFacial','Chemical peels','Microneedling','LED therapy','Bespoke facials'],
+      verified:true,available:true,hourly_rate:11000,
+      img:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80',
+      services:[
+        {id:'s1',name:'HydraFacial',description:'Deep cleanse, exfoliate and hydrate',price:12000,duration_hours:1},
+        {id:'s2',name:'Chemical peel',description:'Resurfacing treatment for tone and texture',price:10000,duration_hours:1},
+        {id:'s3',name:'Microneedling session',description:'Collagen-stimulating skin renewal treatment',price:15000,duration_hours:1},
+      ],
+      vouches:[
+        {author:'Hannah W.',date:'March 2026',rating:5,text:'My skin has genuinely never looked better. Priya is so knowledgeable and thorough.'},
+        {author:'Meera S.',date:'Feb 2026',rating:5,text:'The HydraFacial left my skin glowing for weeks. So worth it. Will be back monthly.'},
+        {author:'Tanya R.',date:'Jan 2026',rating:5,text:'Professional, clean, and the results speak for themselves. Highly recommend.'},
+      ]
+    },
+    '9': {
+      name:'Marcus Reid', cat:'Photographer', loc:'Shoreditch, London',rating:4.8,vouch_count:33,
+      bio:'Commercial and portrait photographer specialising in beauty and editorial work. Studio and location shoots available across London.',
+      skills:['Beauty','Editorial','Studio','Location','Retouching'],
+      verified:false,available:true,hourly_rate:20000,
+      img:'https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=600&q=80',
+      services:[
+        {id:'s1',name:'Portrait session (1hr)',description:'Studio or location portrait shoot',price:20000,duration_hours:1},
+        {id:'s2',name:'Editorial shoot (half day)',description:'4-hour creative editorial shoot',price:60000,duration_hours:4},
+        {id:'s3',name:'Brand content shoot',description:'Full day commercial photography',price:120000,duration_hours:8},
+      ],
+      vouches:[
+        {author:'Olu A.',date:'March 2026',rating:5,text:'Marcus captured exactly the vision I had. The images are stunning and delivered fast.'},
+        {author:'Sara F.',date:'Feb 2026',rating:5,text:'So talented and easy to work with. The brand shoot he did for us exceeded expectations.'},
+        {author:'James T.',date:'Dec 2025',rating:4,text:'Great eye, very professional. The retouching was clean and the turnaround was quick.'},
+      ]
+    },
+    '10': {
+      name:'Fatima Al-Hassan', cat:'Personal Trainer', loc:'Camden, London',rating:5.0,vouch_count:61,
+      bio:'NASM certified personal trainer specialising in strength training, nutrition coaching, and body recomposition. Online and in-person sessions available.',
+      skills:['Strength training','Nutrition','HIIT','Body recomposition','Online coaching'],
+      verified:true,available:true,hourly_rate:8000,
+      img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80',
+      services:[
+        {id:'s1',name:'1-to-1 PT session',description:'In-person personal training session',price:8000,duration_hours:1},
+        {id:'s2',name:'Monthly coaching',description:'4 sessions + nutrition plan per month',price:28000,duration_hours:4},
+        {id:'s3',name:'Online programme',description:'Custom 8-week training + nutrition plan',price:20000,duration_hours:1},
+      ],
+      vouches:[
+        {author:'Tolu B.',date:'March 2026',rating:5,text:'Fatima is the best PT I have ever had. Down to earth, knowledgeable and genuinely motivating.'},
+        {author:'Sam O.',date:'Feb 2026',rating:5,text:'Lost 8kg in 3 months following her programme. The nutrition advice alone was worth it.'},
+        {author:'Diane K.',date:'Jan 2026',rating:5,text:'She adapts sessions to exactly what you need. I have never felt stronger or more confident.'},
+      ]
+    },
   };
+  const demo = profiles[demoId] || profiles['1'];
 
-  document.title = demo.name + ' — Sowo (Demo)';
+  document.title = demo.name + ' - Sowo';
   document.getElementById('pageContent').innerHTML = `
     <main>
       <div class="left-col">
@@ -496,7 +884,7 @@ function renderDemoPage() {
             <div class="stars-row">
               <span class="stars">${UI.stars(demo.rating)}</span>
               <span class="rating-num">${demo.rating}</span>
-              <span class="vouch-cnt">(${demo.vouches} vouches)</span>
+              <span class="vouch-cnt">(${demo.vouch_count} vouches)</span>
             </div>
             <div class="meta-pills">
               <span class="meta-pill pill-green">✓ Verified</span>
@@ -524,7 +912,7 @@ function renderDemoPage() {
           </div>
         </div>
         <div class="section">
-          <div class="section-title">Vouches (${demo.vouches})</div>
+          <div class="section-title">Vouches (${demo.vouch_count})</div>
           <div class="vouches-list">
             ${demo.vouches.map(v=>`
               <div class="vouch-card">
@@ -541,7 +929,7 @@ function renderDemoPage() {
       <div class="right-col">
         <div class="booking-card">
           <div class="booking-price">${UI.formatPrice(demo.hourly_rate)}<span> / hr</span></div>
-          <div class="booking-vouch">✦ ${demo.vouches} vouches · ${demo.rating} rating</div>
+          <div class="booking-vouch">✦ ${demo.vouch_count} vouches · ${demo.rating} rating</div>
           <div style="background:#FEF3E0;border:1px solid #F5D88E;border-radius:10px;padding:14px 16px;font-size:13px;color:#8B5E0A;margin-bottom:16px">
             ⚡ This is a demo profile. <a href="/signup" style="color:var(--green);font-weight:700">Sign up</a> to book real providers.
           </div>
@@ -560,6 +948,36 @@ function renderDemoPage() {
 }
 
 init();
+</script>
+<script>
+(function() {
+  var raw = sessionStorage.getItem('sowo_session');
+  if (!raw) return;
+  try {
+    var user = JSON.parse(raw);
+    var name = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0]);
+    var initials = name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+    var email = user.email || '';
+    document.querySelectorAll('.nav-auth, .nav-cta').forEach(function(b){ b.style.display='none'; });
+    var userEl = document.getElementById('nav-user');
+    if (userEl) userEl.classList.add('visible');
+    var av = document.getElementById('nav-av');
+    if (av) {
+      var photo = localStorage.getItem('sowo_avatar_' + email);
+      if (photo) { av.style.backgroundImage='url('+photo+')'; av.style.backgroundSize='cover'; av.style.backgroundPosition='center'; av.textContent=''; }
+      else { av.textContent = initials; }
+    }
+    var n = document.getElementById('nav-dd-name'); if(n) n.textContent = name;
+    var e = document.getElementById('nav-dd-email'); if(e) e.textContent = email;
+    if (av) {
+      av.addEventListener('click', function(ev){ ev.stopPropagation(); document.getElementById('nav-dropdown').classList.toggle('open'); });
+      document.addEventListener('click', function(){ var d=document.getElementById('nav-dropdown'); if(d) d.classList.remove('open'); });
+      document.getElementById('nav-dropdown').addEventListener('click', function(ev){ ev.stopPropagation(); });
+    }
+    var so = document.getElementById('nav-signout-btn');
+    if (so) so.addEventListener('click', function(){ sessionStorage.removeItem('sowo_session'); window.location.reload(); });
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>

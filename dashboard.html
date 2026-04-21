@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sowo — Dashboard</title>
+<title>Sowo - Dashboard</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -83,14 +83,8 @@
         My Profile
       </a>
       <a href="#" data-view="requests" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-        <svg class="nav-icon w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-        My Requests
-        <span class="ml-auto bg-brand-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">4</span>
-      </a>
-      <a href="#" data-view="messages" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <svg class="nav-icon w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        Messages
-        <span class="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">2</span>
+        Requests & Messages
       </a>
       <a href="#" data-view="settings" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
         <svg class="nav-icon w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
@@ -104,7 +98,7 @@
         <div id="sb-av" class="w-9 h-9 rounded-full bg-brand-500 text-white grid place-items-center text-sm font-bold shrink-0">?</div>
         <div class="flex-1 min-w-0">
           <div id="sb-name" class="text-sm font-semibold truncate text-gray-900">Loading…</div>
-          <div id="sb-email" class="text-xs text-gray-500 truncate">—</div>
+          <div id="sb-email" class="text-xs text-gray-500 truncate"></div>
         </div>
         <button onclick="Auth.signOut()" title="Sign out" class="p-1 rounded hover:bg-gray-200">
           <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
@@ -151,137 +145,122 @@
         <!-- Stats row -->
         <div class="grid grid-cols-4 gap-4 mb-8">
           <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Open Requests</div>
+            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Account status</div>
             <div class="mt-2 flex items-end justify-between">
-              <div class="text-2xl font-bold text-gray-900">4</div>
-              <span class="text-[11px] text-brand-600 font-semibold bg-brand-50 px-2 py-0.5 rounded-full">+2 this week</span>
+              <div class="text-sm font-bold text-amber-600">Pending review</div>
             </div>
+            <div class="text-xs text-gray-400 mt-1">We'll notify you when live</div>
           </div>
           <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Provider Replies</div>
+            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Booking requests</div>
             <div class="mt-2 flex items-end justify-between">
-              <div class="text-2xl font-bold text-gray-900">12</div>
-              <span class="text-[11px] text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-full">5 unread</span>
+              <div class="text-2xl font-bold text-gray-900">0</div>
             </div>
+            <div class="text-xs text-gray-400 mt-1">Available once live</div>
           </div>
           <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">In Progress</div>
+            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Profile views</div>
             <div class="mt-2 flex items-end justify-between">
-              <div class="text-2xl font-bold text-gray-900">2</div>
-              <span class="text-[11px] text-amber-600 font-semibold bg-amber-50 px-2 py-0.5 rounded-full">Active</span>
+              <div class="text-2xl font-bold text-gray-900"></div>
             </div>
+            <div class="text-xs text-gray-400 mt-1">Tracked once verified</div>
           </div>
           <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Completed</div>
+            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Earnings</div>
             <div class="mt-2 flex items-end justify-between">
-              <div class="text-2xl font-bold text-gray-900">8</div>
-              <span class="text-[11px] text-gray-500 font-semibold bg-gray-100 px-2 py-0.5 rounded-full">All time</span>
+              <div class="text-2xl font-bold text-gray-900">£0</div>
             </div>
+            <div class="text-xs text-gray-400 mt-1">Processed via escrow</div>
           </div>
         </div>
 
         <!-- Main content split -->
         <div class="grid grid-cols-3 gap-6">
 
-          <!-- Recent requests -->
+          <!-- Account checklist -->
           <div class="col-span-2 bg-white rounded-xl border border-gray-100">
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <h2 class="font-semibold text-gray-900">Recent Requests</h2>
-              <button onclick="switchView('requests')" class="text-sm text-brand-500 font-medium hover:text-brand-700">View all →</button>
+            <div class="px-6 py-4 border-b border-gray-100">
+              <h2 class="font-semibold text-gray-900">Getting started</h2>
+              <p class="text-xs text-gray-400 mt-0.5">Complete these steps to go live on Sowo</p>
             </div>
             <div class="divide-y divide-gray-100">
-              <div class="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('1')">
-                <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <div class="px-6 py-4 flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full bg-brand-500 text-white grid place-items-center shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 </div>
-                <div class="flex-1 min-w-0">
-                  <div class="font-semibold text-gray-900 truncate text-sm">Kitchen plumbing repair</div>
-                  <div class="text-xs text-gray-500 truncate mt-0.5">Leaking sink under the counter — need fixed this week</div>
+                <div class="flex-1">
+                  <div class="font-semibold text-gray-900 text-sm">Create your account</div>
+                  <div class="text-xs text-gray-400 mt-0.5">Signed up and verified email</div>
                 </div>
-                <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full shrink-0">3 replies</span>
-                <span class="text-xs text-gray-400 shrink-0">2h ago</span>
+                <span class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">Done</span>
               </div>
-              <div class="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('2')">
-                <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <div class="px-6 py-4 flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full bg-brand-500 text-white grid place-items-center shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 </div>
-                <div class="flex-1 min-w-0">
-                  <div class="font-semibold text-gray-900 truncate text-sm">Website redesign for my café</div>
-                  <div class="text-xs text-gray-500 truncate mt-0.5">5-page site with online ordering — south London bakery</div>
+                <div class="flex-1">
+                  <div class="font-semibold text-gray-900 text-sm">Submit your provider listing</div>
+                  <div class="text-xs text-gray-400 mt-0.5">Profile, services, and pricing submitted</div>
                 </div>
-                <span class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full shrink-0">5 replies</span>
-                <span class="text-xs text-gray-400 shrink-0">1d ago</span>
+                <span class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">Done</span>
               </div>
-              <div class="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('3')">
-                <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              <div class="px-6 py-4 flex items-center gap-4">
+                <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 grid place-items-center shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
-                <div class="flex-1 min-w-0">
-                  <div class="font-semibold text-gray-900 truncate text-sm">Laptop screen replacement</div>
-                  <div class="text-xs text-gray-500 truncate mt-0.5">MacBook Pro 2021 — cracked screen</div>
+                <div class="flex-1">
+                  <div class="font-semibold text-gray-900 text-sm">Profile under review</div>
+                  <div class="text-xs text-gray-400 mt-0.5">Our team is reviewing your listing, usually within 48 hours</div>
                 </div>
-                <span class="text-[11px] font-semibold text-gray-700 bg-gray-100 px-2.5 py-1 rounded-full shrink-0">In progress</span>
-                <span class="text-xs text-gray-400 shrink-0">3d ago</span>
+                <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full">In progress</span>
               </div>
-              <div class="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('4')">
-                <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              <div class="px-6 py-4 flex items-center gap-4 opacity-50">
+                <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-400 grid place-items-center shrink-0">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/></svg>
                 </div>
-                <div class="flex-1 min-w-0">
-                  <div class="font-semibold text-gray-900 truncate text-sm">End-of-tenancy clean</div>
-                  <div class="text-xs text-gray-500 truncate mt-0.5">3-bedroom flat, Brixton — one-time deep clean</div>
+                <div class="flex-1">
+                  <div class="font-semibold text-gray-700 text-sm">Go live and start receiving bookings</div>
+                  <div class="text-xs text-gray-400 mt-0.5">You'll receive an email when your profile is approved</div>
                 </div>
-                <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full shrink-0">Completed</span>
-                <span class="text-xs text-gray-400 shrink-0">8 Apr</span>
+                <span class="text-[11px] font-semibold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">Pending</span>
               </div>
             </div>
           </div>
 
-          <!-- New messages -->
-          <div class="bg-white rounded-xl border border-gray-100">
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <h2 class="font-semibold text-gray-900">New Messages</h2>
-              <span class="text-[11px] bg-red-100 text-red-700 font-semibold px-2 py-0.5 rounded-full">2 new</span>
+          <!-- Right col -->
+          <div class="space-y-5">
+            <!-- Listing preview -->
+            <div class="bg-white rounded-xl border border-gray-100 p-5">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="font-semibold text-gray-900">Your listing</h2>
+                <button onclick="switchView('edit-listing')" class="text-xs text-brand-500 font-semibold hover:text-brand-700">Edit →</button>
+              </div>
+              <div class="flex items-center gap-3">
+                <div id="listing-av" class="w-12 h-12 rounded-xl bg-brand-500 text-white grid place-items-center font-bold text-lg shrink-0">?</div>
+                <div>
+                  <div id="listing-name" class="font-semibold text-gray-900 text-sm"></div>
+                  <div id="listing-cat" class="text-xs text-gray-400 mt-0.5"></div>
+                  <span class="inline-block mt-1.5 text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">Pending review</span>
+                </div>
+              </div>
             </div>
-            <div class="divide-y divide-gray-100">
-              <div class="px-5 py-4 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('1')">
-                <div class="flex items-start gap-3">
-                  <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white grid place-items-center text-xs font-bold shrink-0">MB</div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center justify-between gap-2">
-                      <div class="font-semibold text-sm text-gray-900">Marcus Bello</div>
-                      <span class="text-xs text-gray-400 shrink-0">5m</span>
-                    </div>
-                    <div class="text-[11px] text-gray-500">Kitchen plumbing repair</div>
-                    <div class="text-sm text-gray-700 mt-1 line-clamp-2">I can come round tomorrow at 10am if that works for you.</div>
-                  </div>
-                </div>
-              </div>
-              <div class="px-5 py-4 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('2')">
-                <div class="flex items-start gap-3">
-                  <div class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 text-white grid place-items-center text-xs font-bold shrink-0">AO</div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center justify-between gap-2">
-                      <div class="font-semibold text-sm text-gray-900">Ada Okafor Studio</div>
-                      <span class="text-xs text-gray-400 shrink-0">1h</span>
-                    </div>
-                    <div class="text-[11px] text-gray-500">Website redesign for my café</div>
-                    <div class="text-sm text-gray-700 mt-1 line-clamp-2">Happy to share my portfolio and a timeline breakdown.</div>
-                  </div>
-                </div>
-              </div>
-              <div class="px-5 py-4 hover:bg-gray-50 cursor-pointer transition-colors opacity-60" onclick="openRequest('3')">
-                <div class="flex items-start gap-3">
-                  <div class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-white grid place-items-center text-xs font-bold shrink-0">JT</div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center justify-between gap-2">
-                      <div class="font-semibold text-sm text-gray-500">Jide Tech Repair</div>
-                      <span class="text-xs text-gray-400 shrink-0">Yesterday</span>
-                    </div>
-                    <div class="text-[11px] text-gray-500">Laptop screen replacement</div>
-                    <div class="text-sm text-gray-500 mt-1 line-clamp-2">Parts arrived — bringing your laptop back Friday.</div>
-                  </div>
-                </div>
+
+            <!-- Quick links -->
+            <div class="bg-white rounded-xl border border-gray-100 p-5">
+              <h2 class="font-semibold text-gray-900 mb-3">Quick links</h2>
+              <div class="space-y-2">
+                <a href="/browse.html" class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 text-sm text-gray-700 font-medium transition-colors">
+                  <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round"/></svg>
+                  Browse marketplace
+                </a>
+                <button onclick="switchView('edit-listing')" class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 text-sm text-gray-700 font-medium transition-colors w-full text-left">
+                  <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Update your listing
+                </button>
+                <a href="/" class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 text-sm text-gray-700 font-medium transition-colors">
+                  <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" stroke-width="2" stroke-linecap="round"/></svg>
+                  Back to homepage
+                </a>
               </div>
             </div>
           </div>
@@ -295,101 +274,121 @@
       <section id="view-profile" class="view p-8">
         <div class="mb-7">
           <h1 class="text-2xl font-bold text-gray-900">My Profile</h1>
-          <p class="text-sm text-gray-500 mt-1">Manage your personal information and preferences.</p>
+          <p class="text-sm text-gray-500 mt-1">Your personal information and provider account details.</p>
         </div>
 
         <div class="grid grid-cols-3 gap-6">
           <!-- Avatar card -->
           <div class="bg-white rounded-xl border border-gray-100 p-6">
             <div class="flex flex-col items-center text-center">
-              <div class="relative">
-                <div id="prof-av-big" class="w-24 h-24 rounded-full bg-brand-500 text-white grid place-items-center text-3xl font-bold">?</div>
-                <button class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-white border border-gray-200 grid place-items-center shadow-sm hover:bg-gray-50">
-                  <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828 8 16l.172-3.828z"/></svg>
-                </button>
+              <div class="relative group cursor-pointer" id="av-upload-trigger" title="Upload photo">
+                <div id="prof-av-big" class="w-24 h-24 rounded-full bg-brand-500 text-white grid place-items-center text-3xl font-bold overflow-hidden bg-cover bg-center select-none">?</div>
+                <div class="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3" stroke-width="2"/></svg>
+                </div>
+                <input type="file" id="av-file-input" accept="image/*" class="hidden"/>
               </div>
-              <div id="prof-name-big" class="mt-4 font-bold text-lg text-gray-900">—</div>
-              <div class="text-sm text-gray-500">Sowo member</div>
-              <div class="mt-3 inline-flex items-center gap-1.5 text-xs text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full font-medium">
-                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.9 5.8 21.3l2.4-7.4L2 9.4h7.6z"/></svg>
-                Verified account
-              </div>
-            </div>
-            <div class="mt-6 pt-6 border-t border-gray-100 space-y-3">
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-gray-500">Requests posted</span><span class="font-semibold">14</span>
-              </div>
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-gray-500">Completed hires</span><span class="font-semibold">8</span>
-              </div>
-              <div class="flex items-center justify-between text-sm">
-                <span class="text-gray-500">Avg rating given</span><span class="font-semibold">4.7 ★</span>
+              <div id="prof-name-big" class="mt-4 font-bold text-lg text-gray-900"></div>
+              <div id="prof-role" class="text-sm text-gray-500 mt-0.5">Service provider</div>
+              <div class="mt-3 inline-flex items-center gap-1.5 text-xs text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full font-medium border border-amber-100">
+                Pending review
               </div>
             </div>
+
+            <div class="mt-6 pt-6 border-t border-gray-100 space-y-4">
+              <div>
+                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Category</div>
+                <div id="prof-category" class="text-sm font-medium text-gray-700"></div>
+              </div>
+              <div>
+                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Listing status</div>
+                <div class="text-sm font-medium text-amber-600">Under review</div>
+              </div>
+              <div>
+                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Rating</div>
+                <div class="text-sm font-medium text-gray-700">No reviews yet</div>
+              </div>
+              <div>
+                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Bookings completed</div>
+                <div class="text-sm font-medium text-gray-700">0</div>
+              </div>
+            </div>
+
           </div>
 
           <!-- Details form -->
-          <div class="col-span-2 bg-white rounded-xl border border-gray-100 p-6">
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="font-semibold text-gray-900">Personal Information</h2>
-              <button class="text-sm text-brand-500 font-medium hover:text-brand-700">Edit</button>
-            </div>
-            <div class="grid grid-cols-2 gap-5">
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">First name</label>
-                <input id="pf-fname" type="text" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
-              </div>
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Last name</label>
-                <input id="pf-lname" type="text" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
-              </div>
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Email</label>
-                <input id="pf-email" type="email" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-500" disabled/>
-              </div>
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Phone</label>
-                <input type="tel" placeholder="+44 7700 900 000" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
-              </div>
-              <div class="col-span-2">
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</label>
-                <input type="text" placeholder="e.g. Brixton, London" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
-              </div>
-              <div class="col-span-2">
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">About me</label>
-                <textarea rows="3" placeholder="Tell providers a bit about yourself…" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none resize-none"></textarea>
+          <div class="col-span-2 space-y-5">
+            <!-- Personal info -->
+            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+              <!-- Collapsible header -->
+              <button id="prof-collapse-btn" class="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors group" aria-expanded="false">
+                <h2 class="font-semibold text-gray-900">Personal Information</h2>
+                <div class="flex items-center gap-3">
+                  <span id="prof-edit-btn" class="text-sm text-brand-500 font-medium hidden">Edit</span>
+                  <svg id="prof-chevron" class="w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </div>
+              </button>
+              <!-- Collapsible body -->
+              <div id="prof-body" class="hidden px-6 pb-6 border-t border-gray-100">
+                <div class="grid grid-cols-2 gap-5 mt-5">
+                  <div>
+                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">First name</label>
+                    <input id="pf-fname" type="text" disabled class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
+                  </div>
+                  <div>
+                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Last name</label>
+                    <input id="pf-lname" type="text" disabled class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
+                  </div>
+                  <div>
+                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Email</label>
+                    <input id="pf-email" type="email" disabled class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-500"/>
+                  </div>
+                  <div>
+                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Phone</label>
+                    <input id="pf-phone" type="tel" disabled placeholder="Not set" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
+                  </div>
+                  <div class="col-span-2">
+                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</label>
+                    <input id="pf-location" type="text" disabled placeholder="Not set" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
+                  </div>
+                  <div class="col-span-2">
+                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Bio</label>
+                    <textarea id="pf-bio" rows="3" disabled placeholder="Describe your services and what makes you unique…" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700 resize-none"></textarea>
+                  </div>
+                </div>
+                <div id="prof-save-row" class="hidden mt-5 flex justify-end gap-3">
+                  <button id="prof-cancel-btn" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg border border-gray-200">Cancel</button>
+                  <button id="prof-save-btn" class="px-4 py-2 text-sm font-semibold text-white bg-brand-500 hover:bg-brand-600 rounded-lg">Save changes</button>
+                </div>
               </div>
             </div>
 
-            <div class="mt-6 pt-6 border-t border-gray-100">
-              <h3 class="font-semibold text-gray-900 mb-4">Preferences</h3>
+            <!-- Notifications -->
+            <div class="bg-white rounded-xl border border-gray-100 p-6">
+              <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
               <div class="space-y-1">
                 <label class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
                   <div>
                     <div class="text-sm font-medium text-gray-900">Email notifications</div>
-                    <div class="text-xs text-gray-500">Get notified when providers respond to your requests</div>
+                    <div class="text-xs text-gray-500">Get notified about new booking requests and messages</div>
                   </div>
                   <label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
                 </label>
                 <label class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
                   <div>
                     <div class="text-sm font-medium text-gray-900">SMS notifications</div>
-                    <div class="text-xs text-gray-500">Text me for urgent updates only</div>
+                    <div class="text-xs text-gray-500">Text me for urgent booking alerts only</div>
                   </div>
                   <label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label>
                 </label>
                 <label class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
                   <div>
-                    <div class="text-sm font-medium text-gray-900">Show profile to providers</div>
-                    <div class="text-xs text-gray-500">Let trusted providers see your basic profile</div>
+                    <div class="text-sm font-medium text-gray-900">Listing visible to clients</div>
+                    <div class="text-xs text-gray-500">Your profile will appear in search once approved</div>
                   </div>
                   <label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
                 </label>
               </div>
-            </div>
-            <div class="mt-6 flex justify-end gap-3">
-              <button class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg border border-gray-200">Cancel</button>
-              <button class="px-4 py-2 text-sm font-semibold text-white bg-brand-500 hover:bg-brand-600 rounded-lg">Save changes</button>
             </div>
           </div>
         </div>
@@ -401,122 +400,18 @@
       <section id="view-requests" class="view p-8">
         <div class="flex items-center justify-between mb-7">
           <div>
-            <h1 class="text-2xl font-bold text-gray-900">My Requests</h1>
-            <p class="text-sm text-gray-500 mt-1">Track and manage your requests across providers.</p>
+            <h1 class="text-2xl font-bold text-gray-900">Requests & Messages</h1>
+            <p class="text-sm text-gray-500 mt-1">Booking requests and conversations with clients will appear here once your profile is live.</p>
           </div>
-          <button class="bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5 transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-            New Request
-          </button>
         </div>
-
-        <div class="bg-white rounded-xl border border-gray-100">
-          <!-- Tabs -->
-          <div class="border-b border-gray-100 px-6 flex gap-6">
-            <button class="py-3.5 text-sm font-semibold text-brand-600 border-b-2 border-brand-500">All <span class="ml-1 text-xs text-gray-400 font-normal">14</span></button>
-            <button class="py-3.5 text-sm font-medium text-gray-500 hover:text-gray-900 border-b-2 border-transparent">Open <span class="ml-1 text-xs text-gray-400 font-normal">4</span></button>
-            <button class="py-3.5 text-sm font-medium text-gray-500 hover:text-gray-900 border-b-2 border-transparent">In progress <span class="ml-1 text-xs text-gray-400 font-normal">2</span></button>
-            <button class="py-3.5 text-sm font-medium text-gray-500 hover:text-gray-900 border-b-2 border-transparent">Completed <span class="ml-1 text-xs text-gray-400 font-normal">8</span></button>
-          </div>
-
-          <div class="divide-y divide-gray-100">
-            <div class="px-6 py-5 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('1')">
-              <div class="flex items-start gap-4">
-                <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <h3 class="font-semibold text-gray-900 text-sm">Kitchen plumbing repair</h3>
-                    <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Open</span>
-                  </div>
-                  <p class="text-sm text-gray-500 mt-1">Leaking sink under the counter — need this fixed this week. Flexible on weekday mornings.</p>
-                  <div class="mt-2.5 flex items-center gap-4 text-xs text-gray-400 flex-wrap">
-                    <span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Peckham, London</span>
-                    <span>Budget: £80 – £150</span>
-                    <span>Posted 2h ago</span>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end gap-2 shrink-0">
-                  <div class="flex -space-x-2">
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white grid place-items-center text-[10px] font-bold border-2 border-white">MB</div>
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-rose-400 to-rose-600 text-white grid place-items-center text-[10px] font-bold border-2 border-white">KA</div>
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-white grid place-items-center text-[10px] font-bold border-2 border-white">+1</div>
-                  </div>
-                  <span class="text-xs text-gray-500 font-medium">3 responded</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="px-6 py-5 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('2')">
-              <div class="flex items-start gap-4">
-                <div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <h3 class="font-semibold text-gray-900 text-sm">Website redesign for my café</h3>
-                    <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">Open</span>
-                  </div>
-                  <p class="text-sm text-gray-500 mt-1">5-page site with an online ordering system for our south London bakery.</p>
-                  <div class="mt-2.5 flex items-center gap-4 text-xs text-gray-400 flex-wrap">
-                    <span>Brixton, London</span>
-                    <span>Budget: £1,200 – £2,500</span>
-                    <span>Posted 1d ago</span>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end gap-2 shrink-0">
-                  <div class="flex -space-x-2">
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 text-white grid place-items-center text-[10px] font-bold border-2 border-white">AO</div>
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 text-white grid place-items-center text-[10px] font-bold border-2 border-white">CN</div>
-                    <div class="w-7 h-7 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 text-white grid place-items-center text-[10px] font-bold border-2 border-white">+3</div>
-                  </div>
-                  <span class="text-xs text-gray-500 font-medium">5 responded</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="px-6 py-5 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('3')">
-              <div class="flex items-start gap-4">
-                <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <h3 class="font-semibold text-gray-900 text-sm">Laptop screen replacement</h3>
-                    <span class="text-[11px] font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-full">In progress</span>
-                  </div>
-                  <p class="text-sm text-gray-500 mt-1">MacBook Pro 2021 — cracked screen. Hired Jide Tech Repair.</p>
-                  <div class="mt-2.5 flex items-center gap-4 text-xs text-gray-400">
-                    <span>Hired: Jide Tech Repair</span><span>Expected: 18 Apr</span>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end gap-2 shrink-0">
-                  <div class="w-7 h-7 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-white grid place-items-center text-[10px] font-bold border-2 border-white">JT</div>
-                  <span class="text-xs text-gray-500 font-medium">Active</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="px-6 py-5 hover:bg-gray-50 cursor-pointer transition-colors" onclick="openRequest('4')">
-              <div class="flex items-start gap-4">
-                <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 grid place-items-center shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <h3 class="font-semibold text-gray-900 text-sm">End-of-tenancy clean</h3>
-                    <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Completed</span>
-                  </div>
-                  <p class="text-sm text-gray-500 mt-1">3-bedroom flat, Brixton — one-time deep clean. Rated 5★.</p>
-                  <div class="mt-2.5 flex items-center gap-4 text-xs text-gray-400">
-                    <span>Hired: Sparkle Home Co.</span><span>Completed: 8 Apr</span>
-                  </div>
-                </div>
-                <span class="text-xs font-semibold text-emerald-700 shrink-0">★ 5.0</span>
-              </div>
-            </div>
-          </div>
+        <div class="bg-white rounded-xl border border-gray-100 p-16 text-center">
+          <svg class="w-12 h-12 text-gray-200 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <p class="font-semibold text-gray-700">No requests yet</p>
+          <p class="text-sm text-gray-400 mt-1">Your profile is under review. Once approved, booking requests will show up here.</p>
+          <a href="/provider.html" id="view-public-profile" class="inline-flex items-center gap-2 mt-5 px-5 py-2.5 text-sm font-semibold text-brand-600 border border-brand-200 rounded-lg hover:bg-brand-50 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+            View public listing
+          </a>
         </div>
       </section>
 
@@ -534,13 +429,13 @@
           <div class="space-y-5">
             <div class="bg-white rounded-xl border border-gray-100 p-6">
               <span id="rd-status" class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full">Open</span>
-              <h2 id="rd-title" class="font-bold text-xl text-gray-900 mt-3">—</h2>
-              <p id="rd-desc" class="text-sm text-gray-500 mt-2 leading-relaxed">—</p>
+              <h2 id="rd-title" class="font-bold text-xl text-gray-900 mt-3"></h2>
+              <p id="rd-desc" class="text-sm text-gray-500 mt-2 leading-relaxed"></p>
               <div class="mt-5 grid grid-cols-2 gap-4 text-sm">
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Category</div><div class="mt-1 font-medium" id="rd-cat">—</div></div>
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Budget</div><div class="mt-1 font-medium" id="rd-budget">—</div></div>
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</div><div class="mt-1 font-medium" id="rd-location">—</div></div>
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Posted</div><div class="mt-1 font-medium" id="rd-posted">—</div></div>
+                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Category</div><div class="mt-1 font-medium" id="rd-cat"></div></div>
+                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Budget</div><div class="mt-1 font-medium" id="rd-budget"></div></div>
+                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</div><div class="mt-1 font-medium" id="rd-location"></div></div>
+                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Posted</div><div class="mt-1 font-medium" id="rd-posted"></div></div>
               </div>
               <div class="mt-5 pt-5 border-t border-gray-100 flex gap-2">
                 <button class="flex-1 text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-200 rounded-lg py-2 transition-colors">Edit</button>
@@ -551,7 +446,7 @@
             <div class="bg-white rounded-xl border border-gray-100">
               <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="font-semibold text-gray-900">Providers</h3>
-                <span id="rd-pcount" class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-full">—</span>
+                <span id="rd-pcount" class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-full"></span>
               </div>
               <div id="provider-list" class="divide-y divide-gray-100"></div>
             </div>
@@ -565,11 +460,11 @@
                 <div id="active-av" class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white grid place-items-center font-bold text-sm">MB</div>
                 <div>
                   <div class="font-semibold text-gray-900 text-sm flex items-center gap-1.5">
-                    <span id="active-name">—</span>
+                    <span id="active-name"></span>
                     <svg class="w-4 h-4 text-brand-500" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#085041"/><path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   </div>
                   <div class="text-xs text-gray-500 flex items-center gap-1.5">
-                    <span id="active-sub">—</span>
+                    <span id="active-sub"></span>
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
                     <span>Online</span>
                   </div>
@@ -612,21 +507,6 @@
       </section>
 
       <!-- ══════════════════════════════════════
-           MESSAGES (overview)
-      ══════════════════════════════════════ -->
-      <section id="view-messages" class="view p-8">
-        <div class="mb-7">
-          <h1 class="text-2xl font-bold text-gray-900">Messages</h1>
-          <p class="text-sm text-gray-500 mt-1">All conversations across your requests.</p>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-100 p-10 text-center">
-          <svg class="w-10 h-10 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          <p class="text-sm text-gray-500">Messages are attached to each request.</p>
-          <button onclick="switchView('requests')" class="mt-4 text-sm font-semibold text-brand-500 hover:text-brand-700">Open My Requests →</button>
-        </div>
-      </section>
-
-      <!-- ══════════════════════════════════════
            SETTINGS
       ══════════════════════════════════════ -->
       <section id="view-settings" class="view p-8">
@@ -664,78 +544,100 @@
         </div>
       </section>
 
+      <!-- ══════════════════════════════════════
+           EDIT LISTING
+      ══════════════════════════════════════ -->
+      <section id="view-edit-listing" class="view p-8">
+        <div class="flex items-center gap-3 mb-7">
+          <button onclick="switchView('dashboard')" class="flex items-center gap-1.5 text-sm text-brand-500 font-medium hover:text-brand-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Back
+          </button>
+          <span class="text-gray-300">/</span>
+          <h1 class="text-2xl font-bold text-gray-900">Edit Listing</h1>
+        </div>
+
+        <div class="max-w-2xl space-y-5">
+
+          <!-- Basic info -->
+          <div class="bg-white rounded-xl border border-gray-100 p-6">
+            <h2 class="font-semibold text-gray-900 mb-5">Basic Information</h2>
+            <div class="space-y-4">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Display name</label>
+                  <input id="el-name" type="text" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
+                </div>
+                <div>
+                  <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Category</label>
+                  <select id="el-category" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none bg-white">
+                    <option value="">Select category</option>
+                    <option>Hair & Beauty</option>
+                    <option>Nails</option>
+                    <option>Makeup</option>
+                    <option>Barber</option>
+                    <option>Massage</option>
+                    <option>Lashes & Brows</option>
+                    <option>Skincare</option>
+                    <option>Photography</option>
+                    <option>Personal Training</option>
+                    <option>Private Chef</option>
+                    <option>Cleaning</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</label>
+                <input id="el-location" type="text" placeholder="e.g. Brixton, London" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
+              </div>
+              <div>
+                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Rate (£)</label>
+                <input id="el-rate" type="text" placeholder="e.g. 45" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bio & skills -->
+          <div class="bg-white rounded-xl border border-gray-100 p-6">
+            <h2 class="font-semibold text-gray-900 mb-5">About & Services</h2>
+            <div class="space-y-4">
+              <div>
+                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Bio</label>
+                <textarea id="el-bio" rows="4" placeholder="Describe your experience and what makes you stand out…" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none resize-none"></textarea>
+              </div>
+              <div>
+                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Skills / specialisms</label>
+                <input id="el-skills" type="text" placeholder="e.g. Balayage, Knotless braids, Natural hair" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
+              </div>
+              <div>
+                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Services offered</label>
+                <textarea id="el-services" rows="3" placeholder="List the services you offer and prices…" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none resize-none"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Save -->
+          <div class="flex justify-end gap-3 pb-8">
+            <button onclick="switchView('dashboard')" class="px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg border border-gray-200">Cancel</button>
+            <button id="el-save-btn" class="px-5 py-2.5 text-sm font-semibold text-white bg-brand-500 hover:bg-brand-600 rounded-lg flex items-center gap-2">
+              Save changes
+            </button>
+          </div>
+
+        </div>
+      </section>
+
     </div><!-- /views -->
   </main>
 </div><!-- /flex -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/js/config.js"></script>
-<script src="/js/sowo.js"></script>
 <script>
-/* ═══════════════════════════════════════
-   DATA
-═══════════════════════════════════════ */
-const REQUESTS = {
-  '1': {
-    title: 'Kitchen plumbing repair', cat: 'Plumbing',
-    desc:  'Leaking sink under the counter — need this fixed this week. Flexible on weekday mornings. Please include your hourly rate and availability.',
-    status: 'Open', budget: '£80 – £150', location: 'Peckham, London', posted: '2 hours ago',
-    providers: [
-      { id:'mb', name:'Marcus Bello',     sub:'Certified plumber · 6 yrs',  initials:'MB', rating:'4.9', quote:'£95',   eta:'Tomorrow, 10am', distance:'2.1 mi', grad:'from-blue-400 to-blue-600',   unread:1, last:'Total with parts: £95 — works for you?' },
-      { id:'ka', name:'Kemi A. Plumbing', sub:'Plumbing services · 10 yrs', initials:'KA', rating:'4.7', quote:'£80',   eta:'Thursday, 2pm',  distance:'3.4 mi', grad:'from-rose-400 to-rose-600',   unread:0, last:'Can do Thursday afternoon.' },
-      { id:'oo', name:'Oluwaseun Obi',    sub:'Handyman · 4 yrs',           initials:'OO', rating:'4.6', quote:'£75',   eta:'Friday morning', distance:'5.0 mi', grad:'from-amber-400 to-amber-600', unread:0, last:'I can also check the faucet while there.' },
-    ],
-    thread: [
-      { from:'provider', pid:'mb', text:'Hi! Happy to help with the kitchen sink. Could you send a quick photo of the leak?' },
-      { from:'user', text:'Sure, attaching now. It\'s dripping from the P-trap under the sink.' },
-      { from:'provider', pid:'mb', text:'Got it — looks like a worn washer, easy fix. I can come round tomorrow at 10am, should take about 45 minutes. Total with parts: £95. Does that work?' },
-    ]
-  },
-  '2': {
-    title: 'Website redesign for my café', cat: 'Web design',
-    desc:  '5-page site with an online ordering system for our south London bakery. Need it done within 6 weeks.',
-    status: 'Open', budget: '£1,200 – £2,500', location: 'Brixton, London', posted: '1 day ago',
-    providers: [
-      { id:'ao', name:'Ada Okafor Studio', sub:'Web design · 8 yrs',      initials:'AO', rating:'5.0', quote:'£2,200', eta:'3 weeks',  distance:'Remote', grad:'from-purple-400 to-purple-600', unread:1, last:'Happy to share my portfolio.' },
-      { id:'cn', name:'Chuka Ndu',         sub:'Full-stack developer',     initials:'CN', rating:'4.8', quote:'£1,800', eta:'4 weeks',  distance:'Remote', grad:'from-cyan-400 to-cyan-600',    unread:0, last:'I specialise in Shopify builds.' },
-    ],
-    thread: [
-      { from:'provider', pid:'ao', text:'Hello! I\'d love to help redesign your bakery site. Do you have any inspiration sites or a brand guide I can reference?' },
-      { from:'user', text:'We love the warm, artisan feel. Nothing too corporate. Here\'s our current Instagram for the vibe.' },
-      { from:'provider', pid:'ao', text:'Perfect, that\'s exactly my style. I can put together a full proposal — timeline, sitemap, and pricing — by end of week.' },
-    ]
-  },
-  '3': {
-    title: 'Laptop screen replacement', cat: 'Tech repair',
-    desc:  'MacBook Pro 2021 — cracked screen. Already hired Jide Tech Repair. Expecting return on 18 Apr.',
-    status: 'In progress', budget: '£350 – £500', location: 'Peckham, London', posted: '3 days ago',
-    providers: [
-      { id:'jt', name:'Jide Tech Repair', sub:'Certified Apple repair', initials:'JT', rating:'4.9', quote:'£420', eta:'18 Apr pickup', distance:'7.5 mi', grad:'from-amber-400 to-amber-600', unread:0, last:'Parts arrived — bringing your laptop back Friday.' },
-    ],
-    thread: [
-      { from:'provider', pid:'jt', text:'Hi! We have the parts in stock. I can do the repair within 24 hours once you drop it off. Price: £420 all-in.' },
-      { from:'user', text:'Brilliant, dropping off tomorrow morning. Thanks.' },
-      { from:'provider', pid:'jt', text:'Parts came in early — your MacBook will be ready this Friday. I\'ll text you when it\'s done.' },
-    ]
-  },
-  '4': {
-    title: 'End-of-tenancy clean', cat: 'Cleaning',
-    desc:  '3-bedroom flat, Brixton — one-time deep clean before handing back to the landlord. Completed and rated 5★.',
-    status: 'Completed', budget: '£180 – £250', location: 'Brixton, London', posted: '9 Apr',
-    providers: [
-      { id:'sh', name:'Sparkle Home Co.', sub:'Professional cleaning', initials:'SH', rating:'5.0', quote:'£220', eta:'Completed 8 Apr', distance:'4.1 mi', grad:'from-emerald-400 to-emerald-600', unread:0, last:'Thanks so much for the 5-star review!' },
-    ],
-    thread: [
-      { from:'provider', pid:'sh', text:'All done! The flat is spotless — photographed everything for your records. Pleasure working with you.' },
-      { from:'user', text:'Absolutely amazing job. Already got the deposit back. Will definitely book again.' },
-    ]
-  }
-};
 
 /* ═══════════════════════════════════════
    VIEW ROUTING
 ═══════════════════════════════════════ */
-const VIEWS = ['dashboard','profile','requests','request-detail','messages','settings'];
+const VIEWS = ['dashboard','profile','requests','request-detail','settings','edit-listing'];
 
 function switchView(id) {
   VIEWS.forEach(v => {
@@ -750,102 +652,6 @@ function switchView(id) {
 document.querySelectorAll('.nav-item').forEach(n =>
   n.addEventListener('click', e => { e.preventDefault(); switchView(n.dataset.view); })
 );
-
-/* ═══════════════════════════════════════
-   REQUEST DETAIL
-═══════════════════════════════════════ */
-function openRequest(id) {
-  const r = REQUESTS[id];
-  if (!r) return;
-
-  document.getElementById('rd-title').textContent    = r.title;
-  document.getElementById('rd-desc').textContent     = r.desc;
-  document.getElementById('rd-status').textContent   = r.status;
-  document.getElementById('rd-cat').textContent      = r.cat;
-  document.getElementById('rd-budget').textContent   = r.budget;
-  document.getElementById('rd-location').textContent = r.location;
-  document.getElementById('rd-posted').textContent   = r.posted;
-  document.getElementById('rd-pcount').textContent   = r.providers.length + ' responded';
-
-  // Provider list
-  const list = document.getElementById('provider-list');
-  list.innerHTML = '';
-  r.providers.forEach((p, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'w-full text-left px-5 py-3.5 hover:bg-gray-50 flex items-start gap-3 transition-colors' + (i === 0 ? ' bg-brand-50/60' : '');
-    btn.innerHTML = `
-      <div class="w-9 h-9 rounded-full bg-gradient-to-br ${p.grad} text-white grid place-items-center text-xs font-bold shrink-0">${p.initials}</div>
-      <div class="flex-1 min-w-0">
-        <div class="flex items-center justify-between">
-          <div class="font-semibold text-sm text-gray-900">${p.name}</div>
-          ${p.unread ? `<span class="bg-red-500 text-white text-[10px] font-bold w-4.5 h-4.5 w-[18px] h-[18px] rounded-full grid place-items-center">${p.unread}</span>` : ''}
-        </div>
-        <div class="text-xs text-gray-500">${p.sub}</div>
-        <div class="text-xs text-gray-600 mt-0.5 truncate">${p.last}</div>
-        <div class="flex items-center gap-3 mt-1 text-xs">
-          <span class="text-amber-500 font-semibold">★ ${p.rating}</span>
-          <span class="text-gray-500 font-medium">${p.quote}</span>
-        </div>
-      </div>`;
-    btn.addEventListener('click', () => setProvider(p, r.thread));
-    list.appendChild(btn);
-  });
-
-  setProvider(r.providers[0], r.thread);
-  switchView('request-detail');
-}
-
-function setProvider(p, thread) {
-  const av = document.getElementById('active-av');
-  av.className = `w-10 h-10 rounded-full bg-gradient-to-br ${p.grad} text-white grid place-items-center font-bold text-sm`;
-  av.textContent = p.initials;
-  document.getElementById('active-name').textContent = p.name;
-  document.getElementById('active-sub').textContent  = p.sub;
-  document.getElementById('composer').placeholder    = `Message ${p.name.split(' ')[0]}…`;
-
-  document.getElementById('active-summary').innerHTML = `
-    <div><div class="text-[11px] text-gray-400">Quote</div><div class="font-bold text-gray-900">${p.quote}</div></div>
-    <div class="w-px h-7 bg-gray-200"></div>
-    <div><div class="text-[11px] text-gray-400">Rating</div><div class="font-bold text-gray-900">${p.rating} ★</div></div>
-    <div class="w-px h-7 bg-gray-200"></div>
-    <div><div class="text-[11px] text-gray-400">Earliest available</div><div class="font-bold text-gray-900">${p.eta}</div></div>
-    <div class="w-px h-7 bg-gray-200"></div>
-    <div><div class="text-[11px] text-gray-400">Distance</div><div class="font-bold text-gray-900">${p.distance}</div></div>`;
-
-  // Render thread
-  const threadEl = document.getElementById('msg-thread');
-  threadEl.innerHTML = `<div class="flex items-center gap-3 text-xs text-gray-400"><div class="flex-1 h-px bg-gray-200"></div><span>Today</span><div class="flex-1 h-px bg-gray-200"></div></div>`;
-  thread.forEach(m => {
-    const wrap = document.createElement('div');
-    if (m.from === 'user') {
-      wrap.className = 'flex items-end justify-end gap-2';
-      wrap.innerHTML = `<div class="chat-bubble-user bg-brand-500 text-white px-4 py-2.5 max-w-sm"><p class="text-sm leading-relaxed">${m.text}</p><div class="text-[10px] text-brand-200 mt-1 text-right">Just now</div></div>`;
-    } else {
-      const prov = REQUESTS[Object.keys(REQUESTS).find(k => REQUESTS[k].providers.find(pr => pr.id === m.pid))]?.providers.find(pr => pr.id === m.pid) || p;
-      wrap.className = 'flex items-end gap-2 max-w-sm';
-      wrap.innerHTML = `
-        <div class="w-7 h-7 rounded-full bg-gradient-to-br ${prov.grad} text-white grid place-items-center text-[10px] font-bold shrink-0">${prov.initials}</div>
-        <div class="chat-bubble-other bg-white border border-gray-100 px-4 py-2.5">
-          <p class="text-sm text-gray-800 leading-relaxed">${m.text}</p>
-          <div class="text-[10px] text-gray-400 mt-1">Just now</div>
-        </div>`;
-    }
-    threadEl.appendChild(wrap);
-  });
-
-  // Typing indicator
-  const typing = document.createElement('div');
-  typing.className = 'flex items-end gap-2 max-w-sm';
-  typing.innerHTML = `
-    <div class="w-7 h-7 rounded-full bg-gradient-to-br ${p.grad} text-white grid place-items-center text-[10px] font-bold shrink-0">${p.initials}</div>
-    <div class="chat-bubble-other bg-white border border-gray-100 px-4 py-3 flex gap-1 items-center">
-      <span class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay:0s"></span>
-      <span class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay:.15s"></span>
-      <span class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay:.3s"></span>
-    </div>`;
-  threadEl.appendChild(typing);
-  threadEl.scrollTop = threadEl.scrollHeight;
-}
 
 document.getElementById('back-btn').addEventListener('click', () => switchView('requests'));
 
@@ -872,32 +678,131 @@ sendBtn.addEventListener('click', sendMsg);
 composer.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
 
 /* ═══════════════════════════════════════
-   AUTH + USER DATA
+   EDIT LISTING populate + save
 ═══════════════════════════════════════ */
-async function init() {
-  const preview = new URLSearchParams(location.search).get('preview');
+/* helpers to convert between stored format and plain text */
+function servicesToText(services) {
+  if (!services || !services.length) return '';
+  if (typeof services === 'string') return services;
+  return services.map(function(s) {
+    if (!s || typeof s !== 'object') return String(s);
+    var price = s.price ? '£' + (s.price / 100).toFixed(0) : '';
+    return price ? s.name + ' ' + price : s.name;
+  }).join('\n');
+}
 
-  let user = null, profile = null;
+function textToServices(text) {
+  return text.split('\n').map(function(line) {
+    line = line.trim();
+    if (!line) return null;
+    var match = line.match(/^(.+?)\s*[-–]\s*£?(\d+(?:\.\d+)?)$/);
+    if (match) return { name: match[1].trim(), price: Math.round(parseFloat(match[2]) * 100) };
+    return { name: line, price: 0 };
+  }).filter(Boolean);
+}
 
-  if (preview) {
-    user    = { id:'preview', email:'demo@sowo.co.uk', user_metadata:{ full_name:'Alex Taylor' } };
-    profile = { full_name:'Alex Taylor' };
-  } else {
-    user = await Auth.requireAuth();
-    if (!user) return;
-    try { profile = await Profiles.get(user.id); } catch(e) {}
-  }
+function skillsToText(skills) {
+  if (!skills) return '';
+  if (Array.isArray(skills)) return skills.join(', ');
+  return String(skills);
+}
 
-  const name   = profile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'there';
-  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  const email  = user?.email || '';
-  const hour   = new Date().getHours();
-  const greet  = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+function openEditListing(email) {
+  try {
+    const providers = JSON.parse(localStorage.getItem('sowo_providers') || '[]');
+    const listing = providers.find(function(p) {
+      return p && p.email && p.email.trim().toLowerCase() === email.toLowerCase();
+    });
+    if (!listing) return;
+    var set = function(id, val) { var el = document.getElementById(id); if (el) el.value = val || ''; };
+    var lname = listing.name || (listing.firstName ? listing.firstName + (listing.lastName ? ' ' + listing.lastName : '') : '');
+    set('el-name',     lname);
+    set('el-category', listing.category || listing.service || '');
+    set('el-location', listing.location || listing.city || '');
+    var rate = listing.hourly_rate ? (listing.hourly_rate / 100).toFixed(0) : (listing.rate || '');
+    set('el-rate',     rate);
+    set('el-bio',      listing.bio || listing.description || '');
+    set('el-skills',   skillsToText(listing.skills));
+    set('el-services', servicesToText(listing.services));
+  } catch(e) {}
+}
+
+function saveEditListing(email) {
+  try {
+    const providers = JSON.parse(localStorage.getItem('sowo_providers') || '[]');
+    const idx = providers.findIndex(function(p) {
+      return p && p.email && p.email.trim().toLowerCase() === email.toLowerCase();
+    });
+    var get = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+    const updated = idx >= 0 ? Object.assign({}, providers[idx]) : { email: email };
+    updated.name        = get('el-name');
+    updated.category    = get('el-category');
+    updated.location    = get('el-location');
+    updated.hourly_rate = Math.round((parseFloat(get('el-rate')) || 0) * 100);
+    updated.bio         = get('el-bio');
+    updated.skills      = get('el-skills').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    updated.services    = textToServices(get('el-services'));
+    if (idx >= 0) { providers[idx] = updated; } else { providers.push(updated); }
+    localStorage.setItem('sowo_providers', JSON.stringify(providers));
+
+    // Refresh listing card on dashboard
+    const cat   = updated.category || '';
+    const lname = updated.name || email.split('@')[0];
+    const linitials = lname.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+    document.getElementById('listing-av').textContent    = linitials;
+    document.getElementById('listing-name').textContent  = lname;
+    document.getElementById('listing-cat').textContent   = cat;
+    document.getElementById('prof-category').textContent = cat;
+
+    showToast('Listing updated');
+    switchView('dashboard');
+  } catch(e) { showToast('Could not save, try again', 'error'); }
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+function showToast(msg, type) {
+  const t = document.createElement('div');
+  const bg = type === 'error' ? '#b91c1c' : '#085041';
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);padding:11px 22px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:9999;background:' + bg + ';color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:nowrap;opacity:0;transition:opacity .18s,transform .18s';
+  document.body.appendChild(t);
+  requestAnimationFrame(function() {
+    t.style.opacity = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+  });
+  setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(6px)';
+    setTimeout(function() { t.remove(); }, 200);
+  }, 2600);
+}
+
+/* ═══════════════════════════════════════
+   AUTH + USER DATA (sessionStorage)
+═══════════════════════════════════════ */
+function init() {
+  const raw = sessionStorage.getItem('sowo_session');
+  if (!raw) { window.location.replace('/login.html'); return; }
+
+  const user = JSON.parse(raw);
+  const name     = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : user.name || user.email.split('@')[0];
+  const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  const email    = user.email || '';
+  const hour     = new Date().getHours();
+  const greet    = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   // Sidebar user
   document.getElementById('sb-name').textContent  = name;
   document.getElementById('sb-email').textContent = email;
   document.getElementById('sb-av').textContent    = initials;
+
+  // Sign out button
+  document.querySelector('[onclick="Auth.signOut()"]') && document.querySelectorAll('[onclick="Auth.signOut()"]').forEach(b => {
+    b.removeAttribute('onclick');
+    b.addEventListener('click', () => { sessionStorage.removeItem('sowo_session'); window.location.href = '/login.html'; });
+  });
 
   // Profile page
   document.getElementById('prof-av-big').textContent   = initials;
@@ -911,10 +816,231 @@ async function init() {
   if (em) em.value = email;
 
   // Greeting
-  document.getElementById('home-greeting').textContent = `${greet}, ${name.split(' ')[0]}`;
+  document.getElementById('home-greeting').textContent = greet + ', ' + name.split(' ')[0];
 
-  // Notification dot (demo)
-  document.getElementById('notif-dot').classList.remove('hidden');
+  // Load provider listing data
+  try {
+    const providers = JSON.parse(localStorage.getItem('sowo_providers') || '[]');
+    const listing = providers.find(function(p) {
+      return p && p.email && p.email.trim().toLowerCase() === email.toLowerCase();
+    });
+    if (listing) {
+      const lname = listing.firstName
+        ? listing.firstName + (listing.lastName ? ' ' + listing.lastName : '')
+        : listing.name || email.split('@')[0];
+      const linitials = lname.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0, 2);
+      const cat = listing.category || listing.service || listing.serviceType || '';
+
+      // Dashboard listing card
+      document.getElementById('listing-av').textContent   = linitials;
+      document.getElementById('listing-name').textContent = lname;
+      document.getElementById('listing-cat').textContent  = cat;
+
+      // Profile page
+      document.getElementById('prof-category').textContent = cat;
+      const bio = listing.bio || listing.description || listing.about || '';
+      if (bio) { const b = document.getElementById('pf-bio'); if(b) b.value = bio; }
+      const loc = listing.location || listing.city || '';
+      if (loc) { const l = document.getElementById('pf-location'); if(l) l.value = loc; }
+      const phone = listing.phone || listing.phoneNumber || '';
+      if (phone) { const ph = document.getElementById('pf-phone'); if(ph) ph.value = phone; }
+
+      // Wire view public listing button
+      const viewBtn = document.getElementById('view-public-profile');
+      if (viewBtn) {
+        viewBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          sessionStorage.setItem('sowo_preview', JSON.stringify(listing));
+          window.location.href = '/provider.html';
+        });
+      }
+    }
+  } catch(e) {}
+
+  // Edit listing save
+  const elSaveBtn = document.getElementById('el-save-btn');
+  if (elSaveBtn) elSaveBtn.addEventListener('click', function() { saveEditListing(email); });
+
+  // Populate edit listing fields whenever the view opens patch switchView globally
+  const _baseSwitchView = switchView;
+  window.switchView = function(id) {
+    _baseSwitchView(id);
+    if (id === 'edit-listing') openEditListing(email);
+  };
+
+  // Load any previously saved profile overrides from localStorage
+  const profileKey = 'sowo_profile_' + email;
+  try {
+    const saved = JSON.parse(localStorage.getItem(profileKey) || 'null');
+    if (saved) {
+      if (saved.firstName) {
+        const savedName = saved.firstName + (saved.lastName ? ' ' + saved.lastName : '');
+        const savedInitials = savedName.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+        document.getElementById('pf-fname').value            = saved.firstName;
+        document.getElementById('pf-lname').value            = saved.lastName || '';
+        document.getElementById('prof-name-big').textContent = savedName;
+        document.getElementById('sb-name').textContent       = savedName;
+        document.getElementById('home-greeting').textContent = greet + ', ' + saved.firstName;
+        if (!document.getElementById('prof-av-big').style.backgroundImage) {
+          document.getElementById('prof-av-big').textContent = savedInitials;
+          document.getElementById('sb-av').textContent       = savedInitials;
+        }
+        // keep session in sync
+        const sess2 = JSON.parse(sessionStorage.getItem('sowo_session') || '{}');
+        sess2.firstName = saved.firstName; sess2.lastName = saved.lastName || '';
+        sessionStorage.setItem('sowo_session', JSON.stringify(sess2));
+      }
+      if (saved.phone)    { const el = document.getElementById('pf-phone');    if(el) el.value = saved.phone; }
+      if (saved.location) { const el = document.getElementById('pf-location'); if(el) el.value = saved.location; }
+      if (saved.bio)      { const el = document.getElementById('pf-bio');      if(el) el.value = saved.bio; }
+    }
+  } catch(e) {}
+
+  // Collapse toggle
+  const collapseBtn = document.getElementById('prof-collapse-btn');
+  const profBody    = document.getElementById('prof-body');
+  const chevron     = document.getElementById('prof-chevron');
+  const editBtnSpan = document.getElementById('prof-edit-btn');
+
+  collapseBtn.addEventListener('click', function() {
+    const isOpen = !profBody.classList.contains('hidden');
+    if (isOpen) {
+      profBody.classList.add('hidden');
+      chevron.style.transform = '';
+      editBtnSpan.classList.add('hidden');
+      collapseBtn.setAttribute('aria-expanded', 'false');
+    } else {
+      profBody.classList.remove('hidden');
+      chevron.style.transform = 'rotate(180deg)';
+      editBtnSpan.classList.remove('hidden');
+      collapseBtn.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // Profile edit / save / cancel
+  const editBtn    = editBtnSpan;
+  const saveBtn    = document.getElementById('prof-save-btn');
+  const cancelBtn  = document.getElementById('prof-cancel-btn');
+  const saveRow    = document.getElementById('prof-save-row');
+  const profFields = ['pf-fname','pf-lname','pf-phone','pf-location','pf-bio'];
+  let   origValues = {};
+
+  function setEditing(on) {
+    if (on) {
+      profFields.forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) origValues[id] = el.value;
+      });
+    }
+    profFields.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.disabled = !on;
+      if (on) {
+        el.classList.remove('bg-gray-50');
+        el.classList.add('bg-white');
+        el.style.borderColor = '';
+      } else {
+        el.classList.add('bg-gray-50');
+        el.classList.remove('bg-white');
+        el.style.borderColor = '';
+      }
+    });
+    saveRow.classList.toggle('hidden', !on);
+    // hide Edit label while save row is showing; show it again after
+    editBtnSpan.classList.toggle('hidden', on);
+    if (on) {
+      const fname = document.getElementById('pf-fname');
+      if (fname) { fname.focus(); fname.select(); }
+    }
+  }
+
+  if (editBtn)   editBtn.addEventListener('click', function() { setEditing(true); });
+
+  if (cancelBtn) cancelBtn.addEventListener('click', function() {
+    profFields.forEach(function(id) {
+      const el = document.getElementById(id);
+      if (el && origValues[id] !== undefined) el.value = origValues[id];
+    });
+    setEditing(false);
+  });
+
+  if (saveBtn) saveBtn.addEventListener('click', function() {
+    const fn  = document.getElementById('pf-fname').value.trim();
+    const ln  = document.getElementById('pf-lname').value.trim();
+    const ph  = document.getElementById('pf-phone').value.trim();
+    const loc = document.getElementById('pf-location').value.trim();
+    const bio = document.getElementById('pf-bio').value.trim();
+
+    // Persist to localStorage
+    try {
+      localStorage.setItem(profileKey, JSON.stringify({ firstName: fn, lastName: ln, phone: ph, location: loc, bio: bio }));
+    } catch(e) {}
+
+    if (fn) {
+      const newName     = fn + (ln ? ' ' + ln : '');
+      const newInitials = newName.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+
+      // Update session
+      const sess = JSON.parse(sessionStorage.getItem('sowo_session') || '{}');
+      sess.firstName = fn; sess.lastName = ln;
+      sessionStorage.setItem('sowo_session', JSON.stringify(sess));
+
+      // Update UI
+      document.getElementById('prof-name-big').textContent = newName;
+      document.getElementById('sb-name').textContent       = newName;
+      document.getElementById('home-greeting').textContent = greet + ', ' + fn;
+      if (!document.getElementById('prof-av-big').style.backgroundImage) {
+        document.getElementById('prof-av-big').textContent = newInitials;
+        document.getElementById('sb-av').textContent       = newInitials;
+      }
+    }
+
+    setEditing(false);
+    showToast('Changes saved');
+  });
+
+  // ── Profile picture upload ──────────────────────────────
+  const avatarKey = 'sowo_avatar_' + email;
+
+  function applyAvatar(dataUrl) {
+    const bigAv = document.getElementById('prof-av-big');
+    const sbAv  = document.getElementById('sb-av');
+    bigAv.style.backgroundImage = 'url(' + dataUrl + ')';
+    bigAv.style.backgroundSize  = 'cover';
+    bigAv.style.backgroundPosition = 'center';
+    bigAv.textContent = '';
+    sbAv.style.backgroundImage = 'url(' + dataUrl + ')';
+    sbAv.style.backgroundSize  = 'cover';
+    sbAv.style.backgroundPosition = 'center';
+    sbAv.textContent = '';
+  }
+
+  // Load saved photo
+  try {
+    const saved = localStorage.getItem(avatarKey);
+    if (saved) applyAvatar(saved);
+  } catch(e) {}
+
+  // Trigger file picker
+  document.getElementById('av-upload-trigger').addEventListener('click', function() {
+    document.getElementById('av-file-input').click();
+  });
+
+  document.getElementById('av-file-input').addEventListener('change', function(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const dataUrl = ev.target.result;
+      try { localStorage.setItem(avatarKey, dataUrl); } catch(err) {}
+      applyAvatar(dataUrl);
+    };
+    reader.readAsDataURL(file);
+    // reset so same file can be re-selected
+    e.target.value = '';
+  });
 }
 
 init();

@@ -3,214 +3,361 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Log in — Sowo</title>
+<title>Log in - Sowo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
 <style>
-:root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--cream:#F5F0E8;--white:#fff;--t2:#666;--border:#E2E2E2;--ease:cubic-bezier(.16,1,.3,1)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--black);color:#fff;min-height:100vh;display:flex;flex-direction:column}
-a{text-decoration:none;color:inherit}
-button{font-family:inherit;cursor:pointer;border:none}
-
-/* NAV */
-.nav{height:64px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07)}
-.logo{display:flex;align-items:center;gap:8px}
-.logo-dot{width:28px;height:28px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center}
-.logo-dot svg{width:16px;height:16px;fill:var(--mint)}
-.logo-wm{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#fff}
-.nav-hint{font-size:13px;color:rgba(255,255,255,.4)}
-.nav-hint a{color:var(--amber);font-weight:600}
-.nav-hint a:hover{text-decoration:underline}
-
-/* MAIN */
-main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
-.card{width:100%;max-width:420px;background:#111;border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:40px 36px}
-.card-title{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
-.card-sub{font-size:14px;color:rgba(255,255,255,.45);margin-bottom:32px}
-.card-sub a{color:var(--amber);font-weight:600}
-
-/* FORM */
-.field{margin-bottom:18px}
-label{display:block;font-size:13px;font-weight:600;color:rgba(255,255,255,.55);margin-bottom:7px}
-input[type=email],input[type=password],input[type=text]{
-  width:100%;height:48px;background:rgba(255,255,255,.05);
-  border:1px solid rgba(255,255,255,.12);border-radius:10px;
-  padding:0 14px;font-size:15px;font-family:inherit;color:#fff;
-  transition:border-color .2s;outline:none;
+:root {
+  --green:#085041; --teal:#1D9E75; --mint:#9FE1CB;
+  --amber:#EF9F27; --ease:cubic-bezier(.16,1,.3,1);
 }
-input::placeholder{color:rgba(255,255,255,.25)}
-input:focus{border-color:var(--teal)}
-.pw-wrap{position:relative}
-.pw-wrap input{padding-right:44px}
-.pw-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,255,255,.35);font-size:14px;padding:4px}
-.pw-toggle:hover{color:#fff}
-
-.forgot{display:block;text-align:right;font-size:12px;color:rgba(255,255,255,.35);margin-top:6px;margin-bottom:20px}
-.forgot:hover{color:var(--amber)}
-
-.btn-submit{
-  width:100%;height:50px;background:var(--amber);color:var(--black);
-  border-radius:12px;font-size:15px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:background .18s,transform .12s;
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { -webkit-font-smoothing:antialiased; height:100% }
+body {
+  font-family:'Inter',-apple-system,sans-serif;
+  min-height:100vh;
+  background:#111;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow-x:hidden;
 }
-.btn-submit:hover{background:#D4891F}
-.btn-submit:active{transform:scale(.97)}
-.btn-submit:disabled{opacity:.5;cursor:not-allowed}
 
-/* Spinner */
-.spin{width:18px;height:18px;border:2px solid rgba(0,0,0,.2);border-top-color:#000;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:rgba(255,255,255,.2);font-size:12px}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
-
-.btn-google{
-  width:100%;height:48px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-  border-radius:12px;font-size:14px;font-weight:600;color:rgba(255,255,255,.7);
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  transition:background .18s,color .18s;
+/* Background image */
+.bg {
+  position:fixed;
+  inset:0;
+  background-image: url('https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1600&q=80');
+  background-size:cover;
+  background-position:center;
+  z-index:0;
 }
-.btn-google:hover{background:rgba(255,255,255,.11);color:#fff}
-.btn-google svg{width:18px;height:18px}
-
-.error-msg{
-  background:rgba(192,57,43,.15);border:1px solid rgba(192,57,43,.3);
-  border-radius:8px;padding:12px 14px;font-size:13px;color:#f88;
-  margin-bottom:18px;display:none;
+.bg::after {
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.38);
 }
-.error-msg.show{display:block}
 
-/* FOOTER */
-footer{text-align:center;padding:24px;font-size:12px;color:rgba(255,255,255,.2)}
-footer a{color:rgba(255,255,255,.35)}footer a:hover{color:#fff}
+/* Card */
+.card {
+  position:relative;
+  z-index:1;
+  background:#fff;
+  border-radius:16px;
+  padding:44px 40px 40px;
+  width:100%;
+  max-width:440px;
+  margin:32px 20px;
+  box-shadow:0 24px 80px rgba(0,0,0,0.35);
+}
+
+/* Logo */
+.logo {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-bottom:28px;
+  text-decoration:none;
+}
+.logo-wm {
+  font-family:'Lora',Georgia,serif;
+  font-size:22px;
+  font-weight:700;
+  color:#0a0a0a;
+  letter-spacing:-.02em;
+}
+
+/* Heading */
+.card-title {
+  font-family:'Lora',Georgia,serif;
+  font-size:24px;
+  font-weight:700;
+  color:#0a0a0a;
+  text-align:center;
+  margin-bottom:6px;
+  letter-spacing:-.02em;
+}
+.card-sub {
+  text-align:center;
+  font-size:13.5px;
+  color:#888;
+  margin-bottom:28px;
+}
+.card-sub a { color:var(--teal); font-weight:600; text-decoration:none }
+.card-sub a:hover { text-decoration:underline }
+
+/* Fields */
+.field { margin-bottom:14px }
+
+input[type=email],
+input[type=password],
+input[type=text] {
+  width:100%;
+  height:50px;
+  border:1.5px solid #e0e0e0;
+  border-radius:10px;
+  padding:0 16px;
+  font-size:15px;
+  font-family:inherit;
+  color:#0a0a0a;
+  background:#fff;
+  outline:none;
+  transition:border-color .18s, box-shadow .18s;
+}
+input::placeholder { color:#aaa }
+input:focus {
+  border-color:var(--teal);
+  box-shadow:0 0 0 3px rgba(29,158,117,0.12);
+}
+
+/* Password wrap */
+.pw-wrap { position:relative }
+.pw-wrap input { padding-right:46px }
+.pw-toggle {
+  position:absolute; right:14px; top:50%; transform:translateY(-50%);
+  background:none; border:none; cursor:pointer;
+  color:#bbb; padding:4px; display:flex; align-items:center;
+  transition:color .14s;
+}
+.pw-toggle:hover { color:#555 }
+.pw-toggle svg { width:17px; height:17px }
+
+/* Forgot */
+.forgot {
+  display:block;
+  text-align:right;
+  font-size:12.5px;
+  color:#aaa;
+  margin-top:7px;
+  text-decoration:none;
+  transition:color .14s;
+}
+.forgot:hover { color:var(--teal) }
+
+/* Error */
+.error-msg {
+  background:#fff5f5;
+  border:1px solid #fca5a5;
+  border-radius:8px;
+  padding:11px 14px;
+  font-size:13px;
+  color:#b91c1c;
+  margin-bottom:16px;
+  display:none;
+  line-height:1.5;
+}
+.error-msg.show { display:block }
+
+/* Submit */
+.btn-submit {
+  width:100%;
+  height:52px;
+  background:var(--green);
+  color:#9FE1CB;
+  border:none;
+  border-radius:12px;
+  font-size:15px;
+  font-weight:700;
+  font-family:inherit;
+  cursor:pointer;
+  transition:background .18s, transform .15s;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:6px;
+}
+.btn-submit:hover { background:#063D31 }
+.btn-submit:active { transform:scale(.98) }
+.btn-submit:disabled { opacity:.5; cursor:not-allowed; transform:none }
+
+/* Divider */
+.divider {
+  display:flex; align-items:center; gap:12px;
+  margin:20px 0;
+  font-size:12px; color:#ccc;
+}
+.divider::before, .divider::after {
+  content:''; flex:1; height:1px; background:#ebebeb;
+}
+
+/* Google */
+.btn-google {
+  width:100%; height:50px;
+  background:#fff; border:1.5px solid #e0e0e0;
+  border-radius:12px; font-size:14px; font-weight:600; color:#333;
+  font-family:inherit; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  transition:background .16s, border-color .16s;
+}
+.btn-google:hover { background:#f7f7f7; border-color:#ccc }
+.btn-google svg { width:18px; height:18px; flex-shrink:0 }
+
+/* Signup link */
+.signup-link {
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+  color:#888;
+}
+.signup-link a { color:var(--green); font-weight:600; text-decoration:none }
+.signup-link a:hover { text-decoration:underline }
+
+/* Success */
+.success-state { text-align:center; padding:16px 0 8px }
+.success-icon { font-size:52px; margin-bottom:16px }
+.success-title { font-family:'Lora',Georgia,serif; font-size:26px; font-weight:700; color:#0a0a0a; margin-bottom:10px }
+.success-msg { font-size:14px; color:#555; line-height:1.7 }
+.back-home { display:inline-block; margin-top:24px; padding:12px 28px; background:var(--green); color:var(--mint); border-radius:10px; font-weight:700; font-size:14px; text-decoration:none }
+
+.spin { width:18px; height:18px; border:2px solid rgba(159,225,203,.3); border-top-color:var(--mint); border-radius:50%; animation:spin .6s linear infinite; display:inline-block }
+@keyframes spin { to { transform:rotate(360deg) } }
+
+@media(max-width:480px) {
+  .card { padding:32px 24px; margin:20px 16px }
+}
 </style>
 </head>
 <body>
 
-<nav class="nav">
+<div class="bg"></div>
+
+<div class="card" id="mainCard">
+
   <a href="/" class="logo">
-    <div class="logo-dot">
-      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-    </div>
+    <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
+      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+      <circle cx="60" cy="10" r="5" fill="#fff"/>
+    </svg>
     <span class="logo-wm">Sowo</span>
   </a>
-  <span class="nav-hint">No account? <a href="/signup">Sign up free</a></span>
-</nav>
 
-<main>
-  <div class="card">
-    <h1 class="card-title">Welcome back</h1>
-    <p class="card-sub">New to Sowo? <a href="/signup">Create a free account →</a></p>
+  <h1 class="card-title">Welcome back</h1>
+  <p class="card-sub">New to Sowo? <a href="/signup.html">Create a free account</a></p>
 
-    <div class="error-msg" id="err"></div>
+  <div class="error-msg" id="err"></div>
 
-    <form id="loginForm" novalidate>
-      <div class="field">
-        <label for="email">Email address</label>
-        <input type="email" id="email" placeholder="you@example.com" required autocomplete="email">
+  <form id="loginForm" novalidate>
+    <div class="field">
+      <input type="email" id="email" placeholder="Email address" autocomplete="email">
+    </div>
+
+    <div class="field">
+      <div class="pw-wrap">
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+        <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="pwIcon">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
       </div>
+      <a href="#" class="forgot" id="forgotLink">Forgot password?</a>
+    </div>
 
-      <div class="field">
-        <label for="password">Password</label>
-        <div class="pw-wrap">
-          <input type="password" id="password" placeholder="Enter your password" required autocomplete="current-password">
-          <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">👁</button>
-        </div>
-        <a href="/forgot-password" class="forgot">Forgot password?</a>
-      </div>
+    <button type="submit" class="btn-submit" id="submitBtn">Sign in</button>
+  </form>
 
-      <button type="submit" class="btn-submit" id="submitBtn">Log in</button>
-    </form>
+  <div class="divider">or</div>
 
-    <div class="divider">or continue with</div>
-    <button class="btn-google" id="googleBtn">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-      </svg>
-      Continue with Google
-    </button>
-  </div>
-</main>
+  <button class="btn-google" id="googleBtn">
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+    </svg>
+    Continue with Google
+  </button>
 
-<footer>
-  <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · © 2025 Sowo Ltd
-</footer>
+  <p class="signup-link">Don't have an account? <a href="/signup.html">Sign up free</a></p>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/js/config.js"></script>
-<script src="/js/sowo.js"></script>
+</div>
+
 <script>
-const form    = document.getElementById('loginForm');
-const errEl   = document.getElementById('err');
-const submitBtn = document.getElementById('submitBtn');
-const pwToggle  = document.getElementById('pwToggle');
-const pwInput   = document.getElementById('password');
+const EYE_OPEN = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+const EYE_SHUT = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>`;
 
-// Show / hide password
-pwToggle.addEventListener('click', () => {
+function toast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;background:#333;color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.3);white-space:nowrap';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+/* Show / hide password */
+const pwInput = document.getElementById('password');
+const pwIcon  = document.getElementById('pwIcon');
+document.getElementById('pwToggle').addEventListener('click', () => {
   const show = pwInput.type === 'password';
   pwInput.type = show ? 'text' : 'password';
-  pwToggle.textContent = show ? '🙈' : '👁';
+  pwIcon.innerHTML = show ? EYE_SHUT : EYE_OPEN;
 });
 
-// Form submit
-form.addEventListener('submit', async e => {
+/* Forgot password */
+document.getElementById('forgotLink').addEventListener('click', e => {
   e.preventDefault();
+  toast('Password reset coming soon');
+});
+
+/* Form submit */
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const errEl = document.getElementById('err');
   errEl.classList.remove('show');
-  UI.setLoading(submitBtn, true);
 
-  try {
-    const email    = document.getElementById('email').value.trim();
-    const password = pwInput.value;
-    await Auth.signIn(email, password);
+  const email    = document.getElementById('email').value.trim();
+  const password = pwInput.value;
 
-    // Redirect: back to where they came from, or dashboard
-    const params   = new URLSearchParams(window.location.search);
-    const redirect = params.get('redirect') || '/dashboard';
-    window.location.href = redirect;
+  if (!email || !email.includes('@')) { errEl.textContent = 'Please enter a valid email address.'; errEl.classList.add('show'); return; }
+  if (!password)                       { errEl.textContent = 'Please enter your password.';         errEl.classList.add('show'); return; }
 
-  } catch (err) {
-    const msg = err.message || '';
-    const isInvalidCreds = msg.toLowerCase().includes('invalid login') || msg.toLowerCase().includes('invalid credentials');
-    if (isInvalidCreds) {
-      errEl.innerHTML = `Wrong email or password — or your email isn't confirmed yet.
-        <br><br>
-        <a href="#" id="resendLink" style="color:var(--amber);font-weight:600;text-decoration:underline">Resend confirmation email →</a>`;
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span>';
+
+  /* Check localStorage for MVP — scan every key for a matching email */
+  setTimeout(() => {
+    try {
+      let match = null;
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        try {
+          const val = JSON.parse(localStorage.getItem(key));
+          const arr = Array.isArray(val) ? val : [val];
+          const found = arr.find(u => u && u.email && u.email.trim().toLowerCase() === email.toLowerCase());
+          if (found) { match = found; break; }
+        } catch(e) {}
+      }
+
+      if (match) {
+        sessionStorage.setItem('sowo_session', JSON.stringify(match));
+        window.location.replace('/dashboard.html');
+      } else {
+        errEl.innerHTML = `No account found for that email. <a href="/signup.html" style="color:var(--teal);font-weight:600;text-decoration:underline">Create an account</a>`;
+        errEl.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Sign in';
+      }
+    } catch(err) {
+      errEl.textContent = 'Something went wrong. Please try again.';
       errEl.classList.add('show');
-      document.getElementById('resendLink').addEventListener('click', async e => {
-        e.preventDefault();
-        const email = document.getElementById('email').value.trim();
-        if (!email) { UI.toast('Enter your email address first', 'error'); return; }
-        const { error } = await sb.auth.resend({ type: 'signup', email });
-        if (error) { UI.toast(error.message, 'error'); }
-        else { UI.toast('Confirmation email resent — check your inbox', 'success'); }
-      });
-    } else {
-      errEl.textContent = msg || 'Login failed. Please check your details.';
-      errEl.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Sign in';
     }
-    UI.setLoading(submitBtn, false);
-  }
+  }, 800);
 });
 
-// Google OAuth
-document.getElementById('googleBtn').addEventListener('click', async () => {
-  const { error } = await sb.auth.signInWithOAuth({
-    provider: 'google',
-    options:  { redirectTo: window.location.origin + '/dashboard' }
-  });
-  if (error) UI.toast(error.message, 'error');
-});
-
-// Already logged in?
-Auth.getUser().then(user => {
-  if (user) window.location.href = '/dashboard';
+/* Google — coming soon */
+document.getElementById('googleBtn').addEventListener('click', () => {
+  toast('Google sign-in coming soon');
 });
 </script>
 </body>
