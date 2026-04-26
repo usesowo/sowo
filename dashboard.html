@@ -1222,23 +1222,26 @@ function dsRenderModeSwitcher(user, currentMode) {
   if (!el) return;
   const capable = dsIsProviderCapable(user);
 
-  // "I need help" — always a real mode tab
-  const clientTab = `<button onclick="dsSetMode('client')" style="padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:13px;font-weight:${currentMode==='client'?'600':'500'};cursor:pointer;background:${currentMode==='client'?'var(--ink)':'#fff'};color:${currentMode==='client'?'var(--paper)':'var(--ink-2)'};transition:all .13s">I need help</button>`;
-
-  // "I offer services" — real mode tab if capable, otherwise links to /become-provider.html
-  let providerTab;
-  if (capable) {
-    providerTab = `<button onclick="dsSetMode('provider')" style="padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:13px;font-weight:${currentMode==='provider'?'600':'500'};cursor:pointer;background:${currentMode==='provider'?'var(--ink)':'#fff'};color:${currentMode==='provider'?'var(--paper)':'var(--ink-2)'};transition:all .13s">I offer services</button>`;
+  let label, action;
+  if (currentMode === 'provider') {
+    // Currently viewing as provider — offer to flip back to client
+    label = 'Viewing as <strong style="color:var(--ink);font-weight:600">provider</strong>';
+    action = '<button onclick="dsSetMode(\'client\')" style="padding:7px 16px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s">Become a user →</button>';
   } else {
-    providerTab = `<a href="/become-provider.html" style="padding:8px 18px;border-radius:999px;border:1px dashed var(--line);font:inherit;font-size:13px;font-weight:500;cursor:pointer;background:#fff;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px">+ I offer services</a>`;
+    // Client mode — offer to flip to provider (or set up if not yet a provider)
+    label = 'Viewing as <strong style="color:var(--ink);font-weight:600">user</strong>';
+    if (capable) {
+      action = '<button onclick="dsSetMode(\'provider\')" style="padding:7px 16px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s">Become a provider →</button>';
+    } else {
+      action = '<a href="/become-provider.html" style="padding:7px 16px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s;text-decoration:none;display:inline-block">Become a provider →</a>';
+    }
   }
 
-  el.innerHTML = `
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">
-      <span class="mono" style="margin-right:6px">Viewing as</span>
-      ${clientTab}
-      ${providerTab}
-    </div>`;
+  el.innerHTML =
+    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">' +
+      '<span style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">' + label + '</span>' +
+      action +
+    '</div>';
 }
 
 function renderDashboardBody(user, firstName) {
