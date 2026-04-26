@@ -572,6 +572,9 @@ function closePostRequest() {
 function prCloseBg(e) {
   if (e.target === document.getElementById('prOverlay')) closePostRequest();
 }
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && document.getElementById('prOverlay').classList.contains('open')) closePostRequest();
+});
 function prBack() { PR_STEP--; prRender(); }
 function prPersist() {
   var g = function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };

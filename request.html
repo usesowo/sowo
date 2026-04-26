@@ -513,8 +513,9 @@ footer ul li a:hover { color:#fff }
     <span>Sowo</span>
   </a>
   <div class="nav-links">
-    <a href="/#marketplace">Marketplace</a>
-    <a href="/become-provider.html">Become a Provider</a>
+    <a href="/browse.html">Browse providers</a>
+    <a href="/requests.html">Active requests</a>
+    <a href="/become-provider.html">List your service</a>
   </div>
   <div style="display:flex;align-items:center;gap:12px">
     <button class="tb-btn" onclick="copyReqLink()">
@@ -701,42 +702,41 @@ footer ul li a:hover { color:#fff }
         <p>Trusted help, near you. Find vetted providers or earn doing what you love. One account, both sides.</p>
       </div>
       <div>
-        <h4>Services</h4>
+        <h4>Browse</h4>
         <ul>
-          <li><a href="#">Beauty &amp; Makeup</a></li>
-          <li><a href="#">Nail Technicians</a></li>
-          <li><a href="#">Hairdressers</a></li>
-          <li><a href="#">Barbers</a></li>
-          <li><a href="#">Private Chefs</a></li>
-          <li><a href="#">Massage</a></li>
+          <li><a href="/browse.html?cat=beauty">Beauty &amp; Makeup</a></li>
+          <li><a href="/browse.html?cat=nails">Nail Technicians</a></li>
+          <li><a href="/browse.html?cat=hair">Hairdressers</a></li>
+          <li><a href="/browse.html?cat=barber">Barbers</a></li>
+          <li><a href="/browse.html?cat=photography">Photography</a></li>
+          <li><a href="/browse.html">All providers →</a></li>
         </ul>
       </div>
       <div>
-        <h4>Company</h4>
+        <h4>Community</h4>
         <ul>
-          <li><a href="#">About Sowo</a></li>
-          <li><a href="#">How it works</a></li>
-          <li><a href="#">Safety &amp; Trust</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
+          <li><a href="/requests.html">Active requests</a></li>
+          <li><a href="/requests.html">Post a request</a></li>
+          <li><a href="/become-provider.html">List your service</a></li>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#manifesto">Our manifesto</a></li>
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h4>Account</h4>
         <ul>
-          <li><a href="#">Help Centre</a></li>
-          <li><a href="#">Contact us</a></li>
-          <li><a href="/become-provider.html">Become a Provider</a></li>
           <li><a href="/login.html">Sign in</a></li>
+          <li><a href="/signup.html">Create account</a></li>
+          <li><a href="/dashboard.html">Dashboard</a></li>
+          <li><a href="mailto:hello@sowo.co.uk">Contact us</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p>© 2025 Sowo. This is an early-stage MVP. Features are still being tested and some things may not work as expected. Not yet a registered company.</p>
       <nav>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Cookies</a>
+        <a href="mailto:hello@sowo.co.uk">Contact</a>
+        <a href="/become-provider.html">For providers</a>
       </nav>
     </div>
   </div>
@@ -926,9 +926,9 @@ if(!owner) {
       </div>
       <div class="resp-locked-title">Responses are private</div>
       <div class="resp-locked-sub">Only the person who posted this request can see who has responded.</div>
-      <a href="login" class="resp-locked-btn">
+      <a href="/requests.html" class="resp-locked-btn">
         <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-        Log in to post your own request
+        Post your own request
       </a>
     </div>`;
 } else {
@@ -955,7 +955,7 @@ if(!owner) {
                 </div>
               </div>`).join('')}
           </div>` : '';
-        const profileLink = r.profileSlug ? `<a href="profile?u=${r.profileSlug}" class="resp-view">View profile</a>` : '';
+        const profileLink = r.profileSlug ? `<a href="/provider.html#${r.profileSlug}" class="resp-view">View profile</a>` : '';
         return `
       <div class="response-card" id="rcard-${respId}">
         <div class="resp-av" style="background:${r.avatarBg||'#085041'}">${r.initials}</div>
@@ -1015,6 +1015,13 @@ function closeModal(id) {
 function closeIfBg(e, id) {
   if(e.target === document.getElementById(id)) closeModal(id);
 }
+document.addEventListener('keydown', function(e){
+  if (e.key !== 'Escape') return;
+  ['respondOv','msgOv'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el && el.classList.contains('open')) closeModal(id);
+  });
+});
 function rNext() { persistRespond(); rStep++; renderRespondStep(); }
 function rPrev() { rStep--; renderRespondStep(); }
 
@@ -1091,7 +1098,7 @@ function respondSuccess() {
       <div class="nudge-t">Make your profile work harder</div>
       <div class="nudge-s">Create a free provider profile so clients can see your full portfolio, reviews, and pricing before replying.</div>
       <div class="nudge-btns">
-        <a href="login" class="np">Create profile</a>
+        <a href="/become-provider.html" class="np">Create profile</a>
         <button class="ns" onclick="closeModal('respondOv')">Maybe later</button>
       </div>
     </div>

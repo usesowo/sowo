@@ -875,7 +875,7 @@ footer a:hover{color:#fff}
 </section>
 
 <!-- MANIFESTO strip -->
-<section class="manifesto-section">
+<section class="manifesto-section" id="manifesto">
   <div class="manifesto-inner">
     <p class="manifesto-text">
       We didn't build Sowo for <span class="m-strike">availability.</span><br>
@@ -1070,7 +1070,7 @@ footer a:hover{color:#fff}
     • Add a 4th pillar → copy a <div class="pillar"> block (flex layout wraps)
     • Section background → .trust { background } in <style>
   ───────────────────────────────────────────────────────────────────────── -->
-<section class="trust">
+<section class="trust" id="how">
   <div class="wrap">
     <h2>Built differently, on <em>purpose</em></h2>
     <p class="trust-sub">No hidden fees, no anonymous reviews, no algorithmic gatekeeping. Just real people, recommending real people.</p>
@@ -1167,43 +1167,41 @@ footer a:hover{color:#fff}
         <p>Trusted help, near you. Find vetted providers or earn doing what you love. One account, both sides.</p>
       </div>
       <div>
-        <h4>Services</h4>
+        <h4>Browse</h4>
         <ul>
-          <li><a href="#">Beauty &amp; Makeup</a></li>
-          <li><a href="#">Nail Technicians</a></li>
-          <li><a href="#">Hairdressers</a></li>
-          <li><a href="#">Barbers</a></li>
-          <li><a href="#">Private Chefs</a></li>
-          <li><a href="#">Massage</a></li>
+          <li><a href="/browse.html?cat=beauty">Beauty &amp; Makeup</a></li>
+          <li><a href="/browse.html?cat=nails">Nail Technicians</a></li>
+          <li><a href="/browse.html?cat=hair">Hairdressers</a></li>
+          <li><a href="/browse.html?cat=barber">Barbers</a></li>
+          <li><a href="/browse.html?cat=photography">Photography</a></li>
+          <li><a href="/browse.html">All providers →</a></li>
         </ul>
       </div>
       <div>
-        <h4>Company</h4>
+        <h4>Community</h4>
         <ul>
-          <li><a href="#">About Sowo</a></li>
-          <li><a href="#">How it works</a></li>
-          <li><a href="#">Safety &amp; Trust</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
+          <li><a href="/requests.html">Active requests</a></li>
+          <li><a href="/requests.html">Post a request</a></li>
+          <li><a href="/become-provider.html">List your service</a></li>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#manifesto">Our manifesto</a></li>
         </ul>
       </div>
       <div>
-        <h4>Support</h4>
+        <h4>Account</h4>
         <ul>
-          <li><a href="#">Help Centre</a></li>
-          <li><a href="#">Contact us</a></li>
-          <li><a href="#">Sowo Protect</a></li>
-          <li><a href="/become-provider.html">Become a Provider</a></li>
           <li><a href="/login.html">Sign in</a></li>
+          <li><a href="/signup.html">Create account</a></li>
+          <li><a href="/dashboard.html">Dashboard</a></li>
+          <li><a href="mailto:hello@sowo.co.uk">Contact us</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p>© 2025 Sowo. This is an early-stage MVP. Features are still being tested and some things may not work as expected. Not yet a registered company.</p>
       <nav>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Cookies</a>
+        <a href="mailto:hello@sowo.co.uk">Contact</a>
+        <a href="/become-provider.html">For providers</a>
       </nav>
     </div>
   </div>
@@ -1246,6 +1244,9 @@ function closePostRequest() {
 function prCloseBg(e) {
   if (e.target === document.getElementById('prOverlay')) closePostRequest();
 }
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape' && document.getElementById('prOverlay').classList.contains('open')) closePostRequest();
+});
 function prBack() { PR_STEP--; prRender(); }
 
 function prPersist() {

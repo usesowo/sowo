@@ -339,7 +339,7 @@ document.getElementById('loginForm').addEventListener('submit', e => {
 
       if (match) {
         sessionStorage.setItem('sowo_session', JSON.stringify(match));
-        window.location.replace('/dashboard.html');
+        window.location.replace(resolveNextDestination());
       } else {
         errEl.innerHTML = `No account found for that email. <a href="/signup.html" style="color:var(--teal);font-weight:600;text-decoration:underline">Create an account</a>`;
         errEl.classList.add('show');
@@ -359,6 +359,64 @@ document.getElementById('loginForm').addEventListener('submit', e => {
 document.getElementById('googleBtn').addEventListener('click', () => {
   toast('Google sign-in coming soon');
 });
+
+/* Forward ?next= across the login→signup cross-links so context survives a click */
+(function(){
+  const nextParam = new URLSearchParams(location.search).get('next');
+  if (!nextParam) return;
+  document.querySelectorAll('a[href^="/signup"]').forEach(a => {
+    const href = a.getAttribute('href');
+    a.setAttribute('href', href + (href.includes('?') ? '&' : '?') + 'next=' + nextParam);
+  });
+})();
+
+/* ── Resolve where to send the user after login ──
+   Honours ?next= query param so request/listing drafts publish
+   and the user lands on a relevant page instead of a generic dashboard.
+─────────────────────────────────────────────────── */
+function resolveNextDestination() {
+  const params = new URLSearchParams(location.search);
+  const next   = params.get('next');
+
+  if (next === 'post') {
+    // Publish queued request drafts before redirecting
+    try {
+      const drafts = JSON.parse(localStorage.getItem('sowo_request_drafts') || '[]');
+      if (drafts.length) {
+        const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+        const owned  = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+        const now    = Date.now();
+        drafts.forEach((d, i) => {
+          const id = 'req-u-' + (now + i);
+          stored.unshift({
+            id,
+            cat:   d.category || 'Other',
+            title: (d.desc || d.category || 'New request').split('\n')[0].slice(0, 80),
+            loc:   d.location || '',
+            age:   'just now',
+            desc:  d.desc || '',
+            budget: d.budget || '',
+            timing: d.timing || '',
+            prefs: [],
+            responses: [],
+          });
+          owned.push(id);
+        });
+        localStorage.setItem('sowo_r', JSON.stringify(stored));
+        localStorage.setItem('sowo_my_requests', JSON.stringify(owned));
+        localStorage.removeItem('sowo_request_drafts');
+      }
+    } catch(e) {}
+    return '/requests.html';
+  }
+
+  if (next === 'list') {
+    // Provider draft is already in localStorage; become-provider.html picks it up
+    return '/become-provider.html?next=list';
+  }
+
+  return '/dashboard.html';
+}
 </script>
 </body>
 </html>
