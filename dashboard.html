@@ -1244,18 +1244,20 @@ function dsRenderModeSwitcher(user, currentMode) {
   if (!el) return;
   const capable = dsIsProviderCapable(user);
 
+  const pillStyle = 'padding:8px 18px;border-radius:999px;border:1px solid var(--ink);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;background:var(--ink);color:var(--paper);transition:all .13s';
+  const pillHover = 'this.style.background=\'#000\'';
+  const pillReset = 'this.style.background=\'var(--ink)\'';
+
   let label, action;
   if (currentMode === 'provider') {
-    // Currently viewing as provider — offer to flip back to client
     label = 'Viewing as <strong style="color:var(--ink);font-weight:600">provider</strong>';
-    action = '<button onclick="dsSetMode(\'client\')" style="padding:7px 16px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s">Become a user →</button>';
+    action = '<button onclick="dsSetMode(\'client\')" onmouseover="' + pillHover + '" onmouseout="' + pillReset + '" style="' + pillStyle + '">Become a user →</button>';
   } else {
-    // Client mode — offer to flip to provider (or set up if not yet a provider)
     label = 'Viewing as <strong style="color:var(--ink);font-weight:600">user</strong>';
     if (capable) {
-      action = '<button onclick="dsSetMode(\'provider\')" style="padding:7px 16px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s">Become a provider →</button>';
+      action = '<button onclick="dsSetMode(\'provider\')" onmouseover="' + pillHover + '" onmouseout="' + pillReset + '" style="' + pillStyle + '">Become a provider →</button>';
     } else {
-      action = '<a href="/become-provider.html" style="padding:7px 16px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s;text-decoration:none;display:inline-block">Become a provider →</a>';
+      action = '<a href="/become-provider.html" onmouseover="' + pillHover + '" onmouseout="' + pillReset + '" style="' + pillStyle + ';text-decoration:none;display:inline-block">Become a provider →</a>';
     }
   }
 
