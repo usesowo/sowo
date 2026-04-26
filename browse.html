@@ -59,6 +59,7 @@
     font-size: 14px; color: var(--ink);
   }
   .tb-field input::placeholder { color: var(--muted-2); }
+  .tb-field input[readonly] { cursor: default; caret-color: transparent; pointer-events: none; }
   .tb-field .label {
     font-family: var(--mono); font-size: 10px;
     letter-spacing: 0.1em; text-transform: uppercase;
@@ -111,7 +112,7 @@
   }
 
   /* Filter sidebar */
-  .sidebar { position: sticky; top: 170px; align-self: start; }
+  .sidebar { position: sticky; top: 170px; align-self: start; background: var(--paper); }
   .sidebar-group { padding: 20px 0; border-bottom: 1px solid var(--line); }
   .sidebar-group:first-child { padding-top: 0; }
   .sidebar-group h4 {
@@ -139,15 +140,17 @@
     display: flex; gap: 10px; align-items: center;
     margin-top: 10px;
   }
-  .price-input {
+  .price-display {
     flex: 1;
     padding: 10px 12px;
     border: 1px solid var(--line);
     border-radius: 6px;
     font-size: 13px;
     background: transparent;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
   }
-  .price-input:focus { outline: 0; border-color: var(--ink); }
 
   .vouch-toggle {
     display: flex; align-items: center; justify-content: space-between;
@@ -500,7 +503,7 @@
         <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
       </svg>
       <span class="label">What</span>
-      <input type="text" placeholder="Makeup artist, chef, nail technician…" value="Makeup artist">
+      <input type="text" placeholder="Makeup artist, chef, nail technician…" value="Makeup artist" readonly>
     </div>
     <div class="tb-field">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -556,9 +559,9 @@
     <div class="sidebar-group">
       <h4>Price</h4>
       <div class="price-range">
-        <input type="text" class="price-input" placeholder="£ min" value="30">
+        <span class="price-display">£30</span>
         <span style="color:var(--muted);">–</span>
-        <input type="text" class="price-input" placeholder="£ max" value="120">
+        <span class="price-display">£120</span>
       </div>
     </div>
 
