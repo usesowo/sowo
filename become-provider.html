@@ -201,7 +201,6 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/js/config.js"></script>
-<script src="/js/analytics.js"></script>
 <script src="/js/sowo.js"></script>
 <script>
 let currentStep = 0;
@@ -303,66 +302,90 @@ const CATEGORY_ICONS = {
 
 const CATEGORIES = Object.keys(CATEGORY_ICONS);
 
-async function init() {
-  // Try to get current user but don't redirect — let them fill the form first
+function init() {
+  // 1. Pre-fill from a saved local draft synchronously — never blocks paint.
   try {
-    const { data: { session } } = await sb.auth.getSession();
-    if (session?.user) {
-      currentUser = session.user;
-      document.getElementById('navUser').innerHTML = `<a href="/dashboard.html" class="btn-sm b-light">← Dashboard</a>`;
-      // Pre-fill from existing provider record if editing
-      try {
-        const { data: p } = await sb.from('providers').select('*').eq('id', currentUser.id).single();
-        if (p) {
-          formData.category         = p.category         || '';
-          formData.bio              = p.bio               || '';
-          formData.skills           = Array.isArray(p.skills)           ? [...p.skills]           : [];
-          formData.hourly_rate      = p.hourly_rate       || 0;
-          formData.years_experience = p.years_experience  || 0;
-          formData.portfolio_images = Array.isArray(p.portfolio_images) ? [...p.portfolio_images] : [];
-          formData.portfolio_videos = Array.isArray(p.portfolio_videos) ? [...p.portfolio_videos] : [];
-          const sl = p.social_links;
-          if (sl && typeof sl === 'object' && !Array.isArray(sl)) {
-            formData.social_instagram   = sl.instagram     || '';
-            formData.social_tiktok      = sl.tiktok        || '';
-            formData.social_twitter     = sl.twitter       || '';
-            formData.social_facebook    = sl.facebook      || '';
-            formData.social_youtube     = sl.youtube       || '';
-            if (sl.other && typeof sl.other === 'object') {
-              formData.social_other_label = sl.other.label || '';
-              formData.social_other_url   = sl.other.url   || '';
-            }
-          }
-        }
-      } catch (e) {}
-      try {
-        const prof = await Profiles.get(currentUser.id);
-        formData.location  = prof.location  || '';
-        if (prof.avatar_url) formData.avatar_url = prof.avatar_url;
-      } catch (e) {}
-    } else {
-      // Not logged in — check for a saved draft to pre-fill
-      try {
-        const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
-        if (draft) {
-          formData.category         = draft.category         || '';
-          formData.bio              = draft.bio               || '';
-          formData.location         = draft.location          || '';
-          formData.skills           = draft.skills            || [];
-          formData.hourly_rate      = draft.hourly_rate       || 0;
-          formData.years_experience = draft.years_experience  || 0;
-          formData.services         = draft.services          || [];
-          formData.social_instagram = draft.social_instagram  || '';
-          formData.social_tiktok    = draft.social_tiktok     || '';
-          formData.social_twitter   = draft.social_twitter    || '';
-          formData.social_facebook  = draft.social_facebook   || '';
-          formData.social_youtube   = draft.social_youtube    || '';
-        }
-      } catch (e) {}
+    const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
+    if (draft) {
+      formData.category         = draft.category         || '';
+      formData.bio              = draft.bio               || '';
+      formData.location         = draft.location          || '';
+      formData.skills           = draft.skills            || [];
+      formData.hourly_rate      = draft.hourly_rate       || 0;
+      formData.years_experience = draft.years_experience  || 0;
+      formData.services         = draft.services          || [];
+      formData.social_instagram = draft.social_instagram  || '';
+      formData.social_tiktok    = draft.social_tiktok     || '';
+      formData.social_twitter   = draft.social_twitter    || '';
+      formData.social_facebook  = draft.social_facebook   || '';
+      formData.social_youtube   = draft.social_youtube    || '';
     }
   } catch (e) {}
 
+  // 2. Render the form NOW so the user always sees something.
   renderStep(0);
+
+  // 3. Background: check if a session exists and pre-fill from server data.
+  //    Wrapped in a 4s timeout so a slow/unreachable Supabase never freezes the form.
+  hydrateFromSessionInBackground();
+}
+
+async function hydrateFromSessionInBackground() {
+  // Bail out if Supabase isn't actually configured or wired up
+  if (typeof sb === 'undefined' || !sb || !sb.auth) return;
+
+  const withTimeout = (p, ms) => Promise.race([
+    p,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+  ]);
+
+  let session = null;
+  try {
+    const res = await withTimeout(sb.auth.getSession(), 4000);
+    session = res?.data?.session || null;
+  } catch(e) { return; /* timed out or errored — silent fallback to draft mode */ }
+
+  if (!session?.user) return;
+  currentUser = session.user;
+  const navUser = document.getElementById('navUser');
+  if (navUser) navUser.innerHTML = `<a href="/dashboard.html" class="btn-sm b-light">← Dashboard</a>`;
+
+  try {
+    const r = await withTimeout(sb.from('providers').select('*').eq('id', currentUser.id).single(), 4000);
+    const p = r?.data;
+    if (p) {
+      formData.category         = p.category         || formData.category;
+      formData.bio              = p.bio               || formData.bio;
+      formData.skills           = Array.isArray(p.skills)           ? [...p.skills]           : formData.skills;
+      formData.hourly_rate      = p.hourly_rate       || formData.hourly_rate;
+      formData.years_experience = p.years_experience  || formData.years_experience;
+      formData.portfolio_images = Array.isArray(p.portfolio_images) ? [...p.portfolio_images] : formData.portfolio_images;
+      formData.portfolio_videos = Array.isArray(p.portfolio_videos) ? [...p.portfolio_videos] : formData.portfolio_videos;
+      const sl = p.social_links;
+      if (sl && typeof sl === 'object' && !Array.isArray(sl)) {
+        formData.social_instagram   = sl.instagram     || formData.social_instagram;
+        formData.social_tiktok      = sl.tiktok        || formData.social_tiktok;
+        formData.social_twitter     = sl.twitter       || formData.social_twitter;
+        formData.social_facebook    = sl.facebook      || formData.social_facebook;
+        formData.social_youtube     = sl.youtube       || formData.social_youtube;
+        if (sl.other && typeof sl.other === 'object') {
+          formData.social_other_label = sl.other.label || '';
+          formData.social_other_url   = sl.other.url   || '';
+        }
+      }
+      // Re-render the current step so pre-filled data appears
+      renderStep(currentStep);
+    }
+  } catch(e) {}
+
+  try {
+    const prof = await withTimeout(Profiles.get(currentUser.id), 4000);
+    if (prof) {
+      formData.location  = prof.location  || formData.location;
+      if (prof.avatar_url) formData.avatar_url = prof.avatar_url;
+      renderStep(currentStep);
+    }
+  } catch(e) {}
 }
 
 function renderStep(step) {
