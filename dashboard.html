@@ -1,480 +1,1800 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — Sowo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Dashboard · Sowo</title>
+<link rel="stylesheet" href="shared.css">
 <style>
-:root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--white:#fff;--t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;--ease:cubic-bezier(.16,1,.3,1)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--surf);color:var(--t1);min-height:100vh}
-a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer;border:none}
+  body { background: var(--paper); }
+  html { scroll-behavior: smooth; }
 
-/* TOP BAR */
-.topbar{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  height:64px;background:#fff;border-bottom:1px solid var(--border);
-  padding:0 32px;display:flex;align-items:center;justify-content:space-between;
-}
-.topbar-logo{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--black)}
-.topbar-user{display:flex;align-items:center;gap:12px}
-.user-av{width:36px;height:36px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--mint)}
-.user-name{font-size:14px;font-weight:600}
-.btn-sm{height:36px;padding:0 14px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px}
-.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal)}
-.b-green{background:var(--green);color:var(--mint);border:none}.b-green:hover{background:#063D31}
-.b-amber{background:var(--amber);color:var(--black);border:none}.b-amber:hover{background:#D4891F}
+  /* ═══ LAYOUT ═══ */
+  .dash-wrap {
+    display: grid;
+    grid-template-columns: 248px 1fr;
+    min-height: calc(100vh - 64px);
+  }
 
-/* LAYOUT */
-.layout{display:flex;margin-top:64px;min-height:calc(100vh - 64px)}
+  /* ─── SIDEBAR ─── */
+  .dash-side {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 20px 24px;
+    display: flex; flex-direction: column;
+    position: sticky; top: 64px;
+    height: calc(100vh - 64px);
+  }
+  .dash-user {
+    display: flex; align-items: center; gap: 12px;
+    padding: 4px 6px 22px;
+    border-bottom: 1px solid rgba(245,240,232,0.10);
+    margin-bottom: 22px;
+  }
+  .du-av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--a); color: var(--ink);
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-size: 15px; font-weight: 500;
+  }
+  .du-name { font-family: var(--serif); font-size: 17px; letter-spacing: -0.01em; line-height: 1.1; }
+  .du-role {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--a); margin-top: 3px;
+  }
 
-/* SIDEBAR */
-.sidebar{
-  width:240px;flex-shrink:0;background:#fff;border-right:1px solid var(--border);
-  padding:24px 0;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;
-}
-.sidebar-section{margin-bottom:8px}
-.sidebar-label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;padding:0 20px;margin-bottom:4px}
-.sidebar a{display:flex;align-items:center;gap:10px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--t2);transition:all .15s;border-radius:0}
-.sidebar a:hover{color:var(--black);background:var(--surf)}
-.sidebar a.active{color:var(--green);background:#E6F9F3}
-.sidebar a .ico{width:18px;height:18px;flex-shrink:0}
-.sidebar-divider{height:1px;background:var(--border);margin:12px 20px}
+  .ds-section + .ds-section { margin-top: 18px; }
+  .ds-section h5 {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(245,240,232,0.32);
+    padding: 0 8px; margin-bottom: 4px;
+  }
+  .ds-link {
+    display: flex; align-items: center; gap: 11px;
+    padding: 9px 10px;
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.65);
+    border-radius: 5px;
+    transition: color 0.12s, background 0.12s;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+  }
+  .ds-link:hover { background: rgba(245,240,232,0.05); color: var(--paper); }
+  .ds-link.active { color: var(--paper); }
+  .ds-link.active::before {
+    content: ''; position: absolute;
+    left: -20px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--a);
+  }
+  .ds-link svg { flex-shrink: 0; opacity: 0.85; }
+  .ds-link .badge {
+    margin-left: auto;
+    background: var(--a); color: var(--ink);
+    font-family: var(--mono);
+    font-size: 9.5px; font-weight: 500;
+    padding: 2px 7px; border-radius: 999px;
+    line-height: 1.4;
+  }
+  .ds-link .pulse {
+    margin-left: auto;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gl);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-/* MAIN CONTENT */
-.content{flex:1;padding:32px 36px;max-width:900px}
-.page-title{font-size:24px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
-.page-sub{font-size:14px;color:var(--t3);margin-bottom:28px}
+  .dash-side-foot {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid rgba(245,240,232,0.10);
+  }
+  .dash-side-foot .ds-link { color: rgba(245,240,232,0.40); font-size: 12.5px; padding: 7px 10px; }
 
-/* STAT CARDS */
-.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:32px}
-.stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px}
-.stat-val{font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:2px}
-.stat-lbl{font-size:12px;color:var(--t3);font-weight:500}
-.stat-delta{font-size:11px;font-weight:600;margin-top:6px}
-.up{color:var(--teal)}.down{color:#c0392b}
+  /* ─── MAIN ─── */
+  .dash-main {
+    padding: 36px 48px 80px;
+    max-width: 1280px;
+    width: 100%;
+  }
 
-/* BOOKING CARDS */
-.bookings-section{margin-bottom:32px}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.section-head h2{font-size:16px;font-weight:800}
-.section-head a{font-size:13px;color:var(--teal);font-weight:600}
+  /* ─── GREETING ─── */
+  .greet {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px; align-items: end;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .g-eye {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .g-eye .live-dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--g); margin-right: 6px; vertical-align: 1px;
+    animation: pulse 2.4s infinite;
+  }
+  .greet h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 4.5vw, 56px);
+    line-height: 1.0;
+    letter-spacing: -0.035em;
+    margin-top: 10px;
+  }
+  .greet h1 em { font-style: italic; color: var(--g); }
+  .g-sub { color: var(--muted); font-size: 14px; margin-top: 12px; max-width: 480px; line-height: 1.6; }
+  .g-sub a { color: var(--ink); border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
+  .g-sub a:hover { border-bottom-color: var(--ink); }
 
-.booking-list{display:flex;flex-direction:column;gap:12px}
-.booking-card{
-  background:#fff;border:1px solid var(--border);border-radius:14px;
-  padding:16px 20px;display:flex;align-items:center;gap:16px;
-}
-.booking-av{width:44px;height:44px;border-radius:50%;background:var(--green);color:var(--mint);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0;object-fit:cover}
-.booking-info{flex:1;min-width:0}
-.booking-name{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.booking-meta{font-size:12px;color:var(--t3);margin-top:2px}
-.booking-right{text-align:right;flex-shrink:0}
-.booking-price{font-size:15px;font-weight:800}
-.booking-date{font-size:11px;color:var(--t3);margin-top:2px}
-.status-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;margin-top:4px}
-.s-pending{background:#FEF3E0;color:#8B5E0A}
-.s-confirmed{background:#E6F9F3;color:var(--teal)}
-.s-completed{background:#E8F4FD;color:#2471A3}
-.s-cancelled{background:#FADBD8;color:#c0392b}
+  .g-actions { display: flex; gap: 8px; }
 
-/* EMPTY */
-.empty-box{background:#fff;border:1px dashed var(--border);border-radius:14px;padding:48px 24px;text-align:center}
-.empty-box .ico{font-size:36px;margin-bottom:12px}
-.empty-box h3{font-size:16px;font-weight:700;margin-bottom:6px}
-.empty-box p{font-size:13px;color:var(--t3);margin-bottom:20px}
+  /* ─── FOCAL HERO: NEXT BOOKING ─── */
+  .focal {
+    background: var(--ink); color: var(--paper);
+    padding: 40px 44px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 130px 1fr 280px;
+    gap: 36px; align-items: stretch;
+    position: relative; overflow: hidden;
+  }
+  /* Subtle date-corner accent */
+  .focal::before {
+    content: 'NEXT'; position: absolute;
+    top: 18px; right: 24px;
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: rgba(245,240,232,0.30);
+  }
 
-/* PROVIDER SETUP BANNER */
-.setup-banner{
-  background:var(--black);border-radius:16px;padding:24px 28px;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  margin-bottom:28px;
-}
-.setup-banner-text h3{font-size:18px;font-weight:800;color:#fff;margin-bottom:4px}
-.setup-banner-text p{font-size:13px;color:rgba(255,255,255,.5)}
-.setup-banner-btns{display:flex;gap:10px;flex-shrink:0}
+  .focal-date {
+    text-align: center;
+    padding-right: 32px;
+    border-right: 1px solid rgba(245,240,232,0.12);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .focal-date .day {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.14em; color: var(--a);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .focal-date .num {
+    font-family: var(--serif);
+    font-weight: 400; font-style: italic;
+    font-size: 80px; line-height: 0.9;
+    letter-spacing: -0.04em; color: var(--paper);
+  }
+  .focal-date .mo {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.14em; color: rgba(245,240,232,0.55);
+    text-transform: uppercase; margin-top: 8px;
+  }
+  .focal-date .countdown {
+    font-size: 11px; color: var(--gl);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(245,240,232,0.10);
+  }
 
-/* VOUCH FORM */
-.vouch-form{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px}
-.vouch-form h3{font-size:15px;font-weight:800;margin-bottom:16px}
-.star-pick{display:flex;gap:4px;margin-bottom:14px}
-.star-pick span{font-size:28px;cursor:pointer;transition:transform .1s;color:var(--border)}
-.star-pick span.active{color:var(--amber)}
-.star-pick span:hover{transform:scale(1.1)}
-.form-field{margin-bottom:14px}
-.form-field label{display:block;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:6px}
-.form-field textarea{width:100%;height:80px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;color:var(--t1);outline:none;resize:none;transition:border-color .2s}
-.form-field textarea:focus{border-color:var(--teal)}
+  .focal-meta {
+    display: flex; flex-direction: column; justify-content: center;
+    min-width: 0;
+  }
+  .focal-with {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(245,240,232,0.50); margin-bottom: 8px;
+  }
+  .focal-name {
+    font-family: var(--serif);
+    font-size: 38px; font-weight: 400;
+    letter-spacing: -0.025em; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .focal-svc {
+    font-size: 14px; color: rgba(245,240,232,0.65);
+    margin-bottom: 22px;
+  }
+  .focal-rows {
+    display: flex; flex-direction: column; gap: 10px;
+    border-top: 1px solid rgba(245,240,232,0.10);
+    padding-top: 18px;
+  }
+  .focal-row {
+    display: grid; grid-template-columns: 90px 1fr;
+    gap: 16px; align-items: baseline;
+    font-size: 13px;
+  }
+  .focal-row .k {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: rgba(245,240,232,0.40);
+  }
+  .focal-row .v { color: rgba(245,240,232,0.92); }
+  .focal-row .v strong { color: var(--paper); font-weight: 500; }
+  .focal-row .v .escrow {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gl); margin-left: 6px;
+  }
+  .focal-row .v .escrow svg { fill: var(--gl); }
 
-/* TABS */
-.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:24px}
-.tab{height:44px;padding:0 18px;font-size:14px;font-weight:600;color:var(--t3);border:none;background:none;cursor:pointer;position:relative;transition:color .15s}
-.tab.active{color:var(--black)}
-.tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--black)}
+  .focal-aside {
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding-left: 32px;
+    border-left: 1px solid rgba(245,240,232,0.12);
+  }
+  .focal-prep {
+    background: rgba(159,225,203,0.06);
+    border: 1px solid rgba(159,225,203,0.18);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .focal-prep .prep-eye {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gl); margin-bottom: 6px;
+  }
+  .focal-prep p {
+    font-family: var(--serif); font-style: italic;
+    font-size: 13.5px; line-height: 1.45;
+    color: rgba(245,240,232,0.85);
+  }
+  .focal-actions { display: flex; flex-direction: column; gap: 8px; }
+  .focal-btn {
+    height: 44px; font-size: 13.5px; font-weight: 500;
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.15s; cursor: pointer;
+  }
+  .focal-btn.primary { background: var(--a); color: var(--ink); }
+  .focal-btn.primary:hover { background: #D88D1A; transform: translateY(-1px); }
+  .focal-btn.ghost {
+    background: transparent; color: var(--paper);
+    border: 1px solid rgba(245,240,232,0.25);
+  }
+  .focal-btn.ghost:hover { border-color: var(--paper); }
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  .sidebar{display:none}
-  .content{padding:24px 20px}
-  .stats{grid-template-columns:1fr 1fr}
-}
+  /* ─── ESCROW BAR (signature trust moment) ─── */
+  .escrow-bar {
+    display: grid; grid-template-columns: auto 1fr auto auto;
+    gap: 24px; align-items: center;
+    padding: 18px 28px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+  .escrow-bar .badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--g);
+    padding: 5px 10px;
+    border: 1px solid var(--gs);
+    background: var(--gs);
+    border-radius: 999px;
+  }
+  .escrow-bar .badge svg { fill: var(--g); }
+  .escrow-bar .label-line {
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+  }
+  .escrow-bar .label-line strong { color: var(--ink); font-weight: 500; }
+  .escrow-amount {
+    font-family: var(--serif);
+    font-size: 32px; font-weight: 400;
+    letter-spacing: -0.025em;
+    color: var(--ink); line-height: 1;
+  }
+  .escrow-amount em { font-style: italic; color: var(--g); }
+  .escrow-bar .see-link {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px;
+    cursor: pointer;
+    transition: color 0.12s, border-color 0.12s;
+  }
+  .escrow-bar .see-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* ─── CONTENT GRID ─── */
+  .d-grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 44px;
+  }
+  .d-section { margin-bottom: 44px; }
+  .d-section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .d-section-head h2 {
+    font-family: var(--serif);
+    font-weight: 400; font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  .d-section-head h2 em { font-style: italic; color: var(--g); }
+  .d-section-head .see {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid transparent; padding-bottom: 2px;
+  }
+  .d-section-head .see:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* ─── ACTIVE REQUEST CARD ─── */
+  .req-card {
+    background: var(--as);
+    padding: 24px 26px;
+    position: relative;
+    border-left: 2px solid var(--a);
+  }
+  .req-card .req-mono {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ad);
+    display: flex; gap: 14px; align-items: center;
+  }
+  .req-card .req-mono .sep { color: rgba(139,94,10,0.4); }
+  .req-card .title {
+    font-family: var(--serif);
+    font-size: 22px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.2;
+    margin: 8px 0 10px;
+    color: var(--ink);
+  }
+  .req-card .desc {
+    font-size: 13.5px; color: var(--ink-2);
+    line-height: 1.6; margin-bottom: 18px;
+    max-width: 540px;
+  }
+  .req-card .quotes-row {
+    padding-top: 16px;
+    border-top: 1px solid rgba(139,94,10,0.18);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .req-card .quotes-row .left {
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .req-card .qnum {
+    font-family: var(--serif); font-style: italic;
+    font-size: 36px; font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1; color: var(--ink);
+  }
+  .req-card .qlbl {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ad);
+  }
+  .req-card .qlbl strong { color: var(--ink); font-weight: 500; }
+  .req-btn {
+    background: var(--ink); color: var(--paper);
+    padding: 11px 22px; font-size: 13px; font-weight: 500;
+    border-radius: 999px; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .req-btn:hover { background: var(--g); }
+
+  /* ─── ACTIVITY ─── */
+  .activity {
+    border-top: 1px solid var(--ink);
+  }
+  .act {
+    display: grid;
+    grid-template-columns: 80px 28px 1fr auto;
+    gap: 18px; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding 0.15s;
+  }
+  .act:hover { padding-left: 8px; padding-right: 8px; background: rgba(232,222,200,0.4); }
+  .act .when {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.04em;
+  }
+  .act .dot-wrap { display: grid; place-items: center; }
+  .act .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--g);
+  }
+  .act .dot.amber { background: var(--a); }
+  .act .dot.ink { background: var(--ink); }
+  .act .dot.muted { background: var(--muted-2); }
+  .act .txt { font-size: 13.5px; color: var(--ink-2); line-height: 1.4; }
+  .act .txt strong { color: var(--ink); font-weight: 500; }
+  .act .cta {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink); white-space: nowrap;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px;
+  }
+  .act .cta:hover { border-bottom-color: var(--ink); }
+
+  /* ─── VOUCH PROMPT (signature anchor) ─── */
+  .vouch-anchor {
+    background: var(--ink); color: var(--paper);
+    padding: 32px;
+    position: relative; overflow: hidden;
+  }
+  .vouch-anchor::after {
+    content: '"'; position: absolute;
+    top: -30px; right: 12px;
+    font-family: var(--serif); font-style: italic;
+    font-size: 220px; line-height: 1;
+    color: var(--a); opacity: 0.16;
+  }
+  .vouch-eye {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gl); margin-bottom: 10px;
+  }
+  .vouch-anchor h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 32px; letter-spacing: -0.025em;
+    line-height: 1.1; margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .vouch-anchor h3 em { font-style: italic; color: var(--a); }
+  .vouch-anchor p {
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.62);
+    line-height: 1.6;
+    margin-bottom: 22px;
+    max-width: 380px;
+    position: relative; z-index: 1;
+  }
+  .vp-who {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 22px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(245,240,232,0.10);
+    border-bottom: 1px solid rgba(245,240,232,0.10);
+    position: relative; z-index: 1;
+  }
+  .vp-av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--a); color: var(--ink);
+    display: grid; place-items: center;
+    font-family: var(--serif); font-weight: 500;
+    font-size: 14px;
+  }
+  .vp-name { font-size: 14px; font-weight: 500; color: var(--paper); }
+  .vp-detail { font-size: 12px; color: rgba(245,240,232,0.55); margin-top: 2px; }
+  .vouch-actions {
+    display: flex; gap: 8px;
+    position: relative; z-index: 1;
+  }
+  .vouch-btn {
+    flex: 1; height: 42px;
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    transition: all 0.15s; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vouch-btn.primary { background: var(--a); color: var(--ink); flex: 2; }
+  .vouch-btn.primary:hover { background: #D88D1A; transform: translateY(-1px); }
+  .vouch-btn.ghost {
+    background: transparent; color: rgba(245,240,232,0.7);
+    border: 1px solid rgba(245,240,232,0.18);
+  }
+  .vouch-btn.ghost:hover { border-color: var(--paper); color: var(--paper); }
+  .vouch-more {
+    margin-top: 16px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(245,240,232,0.15);
+    position: relative; z-index: 1;
+  }
+  .vouch-more strong { color: var(--gl); }
+
+  /* ─── SAVED PROVIDERS (address book) ─── */
+  .saved-list {
+    display: flex; flex-direction: column;
+  }
+  .saved {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 14px; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding 0.15s;
+  }
+  .saved:hover { padding-left: 8px; padding-right: 8px; }
+  .saved:hover .s-name { color: var(--g); }
+  .s-av {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--gs); color: var(--g);
+    display: grid; place-items: center;
+    font-family: var(--serif); font-size: 15px;
+    font-weight: 500;
+  }
+  .s-av.amber { background: var(--as); color: var(--ad); }
+  .s-name {
+    font-family: var(--serif);
+    font-weight: 500; font-size: 17px;
+    letter-spacing: -0.01em;
+    line-height: 1.1; margin-bottom: 3px;
+    transition: color 0.15s;
+  }
+  .s-meta {
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .s-meta .dot {
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--muted-2);
+  }
+  .s-meta .vouches {
+    color: var(--g); font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: 0.04em;
+  }
+  .s-action {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted-2);
+    transition: color 0.15s;
+  }
+  .saved:hover .s-action { color: var(--ink); }
+
+  /* ─── PATCH (real neighbourhood) ─── */
+  .patch {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 22px 24px;
+  }
+  .patch-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .patch-head h3 {
+    font-family: var(--serif);
+    font-weight: 500; font-size: 20px;
+    letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .patch-head .patch-sub {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin-top: 4px;
+  }
+  .patch-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    background: var(--as); color: var(--ad);
+    padding: 4px 9px; border-radius: 999px;
+  }
+  .patch-tag .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--a); }
+
+  .patch-list {
+    display: flex; flex-direction: column;
+  }
+  .patch-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 12px; align-items: center;
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding 0.15s;
+  }
+  .patch-row:hover { padding-left: 6px; padding-right: 6px; }
+  .patch-row .pin {
+    width: 28px; height: 28px;
+    background: var(--g); color: var(--paper);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    border-radius: 50% 50% 50% 4px;
+    transform: rotate(-45deg);
+    margin-left: 4px;
+  }
+  .patch-row .pin span { transform: rotate(45deg); }
+  .patch-row .pin.amber { background: var(--a); color: var(--ink); }
+  .patch-row .place-name {
+    font-size: 13.5px; color: var(--ink); font-weight: 500;
+  }
+  .patch-row .place-meta {
+    font-size: 11.5px; color: var(--muted); margin-top: 1px;
+    font-family: var(--mono); letter-spacing: 0.02em;
+  }
+  .patch-row .dist {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted);
+  }
+  .patch-row:hover .place-name { color: var(--g); }
+  .patch-foot {
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .patch-foot .ftxt { font-size: 12px; color: var(--muted); }
+  .patch-foot .open-map {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 1px;
+  }
+  .patch-foot .open-map:hover { border-bottom-color: var(--ink); }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    height: 40px; padding: 0 18px;
+    font-size: 13.5px; font-weight: 500;
+    border-radius: 999px;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-quiet {
+    background: transparent; color: var(--ink);
+    border-color: var(--line);
+  }
+  .btn-quiet:hover { border-color: var(--ink); }
+  .btn-ink {
+    background: var(--ink); color: var(--paper);
+  }
+  .btn-ink:hover { background: var(--g); transform: translateY(-1px); }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: var(--paper);
+    padding: 12px 22px; border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    z-index: 300; opacity: 0; pointer-events: none;
+    transition: all 0.25s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast svg { fill: var(--gl); }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <a href="/" class="topbar-logo">Sowo</a>
-  <div class="topbar-user">
-    <div class="user-av" id="userAv">?</div>
-    <span class="user-name" id="userName">Loading…</span>
-    <button class="btn-sm b-light" onclick="Auth.signOut()">Log out</button>
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-left">
+    <a href="/" class="nav-logo">
+      <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
+        <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
+        <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+        <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+      </svg>
+      Sowo
+    </a>
+    <a href="/browse.html" class="nav-link">Browse providers</a>
+    <a href="/requests.html" class="nav-link">Active requests</a>
+    <a href="/become-provider.html" class="nav-link">List your service</a>
   </div>
-</div>
+  <div></div>
+  <div class="nav-right">
+    <a href="/become-provider.html" class="nav-auth">List your service</a>
+    <a href="/requests.html" class="nav-cta" style="background:var(--ink);color:var(--paper);border-color:var(--ink);">Post a request</a>
+  </div>
+</nav>
 
-<div class="layout">
-  <nav class="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Menu</div>
-      <a href="/dashboard" class="active">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Dashboard
-      </a>
-      <a href="/browse">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        Browse providers
-      </a>
-      <a href="#bookings" id="sideBookings">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        My bookings
-      </a>
-      <a href="#vouches" id="sideVouches">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Vouches
-      </a>
+<div class="dash-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="dash-side">
+    <div class="dash-user">
+      <div class="du-av" id="duAv">?</div>
+      <div>
+        <div class="du-name" id="duName">Welcome</div>
+        <div class="du-role" id="duRole"></div>
+      </div>
     </div>
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-section" id="sideProviderSection" style="display:none">
-      <div class="sidebar-label">Provider</div>
-      <a href="#requests">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.14 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.07 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.28 6.28"/></svg>
-        Booking requests
+
+    <nav class="ds-section">
+      <a class="ds-link active" data-mode="both" href="#" onclick="event.preventDefault();window.scrollTo({top:0,behavior:'smooth'})">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Overview
       </a>
-      <a href="/become-provider" id="sideEditProfile">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
-        Edit profile
+      <a class="ds-link" data-mode="both" href="#focalSlot" onclick="dsScrollTo('focalSlot',event)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span data-label="Bookings">Bookings</span>
+        <span class="badge" id="dsBookingBadge" style="display:none">0</span>
       </a>
-    </div>
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-section">
-      <a href="/settings">
-        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <a class="ds-link" data-mode="both" href="#" onclick="event.preventDefault();dsShowEmpty('Messages','Your conversations with providers will appear here once you start a thread on a request or booking.','Browse providers','/browse.html')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Messages
+        <span class="pulse" id="dsMsgPulse" style="display:none"></span>
+      </a>
+      <a class="ds-link" data-mode="client" href="#rightColSlot" onclick="dsScrollTo('rightColSlot',event)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        Saved
+        <span class="badge" id="dsSavedBadge" style="display:none">0</span>
+      </a>
+      <a class="ds-link" data-mode="provider" href="/become-provider.html">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+        My listing
+      </a>
+      <a class="ds-link" data-mode="provider" href="#" onclick="event.preventDefault();dsShowEmpty('Vouches received','Vouches are named, public references that travel with you. Yours will appear here when clients vouch for you after a completed booking.','View your listing','/become-provider.html')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        Vouches received
+      </a>
+      <a class="ds-link" data-mode="both" id="dsRequestsLink" href="#leftColSlot" onclick="dsRequestsLinkClick(event)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span data-label="Requests">Requests</span>
+        <span class="badge" id="dsReqBadge" style="display:none">0</span>
+      </a>
+    </nav>
+
+    <div class="ds-section">
+      <h5>Account</h5>
+      <a class="ds-link" data-mode="both" href="#" onclick="event.preventDefault();dsOpenProfile()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </a>
+      <a class="ds-link" data-mode="client" href="#" onclick="event.preventDefault();dsShowEmpty('Payment methods','Your saved cards and Sowo Pocket history will appear here. You\\'ll be asked to add a card the first time you book a provider - held in escrow until the work is done.','Browse providers','/browse.html')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        Payment
+      </a>
+      <a class="ds-link" data-mode="provider" href="#" onclick="event.preventDefault();dsShowEmpty('Earnings','Your earnings, payout history and Stripe Connect details will appear here. Stripe payouts go live with the booking feature.','View your listing','/become-provider.html')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        Earnings
+      </a>
+      <a class="ds-link" data-mode="both" href="#" onclick="event.preventDefault();dsOpenSettings()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         Settings
       </a>
     </div>
-  </nav>
 
-  <main class="content" id="mainContent">
-    <div style="display:flex;align-items:center;justify-content:center;min-height:40vh;color:var(--t3);font-size:14px">
-      Loading your dashboard…
+    <div class="dash-side-foot">
+      <a class="ds-link" href="mailto:hello@sowo.co.uk?subject=Help">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        Help
+      </a>
+      <a class="ds-link" href="#" onclick="dsSignOut(event)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign out
+      </a>
     </div>
+  </aside>
+
+  <!-- ─── MAIN ─── -->
+  <main class="dash-main">
+
+    <!-- Mode switcher (only shown when user can be both client and provider) -->
+    <div id="modeSwitcher"></div>
+
+    <!-- Greeting (honest, matches what's on screen) -->
+    <div class="greet">
+      <div>
+        <div class="g-eye"><span class="live-dot"></span><span id="greetDate">-</span></div>
+        <h1 id="greetH">Good day,<br><em id="greetName">friend.</em></h1>
+        <p class="g-sub" id="greetSub">Looking for help, or ready to share your skills? Pick where to start.</p>
+      </div>
+      <div class="g-actions" id="greetActions">
+        <a href="/browse.html" class="btn btn-quiet">Browse</a>
+        <a href="/requests.html" class="btn btn-ink">Post a request</a>
+      </div>
+    </div>
+
+    <!-- Focal hero: populated from real data (next response, top request, or get-started) -->
+    <div id="focalSlot"></div>
+
+    <!-- Escrow bar appears only when there are real bookings -->
+    <div id="escrowSlot"></div>
+
+    <!-- ─── TWO COLUMN GRID - populated from real session + localStorage ─── -->
+    <div class="d-grid">
+      <div id="leftColSlot"></div>
+      <div id="rightColSlot"></div>
+    </div>
+
   </main>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/js/config.js"></script>
-<script src="/js/sowo.js"></script>
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+  <span id="toastMsg">Saved</span>
+</div>
+
 <script>
-let currentUser   = null;
-let userProfile   = null;
-let isProvider    = false;
-let activeTab     = 'bookings';
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1800);
+  }
+</script>
 
-async function init() {
-  currentUser = await Auth.requireAuth();
-  if (!currentUser) return;
+<script>
+/* ── Hydrate dashboard from the logged-in session ──
+   Reads sowo_session (set by login.html) and replaces the placeholder
+   user data so the dashboard reflects the actual signed-in person -
+   not the "Adaeze" mock. Falls back to a neutral welcome state if no session.
+─────────────────────────────────────────────────────── */
+(function(){
+  // Time-aware greeting + date line
+  const now = new Date();
+  const hr  = now.getHours();
+  const greet = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
+  const dateStr = now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+  document.getElementById('greetDate').textContent = dateStr;
 
+  // Try to read the session
+  let user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
+
+  if (!user) {
+    // Logged-out fallback - show neutral welcome + sign-in prompt
+    document.getElementById('greetH').innerHTML = greet + ',<br><em>friend.</em>';
+    document.getElementById('greetSub').innerHTML =
+      'You\'re not signed in yet. <a href="/login.html?next=dashboard" style="color:var(--g);font-weight:600">Sign in</a> to see your bookings, requests and saved providers.';
+    document.getElementById('duName').textContent = 'Guest';
+    document.getElementById('duRole').textContent = 'Not signed in';
+    return;
+  }
+
+  // Pull display name from session
+  const fullName = user.firstName
+    ? user.firstName + (user.lastName ? ' ' + user.lastName : '')
+    : (user.name || (user.email||'').split('@')[0] || 'there');
+  const firstName = (user.firstName || fullName.split(' ')[0] || 'there');
+  const initials  = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+
+  // Sidebar
+  document.getElementById('duAv').textContent = initials;
+  document.getElementById('duName').textContent = firstName;
+  const loc = user.location || '';
+  const since = user.createdAt ? 'since ' + new Date(user.createdAt).getFullYear() : '';
+  document.getElementById('duRole').textContent = [loc, since].filter(Boolean).join(' · ');
+
+  // Optional avatar photo (saved by signup/profile)
   try {
-    userProfile = await Profiles.get(currentUser.id);
-    isProvider  = userProfile?.is_provider || false;
-  } catch (e) {
-    userProfile = { full_name: currentUser.email?.split('@')[0] || 'User' };
-  }
+    const photo = localStorage.getItem('sowo_avatar_' + (user.email||''));
+    if (photo) {
+      const av = document.getElementById('duAv');
+      av.style.backgroundImage = 'url(' + photo + ')';
+      av.style.backgroundSize = 'cover';
+      av.style.backgroundPosition = 'center';
+      av.textContent = '';
+    }
+  } catch(e) {}
 
-  const name     = userProfile?.full_name || 'User';
-  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('userAv').textContent   = initials;
-  document.getElementById('userName').textContent = name;
+  // Greeting
+  document.getElementById('greetH').innerHTML = greet + ',<br><em>' + firstName.replace(/</g,'&lt;') + '.</em>';
 
-  if (isProvider) {
-    document.getElementById('sideProviderSection').style.display = 'block';
-    renderProviderDashboard();
-  } else {
-    renderConsumerDashboard();
-  }
-}
-
-/* ────────────────────────────────────────────────────────
-   CONSUMER DASHBOARD
-──────────────────────────────────────────────────────── */
-async function renderConsumerDashboard() {
-  let bookings = [];
-  try { bookings = await Bookings.listForConsumer(currentUser.id); } catch (e) {}
-
-  const pending   = bookings.filter(b => b.status === 'pending').length;
-  const completed = bookings.filter(b => b.status === 'completed').length;
-  const spent     = bookings.filter(b => b.status === 'completed').reduce((s,b) => s + (b.total_amount||0), 0);
-
-  document.getElementById('mainContent').innerHTML = `
-    <div class="page-title">Good ${timeGreeting()}, ${(userProfile?.full_name||'').split(' ')[0] || 'there'} 👋</div>
-    <div class="page-sub">Here's what's happening with your bookings.</div>
-
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-val">${bookings.length}</div>
-        <div class="stat-lbl">Total bookings</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val">${pending}</div>
-        <div class="stat-lbl">Pending confirmation</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val">${completed}</div>
-        <div class="stat-lbl">Completed jobs</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val">${UI.formatPrice(spent)}</div>
-        <div class="stat-lbl">Total spent</div>
-      </div>
-    </div>
-
-    <div style="background:var(--black);border-radius:16px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap">
-      <div>
-        <div style="font-size:16px;font-weight:800;color:#fff;margin-bottom:4px">Find your next provider</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.45)">Thousands of vouched professionals near you</div>
-      </div>
-      <a href="/browse" style="height:42px;padding:0 22px;background:var(--amber);color:var(--black);border-radius:10px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;text-decoration:none;flex-shrink:0">Browse providers →</a>
-    </div>
-
-    <div class="bookings-section" id="bookingsSection">
-      <div class="section-head">
-        <h2>My bookings</h2>
-        <a href="/browse">+ New booking</a>
-      </div>
-      ${bookings.length === 0 ? `
-        <div class="empty-box">
-          <div class="ico">📅</div>
-          <h3>No bookings yet</h3>
-          <p>Find a trusted professional and make your first booking.</p>
-          <a href="/browse" style="display:inline-flex;height:40px;padding:0 20px;background:var(--green);color:var(--mint);border-radius:10px;font-size:14px;font-weight:700;align-items:center;text-decoration:none">Browse providers</a>
-        </div>
-      ` : `
-        <div class="tabs">
-          <button class="tab active" onclick="filterBookings('all',this)">All (${bookings.length})</button>
-          <button class="tab" onclick="filterBookings('pending',this)">Pending (${pending})</button>
-          <button class="tab" onclick="filterBookings('completed',this)">Completed (${completed})</button>
-        </div>
-        <div class="booking-list" id="bookingList">
-          ${bookings.map(b => buildBookingCard(b, 'consumer')).join('')}
-        </div>
-      `}
-    </div>
-
-    ${buildProviderBanner()}
-  `;
-
-  window._allBookings = bookings;
-}
-
-function buildBookingCard(b, role) {
-  const isConsumer = role === 'consumer';
-  const other      = isConsumer ? (b.providers?.profiles || {}) : (b.profiles || {});
-  const name       = other.full_name || (isConsumer ? 'Provider' : 'Client');
-  const initials   = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  const service    = b.services?.name || 'Service';
-  const price      = b.total_amount ? UI.formatPrice(b.total_amount) : '—';
-  const date       = b.date ? UI.formatDate(b.date) : 'Date TBC';
-  const statusClass= { pending:'s-pending', confirmed:'s-confirmed', completed:'s-completed', cancelled:'s-cancelled' }[b.status] || 's-pending';
-  const statusLabel= { pending:'Pending', confirmed:'Confirmed', completed:'Completed', in_progress:'In progress', cancelled:'Cancelled' }[b.status] || b.status;
-
-  return `
-    <div class="booking-card">
-      ${other.avatar_url
-        ? `<img class="booking-av" src="${other.avatar_url}" alt="${name}" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0">`
-        : `<div class="booking-av">${initials}</div>`}
-      <div class="booking-info">
-        <div class="booking-name">${name}</div>
-        <div class="booking-meta">${service}</div>
-        <span class="status-badge ${statusClass}">● ${statusLabel}</span>
-      </div>
-      <div class="booking-right">
-        <div class="booking-price">${price}</div>
-        <div class="booking-date">${date}</div>
-        ${b.status === 'completed' && role === 'consumer' ? `<button onclick="openVouchModal('${b.id}','${name}')" style="margin-top:6px;height:28px;padding:0 10px;background:var(--amber);color:var(--black);border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer">Leave vouch</button>` : ''}
-        ${b.status === 'pending' && role === 'provider' ? `
-          <button onclick="updateStatus('${b.id}','confirmed')" style="margin-top:6px;height:28px;padding:0 10px;background:var(--green);color:var(--mint);border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer;margin-right:4px">Accept</button>
-          <button onclick="updateStatus('${b.id}','cancelled')" style="margin-top:6px;height:28px;padding:0 10px;background:var(--surf);color:var(--t2);border-radius:6px;font-size:11px;font-weight:700;border:none;cursor:pointer;border:1px solid var(--border)">Decline</button>
-        ` : ''}
-      </div>
-    </div>
-  `;
-}
-
-function filterBookings(status, tabEl) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  tabEl.classList.add('active');
-  const bookings = window._allBookings || [];
-  const filtered = status === 'all' ? bookings : bookings.filter(b => b.status === status);
-  document.getElementById('bookingList').innerHTML = filtered.map(b => buildBookingCard(b, 'consumer')).join('') || '<p style="color:var(--t3);font-size:14px;padding:20px">No bookings in this category.</p>';
-}
-
-/* ────────────────────────────────────────────────────────
-   PROVIDER DASHBOARD
-──────────────────────────────────────────────────────── */
-async function renderProviderDashboard() {
-  let incoming = [];
-  try { incoming = await Bookings.listForProvider(currentUser.id); } catch (e) {}
-
-  const pending   = incoming.filter(b => b.status === 'pending').length;
-  const confirmed = incoming.filter(b => b.status === 'confirmed').length;
-  const revenue   = incoming.filter(b => b.status === 'completed').reduce((s,b) => s + (b.total_amount||0), 0);
-
-  let vouches = [];
-  try { const v = await sb.from('vouches').select('rating').eq('provider_id', currentUser.id); vouches = v.data || []; } catch(e){}
-  const avgRating = vouches.length ? (vouches.reduce((s,v)=>s+v.rating,0)/vouches.length).toFixed(1) : '—';
-
-  document.getElementById('mainContent').innerHTML = `
-    <div class="page-title">Provider dashboard 🔧</div>
-    <div class="page-sub">Manage your bookings and profile.</div>
-
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-val">${pending}</div>
-        <div class="stat-lbl">New requests</div>
-        ${pending > 0 ? '<div class="stat-delta up">↑ Action needed</div>' : ''}
-      </div>
-      <div class="stat-card">
-        <div class="stat-val">${confirmed}</div>
-        <div class="stat-lbl">Confirmed jobs</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val">${UI.formatPrice(revenue)}</div>
-        <div class="stat-lbl">Total earned</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-val">${avgRating}</div>
-        <div class="stat-lbl">Average rating</div>
-      </div>
-    </div>
-
-    <div class="bookings-section">
-      <div class="section-head">
-        <h2>Booking requests</h2>
-        <a href="/become-provider">Edit profile →</a>
-      </div>
-      ${incoming.length === 0 ? `
-        <div class="empty-box">
-          <div class="ico">📬</div>
-          <h3>No booking requests yet</h3>
-          <p>Your profile is live. Requests will appear here.</p>
-          <a href="/" style="display:inline-flex;height:40px;padding:0 20px;background:var(--green);color:var(--mint);border-radius:10px;font-size:14px;font-weight:700;align-items:center;text-decoration:none">View your profile</a>
-        </div>
-      ` : `
-        <div class="booking-list">
-          ${incoming.map(b => buildBookingCard(b, 'provider')).join('')}
-        </div>
-      `}
-    </div>
-  `;
-}
-
-async function updateStatus(bookingId, status) {
+  // Subcopy: prefer real activity (user-posted requests) over mock content
+  let activityLine = '';
   try {
-    await Bookings.updateStatus(bookingId, status);
-    UI.toast(status === 'confirmed' ? 'Booking confirmed! ✓' : 'Booking declined.', status === 'confirmed' ? 'success' : 'info');
-    renderProviderDashboard();
-  } catch (e) {
-    UI.toast('Failed to update booking.', 'error');
-  }
+    const owned   = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+    const stored  = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    const myReqs  = stored.filter(r => owned.includes(r.id));
+    if (myReqs.length) {
+      const totalResp = myReqs.reduce((acc, r) => acc + (r.responses?.length || 0), 0);
+      activityLine = 'You have <strong style="color:var(--ink)">' + myReqs.length + ' active request' + (myReqs.length>1?'s':'') + '</strong>'
+        + (totalResp ? ' with <strong style="color:var(--ink)">' + totalResp + ' response' + (totalResp>1?'s':'') + '</strong> waiting for your reply' : ' - providers will reply directly when they see them')
+        + '.';
+    }
+  } catch(e) {}
+
+  document.getElementById('greetSub').innerHTML = activityLine ||
+    'Welcome to your dashboard. <a href="/browse.html" style="color:var(--g);font-weight:600">Browse providers</a> or <a href="/requests.html" style="color:var(--g);font-weight:600">post a request</a> to get started.';
+
+  /* ── Render real content into focal/escrow/columns ── */
+  renderDashboardBody(user, firstName);
+})();
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ── Sidebar nav handlers ── */
+function dsScrollTo(id, ev) {
+  if (ev) ev.preventDefault();
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function dsSignOut(ev) {
+  if (ev) ev.preventDefault();
+  if (!confirm('Sign out of Sowo?')) return;
+  try { sessionStorage.removeItem('sowo_session'); } catch(e) {}
+  window.location.href = '/';
+}
+function dsSetBadge(id, count) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (count > 0) { el.textContent = count; el.style.display = ''; }
+  else el.style.display = 'none';
 }
 
-/* ────────────────────────────────────────────────────────
-   VOUCHING
-──────────────────────────────────────────────────────── */
-function openVouchModal(bookingId, providerName) {
-  const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:flex;align-items:center;justify-content:center';
-  el.innerHTML = `
-    <div style="background:#fff;border-radius:20px;padding:32px;max-width:420px;width:90%">
-      <h2 style="font-size:20px;font-weight:800;margin-bottom:8px">Leave a vouch for ${providerName}</h2>
-      <p style="font-size:13px;color:var(--t3);margin-bottom:20px">Your vouch helps others in the community find trusted providers.</p>
-      <div style="margin-bottom:16px">
-        <div style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:8px">Rating</div>
-        <div class="star-pick" id="starPick">
-          ${[1,2,3,4,5].map(n=>`<span data-v="${n}" style="font-size:28px;cursor:pointer;color:#E8E8E8" onclick="setStars(${n})">★</span>`).join('')}
+/* Generic empty-state modal (replaces the tiny "coming soon" toasts) */
+function dsShowEmpty(title, body, ctaLabel, ctaHref) {
+  const existing = document.getElementById('dsEmptyOv');
+  if (existing) existing.remove();
+  const ctaHtml = ctaLabel
+    ? `<a href="${ctaHref}" style="display:inline-block;background:var(--ink);color:var(--paper);padding:11px 22px;border-radius:8px;font-weight:600;font-size:13.5px;text-decoration:none;margin-top:8px">${ctaLabel} →</a>`
+    : '';
+  const html = `
+    <div id="dsEmptyOv" onclick="if(event.target===this){this.remove();document.body.style.overflow=''}" style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div style="background:#fff;border-radius:16px;max-width:440px;width:100%;padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative">
+        <button onclick="document.getElementById('dsEmptyOv').remove();document.body.style.overflow=''" style="position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;background:#f3f4f6;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7280;cursor:pointer">✕</button>
+        <div style="width:48px;height:48px;border-radius:12px;background:var(--paper-2);display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
         </div>
-      </div>
-      <div style="margin-bottom:20px">
-        <div style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:8px">Your vouch</div>
-        <textarea id="vouchText" style="width:100%;height:80px;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:13px;resize:none;outline:none" placeholder="What was great about working with them?"></textarea>
-      </div>
-      <div style="display:flex;gap:10px">
-        <button onclick="this.closest('[style]').remove()" style="flex:1;height:44px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;background:#fff">Cancel</button>
-        <button id="submitVouch" onclick="submitVouch('${bookingId}')" style="flex:1;height:44px;background:var(--amber);color:var(--black);border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer">Submit vouch</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(el);
-  window._vouchRating = 0;
-}
-
-function setStars(n) {
-  window._vouchRating = n;
-  document.querySelectorAll('#starPick span').forEach(s => {
-    s.style.color = parseInt(s.dataset.v) <= n ? 'var(--amber)' : '#E8E8E8';
-  });
-}
-
-async function submitVouch(bookingId) {
-  const rating = window._vouchRating;
-  const text   = document.getElementById('vouchText').value.trim();
-  if (!rating) { UI.toast('Please select a star rating', 'error'); return; }
-  try {
-    // Get provider from booking
-    const { data: booking } = await sb.from('bookings').select('provider_id').eq('id', bookingId).single();
-    await Vouches.create({ authorId: currentUser.id, providerId: booking.provider_id, bookingId, rating, text });
-    document.querySelector('[style*="inset:0"]')?.remove();
-    UI.toast('Vouch submitted! Thank you 🙏', 'success');
-  } catch (e) {
-    UI.toast(e.message || 'Failed to submit vouch.', 'error');
-  }
-}
-
-/* ────────────────────────────────────────────────────────
-   HELPERS
-──────────────────────────────────────────────────────── */
-function buildProviderBanner() {
-  if (isProvider) return '';
-  return `
-    <div class="setup-banner" style="margin-top:12px">
-      <div class="setup-banner-text">
-        <h3>Are you a skilled professional?</h3>
-        <p>Set up your provider profile and start getting paid for your work.</p>
-      </div>
-      <div class="setup-banner-btns">
-        <a href="/become-provider" style="height:40px;padding:0 20px;background:var(--amber);color:var(--black);border-radius:10px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;text-decoration:none;flex-shrink:0">Become a provider →</a>
+        <h3 style="font-family:var(--serif);font-size:22px;letter-spacing:-.01em;color:var(--ink);margin-bottom:10px">${title}</h3>
+        <p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px">${body}</p>
+        ${ctaHtml}
       </div>
     </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
 }
 
-function timeGreeting() {
-  const h = new Date().getHours();
-  return h < 12 ? 'morning' : h < 18 ? 'afternoon' : 'evening';
+/* Profile peek - shows the actual session data we have, in a clean panel */
+function dsShowProfile() {
+  let user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
+  if (!user) { dsShowEmpty('Profile','Sign in to see your profile.','Sign in','/login.html?next=dashboard'); return; }
+  const name = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0] || 'You');
+  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const since = user.createdAt ? 'Member since ' + new Date(user.createdAt).getFullYear() : 'Recently joined';
+  const existing = document.getElementById('dsEmptyOv');
+  if (existing) existing.remove();
+  const html = `
+    <div id="dsEmptyOv" onclick="if(event.target===this){this.remove();document.body.style.overflow=''}" style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px">
+      <div style="background:#fff;border-radius:16px;max-width:440px;width:100%;padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative">
+        <button onclick="document.getElementById('dsEmptyOv').remove();document.body.style.overflow=''" style="position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;background:#f3f4f6;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7280;cursor:pointer">✕</button>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+          <div style="width:54px;height:54px;border-radius:50%;background:var(--g);color:var(--gl);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px">${esc(initials)}</div>
+          <div>
+            <div style="font-family:var(--serif);font-size:20px;color:var(--ink);letter-spacing:-.01em">${esc(name)}</div>
+            <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${esc(since)}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:18px">
+          <div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:var(--muted)">Email</span><span style="color:var(--ink);font-weight:500">${esc(user.email || '-')}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:var(--muted)">Location</span><span style="color:var(--ink);font-weight:500">${esc(user.location || 'Not set')}</span></div>
+        </div>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:18px;line-height:1.55">Editing these fields lives in account settings - building it next.</p>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
 }
 
-init();
+/* ─── Profile editor ─── */
+var _pendingAvatar = null;
+
+function dsCloseAnyModal() {
+  ['dsEmptyOv','dsProfileOv','dsSettingsOv'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.remove();
+  });
+  document.body.style.overflow = '';
+}
+
+function dsOpenProfile() {
+  var user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
+  if (!user) { dsShowEmpty('Profile','Sign in to view and edit your profile.','Sign in','/login.html?next=dashboard'); return; }
+
+  var fullName = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0] || '');
+  var firstName = user.firstName || (fullName.split(' ')[0] || '');
+  var lastName  = user.lastName  || (fullName.split(' ').slice(1).join(' ') || '');
+  var initials  = ((firstName[0]||'?') + (lastName[0]||'')).toUpperCase();
+  var photo = '';
+  try { photo = localStorage.getItem('sowo_avatar_'+(user.email||'')) || ''; } catch(e) {}
+  var since = user.createdAt ? 'Member since ' + new Date(user.createdAt).toLocaleDateString('en-GB',{month:'long',year:'numeric'}) : 'Tell us a bit about yourself';
+
+  dsCloseAnyModal();
+
+  var avInner = photo ? '' : esc(initials);
+  var avStyle = 'width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;flex-shrink:0;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);';
+  if (photo) avStyle += 'background:transparent;background-image:url('+photo+');background-size:cover;background-position:center;';
+  else       avStyle += 'background:var(--g);color:var(--gl);';
+
+  var removeBtn = photo
+    ? '<button type="button" onclick="dsRemoveAvatar()" style="margin-left:8px;font-size:12.5px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline">Remove</button>'
+    : '';
+
+  var html = ''
+    + '<div id="dsProfileOv" onclick="if(event.target===this)dsCloseAnyModal()" style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto">'
+    +   '<div style="background:#fff;border-radius:16px;max-width:480px;width:100%;padding:30px 30px 26px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;max-height:90vh;overflow-y:auto">'
+    +     '<button onclick="dsCloseAnyModal()" style="position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;background:#f3f4f6;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7280;cursor:pointer">✕</button>'
+    +     '<h3 style="font-family:var(--serif);font-size:22px;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px">Your profile</h3>'
+    +     '<p style="font-size:13px;color:var(--muted);margin-bottom:22px">' + esc(since) + '</p>'
+    +     '<div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">'
+    +       '<div id="profAvPreview" style="' + avStyle + '">' + avInner + '</div>'
+    +       '<div>'
+    +         '<label for="profPhoto" style="display:inline-block;font-size:13px;font-weight:600;color:var(--g);cursor:pointer;padding:8px 14px;border:1px solid var(--line);border-radius:8px">Change photo</label>'
+    +         '<input type="file" id="profPhoto" accept="image/*" style="display:none" onchange="dsHandleAvatarUpload(this)">'
+    +         removeBtn
+    +         '<div style="font-size:11.5px;color:var(--muted);margin-top:6px">JPG or PNG, max 2MB</div>'
+    +       '</div>'
+    +     '</div>'
+    +     '<div style="display:flex;gap:10px;margin-bottom:14px">'
+    +       '<div style="flex:1">'
+    +         '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">First name</label>'
+    +         '<input id="profFirst" type="text" value="' + esc(firstName) + '" style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none">'
+    +       '</div>'
+    +       '<div style="flex:1">'
+    +         '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Last name</label>'
+    +         '<input id="profLast" type="text" value="' + esc(lastName) + '" style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none">'
+    +       '</div>'
+    +     '</div>'
+    +     '<div style="margin-bottom:14px">'
+    +       '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Email</label>'
+    +       '<input type="email" value="' + esc(user.email||'') + '" disabled style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:var(--paper-2);color:var(--muted);outline:none;cursor:not-allowed">'
+    +       '<div style="font-size:11.5px;color:var(--muted);margin-top:5px">Email is locked. Contact support to change it.</div>'
+    +     '</div>'
+    +     '<div style="margin-bottom:22px">'
+    +       '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Location</label>'
+    +       '<input id="profLoc" type="text" value="' + esc(user.location||'') + '" placeholder="e.g. Hackney, London" style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none">'
+    +     '</div>'
+    +     '<div style="display:flex;gap:10px">'
+    +       '<button onclick="dsCloseAnyModal()" style="padding:11px 18px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer">Cancel</button>'
+    +       '<button onclick="dsSaveProfile()" style="flex:1;padding:11px 22px;background:var(--ink);color:var(--paper);border:none;border-radius:9px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer">Save changes</button>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>';
+
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
+}
+
+function dsHandleAvatarUpload(input) {
+  var file = input.files && input.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { showToast('Image too large (max 2MB)'); input.value = ''; return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    _pendingAvatar = e.target.result;
+    var av = document.getElementById('profAvPreview');
+    if (av) {
+      av.style.background = 'transparent';
+      av.style.backgroundImage = 'url(' + _pendingAvatar + ')';
+      av.style.backgroundSize = 'cover';
+      av.style.backgroundPosition = 'center';
+      av.textContent = '';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function dsRemoveAvatar() {
+  var user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
+  if (user && user.email) { try { localStorage.removeItem('sowo_avatar_' + user.email); } catch(e) {} }
+  _pendingAvatar = 'REMOVE';
+  showToast('Photo will be removed when you save');
+  dsOpenProfile();
+}
+
+function dsSaveProfile() {
+  var first = (document.getElementById('profFirst') || {}).value || '';
+  var last  = (document.getElementById('profLast')  || {}).value || '';
+  var loc   = (document.getElementById('profLoc')   || {}).value || '';
+  first = first.trim(); last = last.trim(); loc = loc.trim();
+  if (!first) { showToast('First name is required'); return; }
+  var user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null') || {}; } catch(e) { user = {}; }
+  user.firstName = first;
+  user.lastName  = last;
+  user.location  = loc;
+  user.name      = first + (last ? ' ' + last : '');
+  try { sessionStorage.setItem('sowo_session', JSON.stringify(user)); } catch(e) {}
+  if (_pendingAvatar && _pendingAvatar !== 'REMOVE' && user.email) {
+    try { localStorage.setItem('sowo_avatar_' + user.email, _pendingAvatar); } catch(e) {}
+  }
+  if (_pendingAvatar === 'REMOVE' && user.email) {
+    try { localStorage.removeItem('sowo_avatar_' + user.email); } catch(e) {}
+  }
+  _pendingAvatar = null;
+  dsCloseAnyModal();
+  showToast('Profile saved');
+  setTimeout(function() { window.location.reload(); }, 600);
+}
+
+/* ─── Settings ─── */
+function dsGetSettings() {
+  var defaults = { email_responses: true, email_nearby: false, public_name: true, public_requests: true };
+  try { return Object.assign(defaults, JSON.parse(localStorage.getItem('sowo_settings') || '{}')); }
+  catch(e) { return defaults; }
+}
+
+function dsToggleHtml(id, label, sub, on) {
+  var bgCol = on ? 'var(--g)' : '#cbc8c0';
+  var leftPx = on ? '21' : '3';
+  return ''
+    + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)">'
+    +   '<div>'
+    +     '<div style="font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:3px">' + label + '</div>'
+    +     '<div style="font-size:12.5px;color:var(--muted);line-height:1.5">' + sub + '</div>'
+    +   '</div>'
+    +   '<label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;cursor:pointer">'
+    +     '<input type="checkbox" id="' + id + '"' + (on ? ' checked' : '') + ' style="opacity:0;width:0;height:0;position:absolute" onchange="dsRefreshToggle(\'' + id + '\')">'
+    +     '<span class="ds-toggle" style="position:absolute;inset:0;background:' + bgCol + ';border-radius:999px;transition:background .15s"></span>'
+    +     '<span class="ds-toggle-knob" style="position:absolute;top:3px;left:' + leftPx + 'px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span>'
+    +   '</label>'
+    + '</div>';
+}
+
+function dsOpenSettings() {
+  var s = dsGetSettings();
+  dsCloseAnyModal();
+  var html = ''
+    + '<div id="dsSettingsOv" onclick="if(event.target===this)dsCloseAnyModal()" style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto">'
+    +   '<div style="background:#fff;border-radius:16px;max-width:500px;width:100%;padding:30px 30px 26px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;max-height:90vh;overflow-y:auto">'
+    +     '<button onclick="dsCloseAnyModal()" style="position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;background:#f3f4f6;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7280;cursor:pointer">✕</button>'
+    +     '<h3 style="font-family:var(--serif);font-size:22px;letter-spacing:-.01em;color:var(--ink);margin-bottom:24px">Account settings</h3>'
+    +     '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Notifications</div>'
+    +     dsToggleHtml('set_email_resp', 'Email me when a provider responds', 'Get a heads-up the moment someone replies to your request.', s.email_responses)
+    +     dsToggleHtml('set_email_near', 'Email me about new providers nearby', 'Occasional emails when great providers join in your area.', s.email_nearby)
+    +     '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:22px 0 6px">Privacy</div>'
+    +     dsToggleHtml('set_pub_name', 'Show my full name to providers', 'Off shows only your first initial when you respond.', s.public_name)
+    +     dsToggleHtml('set_pub_req',  'Make my requests publicly browseable', 'Off keeps your requests visible only to providers you message directly.', s.public_requests)
+    +     '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px">Account</div>'
+    +     '<div style="display:flex;flex-direction:column;gap:8px">'
+    +       '<button onclick="dsCloseAnyModal();dsSignOut(event)" style="padding:11px 14px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);cursor:pointer;text-align:left">Sign out of this device</button>'
+    +       '<button onclick="dsDeleteAccount()" style="padding:11px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:#dc2626;cursor:pointer;text-align:left">Delete my account &amp; data</button>'
+    +     '</div>'
+    +     '<div style="display:flex;gap:10px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)">'
+    +       '<button onclick="dsCloseAnyModal()" style="padding:11px 18px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer">Cancel</button>'
+    +       '<button onclick="dsSaveSettings()" style="flex:1;padding:11px 22px;background:var(--ink);color:var(--paper);border:none;border-radius:9px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer">Save changes</button>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>';
+
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
+}
+
+function dsRefreshToggle(id) {
+  var inp = document.getElementById(id);
+  if (!inp) return;
+  var wrap = inp.parentElement;
+  var bg   = wrap.querySelector('.ds-toggle');
+  var knob = wrap.querySelector('.ds-toggle-knob');
+  bg.style.background = inp.checked ? 'var(--g)' : '#cbc8c0';
+  knob.style.left = inp.checked ? '21px' : '3px';
+}
+
+function dsSaveSettings() {
+  var get = function(id) { var el = document.getElementById(id); return !!(el && el.checked); };
+  var s = {
+    email_responses: get('set_email_resp'),
+    email_nearby:    get('set_email_near'),
+    public_name:     get('set_pub_name'),
+    public_requests: get('set_pub_req'),
+  };
+  try { localStorage.setItem('sowo_settings', JSON.stringify(s)); } catch(e) {}
+  dsCloseAnyModal();
+  showToast('Settings saved');
+}
+
+function dsDeleteAccount() {
+  if (!confirm('Delete your account?\n\nThis removes your session, requests, bookings, saved providers and preferences from this device. This cannot be undone.')) return;
+  ['sowo_session','sowo_r','sowo_my_requests','sowo_bookings','sowo_saved_providers','sowo_settings','sowo_request_drafts','sowo_provider_draft'].forEach(function(k) {
+    try { localStorage.removeItem(k); } catch(e) {}
+  });
+  try { sessionStorage.removeItem('sowo_session'); } catch(e) {}
+  try {
+    for (var i = localStorage.length - 1; i >= 0; i--) {
+      var k = localStorage.key(i);
+      if (k && k.indexOf('sowo_avatar_') === 0) localStorage.removeItem(k);
+    }
+  } catch(e) {}
+  window.location.href = '/';
+}
+
+/* ── Mode detection + switcher ────────────────────────────────
+   A user is "providerCapable" if they have a listing draft saved
+   or their session marks them as a provider. The mode they last
+   chose is stored in localStorage so it sticks.
+─────────────────────────────────────────────────────────────── */
+function dsGetProviderListing() {
+  try { return JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null'); } catch(e) { return null; }
+}
+function dsIsProviderCapable(user) {
+  if (dsGetProviderListing()) return true;
+  if (user && (user.is_provider === true || user.role === 'provider')) return true;
+  return false;
+}
+function dsGetMode(user) {
+  let m = '';
+  try { m = localStorage.getItem('sowo_dashboard_mode') || ''; } catch(e) {}
+  if (m === 'provider' || m === 'client') return m;
+  return 'client'; // default
+}
+function dsSetMode(mode) {
+  try { localStorage.setItem('sowo_dashboard_mode', mode); } catch(e) {}
+  window.location.reload();
+}
+
+/* Hide/show sidebar items based on current mode + relabel ones that mean different things */
+function dsApplyModeToSidebar(mode) {
+  document.querySelectorAll('.ds-link[data-mode]').forEach(function(el) {
+    var m = el.getAttribute('data-mode');
+    if (m === 'both' || m === mode) el.style.display = '';
+    else el.style.display = 'none';
+  });
+  // Relabel mode-aware items
+  var bookings = document.querySelector('.ds-link [data-label="Bookings"]');
+  if (bookings) bookings.textContent = mode === 'provider' ? 'Bookings (clients)' : 'Bookings';
+  var requests = document.querySelector('.ds-link [data-label="Requests"]');
+  if (requests) requests.textContent = mode === 'provider' ? 'Incoming requests' : 'My requests';
+  // The Requests link target depends on mode:
+  // - Client: scroll to "Your requests" section on this dashboard (only owns)
+  // - Provider: jump to /requests.html (public marketplace of incoming requests)
+  var reqLink = document.getElementById('dsRequestsLink');
+  if (reqLink) reqLink.setAttribute('data-target-mode', mode);
+}
+
+function dsRequestsLinkClick(ev) {
+  var link = document.getElementById('dsRequestsLink');
+  var mode = link?.getAttribute('data-target-mode') || 'client';
+  if (mode === 'client') {
+    ev.preventDefault();
+    var target = document.getElementById('leftColSlot');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    // Provider mode: let the link behave normally, but to /requests.html
+    window.location.href = '/requests.html';
+    ev.preventDefault();
+  }
+}
+
+function dsRenderModeSwitcher(user, currentMode) {
+  const el = document.getElementById('modeSwitcher');
+  if (!el) return;
+  const capable = dsIsProviderCapable(user);
+
+  // Active state pill (black, current mode) - visual emphasis on what you ARE
+  const activePill = 'padding:8px 18px;border-radius:999px;border:1px solid var(--ink);font:inherit;font-size:12.5px;font-weight:600;background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;gap:6px';
+  // Action pill (light, secondary) - the switch action
+  const switchPill = 'padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s;text-decoration:none;display:inline-flex;align-items:center;gap:6px';
+  const switchHover = 'this.style.borderColor=\'var(--ink)\';this.style.color=\'var(--ink)\'';
+  const switchReset = 'this.style.borderColor=\'var(--line)\';this.style.color=\'var(--ink-2)\'';
+
+  let activeLabel, switchAction;
+  if (currentMode === 'provider') {
+    activeLabel  = '<span style="' + activePill + '">Viewing as provider</span>';
+    switchAction = '<button onclick="dsSetMode(\'client\')" onmouseover="' + switchHover + '" onmouseout="' + switchReset + '" style="' + switchPill + '">Become a user →</button>';
+  } else {
+    activeLabel = '<span style="' + activePill + '">Viewing as user</span>';
+    if (capable) {
+      switchAction = '<button onclick="dsSetMode(\'provider\')" onmouseover="' + switchHover + '" onmouseout="' + switchReset + '" style="' + switchPill + '">Become a provider →</button>';
+    } else {
+      switchAction = '<a href="/become-provider.html" onmouseover="' + switchHover + '" onmouseout="' + switchReset + '" style="' + switchPill + '">Become a provider →</a>';
+    }
+  }
+
+  el.innerHTML =
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">' +
+      activeLabel +
+      switchAction +
+    '</div>';
+}
+
+function renderDashboardBody(user, firstName) {
+  const mode = dsGetMode(user);
+  dsRenderModeSwitcher(user, mode);
+  if (mode === 'provider' && dsIsProviderCapable(user)) {
+    renderProviderMode(user, firstName);
+  } else {
+    renderClientMode(user, firstName);
+  }
+}
+
+function renderClientMode(user, firstName) {
+  dsApplyModeToSidebar('client');
+
+  // Pull real data
+  let myReqs = [];
+  let allResponses = []; // flat list of {req, resp}
+  let savedProviders = [];
+  let bookings = [];
+  try {
+    const owned  = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+    const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    myReqs = stored.filter(r => owned.includes(r.id));
+    myReqs.forEach(r => (r.responses || []).forEach(resp => allResponses.push({ req: r, resp })));
+    savedProviders = JSON.parse(localStorage.getItem('sowo_saved_providers') || '[]');
+    bookings = JSON.parse(localStorage.getItem('sowo_bookings') || '[]');
+  } catch(e) {}
+
+  // Greet actions match client context
+  const greetActions = document.getElementById('greetActions');
+  if (greetActions) greetActions.innerHTML = '<a href="/browse.html" class="btn btn-quiet">Browse</a><a href="/requests.html" class="btn btn-ink">Post a request</a>';
+
+  // Populate sidebar badges with real counts
+  const today = new Date().toISOString().split('T')[0];
+  const upcomingBookings = bookings.filter(b => !b.date || b.date >= today);
+  dsSetBadge('dsBookingBadge', upcomingBookings.length);
+  dsSetBadge('dsSavedBadge',   savedProviders.length);
+  dsSetBadge('dsReqBadge',     myReqs.length);
+  // Show messages pulse when there are unread responses on user's requests
+  const unreadResp = allResponses.length; // proxy until we track read status
+  const msgPulse = document.getElementById('dsMsgPulse');
+  if (msgPulse) msgPulse.style.display = unreadResp > 0 ? '' : 'none';
+
+  // Sort bookings: upcoming first by date, then completed
+  const upcoming = bookings.filter(b => !b.date || b.date >= today)
+    .sort((a,b) => (a.date||'').localeCompare(b.date||''));
+  const past = bookings.filter(b => b.date && b.date < today)
+    .sort((a,b) => (b.date||'').localeCompare(a.date||''));
+  const heldEscrow = bookings.filter(b => b.escrow === 'held')
+    .reduce((sum, b) => sum + (Number(b.price)||0), 0);
+
+  /* ── Focal slot ── Priority: upcoming booking → newest response → get-started */
+  const focal = document.getElementById('focalSlot');
+  if (upcoming.length) {
+    const b = upcoming[0];
+    const dateLabel = b.date ? new Date(b.date) : null;
+    const day  = dateLabel ? dateLabel.toLocaleDateString('en-GB', { weekday:'long' }) : '';
+    const num  = dateLabel ? dateLabel.getDate() : '';
+    const mo   = dateLabel ? dateLabel.toLocaleDateString('en-GB', { month:'long' }) : '';
+    const daysUntil = dateLabel ? Math.ceil((dateLabel - new Date(today)) / (1000*60*60*24)) : null;
+    const countdown = daysUntil !== null
+      ? (daysUntil === 0 ? 'today' : daysUntil === 1 ? 'tomorrow' : 'in ' + daysUntil + ' days')
+        + (b.time ? ' · ' + b.time : '')
+      : 'date to confirm';
+    focal.innerHTML = `
+      <div class="focal" style="margin-bottom:24px">
+        <div class="focal-date">
+          ${day ? `<div class="day">${esc(day)}</div>` : ''}
+          ${num !== '' ? `<div class="num">${num}</div>` : ''}
+          ${mo ? `<div class="mo">${esc(mo)}</div>` : ''}
+          <div class="countdown">${esc(countdown)}</div>
+        </div>
+        <div class="focal-meta">
+          <div class="focal-with">Booked with</div>
+          <div class="focal-name">${esc(b.providerName)}</div>
+          <div class="focal-svc">${esc(b.service || 'Service')}</div>
+          <div class="focal-rows">
+            ${b.providerArea ? `<div class="focal-row"><span class="k">Where</span><span class="v"><strong>${esc(b.providerArea)}</strong></span></div>` : ''}
+            ${b.notes ? `<div class="focal-row"><span class="k">Brief</span><span class="v">${esc(b.notes.slice(0,140))}${b.notes.length>140?'…':''}</span></div>` : ''}
+            ${b.price ? `<div class="focal-row"><span class="k">Payment</span><span class="v"><strong>£${esc(b.price)}</strong> <span class="escrow"><svg width="9" height="9" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>${b.escrow === 'held' ? 'held in escrow' : 'released'}</span></span></div>` : ''}
+          </div>
+        </div>
+        <div class="focal-aside">
+          <div class="focal-actions">
+            <a href="/provider.html#${esc(b.providerId)}" class="focal-btn primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Message ${esc((b.providerName||'').split(' ')[0])}
+            </a>
+          </div>
+        </div>
+      </div>`;
+  } else if (allResponses.length) {
+    // Most recent response on a user's request
+    const latest = allResponses[allResponses.length - 1];
+    const initials = (latest.resp.initials || (latest.resp.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2)).toUpperCase();
+    focal.innerHTML = `
+      <div class="focal" style="background:var(--ink);color:var(--paper);padding:32px;border-radius:14px;display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;margin-bottom:24px">
+        <div style="width:54px;height:54px;border-radius:50%;background:var(--g);color:var(--gl);display:grid;place-items:center;font-weight:700;font-size:18px">${esc(initials)}</div>
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:6px">Newest response</div>
+          <div style="font-family:var(--serif);font-size:22px;letter-spacing:-.01em;margin-bottom:4px">${esc(latest.resp.name)} replied</div>
+          <div style="font-size:13px;color:rgba(245,240,232,.7);margin-bottom:10px">on your request: <em style="color:var(--paper)">"${esc(latest.req.title || latest.req.cat)}"</em></div>
+          <div style="font-size:13.5px;color:rgba(245,240,232,.85);line-height:1.55;max-width:520px">"${esc((latest.resp.msg||'').slice(0,160))}${(latest.resp.msg||'').length>160?'…':''}"</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="/request.html#${esc(latest.req.id)}" class="focal-btn primary" style="background:var(--a);color:var(--ink);padding:11px 20px;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;display:inline-block">Open thread -&gt;</a>
+        </div>
+      </div>`;
+  } else if (myReqs.length) {
+    // Has at least one request but zero responses yet - show their newest waiting request
+    const r = myReqs[0];
+    focal.innerHTML = `
+      <div class="focal" style="background:var(--ink);color:var(--paper);padding:32px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Your request is live - posted ${esc(r.age || 'recently')}</div>
+          <div style="font-family:var(--serif);font-size:24px;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px">${esc(r.title || 'Untitled request')}</div>
+          <div style="font-size:13.5px;color:rgba(245,240,232,.7);max-width:520px;line-height:1.55;margin-bottom:10px">Providers in <strong style="color:var(--paper)">${esc(r.cat || 'your area')}</strong> can see this and will reply directly. No need to chase - we'll notify you the moment someone responds.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="/request.html#${esc(r.id)}" style="background:var(--a);color:var(--ink);padding:11px 22px;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;display:inline-block">View request -&gt;</a>
+          <a href="/browse.html" style="background:transparent;color:var(--paper);padding:10px 22px;border-radius:8px;font-weight:600;font-size:12.5px;text-decoration:none;border:1.5px solid rgba(245,240,232,.25);text-align:center">Browse providers</a>
+        </div>
+      </div>`;
+  } else {
+    // No real activity - honest get-started card
+    focal.innerHTML = `
+      <div class="focal" style="background:var(--ink);color:var(--paper);padding:36px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Get started</div>
+          <div style="font-family:var(--serif);font-size:28px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Tell us what you need,<br>${esc(firstName)}. Providers will reply.</div>
+          <div style="font-size:14px;color:rgba(245,240,232,.65);max-width:520px;line-height:1.55">Post one short request and trusted local providers come to you. No card required, no spam, just direct messages from real people.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="/requests.html" style="background:var(--a);color:var(--ink);padding:14px 26px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center">Post a request</a>
+          <a href="/browse.html" style="background:transparent;color:var(--paper);padding:13px 26px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;border:1.5px solid rgba(245,240,232,.25);text-align:center">Browse providers</a>
+        </div>
+      </div>`;
+  }
+
+  /* ── Escrow slot - only when there are real held funds ── */
+  const escrow = document.getElementById('escrowSlot');
+  if (heldEscrow > 0) {
+    const heldCount = bookings.filter(b => b.escrow === 'held').length;
+    escrow.innerHTML = `
+      <div class="escrow-bar">
+        <span class="badge">
+          <svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          Sowo Pocket
+        </span>
+        <div class="label-line">
+          <strong>£${heldEscrow} of yours</strong> is currently held in escrow across ${heldCount} booking${heldCount>1?'s':''}.
+          <br><span style="color:var(--muted); font-size:12px;">Released only when you confirm the work is done.</span>
+        </div>
+        <div class="escrow-amount"><em>£</em>${heldEscrow}</div>
+      </div>`;
+  } else {
+    escrow.innerHTML = '';
+  }
+
+  /* ── LEFT COLUMN: Your requests + Recent activity ── */
+  const left = document.getElementById('leftColSlot');
+  let leftHtml = '';
+
+  // Your requests
+  leftHtml += '<section class="d-section"><div class="d-section-head"><h2>Your <em>requests</em></h2>' +
+    (myReqs.length ? '<a href="/requests.html" class="see">All</a>' : '') + '</div>';
+  if (myReqs.length) {
+    leftHtml += myReqs.slice(0, 3).map(r => {
+      const respCount = (r.responses || []).length;
+      const respTxt = respCount === 0 ? 'No responses yet' : respCount + ' response' + (respCount>1?'s':'');
+      return `
+        <a href="/request.html#${esc(r.id)}" class="req-card" style="display:block;text-decoration:none;color:inherit;margin-bottom:10px">
+          <div class="req-mono">
+            <span>Posted ${esc(r.age || 'recently')}</span>
+            <span class="sep">·</span>
+            <span>${esc(r.cat || '-')}</span>
+            <span class="sep">·</span>
+            <span style="color:var(--ink);font-weight:500">${respCount > 0 ? '★ ' : ''}${respTxt}</span>
+          </div>
+          <div class="title">${esc(r.title || 'Untitled request')}</div>
+          ${r.desc ? `<div class="desc">${esc(r.desc.slice(0, 180))}${r.desc.length>180?'…':''}</div>` : ''}
+        </a>`;
+    }).join('');
+  } else {
+    leftHtml += `
+      <div style="background:var(--paper-2);border:1px dashed var(--line);border-radius:12px;padding:32px;text-align:center">
+        <div style="font-family:var(--serif);font-size:18px;color:var(--ink);margin-bottom:6px">No requests yet</div>
+        <div style="font-size:13.5px;color:var(--muted);line-height:1.55;max-width:340px;margin:0 auto 16px">Post a request and providers in your area will reply directly. Free, no card required.</div>
+        <a href="/requests.html" style="display:inline-block;background:var(--ink);color:var(--paper);padding:10px 22px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none">Post your first request</a>
+      </div>`;
+  }
+  leftHtml += '</section>';
+
+  // Recent activity - merge bookings + responses chronologically
+  const activityItems = [];
+  allResponses.forEach(({ req, resp }) => {
+    activityItems.push({
+      ts: resp.createdAt || resp.time || '',
+      label: resp.time || 'recently',
+      dot: 'amber',
+      html: '<strong>' + esc(resp.name) + '</strong> replied to <em>"' + esc(req.title || req.cat) + '"</em>',
+      cta: '/request.html#' + esc(req.id),
+      ctaLabel: 'Open',
+    });
+  });
+  bookings.forEach(b => {
+    const isPast = b.date && b.date < today;
+    activityItems.push({
+      ts: b.createdAt || '',
+      label: b.date ? new Date(b.date).toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : 'recently',
+      dot: isPast ? 'muted' : '',
+      html: (isPast ? 'Booking with <strong>' : 'Booking requested · <strong>') + esc(b.providerName) + '</strong>' +
+        (b.service ? ' · ' + esc(b.service) : '') +
+        (isPast && b.escrow === 'held' ? ' - confirm to release £' + esc(b.price) : ''),
+      cta: '/provider.html#' + esc(b.providerId),
+      ctaLabel: isPast && b.escrow === 'held' ? 'Vouch & release' : 'View',
+    });
+  });
+  if (activityItems.length) {
+    activityItems.sort((a,b) => (b.ts||'').localeCompare(a.ts||''));
+    leftHtml += '<section class="d-section"><div class="d-section-head"><h2>Recent <em>activity</em></h2></div><div class="activity">';
+    leftHtml += activityItems.slice(0, 6).map(it => `
+      <div class="act">
+        <div class="when">${esc(it.label)}</div>
+        <div class="dot-wrap"><div class="dot${it.dot ? ' ' + it.dot : ''}"></div></div>
+        <div class="txt">${it.html}</div>
+        <a href="${it.cta}" class="cta">${esc(it.ctaLabel)}</a>
+      </div>`).join('');
+    leftHtml += '</div></section>';
+  }
+
+  left.innerHTML = leftHtml;
+
+  /* ── RIGHT COLUMN: Vouch prompt + Saved providers + Your patch ── */
+  const right = document.getElementById('rightColSlot');
+  let rightHtml = '';
+
+  // Vouch prompt - for completed bookings still in escrow
+  const awaitingVouch = past.filter(b => b.escrow === 'held');
+  if (awaitingVouch.length) {
+    const v = awaitingVouch[0];
+    const otherCount = awaitingVouch.length - 1;
+    rightHtml += `
+      <div class="vouch-anchor">
+        <div class="vouch-eye">Someone's waiting on your word</div>
+        <h3>${esc((v.providerName||'').split(' ')[0])} ${v.service ? 'did your ' + esc(v.service) : 'completed your booking'}<br>on <em>${v.date ? esc(new Date(v.date).toLocaleDateString('en-GB', { weekday:'long' })) : 'recently'}.</em></h3>
+        <p>Confirm the work was done and leave a vouch - it releases the £${esc(v.price)} held in escrow and gives them a named, public reference for their next booking.</p>
+        <div class="vp-who">
+          <div class="vp-av">${esc(v.providerInitials || '?')}</div>
+          <div>
+            <div class="vp-name">${esc(v.providerName)}</div>
+            <div class="vp-detail">${esc(v.service || 'Service')}${v.providerArea ? ' · ' + esc(v.providerArea) : ''}</div>
+          </div>
+        </div>
+        <div class="vouch-actions">
+          <a href="/provider.html#${esc(v.providerId)}" class="vouch-btn primary" style="text-decoration:none;text-align:center">Confirm &amp; vouch</a>
+          <button class="vouch-btn ghost">Skip</button>
+        </div>
+        ${otherCount > 0 ? `<div class="vouch-more">${otherCount} other${otherCount>1?'s':''} also awaiting</div>` : ''}
+      </div>`;
+  }
+
+  // Saved providers
+  rightHtml += '<section class="d-section" style="' + (awaitingVouch.length ? 'margin-top:40px' : '') + '"><div class="d-section-head"><h2>Your <em>saved</em></h2>' +
+    (savedProviders.length ? '<a href="/browse.html" class="see">More</a>' : '') + '</div>';
+  if (savedProviders.length) {
+    rightHtml += '<div class="saved-list">' + savedProviders.slice(0, 6).map(p => `
+      <a href="/provider.html#${esc(p.id)}" class="saved">
+        <div class="s-av">${esc(p.initials || (p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase())}</div>
+        <div>
+          <div class="s-name">${esc(p.name)}</div>
+          <div class="s-meta">${esc(p.cat||'')} ${p.area ? '· ' + esc(p.area) : ''}</div>
+        </div>
+        <span class="s-action">View →</span>
+      </a>`).join('') + '</div>';
+  } else {
+    rightHtml += `
+      <div style="background:var(--paper-2);border:1px dashed var(--line);border-radius:12px;padding:24px;text-align:center">
+        <div style="font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:14px">Save providers as you browse for one-tap booking later.</div>
+        <a href="/browse.html" style="display:inline-block;background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:8px;font-weight:600;font-size:12.5px;text-decoration:none">Browse providers</a>
+      </div>`;
+  }
+  rightHtml += '</section>';
+
+  // Your patch (only if we know their location)
+  if (user && user.location) {
+    const patchName = user.location.split(',')[0].trim();
+    rightHtml += `
+      <section class="d-section">
+        <div class="d-section-head">
+          <h2>Near <em>you</em></h2>
+          <a href="/browse.html" class="see">All</a>
+        </div>
+        <div class="patch">
+          <div class="patch-head">
+            <div>
+              <h3>${esc(patchName)}</h3>
+              <div class="patch-sub">Browse providers near you</div>
+            </div>
+            <span class="patch-tag"><span class="dot"></span>You</span>
+          </div>
+          <div style="padding:18px 0;text-align:center">
+            <a href="/browse.html?q=${encodeURIComponent(patchName)}" style="display:inline-block;background:var(--ink);color:var(--paper);padding:10px 22px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none">See providers in ${esc(patchName)} →</a>
+          </div>
+        </div>
+      </section>`;
+  }
+
+  right.innerHTML = rightHtml;
+}
+
+/* ─── PROVIDER MODE ─── */
+function renderProviderMode(user, firstName) {
+  dsApplyModeToSidebar('provider');
+
+  const listing = dsGetProviderListing() || {};
+  const cat = listing.category || '';
+  const trade = listing.trade || '';
+  const loc = listing.location || (user && user.location) || '';
+
+  // Pull data
+  let allReqs = [];
+  let bookings = [];
+  let myResponses = [];  // responses I've sent (no current tracking - placeholder for empty state)
+  try {
+    allReqs  = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    bookings = JSON.parse(localStorage.getItem('sowo_bookings') || '[]');
+  } catch(e) {}
+
+  // Match incoming requests by category (and optionally location)
+  const matching = cat
+    ? allReqs.filter(r => (r.cat || '').toLowerCase() === cat.toLowerCase())
+    : [];
+
+  // Bookings as the provider - we don't have a stable provider id, so match by name
+  const myFullName = (user && (user.firstName + (user.lastName ? ' ' + user.lastName : ''))) || '';
+  const incomingBookings = bookings.filter(b =>
+    (b.providerName || '').toLowerCase() === myFullName.toLowerCase()
+  );
+
+  // Greeting actions for provider context
+  const greetActions = document.getElementById('greetActions');
+  if (greetActions) greetActions.innerHTML =
+    '<a href="/become-provider.html" class="btn btn-quiet">Edit listing</a>' +
+    (cat ? '<a href="/requests.html" class="btn btn-ink">See all requests</a>' : '<a href="/become-provider.html" class="btn btn-ink">Finish your listing</a>');
+
+  // Sidebar badges - provider context: incoming-matching count, incoming bookings, listing live = 1
+  dsSetBadge('dsBookingBadge', incomingBookings.length);
+  dsSetBadge('dsSavedBadge',   0);                     // saved isn't relevant for providers
+  dsSetBadge('dsReqBadge',     matching.length);       // "Requests" now means matching incoming
+  const msgPulse = document.getElementById('dsMsgPulse');
+  if (msgPulse) msgPulse.style.display = 'none';
+
+  // Update greeting subcopy
+  const sub = document.getElementById('greetSub');
+  if (sub) {
+    if (!cat) {
+      sub.innerHTML = 'Your listing is in draft. <a href="/become-provider.html" style="color:var(--g);font-weight:600">Finish setting it up</a> to start getting requests.';
+    } else if (matching.length) {
+      sub.innerHTML = '<strong style="color:var(--ink)">' + matching.length + ' request' + (matching.length>1?'s':'') + '</strong> in <em>' + esc(cat) + '</em> waiting for a response.';
+    } else {
+      sub.innerHTML = 'Your listing is live in <em>' + esc(cat) + '</em>. New requests will appear here as clients post them.';
+    }
+  }
+
+  /* ── Focal: top matching request OR listing-live card ── */
+  const focal = document.getElementById('focalSlot');
+  if (matching.length) {
+    const r = matching[0];
+    const respCount = (r.responses || []).length;
+    focal.innerHTML =
+      '<div style="background:var(--ink);color:var(--paper);padding:32px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">' +
+        '<div>' +
+          '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Top match · ' + esc(r.cat) + ' · ' + esc(r.age || 'recently') + '</div>' +
+          '<div style="font-family:var(--serif);font-size:24px;letter-spacing:-.02em;line-height:1.15;margin-bottom:8px">' + esc(r.title || 'Untitled request') + '</div>' +
+          '<div style="font-size:13.5px;color:rgba(245,240,232,.7);line-height:1.55;margin-bottom:10px">' + esc((r.desc||'').slice(0,180)) + ((r.desc||'').length>180?'…':'') + '</div>' +
+          '<div style="display:flex;gap:14px;font-size:12px;color:rgba(245,240,232,.55)"><span>📍 ' + esc(r.loc || '-') + '</span>' +
+          (r.budget ? '<span>💷 ' + esc(r.budget) + '</span>' : '') +
+          (respCount > 0 ? '<span>★ ' + respCount + ' other response' + (respCount>1?'s':'') + '</span>' : '<span style="color:var(--gl)">★ Be the first to reply</span>') +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;flex-direction:column;gap:8px">' +
+          '<a href="/request.html#' + esc(r.id) + '" style="background:var(--a);color:var(--ink);padding:12px 22px;border-radius:8px;font-weight:700;font-size:13.5px;text-decoration:none;text-align:center;display:block">Respond now →</a>' +
+          '<a href="/requests.html" style="background:transparent;color:var(--paper);padding:11px 22px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;border:1.5px solid rgba(245,240,232,.25);text-align:center;display:block">All requests</a>' +
+        '</div>' +
+      '</div>';
+  } else {
+    // Listing live but no matches yet - or listing in draft
+    if (cat) {
+      focal.innerHTML =
+        '<div style="background:var(--ink);color:var(--paper);padding:36px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">' +
+          '<div>' +
+            '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Your listing is live</div>' +
+            '<div style="font-family:var(--serif);font-size:26px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">' + esc(trade || cat) + (loc ? ' · ' + esc(loc) : '') + '</div>' +
+            '<div style="font-size:14px;color:rgba(245,240,232,.65);max-width:480px;line-height:1.55">No requests in your category right now. We will notify you when matching ones come in. In the meantime, share your listing to bring in more bookings.</div>' +
+          '</div>' +
+          '<div style="display:flex;flex-direction:column;gap:10px">' +
+            '<a href="/become-provider.html" style="background:var(--a);color:var(--ink);padding:13px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center">Edit listing</a>' +
+            '<a href="/browse.html" style="background:transparent;color:var(--paper);padding:12px 24px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;border:1.5px solid rgba(245,240,232,.25);text-align:center">View as a client</a>' +
+          '</div>' +
+        '</div>';
+    } else {
+      focal.innerHTML =
+        '<div style="background:var(--ink);color:var(--paper);padding:36px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">' +
+          '<div>' +
+            '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Finish your listing</div>' +
+            '<div style="font-family:var(--serif);font-size:26px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Your listing is saved as a draft.</div>' +
+            '<div style="font-size:14px;color:rgba(245,240,232,.65);max-width:480px;line-height:1.55">Pick a category, add a bio and price range to publish - then clients can find and book you.</div>' +
+          '</div>' +
+          '<a href="/become-provider.html" style="background:var(--a);color:var(--ink);padding:13px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;align-self:start">Finish &amp; publish</a>' +
+        '</div>';
+    }
+  }
+
+  // No escrow/Sowo Pocket on provider side (yet) - earnings would go here
+  document.getElementById('escrowSlot').innerHTML = '';
+
+  /* ── LEFT COLUMN: Incoming requests + Upcoming bookings (clients booking me) ── */
+  const left = document.getElementById('leftColSlot');
+  let leftHtml = '';
+
+  leftHtml += '<section class="d-section"><div class="d-section-head"><h2>Incoming <em>requests</em></h2>' +
+    (matching.length ? '<a href="/requests.html" class="see">All</a>' : '') + '</div>';
+  if (matching.length) {
+    leftHtml += matching.slice(0, 5).map(r => {
+      const respCount = (r.responses || []).length;
+      const respLine = respCount === 0 ? 'Be the first to reply' : respCount + ' other response' + (respCount>1?'s':'');
+      return '<a href="/request.html#' + esc(r.id) + '" class="req-card" style="display:block;text-decoration:none;color:inherit;margin-bottom:10px">' +
+        '<div class="req-mono"><span>' + esc(r.age || 'recently') + '</span><span class="sep">·</span><span>' + esc(r.loc || 'UK') + '</span><span class="sep">·</span><span style="color:var(--ink);font-weight:500">★ ' + respLine + '</span></div>' +
+        '<div class="title">' + esc(r.title || 'Untitled request') + '</div>' +
+        (r.desc ? '<div class="desc">' + esc(r.desc.slice(0, 160)) + (r.desc.length>160?'…':'') + '</div>' : '') +
+      '</a>';
+    }).join('');
+  } else if (cat) {
+    leftHtml += '<div style="background:var(--paper-2);border:1px dashed var(--line);border-radius:12px;padding:32px;text-align:center">' +
+      '<div style="font-family:var(--serif);font-size:18px;color:var(--ink);margin-bottom:6px">No matching requests yet</div>' +
+      '<div style="font-size:13.5px;color:var(--muted);line-height:1.55;max-width:340px;margin:0 auto">As clients post in <em>' + esc(cat) + '</em>, they will appear here. Browse all open requests to find adjacent work.</div>' +
+      '<a href="/requests.html" style="display:inline-block;margin-top:14px;background:var(--ink);color:var(--paper);padding:9px 20px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none">Browse all requests</a>' +
+    '</div>';
+  } else {
+    leftHtml += '<div style="background:var(--paper-2);border:1px dashed var(--line);border-radius:12px;padding:32px;text-align:center">' +
+      '<div style="font-size:13.5px;color:var(--muted);line-height:1.55;max-width:340px;margin:0 auto">Once you publish your listing, matching requests will appear here.</div>' +
+    '</div>';
+  }
+  leftHtml += '</section>';
+
+  // Upcoming bookings as a provider
+  if (incomingBookings.length) {
+    const today2 = new Date().toISOString().split('T')[0];
+    const upcoming = incomingBookings.filter(b => !b.date || b.date >= today2);
+    if (upcoming.length) {
+      leftHtml += '<section class="d-section"><div class="d-section-head"><h2>Bookings <em>from clients</em></h2></div><div class="activity">';
+      leftHtml += upcoming.slice(0, 5).map(b => {
+        const when = b.date ? new Date(b.date).toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : 'soon';
+        return '<div class="act"><div class="when">' + esc(when) + (b.time ? ' · ' + esc(b.time) : '') + '</div>' +
+          '<div class="dot-wrap"><div class="dot"></div></div>' +
+          '<div class="txt">Booking · <strong>' + esc(b.service || 'Service') + '</strong>' + (b.price ? ' - £' + esc(b.price) + ' held in escrow' : '') + '</div>' +
+          '<a href="/provider.html" class="cta">View</a>' +
+        '</div>';
+      }).join('');
+      leftHtml += '</div></section>';
+    }
+  }
+
+  left.innerHTML = leftHtml;
+
+  /* ── RIGHT COLUMN: Listing preview + Quick stats ── */
+  const right = document.getElementById('rightColSlot');
+  let rightHtml = '';
+
+  // Listing preview card
+  const skills = Array.isArray(listing.skills) ? listing.skills.slice(0, 4) : [];
+  const priceMin = listing.price_min ? Math.round(listing.price_min/100) : null;
+  const priceMax = listing.price_max ? Math.round(listing.price_max/100) : null;
+  const priceRange = (priceMin || priceMax) ? '£' + (priceMin || priceMax) + (priceMin && priceMax && priceMin !== priceMax ? '–£' + priceMax : '') : '';
+
+  rightHtml += '<section class="d-section"><div class="d-section-head"><h2>Your <em>listing</em></h2><a href="/become-provider.html" class="see">Edit →</a></div>';
+  rightHtml += '<div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px">';
+  if (cat) {
+    rightHtml += '<div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">' + esc(cat) + '</div>';
+    rightHtml += '<div style="font-family:var(--serif);font-size:20px;color:var(--ink);letter-spacing:-.01em;margin-bottom:6px">' + esc(trade || cat) + '</div>';
+    if (loc) rightHtml += '<div style="font-size:13px;color:var(--muted);margin-bottom:12px">' + esc(loc) + '</div>';
+    if (priceRange) rightHtml += '<div style="font-size:13.5px;color:var(--ink-2);font-weight:500;margin-bottom:12px">' + esc(priceRange) + '</div>';
+    if (skills.length) {
+      rightHtml += '<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px">' +
+        skills.map(s => '<span style="font-size:11.5px;padding:3px 9px;border-radius:999px;background:var(--paper-2);color:var(--ink-2)">' + esc(s) + '</span>').join('') +
+        '</div>';
+    }
+    rightHtml += '<a href="/become-provider.html" style="display:block;text-align:center;background:var(--ink);color:var(--paper);padding:10px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none">Edit listing</a>';
+  } else {
+    rightHtml += '<div style="font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:14px">Your listing is in draft. Finish it to start getting matched with requests.</div>';
+    rightHtml += '<a href="/become-provider.html" style="display:block;text-align:center;background:var(--ink);color:var(--paper);padding:10px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none">Finish setup</a>';
+  }
+  rightHtml += '</div></section>';
+
+  // Quick stats - honest numbers we actually have
+  rightHtml += '<section class="d-section"><div class="d-section-head"><h2>Quick <em>stats</em></h2></div>';
+  rightHtml += '<div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 18px">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)"><span style="font-size:13px;color:var(--muted)">Matching requests</span><span style="font-family:var(--serif);font-size:22px;color:var(--ink)">' + matching.length + '</span></div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)"><span style="font-size:13px;color:var(--muted)">Upcoming bookings</span><span style="font-family:var(--serif);font-size:22px;color:var(--ink)">' + incomingBookings.length + '</span></div>' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0"><span style="font-size:13px;color:var(--muted)">Vouches received</span><span style="font-family:var(--serif);font-size:22px;color:var(--ink)">0</span></div>' +
+  '</div></section>';
+
+  right.innerHTML = rightHtml;
+}
 </script>
+
 </body>
 </html>

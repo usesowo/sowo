@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request - Sowo</title>
+<meta name="description" content="View service request details and respond as a provider.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,400;9..144,1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #F5F0E8;
+  --card:   #FFFFFF;
+  --tp:     #1A1614;
+  --ts:     rgba(26,22,20,0.68);
+  --tm:     rgba(26,22,20,0.46);
+  --border: rgba(26,22,20,0.10);
+  --bh:     rgba(26,22,20,0.20);
+  --s1:     rgba(26,22,20,0.035);
+  --s2:     rgba(26,22,20,0.065);
+  --amber:  #EF9F27;
+  --abg:    rgba(239,159,39,0.09);
+  --abr:    rgba(193,122,20,0.22);
+  --amuted: #9A5F0A;
+  --teal:   #1D9E75;
+  --tbg:    rgba(29,158,117,0.09);
+  --tbr:    rgba(15,122,88,0.22);
+  --tmuted: #0A6647;
+  --green:  #085041;
+  --ease:   cubic-bezier(.16,1,.3,1);
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--tp); line-height:1.5; overflow-x:hidden }
+a { color:inherit; text-decoration:none }
+button { font-family:inherit; cursor:pointer; border:none; background:none; color:inherit }
+
+/* ── STANDARD NAV ── */
+nav {
+  position:sticky; top:0; left:0; right:0; z-index:500;
+  padding:20px 40px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(245,240,232,.97); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo { display:flex; align-items:center; gap:10px; font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:22px; letter-spacing:-.02em; color:#0A0A0A; text-decoration:none }
+.nav-links { display:flex; gap:28px }
+.nav-links a { font-size:13px; font-weight:500; color:var(--ts); text-decoration:none; transition:color .15s }
+.nav-links a:hover { color:#085041 }
+.nav-auth { font-size:13px; font-weight:500; color:var(--ts); text-decoration:none; transition:color .15s }
+.nav-auth:hover { color:#085041 }
+/* Auth nav */
+.nav-user{position:relative;display:none}
+.nav-user.visible{display:flex;align-items:center}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid #EF9F27;background-size:cover;background-position:center;user-select:none;flex-shrink:0}
+.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:200px;padding:6px;z-index:999;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s}
+.nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
+.nav-dd-info{padding:10px 12px 8px;border-bottom:1px solid #f3f4f6;margin-bottom:4px}
+.nav-dd-info .dd-name{font-size:13px;font-weight:700;color:#111}
+.nav-dd-info .dd-email{font-size:11.5px;color:#9ca3af;margin-top:1px}
+.nav-dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .12s}
+.nav-dd-item:hover{background:#f9fafb;color:#085041}
+.nav-dd-item.danger{color:#dc2626}
+.nav-dd-item.danger:hover{background:#fff5f5}
+.nav-cta { padding:10px 18px; background:#0A0A0A; color:#F5F0E8; border-radius:999px; font-size:13px; font-weight:500; text-decoration:none; display:inline-flex; align-items:center; transition:background .15s }
+.nav-cta:hover { background:#085041 }
+
+/* ── TOPBAR (kept for share button) ── */
+.tb-right { display:flex; align-items:center; gap:8px }
+.tb-btn {
+  display:flex; align-items:center; gap:6px;
+  height:36px; padding:0 15px; border-radius:9px;
+  border:1px solid var(--border); font-size:13px; font-weight:600; color:var(--ts);
+  background:var(--card); transition:border-color .13s, color .13s;
+}
+.tb-btn:hover { border-color:var(--bh); color:var(--tp) }
+.tb-btn svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+
+/* ── FOOTER ── */
+.wrap { max-width:900px; margin:0 auto; padding:0 32px }
+footer { background:#0a0a0a; color:#fff; padding:60px 0 0 }
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; padding-bottom:48px; border-bottom:1px solid #1f1f1f }
+.fb p { color:#9ca3af; font-size:.875rem; line-height:1.6; margin-top:12px }
+footer h4 { font-size:.8rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#6b7280; margin-bottom:16px }
+footer ul { list-style:none; padding:0; display:flex; flex-direction:column; gap:10px }
+footer ul li a { color:#d1d5db; font-size:.875rem; text-decoration:none; transition:color .15s }
+footer ul li a:hover { color:#fff }
+.footer-bottom { display:flex; justify-content:space-between; align-items:center; padding:20px 0; font-size:.8rem; color:#6b7280 }
+.footer-bottom nav { display:flex; gap:20px; position:static; height:auto; background:none; border:none; padding:0 }
+.footer-bottom nav a { color:#6b7280; text-decoration:none; font-size:.8rem; font-weight:400 }
+.footer-bottom nav a:hover { color:#fff }
+.footer-logo { display:flex; align-items:center; gap:8px; font-weight:700; font-size:1.1rem; color:#fff }
+@media(max-width:768px) { .footer-top { grid-template-columns:1fr 1fr } }
+
+/* ── HERO BANNER ── */
+.req-banner {
+  background:var(--bg);
+  padding:48px 0 0;
+  position:relative; overflow:hidden;
+  border-bottom:1px solid var(--border);
+}
+.banner-inner { max-width:900px; margin:0 auto; padding:0 32px 0; position:relative }
+.req-fresh {
+  display:inline-flex; align-items:center; gap:7px;
+  height:24px; padding:0 11px; margin-bottom:20px;
+  border-radius:999px; font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--amuted); border:1px solid rgba(193,122,20,0.22); background:var(--abg);
+}
+.fresh-dot { width:5px; height:5px; border-radius:50%; background:var(--amber); animation:pulse 2.5s ease-in-out infinite }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+.req-cat-badge {
+  display:inline-flex; align-items:center; gap:7px;
+  height:26px; padding:0 12px; border-radius:6px; margin-bottom:14px;
+  font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+  color:var(--tmuted); background:var(--tbg); border:1px solid var(--tbr);
+}
+.req-title {
+  font-family:'Fraunces',Georgia,serif; font-size:32px; font-weight:600;
+  letter-spacing:-.025em; line-height:1.15; color:var(--tp);
+  margin-bottom:16px; max-width:580px;
+}
+.req-meta-row {
+  display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+  padding-bottom:24px; border-bottom:1px solid var(--border);
+  margin-bottom:0;
+}
+.req-meta-item {
+  display:flex; align-items:center; gap:6px;
+  font-size:13px; color:var(--tm); font-weight:500;
+}
+.req-meta-item svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+.req-meta-item strong { color:var(--ts); font-weight:600 }
+
+/* poster info strip */
+.poster-strip {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 0; flex-wrap:wrap; gap:12px;
+}
+.poster-info { display:flex; align-items:center; gap:12px }
+.poster-av {
+  width:38px; height:38px; border-radius:50%;
+  background:var(--abg); border:1px solid rgba(193,122,20,0.22);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; color:var(--amuted); flex-shrink:0;
+}
+.poster-name { font-size:13.5px; font-weight:600; color:var(--tp) }
+.poster-sub  { font-size:12px; color:var(--tm) }
+.req-status-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  height:26px; padding:0 12px; border-radius:999px;
+  font-size:11.5px; font-weight:700;
+}
+.req-status-badge.open   { color:#0A6647; background:rgba(29,158,117,0.14); border:1px solid rgba(29,158,117,0.25) }
+.req-status-badge.filled { color:#9A5F0A; background:rgba(239,159,39,0.12); border:1px solid rgba(239,159,39,0.22) }
+
+/* ── BODY LAYOUT ── */
+.req-body {
+  max-width:900px; margin:32px auto 80px; padding:0 32px;
+  display:grid; grid-template-columns:1fr 300px; gap:28px; align-items:start;
+}
+.main-col { display:flex; flex-direction:column; gap:24px }
+.side-col  { display:flex; flex-direction:column; gap:20px; position:sticky; top:74px }
+
+/* ── SECTION CARDS ── */
+.sec {
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
+  box-shadow:0 2px 12px rgba(26,22,20,0.05); overflow:hidden;
+}
+.sec-head { padding:20px 24px 0; font-family:'Fraunces',Georgia,serif; font-size:17px; font-weight:600; letter-spacing:-.01em }
+.sec-body { padding:16px 24px 24px }
+
+/* Details */
+.detail-text { font-size:15px; color:var(--ts); line-height:1.80; margin-bottom:20px }
+.detail-text.placeholder { color:var(--tm); font-style:italic }
+.chips { display:flex; flex-wrap:wrap; gap:7px }
+.chip {
+  font-size:12.5px; font-weight:500; color:var(--ts);
+  padding:5px 13px; border-radius:999px;
+  background:var(--s1); border:1px solid var(--border);
+}
+.chip.pref { color:var(--tmuted); background:var(--tbg); border-color:var(--tbr) }
+
+/* Info rows */
+.info-rows { display:flex; flex-direction:column; gap:0 }
+.info-row {
+  display:flex; align-items:flex-start; gap:16px;
+  padding:14px 0; border-bottom:1px solid var(--border);
+}
+.info-row:last-child { border-bottom:none }
+.info-icon {
+  width:36px; height:36px; border-radius:9px; flex-shrink:0; margin-top:1px;
+  background:var(--s1); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+}
+.info-icon svg { width:16px; height:16px; stroke:var(--ts); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+.info-icon.amber { background:var(--abg); border-color:var(--abr) }
+.info-icon.amber svg { stroke:var(--amuted) }
+.info-icon.teal  { background:var(--tbg); border-color:var(--tbr) }
+.info-icon.teal  svg { stroke:var(--tmuted) }
+.info-label { font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--tm); margin-bottom:3px }
+.info-val   { font-size:14px; font-weight:600; color:var(--tp) }
+.info-sub   { font-size:12px; color:var(--tm); margin-top:2px }
+
+/* Responses section */
+.response-empty {
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  padding:32px 0; text-align:center;
+}
+.response-empty svg { width:32px; height:32px; stroke:var(--tm); fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round }
+.response-empty p { font-size:13.5px; color:var(--tm); max-width:240px; line-height:1.6 }
+
+.response-card {
+  padding:16px 0; border-bottom:1px solid var(--border); display:flex; gap:14px;
+}
+.response-card:last-child { border-bottom:none }
+.resp-av {
+  width:40px; height:40px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; font-weight:700; color:#fff;
+}
+.resp-body { flex:1; min-width:0 }
+.resp-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:6px }
+.resp-name { font-size:14px; font-weight:700 }
+.resp-meta { font-size:12px; color:var(--tm) }
+.resp-cat-tag {
+  font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+  padding:2px 9px; border-radius:5px;
+  color:var(--tmuted); background:var(--tbg); border:1px solid var(--tbr);
+}
+.resp-msg { font-size:13.5px; color:var(--ts); line-height:1.65; margin-bottom:10px }
+.resp-actions { display:flex; gap:8px }
+.resp-view {
+  height:34px; padding:0 16px; border-radius:8px;
+  background:var(--tp); color:var(--bg);
+  font-size:12.5px; font-weight:700;
+  transition:background .13s;
+}
+.resp-view:hover { background:#000 }
+.resp-msg-btn {
+  height:34px; padding:0 14px; border-radius:8px;
+  border:1px solid var(--border); font-size:12.5px; font-weight:600; color:var(--ts); background:var(--bg);
+  transition:border-color .13s;
+}
+.resp-msg-btn:hover { border-color:var(--bh) }
+
+/* ── REPLY THREAD ── */
+.reply-thread { margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:10px }
+.reply-bubble {
+  display:flex; gap:9px; align-items:flex-start;
+}
+.reply-av {
+  width:28px; height:28px; border-radius:50%; flex-shrink:0; font-size:10px; font-weight:700; color:#fff;
+  display:flex; align-items:center; justify-content:center;
+}
+.reply-content { flex:1; min-width:0 }
+.reply-name { font-size:12px; font-weight:700; margin-bottom:2px }
+.reply-text { font-size:13px; color:var(--ts); line-height:1.6; background:var(--s1); border-radius:0 8px 8px 8px; padding:8px 11px }
+.reply-time { font-size:11px; color:var(--tm); margin-top:3px }
+.reply-form { margin-top:8px; display:flex; gap:8px; align-items:flex-end }
+.reply-form textarea {
+  flex:1; min-height:60px; border-radius:9px; border:1px solid var(--border);
+  padding:9px 12px; font-size:13px; line-height:1.55; resize:none;
+  background:var(--bg); color:var(--tp); font-family:'Inter',sans-serif;
+  transition:border-color .13s;
+}
+.reply-form textarea:focus { border-color:var(--teal); outline:none }
+.reply-send {
+  height:60px; width:60px; border-radius:9px; background:var(--teal); color:#fff;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  border:none; cursor:pointer; transition:background .13s;
+}
+.reply-send:hover { background:#17876A }
+.reply-send svg { width:18px; height:18px; stroke:#fff; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round }
+.reply-toggle { font-size:12.5px; font-weight:600; color:var(--teal); cursor:pointer; background:none; border:none; padding:0 }
+
+/* ── SIDEBAR ── */
+.respond-card {
+  background:var(--tp); border-radius:16px; padding:24px 20px;
+  box-shadow:0 8px 28px rgba(26,22,20,0.18);
+}
+.respond-card-title {
+  font-family:'Fraunces',Georgia,serif; font-size:17px; font-weight:600;
+  color:#FAF8F4; margin-bottom:4px;
+}
+.respond-card-sub { font-size:13px; color:rgba(250,248,244,0.55); margin-bottom:20px; line-height:1.5 }
+.btn-respond {
+  width:100%; height:48px; border-radius:11px;
+  background:var(--amber); color:#1A0E00;
+  font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px;
+  margin-bottom:8px; transition:transform .16s var(--ease), box-shadow .16s;
+}
+.btn-respond:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(239,159,39,.30) }
+.btn-respond svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round }
+.btn-respond-msg {
+  width:100%; height:44px; border-radius:11px;
+  border:1.5px solid rgba(250,248,244,0.18); color:rgba(250,248,244,0.75);
+  background:rgba(250,248,244,0.06); font-size:14px; font-weight:600;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:background .13s, border-color .13s;
+}
+.btn-respond-msg:hover { background:rgba(250,248,244,0.11); border-color:rgba(250,248,244,0.30) }
+.btn-respond-msg svg { width:15px; height:15px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+.respond-note {
+  display:flex; align-items:center; gap:6px; justify-content:center;
+  margin-top:12px; font-size:12px; color:rgba(250,248,244,0.40);
+}
+.respond-note svg { width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+
+/* Match score card */
+.match-card {
+  background:var(--card); border:1.5px solid var(--tbr);
+  border-radius:14px; padding:18px 20px;
+  box-shadow:0 2px 10px rgba(26,22,20,0.05);
+}
+.match-head { display:flex; align-items:center; gap:10px; margin-bottom:14px }
+.match-ic {
+  width:34px; height:34px; border-radius:9px; flex-shrink:0;
+  background:var(--tbg); display:flex; align-items:center; justify-content:center;
+}
+.match-ic svg { width:16px; height:16px; stroke:var(--teal); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round }
+.match-title { font-size:13.5px; font-weight:700; margin-bottom:2px }
+.match-sub   { font-size:11.5px; color:var(--tm) }
+.match-rows  { display:flex; flex-direction:column; gap:8px }
+.match-row {
+  display:flex; align-items:center; gap:9px; font-size:13px; color:var(--ts);
+}
+.match-row svg { width:14px; height:14px; stroke:var(--teal); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0 }
+
+/* Share card */
+.share-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:14px; padding:18px 20px;
+}
+.share-label { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--tm); margin-bottom:11px }
+.share-url {
+  display:flex; align-items:center;
+  background:var(--bg); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:10px;
+}
+.share-url-text {
+  flex:1; padding:10px 12px; font-size:12px; color:var(--ts); font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.share-copy {
+  height:40px; padding:0 14px; flex-shrink:0;
+  background:var(--tp); color:var(--bg); font-size:12px; font-weight:700; transition:background .13s;
+}
+.share-copy:hover { background:#000 }
+.share-copy.copied { background:var(--teal); color:#fff }
+.share-wa {
+  width:100%; height:36px; border-radius:8px;
+  border:1.5px solid rgba(37,211,102,0.30); background:rgba(37,211,102,0.07);
+  color:#1a6b34; font-size:13px; font-weight:600;
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  transition:background .13s;
+}
+.share-wa:hover { background:rgba(37,211,102,0.12) }
+.share-wa svg { width:15px; height:15px; stroke:#25D366; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
+
+/* ── MODAL ── */
+.overlay {
+  position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,.52); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity .22s var(--ease);
+}
+.overlay.open { opacity:1; pointer-events:all }
+.modal {
+  width:100%; max-width:480px; background:#fff;
+  border:1px solid var(--border); border-radius:20px;
+  box-shadow:0 28px 72px rgba(26,22,20,0.18);
+  transform:translateY(16px) scale(.984); transition:transform .28s var(--ease);
+  max-height:92vh; overflow-y:auto;
+}
+.overlay.open .modal { transform:none }
+.modal-head {
+  padding:22px 24px 0; display:flex; align-items:center; justify-content:space-between;
+}
+.modal-title { font-family:'Fraunces',Georgia,serif; font-size:20px; font-weight:600 }
+.modal-x {
+  width:30px; height:30px; border-radius:8px; background:var(--s1); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--ts); cursor:pointer; transition:background .13s;
+}
+.modal-x:hover { background:var(--s2) }
+.modal-body { padding:18px 24px 24px }
+.modal-sub { font-size:13.5px; color:var(--ts); margin-bottom:22px; line-height:1.55 }
+.modal-prog { display:flex; gap:4px; margin-bottom:24px }
+.mp { height:2px; flex:1; border-radius:999px; background:var(--s2); transition:background .3s }
+.mp.done   { background:var(--amber) }
+.mp.active { background:rgba(239,159,39,0.35) }
+.field { margin-bottom:15px }
+.field label {
+  display:block; font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em; color:var(--tm); margin-bottom:7px;
+}
+.field span.opt { text-transform:none; letter-spacing:0; font-weight:400; color:var(--tm) }
+.field input, .field textarea, .field select {
+  width:100%; padding:11px 13px; border-radius:9px;
+  background:var(--bg); border:1px solid var(--border);
+  font-size:13.5px; color:var(--tp); outline:none; transition:border-color .14s;
+}
+.field input:focus, .field textarea:focus, .field select:focus { border-color:rgba(26,22,20,0.30); background:#fff }
+.field textarea { min-height:88px; resize:vertical; line-height:1.55 }
+.field input::placeholder, .field textarea::placeholder { color:var(--tm) }
+.modal-actions { display:flex; gap:8px; margin-top:4px }
+.btn-back {
+  height:44px; padding:0 16px; border-radius:9px;
+  border:1px solid var(--border); font-size:13.5px; font-weight:600; color:var(--ts); background:var(--bg);
+}
+.btn-next {
+  flex:1; height:44px; border-radius:9px;
+  background:var(--amber); color:#1A0E00; font-size:13.5px; font-weight:700;
+  transition:transform .16s var(--ease), box-shadow .16s;
+}
+.btn-next:hover { transform:translateY(-1px); box-shadow:0 6px 16px rgba(239,159,39,.26) }
+.btn-next:disabled { opacity:.35; pointer-events:none }
+.btn-submit-msg {
+  flex:1; height:44px; border-radius:9px;
+  background:var(--tp); color:var(--bg); font-size:13.5px; font-weight:700; transition:background .13s;
+}
+.btn-submit-msg:hover { background:#000 }
+
+/* Review box */
+.rev-box { border:1px solid var(--border); border-radius:11px; overflow:hidden; margin-bottom:18px }
+.rev-row { display:flex; align-items:flex-start; justify-content:space-between; padding:11px 14px; border-bottom:1px solid var(--border) }
+.rev-row:last-child { border-bottom:none }
+.rk { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--tm); padding-top:1px }
+.rv { font-size:13px; font-weight:600; text-align:right; max-width:240px; line-height:1.4 }
+
+/* Success */
+.sc-wrap { text-align:center; padding:8px 0 4px }
+.sc-ic {
+  width:52px; height:52px; border-radius:13px; background:var(--tbg); border:1px solid var(--tbr);
+  display:flex; align-items:center; justify-content:center; margin:0 auto 18px;
+}
+.sc-ic svg { width:22px; height:22px; stroke:var(--teal); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round }
+.sc-h { font-family:'Fraunces',Georgia,serif; font-size:21px; font-weight:600; margin-bottom:8px }
+.sc-p { font-size:13.5px; color:var(--ts); line-height:1.65; margin-bottom:16px; max-width:320px; margin-left:auto; margin-right:auto }
+.sms-confirm { display:flex; align-items:center; gap:7px; justify-content:center; font-size:12.5px; font-weight:600; color:#0A6647; background:rgba(15,122,88,0.09); border:1px solid rgba(15,122,88,0.18); border-radius:8px; padding:9px 14px; margin:0 auto 20px; max-width:280px }
+.nudge {
+  padding:18px; border-radius:12px; background:var(--bg); border:1px solid var(--border); text-align:left;
+}
+.nudge-t { font-size:13.5px; font-weight:700; margin-bottom:5px }
+.nudge-s { font-size:12.5px; color:var(--ts); line-height:1.55; margin-bottom:14px }
+.nudge-btns { display:flex; gap:8px }
+.nudge-btns a, .nudge-btns button {
+  flex:1; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:700;
+}
+.np { background:var(--teal); color:#fff }
+.ns { background:var(--s1); border:1px solid var(--border); color:var(--ts) }
+
+/* ── RESPONSES LOCKED STATE ── */
+.resp-locked {
+  display:flex; flex-direction:column; align-items:center; gap:12px;
+  padding:36px 24px; text-align:center;
+}
+.resp-locked-ic {
+  width:52px; height:52px; border-radius:14px;
+  background:var(--s1); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+}
+.resp-locked-ic svg { width:22px; height:22px; stroke:var(--tm); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round }
+.resp-locked-title { font-size:15px; font-weight:700; color:var(--tp) }
+.resp-locked-sub   { font-size:13px; color:var(--tm); max-width:260px; line-height:1.65 }
+.resp-locked-btn {
+  height:40px; padding:0 22px; border-radius:9px;
+  background:var(--tp); color:var(--bg);
+  font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:7px;
+  transition:background .13s;
+}
+.resp-locked-btn:hover { background:#000 }
+.resp-locked-btn svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(12px);
+  background:var(--tp); color:var(--bg); padding:12px 22px;
+  border-radius:10px; font-size:13.5px; font-weight:600;
+  box-shadow:0 8px 24px rgba(26,22,20,0.22);
+  opacity:0; pointer-events:none; transition:opacity .22s var(--ease), transform .22s var(--ease);
+  z-index:600; white-space:nowrap;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0) }
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  .topbar { padding:0 16px }
+  .req-title { font-size:24px }
+  .banner-inner { padding:0 16px }
+  .req-body { margin:24px 16px 60px; padding:0; grid-template-columns:1fr; gap:20px }
+  .side-col { position:static }
+  .modal { margin:12px; max-width:none; border-radius:16px }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ STANDARD NAV ══ -->
+<nav>
+  <a href="/" class="nav-logo">
+    <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
+      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+      <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+    </svg>
+    <span>Sowo</span>
+  </a>
+  <div class="nav-links">
+    <a href="/browse.html">Browse providers</a>
+    <a href="/requests.html">Active requests</a>
+    <a href="/become-provider.html">List your service</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <button class="tb-btn" onclick="copyReqLink()">
+      <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Share
+    </button>
+    <a href="/login.html" class="nav-auth" id="nav-login-btn">Sign in</a>
+    <a href="/signup.html" class="nav-cta" id="nav-cta-btn">Get started</a>
+      <div class="nav-user" id="nav-user">
+      <div class="nav-avatar" id="nav-av">?</div>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <div class="nav-dd-info">
+          <div class="dd-name" id="nav-dd-name"></div>
+          <div class="dd-email" id="nav-dd-email"></div>
+        </div>
+        <a href="/dashboard.html" class="nav-dd-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          Dashboard
+        </a>
+        <a href="/dashboard.html" class="nav-dd-item">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          My Profile
+        </a>
+        <button class="nav-dd-item danger" id="nav-signout-btn">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+          Sign out
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ BANNER ══ -->
+<div class="req-banner">
+  <div class="banner-inner">
+    <div class="req-fresh" id="freshBadge"><span class="fresh-dot"></span><span id="freshLabel">New request</span></div>
+    <div class="req-cat-badge" id="catBadge"></div>
+    <h1 class="req-title" id="reqTitle"></h1>
+    <div class="req-meta-row" id="reqMeta"></div>
+    <div class="poster-strip">
+      <div class="poster-info">
+        <div class="poster-av" id="posterAv"></div>
+        <div>
+          <div class="poster-name" id="posterName"></div>
+          <div class="poster-sub" id="posterSub"></div>
+        </div>
+      </div>
+      <span class="req-status-badge open" id="statusBadge">
+        <span id="statusDot" style="width:6px;height:6px;border-radius:50%;background:#1D9E75;display:inline-block"></span>
+        Open for responses
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BODY ══ -->
+<div class="req-body">
+
+  <!-- MAIN COL -->
+  <div class="main-col">
+
+    <!-- What they need -->
+    <div class="sec">
+      <div class="sec-head">What they need</div>
+      <div class="sec-body">
+        <p class="detail-text" id="detailDesc"></p>
+        <div class="chips" id="prefChips"></div>
+      </div>
+    </div>
+
+    <!-- Request details -->
+    <div class="sec">
+      <div class="sec-head">Request details</div>
+      <div class="sec-body">
+        <div class="info-rows" id="infoRows"></div>
+      </div>
+    </div>
+
+    <!-- Responses -->
+    <div class="sec">
+      <div class="sec-head">Provider responses <span id="respCount" style="font-size:14px;font-weight:500;color:var(--tm);font-family:'Inter',sans-serif;margin-left:6px"></span></div>
+      <div class="sec-body" id="respBody"></div>
+    </div>
+
+  </div>
+
+  <!-- SIDE COL -->
+  <div class="side-col">
+
+    <!-- Respond CTA -->
+    <div class="respond-card">
+      <div class="respond-card-title">Are you the right person?</div>
+      <div class="respond-card-sub" id="respondSub"></div>
+      <button class="btn-respond" onclick="openRespondModal()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Respond to this request
+      </button>
+      <button class="btn-respond-msg" onclick="openMsgModal()">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Send a message first
+      </button>
+      <div class="respond-note">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Responses are shared only with the poster
+      </div>
+    </div>
+
+    <!-- Match hint -->
+    <div class="match-card" id="matchCard">
+      <div class="match-head">
+        <div class="match-ic"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div>
+          <div class="match-title">You might be a good fit</div>
+          <div class="match-sub">Based on this request</div>
+        </div>
+      </div>
+      <div class="match-rows" id="matchRows"></div>
+    </div>
+
+    <!-- Share -->
+    <div class="share-card">
+      <div class="share-label">Share this request</div>
+      <div class="share-url">
+        <span class="share-url-text" id="shareUrlText"></span>
+        <button class="share-copy" id="copyBtn" onclick="copyReqLink()">Copy</button>
+      </div>
+      <button class="share-wa" onclick="shareWhatsApp()">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Share on WhatsApp
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ RESPOND MODAL (multi-step) ══ -->
+<div class="overlay" id="respondOv" onclick="closeIfBg(event,'respondOv')">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="respondModalTitle">Respond to request</div>
+      <button class="modal-x" onclick="closeModal('respondOv')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-prog" id="respondProg"></div>
+      <div id="respondBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MESSAGE MODAL ══ -->
+<div class="overlay" id="msgOv" onclick="closeIfBg(event,'msgOv')">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Send a message</div>
+      <button class="modal-x" onclick="closeModal('msgOv')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-sub" id="msgSub"></p>
+      <div class="field"><label>Your name</label><input id="msgName" placeholder="e.g. James O."></div>
+      <div class="field"><label>Message</label><textarea id="msgText" placeholder="Hi, I can help with this. I specialise in…" style="min-height:100px"></textarea></div>
+      <div class="modal-actions">
+        <button class="btn-back" onclick="closeModal('msgOv')">Cancel</button>
+        <button class="btn-submit-msg" onclick="submitMsg()">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="fb">
+        <div class="footer-logo">
+          <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
+            <path d="M10 90 C10 44 30 10 60 10" stroke="#9FE1CB" stroke-width="9" stroke-linecap="round"/>
+            <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+            <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+            <circle cx="60" cy="10" r="5" fill="#fff"/>
+          </svg>
+          <span>Sowo</span>
+        </div>
+        <p>Trusted help, near you. Find vetted providers or earn doing what you love. One account, both sides.</p>
+      </div>
+      <div>
+        <h4>Browse</h4>
+        <ul>
+          <li><a href="/browse.html?cat=beauty">Beauty &amp; Makeup</a></li>
+          <li><a href="/browse.html?cat=nails">Nail Technicians</a></li>
+          <li><a href="/browse.html?cat=hair">Hairdressers</a></li>
+          <li><a href="/browse.html?cat=barber">Barbers</a></li>
+          <li><a href="/browse.html?cat=photography">Photography</a></li>
+          <li><a href="/browse.html">All providers →</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/requests.html">Active requests</a></li>
+          <li><a href="/requests.html">Post a request</a></li>
+          <li><a href="/become-provider.html">List your service</a></li>
+          <li><a href="/#how">How it works</a></li>
+          <li><a href="/#manifesto">Our manifesto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Account</h4>
+        <ul>
+          <li><a href="/login.html">Sign in</a></li>
+          <li><a href="/signup.html">Create account</a></li>
+          <li><a href="/dashboard.html">Dashboard</a></li>
+          <li><a href="mailto:hello@sowo.co.uk">Contact us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Sowo. This is an early-stage MVP. Features are still being tested and some things may not work as expected. Not yet a registered company.</p>
+      <nav>
+        <a href="mailto:hello@sowo.co.uk">Contact</a>
+        <a href="/become-provider.html">For providers</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ══════════════════════════════════════
+   SEEDED REQUESTS
+   (real ones come from Supabase / localStorage)
+══════════════════════════════════════ */
+const SEED_REQUESTS = [
+  {
+    id: 'req-001',
+    cat: 'Barber',
+    title: 'Need a barber who knows afro hair',
+    loc: 'Manchester',
+    age: '2h ago',
+    poster: 'Taiwo B.',
+    posterInitials: 'TB',
+    desc: 'Looking for an experienced barber who specialises in Afro, waves or locs. I have 4C hair and have struggled to find someone who knows what they\'re doing with it. Ideally someone who can come to me or is based near Manchester city centre.',
+    prefs: ['Speaks my language', 'Verified only', 'Female provider'],
+    budget: '£20 – £35',
+    timing: 'This week, flexible on days',
+    contact: 'Message on Sowo',
+    responses: [
+      {
+        name: 'James Okonkwo', initials: 'JO', avatarBg:'#085041',
+        cat: 'Barber', profileSlug: 'james-barber',
+        msg: 'Hi! I specialise in Afro, 4C hair and skin fades. Based in Manchester and available this week. Check out my profile: 47 reviews, 4.9 rating. Happy to come to you.',
+        time: '45 min ago',
+      }
+    ],
+    matchHints: ['Barber specialising in Afro hair', 'Based in Manchester', 'Responds in ~15 min'],
+  },
+  {
+    id: 'req-002',
+    cat: 'Cleaning',
+    title: 'Looking for a reliable cleaner',
+    loc: 'East London',
+    age: '3h ago',
+    poster: 'Priya M.',
+    posterInitials: 'PM',
+    desc: 'Need a reliable cleaner for a 2-bed flat in Hackney. Weekly or fortnightly visit, 2–3 hours each time. Prefer someone who uses eco-friendly products. DBS check a bonus.',
+    prefs: ['Eco products', 'DBS checked', 'Flexible hours'],
+    budget: '£50 – £80 per visit',
+    timing: 'Fortnightly, Tuesday or Thursday preferred',
+    contact: 'Either works',
+    responses: [],
+    matchHints: ['Cleaning service in East London', 'Flexible scheduling', 'Eco-friendly products a plus'],
+  },
+  {
+    id: 'req-003',
+    cat: 'Moving',
+    title: 'Moving help needed this weekend',
+    loc: 'Salford',
+    age: '5h ago',
+    poster: 'Marcus O.',
+    posterInitials: 'MO',
+    desc: '1-bed flat move within Salford. Most things already boxed. Need someone with a van and ideally a second pair of hands. Saturday morning preferred.',
+    prefs: ['Quick response', 'Evenings or weekends'],
+    budget: '£80 – £150',
+    timing: 'Saturday morning',
+    contact: 'WhatsApp',
+    responses: [],
+    matchHints: ['Moving service in Salford', 'Weekend availability required', 'Van needed'],
+  },
+  {
+    id: 'req-004',
+    cat: 'Tutoring',
+    title: 'GCSE maths tutor, year 11',
+    loc: 'Birmingham',
+    age: '1d ago',
+    poster: 'Sola A.',
+    posterInitials: 'SA',
+    desc: 'My daughter is in year 11 and sitting her maths GCSE in June. She needs help with algebra and statistics especially. Looking for someone patient and encouraging, ideally Yoruba-speaking so she feels comfortable.',
+    prefs: ['Speaks my language', 'Student-friendly', 'Verified only'],
+    budget: '£25 – £40/hr',
+    timing: 'Twice a week, evenings',
+    contact: 'Message on Sowo',
+    responses: [],
+    matchHints: ['Maths tutor in Birmingham', 'Yoruba-speaking preferred', 'Evening slots needed'],
+  },
+];
+
+/* ── resolve request ── */
+// Hash fragments survive serve's redirect stripping; fall back to query param
+const _hash = location.hash.slice(1);
+const params = new URLSearchParams(location.search);
+const rid = (_hash && _hash !== 'as-poster' ? _hash : null) || params.get('id') || 'req-001';
+
+/* also check localStorage items */
+function getAllRequests() {
+  const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+  return [...stored, ...SEED_REQUESTS];
+}
+const R = getAllRequests().find(r => r.id === rid) || SEED_REQUESTS[0];
+const reqUrl = `${location.origin}/request.html#${R.id}`;
+document.title = `${R.title} - Sowo`;
+
+/* ── Render fresh badge ── */
+if(R.age && (R.age.includes('min') || R.age.includes('1h') || R.age.includes('2h'))) {
+  document.getElementById('freshLabel').textContent = 'Just posted · ' + R.age;
+} else {
+  document.getElementById('freshBadge').style.display = 'none';
+}
+
+/* ── Banner ── */
+document.getElementById('catBadge').textContent   = R.cat;
+document.getElementById('reqTitle').textContent   = R.title;
+document.getElementById('posterAv').textContent   = R.posterInitials || R.poster?.slice(0,2) || '??';
+document.getElementById('posterName').textContent = R.poster || 'Anonymous';
+document.getElementById('posterSub').textContent  = `Posted ${R.age} · ${R.loc}`;
+
+const metaItems = [
+  { icon:'map-pin', label: R.loc },
+  { icon:'clock',   label: R.age },
+  { icon:'tag',     label: R.cat },
+];
+document.getElementById('reqMeta').innerHTML = metaItems.map(m => `
+  <div class="req-meta-item">
+    ${metaIcon(m.icon)}
+    <strong>${m.label}</strong>
+  </div>`).join('');
+
+function metaIcon(name) {
+  const icons = {
+    'map-pin': `<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+    'clock':   `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    'tag':     `<svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
+  };
+  return icons[name] || '';
+}
+
+/* ── What they need ── */
+document.getElementById('detailDesc').textContent = R.desc || '';
+if(!R.desc) document.getElementById('detailDesc').classList.add('placeholder'),
+            document.getElementById('detailDesc').textContent = 'No additional details provided.';
+document.getElementById('prefChips').innerHTML =
+  (R.prefs || []).map(p => `<span class="chip pref">${p}</span>`).join('');
+
+/* ── Request details ── */
+const infoData = [
+  { icon:'pound', cls:'amber', label:'Budget', val: R.budget || 'Not specified', sub: 'Approximate range' },
+  { icon:'calendar', cls:'teal', label:'Timing', val: R.timing || 'Flexible', sub: 'Preferred schedule' },
+  { icon:'map-pin', cls:'', label:'Location', val: R.loc, sub: 'Area' },
+  { icon:'message', cls:'', label:'Preferred contact', val: R.contact || 'Message on Sowo', sub: 'How to reach them' },
+];
+const rowIcons = {
+  pound:    `<svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+  calendar: `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  'map-pin':`<svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  message:  `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+};
+document.getElementById('infoRows').innerHTML = infoData.map(d => `
+  <div class="info-row">
+    <div class="info-icon ${d.cls}">${rowIcons[d.icon]||''}</div>
+    <div>
+      <div class="info-label">${d.label}</div>
+      <div class="info-val">${d.val}</div>
+      <div class="info-sub">${d.sub}</div>
+    </div>
+  </div>`).join('');
+
+/* ── Ownership check ──
+   A request belongs to this session if its id is stored in
+   localStorage['sowo_my_requests'] (written when they post via the flow).
+   Supabase will replace this with a real user-id check later.
+─────────────────────────────────────────────────────── */
+function isOwner(requestId) {
+  const mine = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+  // Hash-based demo toggle: #as-poster (hash survives server redirects)
+  if(location.hash === '#as-poster') return true;
+  return mine.includes(requestId);
+}
+const owner = isOwner(R.id);
+
+/* ── Responses ── */
+const responses = R.responses || [];
+
+if(!owner) {
+  // Not the poster - show locked state
+  document.getElementById('respCount').textContent = '';
+  document.getElementById('respBody').innerHTML = `
+    <div class="resp-locked">
+      <div class="resp-locked-ic">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="resp-locked-title">Responses are private</div>
+      <div class="resp-locked-sub">Only the person who posted this request can see who has responded.</div>
+      <a href="/requests.html" class="resp-locked-btn">
+        <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Post your own request
+      </a>
+    </div>`;
+} else {
+  // The poster - show all responses
+  document.getElementById('respCount').textContent = responses.length > 0 ? `(${responses.length})` : '';
+  document.getElementById('respBody').innerHTML = responses.length === 0
+    ? `<div class="response-empty">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <p>No responses yet. Providers will appear here when they reply.</p>
+      </div>`
+    : responses.map((r, ri) => {
+        const respId = r.id || ('resp-' + ri);
+        r.id = respId; // ensure id exists
+        const posterInitials = (R.posterInitials || 'You');
+        const replyThread = (r.replies && r.replies.length) ? `
+          <div class="reply-thread">
+            ${r.replies.map(rep => `
+              <div class="reply-bubble">
+                <div class="reply-av" style="background:${rep.from==='poster'?'#5B4FCF':'#085041'}">${rep.from==='poster'?posterInitials:r.initials}</div>
+                <div class="reply-content">
+                  <div class="reply-name">${rep.from==='poster'?'You':r.name}</div>
+                  <div class="reply-text">${rep.text}</div>
+                  <div class="reply-time">${rep.time}</div>
+                </div>
+              </div>`).join('')}
+          </div>` : '';
+        const profileLink = r.profileSlug ? `<a href="/provider.html#${r.profileSlug}" class="resp-view">View profile</a>` : '';
+        return `
+      <div class="response-card" id="rcard-${respId}">
+        <div class="resp-av" style="background:${r.avatarBg||'#085041'}">${r.initials}</div>
+        <div class="resp-body">
+          <div class="resp-top">
+            <div>
+              <div class="resp-name">${r.name}</div>
+              <div class="resp-meta">${r.time}${r.price ? ' · ' + r.price : ''}</div>
+            </div>
+            <span class="resp-cat-tag">${r.cat}</span>
+          </div>
+          <div class="resp-msg">${r.msg}</div>
+          <div class="resp-actions">
+            ${profileLink}
+            <button class="resp-msg-btn reply-toggle" onclick="toggleReply('${respId}')">Reply</button>
+          </div>
+          ${replyThread}
+          <div class="reply-form" id="replyForm-${respId}" style="display:none">
+            <textarea id="replyInput-${respId}" placeholder="Write a reply…"></textarea>
+            <button class="reply-send" onclick="submitReply('${respId}','${ri}')">
+              <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>`;
+      }).join('');
+}
+
+/* ── Sidebar: provider CTAs vs owner controls ── */
+if (owner) {
+  // OWNER VIEW: replace respond/message buttons with edit/delete + response summary
+  const respondCard = document.querySelector('.respond-card');
+  const respCount = (R.responses || []).length;
+  if (respondCard) {
+    respondCard.innerHTML = `
+      <div class="respond-card-title">Your request</div>
+      <div class="respond-card-sub">${respCount === 0
+        ? 'No responses yet. You\'ll see them here as providers reply.'
+        : '<strong style="color:#fff">' + respCount + ' provider' + (respCount>1?'s have':' has') + ' responded.</strong> Reply to start a conversation.'}</div>
+      <button class="btn-respond" onclick="openEditModal()" style="background:#F3F0E9;color:#1A1614">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit request
+      </button>
+      <button class="btn-respond-msg" onclick="deleteRequest()" style="color:rgba(255,150,150,0.85);border-color:rgba(255,100,100,0.25)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        Delete request
+      </button>
+      <div class="respond-note">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Only you can see who's responded
+      </div>`;
+  }
+  // Hide the match-card ("You might be a good fit") - irrelevant for owner
+  const matchCard = document.getElementById('matchCard');
+  if (matchCard) matchCard.style.display = 'none';
+} else {
+  // PROVIDER / VISITOR VIEW: keep the original CTA copy
+  document.getElementById('respondSub').textContent =
+    `This person is looking for a ${R.cat} in ${R.loc}. If that's you, introduce yourself.`;
+  document.getElementById('matchRows').innerHTML =
+    (R.matchHints || []).map(h => `
+      <div class="match-row">
+        <svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>
+        ${h}
+      </div>`).join('');
+}
+
+/* ── Edit / Delete handlers (owner only) ── */
+function openEditModal() {
+  const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+  const liveR = stored.find(r => r.id === R.id) || R;
+  const html = `
+    <div class="overlay open" id="editOv" onclick="if(event.target===this){closeEditModal()}" style="display:flex">
+      <div class="modal" style="max-width:520px">
+        <div class="modal-head">
+          <div class="modal-title">Edit your request</div>
+          <button class="modal-x" onclick="closeEditModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="field"><label>Headline</label><input id="ed_title" maxlength="80" value="${(liveR.title||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>Details</label><textarea id="ed_desc" style="min-height:90px">${(liveR.desc||'').replace(/</g,'&lt;')}</textarea></div>
+          <div class="field"><label>Location</label><input id="ed_loc" value="${(liveR.loc||'').replace(/"/g,'&quot;')}"></div>
+          <div style="display:flex;gap:10px">
+            <div class="field" style="flex:1"><label>Budget</label><input id="ed_budget" value="${(liveR.budget||'').replace(/"/g,'&quot;')}"></div>
+            <div class="field" style="flex:1"><label>Timing</label><input id="ed_timing" value="${(liveR.timing||'').replace(/"/g,'&quot;')}"></div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-back" onclick="closeEditModal()">Cancel</button>
+            <button class="btn-next" onclick="saveEdits()">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
+}
+function closeEditModal() {
+  const ov = document.getElementById('editOv');
+  if (ov) ov.remove();
+  document.body.style.overflow = '';
+}
+function saveEdits() {
+  const get = id => document.getElementById(id)?.value.trim() || '';
+  const title  = get('ed_title');
+  const desc   = get('ed_desc');
+  const loc    = get('ed_loc');
+  const budget = get('ed_budget');
+  const timing = get('ed_timing');
+  if (!title) { alert('Headline is required'); return; }
+  try {
+    const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    const idx = stored.findIndex(r => r.id === R.id);
+    if (idx !== -1) {
+      stored[idx] = Object.assign({}, stored[idx], { title, desc, loc, budget, timing });
+      localStorage.setItem('sowo_r', JSON.stringify(stored));
+    }
+  } catch(e) {}
+  showToast('Request updated');
+  setTimeout(() => window.location.reload(), 600);
+}
+function deleteRequest() {
+  if (!confirm('Delete this request? This cannot be undone.')) return;
+  try {
+    const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    const filtered = stored.filter(r => r.id !== R.id);
+    localStorage.setItem('sowo_r', JSON.stringify(filtered));
+    const owned = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+    localStorage.setItem('sowo_my_requests', JSON.stringify(owned.filter(id => id !== R.id)));
+  } catch(e) {}
+  window.location.href = '/requests.html';
+}
+
+/* ── Share ── */
+document.getElementById('shareUrlText').textContent = reqUrl;
+document.getElementById('msgSub').textContent = `Send a message to ${R.poster || 'the poster'} about their request.`;
+
+/* ══ RESPOND MULTI-STEP FLOW ══ */
+let rStep = 0, rData = {};
+const rTotalSteps = 3;
+
+function openRespondModal() {
+  rStep = 0; rData = {};
+  renderRespondStep();
+  document.getElementById('respondOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeIfBg(e, id) {
+  if(e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', function(e){
+  if (e.key !== 'Escape') return;
+  ['respondOv','msgOv'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el && el.classList.contains('open')) closeModal(id);
+  });
+});
+function rNext() { persistRespond(); rStep++; renderRespondStep(); }
+function rPrev() { rStep--; renderRespondStep(); }
+
+function persistRespond() {
+  const g = id => document.getElementById(id)?.value;
+  if(g('rName'))  rData.name    = g('rName');
+  if(g('rCat'))   rData.cat     = g('rCat');
+  if(g('rMsg'))   rData.message = g('rMsg');
+  if(g('rPrice')) rData.price   = g('rPrice');
+}
+
+function renderRespondStep() {
+  document.getElementById('respondProg').innerHTML =
+    Array.from({length: rTotalSteps}, (_,i) =>
+      `<div class="mp ${i < rStep ? 'done' : i === rStep ? 'active' : ''}"></div>`
+    ).join('');
+
+  const steps = [respondStep0, respondStep1, respondStep2, respondSuccess];
+  document.getElementById('respondBody').innerHTML = steps[rStep]?.() || '';
+}
+
+function respondStep0() { return `
+  <p class="modal-sub">Tell them a little about yourself. Keep it personal and relevant.</p>
+  <div class="field"><label>Your name or business name</label><input id="rName" placeholder="e.g. James Okonkwo" value="${rData.name||''}"></div>
+  <div class="field"><label>Your category / skill</label>
+    <select id="rCat">
+      ${['Barber','Cleaning','Electrical','Plumbing','Tutoring','Beauty','Moving','Childcare'].map(c =>
+        `<option value="${c}" ${(rData.cat||R.cat)===c?'selected':''}>${c}</option>`).join('')}
+    </select>
+  </div>
+  <div class="modal-actions">
+    <button class="btn-next" ${''} onclick="rNext()">Continue</button>
+  </div>`; }
+
+function respondStep1() { return `
+  <p class="modal-sub">Write your response to <strong>${R.poster||'them'}</strong>. Explain why you're the right fit.</p>
+  <div class="field"><label>Your message</label>
+    <textarea id="rMsg" placeholder="Hi! I can help with this. I specialise in… I'm based in… Available from…" style="min-height:120px">${rData.message||''}</textarea>
+  </div>
+  <div class="field"><label>Your price / rate <span class="opt">(optional)</span></label>
+    <input id="rPrice" placeholder="e.g. £25–£35 or From £30" value="${rData.price||''}">
+  </div>
+  <div class="modal-actions">
+    <button class="btn-back" onclick="rPrev()">Back</button>
+    <button class="btn-next" onclick="rNext()">Review &amp; send</button>
+  </div>`; }
+
+function respondStep2() { return `
+  <p class="modal-sub">Review your response before it's sent to ${R.poster||'the poster'}.</p>
+  <div class="rev-box">
+    <div class="rev-row"><span class="rk">Name</span><span class="rv">${rData.name||''}</span></div>
+    <div class="rev-row"><span class="rk">Category</span><span class="rv">${rData.cat||R.cat}</span></div>
+    ${rData.price ? `<div class="rev-row"><span class="rk">Price</span><span class="rv">${rData.price}</span></div>` : ''}
+    <div class="rev-row"><span class="rk">Message</span><span class="rv" style="white-space:pre-wrap;word-break:break-word">${rData.message||''}</span></div>
+  </div>
+  <div class="modal-actions">
+    <button class="btn-back" onclick="rPrev()">Back</button>
+    <button class="btn-next" onclick="submitRespond()">Send response</button>
+  </div>`; }
+
+function respondSuccess() {
+  const smsNote = R.phone ? `
+    <div class="sms-confirm">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V19a2 2 0 01-2.18 2A19.79 19.79 0 0111.37 18a19.5 19.5 0 01-6-6A19.79 19.79 0 013 4.18 2 2 0 014.98 2H7.09a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Text notification sent to the poster
+    </div>` : '';
+  return `
+  <div class="sc-wrap">
+    <div class="sc-ic"><svg viewBox="0 0 24 24"><polyline points="4,13 9,18 20,6"/></svg></div>
+    <div class="sc-h">Response sent!</div>
+    <p class="sc-p">${R.poster||'The poster'} will be notified. If they're interested they'll reach out directly.</p>
+    ${smsNote}
+    <div class="nudge">
+      <div class="nudge-t">Make your profile work harder</div>
+      <div class="nudge-s">Create a free provider profile so clients can see your full portfolio, reviews, and pricing before replying.</div>
+      <div class="nudge-btns">
+        <a href="/become-provider.html" class="np">Create profile</a>
+        <button class="ns" onclick="closeModal('respondOv')">Maybe later</button>
+      </div>
+    </div>
+  </div>`; }
+
+function submitRespond() {
+  persistRespond();
+  if(!rData.name || !rData.message) return;
+
+  /* ── Save response to localStorage ── */
+  const nameWords = (rData.name || '?').trim().split(/\s+/);
+  const newResp = {
+    id:         'resp-' + Date.now(),
+    name:       rData.name,
+    initials:   nameWords.map(w => w[0]).join('').toUpperCase().slice(0, 2),
+    avatarBg:   '#085041',
+    cat:        rData.cat || R.cat,
+    msg:        rData.message,
+    price:      rData.price || '',
+    time:       'just now',
+    profileSlug: '',
+    replies:    [],
+  };
+  const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+  const idx = stored.findIndex(r => r.id === R.id);
+  if (idx !== -1) {
+    if (!stored[idx].responses) stored[idx].responses = [];
+    stored[idx].responses.push(newResp);
+    localStorage.setItem('sowo_r', JSON.stringify(stored));
+    R.responses = stored[idx].responses; // keep in-memory in sync
+  }
+
+  /* ── SMS notification ──────────────────────────────────────
+     Fires when a provider submits a response.
+     Replace the fetch stub below with your Supabase Edge Function
+     + Twilio endpoint when the backend is ready.
+
+     Edge function endpoint: POST /functions/v1/notify-poster
+     Body: { to: phone, message: text }
+  ──────────────────────────────────────────────────────────── */
+  if(R.phone) {
+    const smsText = `Hi! ${rData.name} responded to your Sowo request "${R.title}". Log in at usesowo.com to view their message and book.`;
+    sendSMSNotification(R.phone, smsText);
+  }
+  rStep++;
+  renderRespondStep();
+}
+
+/* ── Reply to a specific provider response (poster only) ── */
+function toggleReply(respId) {
+  const form = document.getElementById('replyForm-' + respId);
+  if (!form) return;
+  const isOpen = form.style.display !== 'none';
+  form.style.display = isOpen ? 'none' : 'flex';
+  if (!isOpen) {
+    const ta = document.getElementById('replyInput-' + respId);
+    if (ta) ta.focus();
+  }
+}
+
+function submitReply(respId, respIndex) {
+  const ta = document.getElementById('replyInput-' + respId);
+  if (!ta || !ta.value.trim()) return;
+  const text = ta.value.trim();
+
+  const reply = { from: 'poster', text, time: 'just now' };
+
+  /* Persist to localStorage */
+  const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+  const reqIdx = stored.findIndex(r => r.id === R.id);
+  if (reqIdx !== -1) {
+    const responses = stored[reqIdx].responses || [];
+    const rIdx = responses.findIndex(r => r.id === respId);
+    if (rIdx !== -1) {
+      if (!responses[rIdx].replies) responses[rIdx].replies = [];
+      responses[rIdx].replies.push(reply);
+      stored[reqIdx].responses = responses;
+      localStorage.setItem('sowo_r', JSON.stringify(stored));
+      R.responses = responses; // keep in-memory in sync
+    }
+  }
+
+  /* Inject reply bubble into DOM without full re-render */
+  let thread = document.querySelector('#rcard-' + respId + ' .reply-thread');
+  if (!thread) {
+    thread = document.createElement('div');
+    thread.className = 'reply-thread';
+    const form = document.getElementById('replyForm-' + respId);
+    form.parentElement.insertBefore(thread, form);
+  }
+  const posterInitials = R.posterInitials || 'You';
+  const bubble = document.createElement('div');
+  bubble.className = 'reply-bubble';
+  bubble.innerHTML = `
+    <div class="reply-av" style="background:#5B4FCF">${posterInitials}</div>
+    <div class="reply-content">
+      <div class="reply-name">You</div>
+      <div class="reply-text">${text.replace(/</g,'&lt;')}</div>
+      <div class="reply-time">just now</div>
+    </div>`;
+  thread.appendChild(bubble);
+
+  ta.value = '';
+  document.getElementById('replyForm-' + respId).style.display = 'none';
+  showToast('Reply sent');
+}
+
+/* SMS stub - swap fetch URL for real Supabase Edge Function */
+async function sendSMSNotification(phone, message) {
+  try {
+    // await fetch('https://your-project.supabase.co/functions/v1/notify-poster', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({ to: phone, message })
+    // });
+    console.log('[SMS] Would send to', phone, '→', message);
+  } catch(e) {
+    console.warn('[SMS] Notification failed:', e);
+  }
+}
+
+/* ── Message modal ── */
+function openMsgModal() {
+  document.getElementById('msgOv').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function submitMsg() {
+  const name = document.getElementById('msgName').value.trim();
+  const msg  = document.getElementById('msgText').value.trim();
+  if(!name || !msg) return;
+  closeModal('msgOv');
+  showToast(`Message sent to ${R.poster || 'poster'} ✓`);
+}
+
+/* ── Share ── */
+function copyReqLink() {
+  navigator.clipboard.writeText(reqUrl).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
+    showToast('Request link copied');
+  }).catch(() => showToast('Link: ' + reqUrl));
+}
+function shareWhatsApp() {
+  window.open(`https://wa.me/?text=${encodeURIComponent('Check out this request on Sowo: ' + reqUrl)}`, '_blank');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+<script>
+(function() {
+  var raw = sessionStorage.getItem('sowo_session');
+  if (!raw) return;
+  try {
+    var user = JSON.parse(raw);
+    var name = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0]);
+    var initials = name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+    var email = user.email || '';
+    document.querySelectorAll('.nav-auth, .nav-cta').forEach(function(b){ b.style.display='none'; });
+    var userEl = document.getElementById('nav-user');
+    if (userEl) userEl.classList.add('visible');
+    var av = document.getElementById('nav-av');
+    if (av) {
+      var photo = localStorage.getItem('sowo_avatar_' + email);
+      if (photo) { av.style.backgroundImage='url('+photo+')'; av.style.backgroundSize='cover'; av.style.backgroundPosition='center'; av.textContent=''; }
+      else { av.textContent = initials; }
+    }
+    var n = document.getElementById('nav-dd-name'); if(n) n.textContent = name;
+    var e = document.getElementById('nav-dd-email'); if(e) e.textContent = email;
+    if (av) {
+      av.addEventListener('click', function(ev){ ev.stopPropagation(); document.getElementById('nav-dropdown').classList.toggle('open'); });
+      document.addEventListener('click', function(){ var d=document.getElementById('nav-dropdown'); if(d) d.classList.remove('open'); });
+      document.getElementById('nav-dropdown').addEventListener('click', function(ev){ ev.stopPropagation(); });
+    }
+    var so = document.getElementById('nav-signout-btn');
+    if (so) so.addEventListener('click', function(){ sessionStorage.removeItem('sowo_session'); window.location.reload(); });
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

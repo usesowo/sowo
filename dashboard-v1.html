@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Sowo</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ═══ DASHBOARD ═══ */
+
+  body { background: var(--paper); }
+
+  .dash-wrap {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: calc(100vh - 77px);
+  }
+
+  /* ─── Sidebar ─── */
+  .dash-side {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 24px;
+    border-right: 1px solid var(--ink);
+    display: flex; flex-direction: column;
+  }
+  .dash-user {
+    display: flex; align-items: center; gap: 12px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(245,240,232,0.12);
+    margin-bottom: 24px;
+  }
+  .dash-user .du-av {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--a);
+    color: var(--ink);
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-size: 16px; font-weight: 500;
+    border: 2px solid var(--a);
+  }
+  .dash-user .du-name { font-family: var(--serif); font-size: 17px; font-weight: 500; letter-spacing: -0.01em; }
+  .dash-user .du-role {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--a);
+    margin-top: 2px;
+  }
+
+  .ds-nav h5 {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+    padding: 0 10px;
+    margin: 20px 0 8px;
+  }
+  .ds-link {
+    display: flex; align-items: center; gap: 11px;
+    padding: 10px 10px;
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.65);
+    border-radius: 6px;
+    transition: all 0.12s;
+    cursor: pointer;
+  }
+  .ds-link:hover { background: rgba(245,240,232,0.06); color: var(--paper); }
+  .ds-link.active { background: rgba(245,240,232,0.08); color: var(--paper); }
+  .ds-link .badge {
+    margin-left: auto;
+    background: var(--a); color: var(--ink);
+    font-family: var(--mono);
+    font-size: 10px; font-weight: 500;
+    padding: 2px 7px; border-radius: 999px;
+  }
+  .ds-link svg { flex-shrink: 0; }
+
+  .dash-side-foot {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(245,240,232,0.12);
+  }
+  .dash-side-foot .ds-link { color: rgba(245,240,232,0.45); font-size: 12.5px; }
+
+  /* ─── Main ─── */
+  .dash-main {
+    padding: 40px 48px 80px;
+    max-width: 1300px;
+    overflow-x: hidden;
+  }
+
+  /* Greeting */
+  .greet {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 40px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .greet .g-eye { color: var(--muted); }
+  .greet h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 52px;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin-top: 8px;
+  }
+  .greet h1 em { font-style: italic; color: var(--g); }
+  .greet .g-sub { color: var(--muted); font-size: 14px; margin-top: 10px; max-width: 440px; }
+  .greet .actions { display: flex; gap: 10px; }
+
+  /* Stat row */
+  .d-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 40px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  .d-stat { padding: 24px 28px; }
+  .d-stat + .d-stat { border-left: 1px solid var(--line); }
+  .d-stat .lbl { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; margin-bottom: 14px; }
+  .d-stat .v {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 40px; letter-spacing: -0.025em;
+    line-height: 1; margin-bottom: 8px;
+  }
+  .d-stat .v em { font-style: italic; color: var(--g); }
+  .d-stat .delta {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11.5px; color: var(--g);
+    font-family: var(--mono);
+  }
+  .d-stat .delta.down { color: var(--ad); }
+
+  /* Two-col */
+  .d-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 40px;
+  }
+
+  .d-section { margin-bottom: 48px; }
+  .d-section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 20px;
+  }
+  .d-section-head h2 {
+    font-family: var(--serif);
+    font-weight: 500; font-size: 26px;
+    letter-spacing: -0.02em;
+  }
+  .d-section-head .see { font-size: 12.5px; color: var(--g); }
+  .d-section-head .see:hover { text-decoration: underline; }
+
+  /* Upcoming booking — hero card */
+  .up-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    gap: 28px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .up-date {
+    text-align: center;
+    padding-right: 28px;
+    border-right: 1px solid rgba(245,240,232,0.15);
+  }
+  .up-date .day { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--a); text-transform: uppercase; }
+  .up-date .num {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 56px;
+    line-height: 1; letter-spacing: -0.03em;
+    margin: 6px 0;
+  }
+  .up-date .mo { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: rgba(245,240,232,0.55); text-transform: uppercase; }
+
+  .up-meta .title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .up-meta .sub { font-size: 13px; color: rgba(245,240,232,0.55); margin-bottom: 16px; }
+  .up-meta .details {
+    display: flex; gap: 20px;
+    font-size: 12.5px;
+  }
+  .up-meta .details div {
+    display: flex; align-items: center; gap: 7px;
+    color: rgba(245,240,232,0.75);
+  }
+  .up-actions { display: flex; flex-direction: column; gap: 8px; }
+  .up-primary {
+    background: var(--a); color: var(--ink);
+    padding: 12px 20px; font-size: 13px; font-weight: 500;
+    white-space: nowrap;
+  }
+  .up-primary:hover { background: #D88D1A; }
+  .up-ghost {
+    background: transparent; color: var(--paper);
+    border: 1px solid rgba(245,240,232,0.3);
+    padding: 10px 20px; font-size: 12px;
+  }
+
+  .up-card-sm {
+    padding: 24px 28px;
+    display: grid; grid-template-columns: 90px 1fr auto;
+    gap: 20px; align-items: center;
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+  .up-card-sm .up-date { padding-right: 20px; border-right-color: var(--line); }
+  .up-card-sm .up-date .day { color: var(--g); }
+  .up-card-sm .up-date .num { color: var(--ink); font-size: 40px; }
+  .up-card-sm .up-date .mo { color: var(--muted); }
+  .up-card-sm .title { font-size: 20px; color: var(--ink); margin-bottom: 2px; }
+  .up-card-sm .sub { font-size: 12.5px; color: var(--muted); }
+  .up-card-sm .status {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+  .up-card-sm .status.pending { background: var(--as); color: var(--ad); }
+  .up-card-sm .status.confirmed { background: var(--gs); color: var(--g); }
+
+  /* Saved providers (right col) */
+  .saved-list { display: flex; flex-direction: column; gap: 0; }
+  .saved {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 14px; align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .saved:hover .s-name { color: var(--g); }
+  .saved .ph { aspect-ratio: 1; border-radius: 50%; }
+  .saved .ph::after { display: none; }
+  .s-name { font-family: var(--serif); font-weight: 500; font-size: 17px; letter-spacing: -0.01em; margin-bottom: 2px; }
+  .s-meta { font-size: 12px; color: var(--muted); }
+  .s-price { font-family: var(--serif); font-size: 15px; letter-spacing: -0.01em; }
+  .s-price span { color: var(--muted); font-size: 10px; display: block; font-family: var(--sans); letter-spacing: 0; }
+
+  /* Activity */
+  .activity { border-top: 1px solid var(--ink); }
+  .act {
+    display: grid;
+    grid-template-columns: 100px 28px 1fr auto;
+    gap: 16px; align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .act .when { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+  .act .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--g);
+    justify-self: center;
+  }
+  .act .dot.amber { background: var(--a); }
+  .act .dot.ink { background: var(--ink); }
+  .act .txt { font-size: 13.5px; color: var(--ink-2); }
+  .act .txt strong { color: var(--ink); font-weight: 500; }
+  .act .cta {
+    font-size: 12px; color: var(--g); white-space: nowrap;
+  }
+  .act .cta:hover { text-decoration: underline; }
+
+  /* Active request card */
+  .req-card {
+    background: var(--as);
+    border: 1px solid var(--as);
+    padding: 28px;
+    border-left: 3px solid var(--a);
+  }
+  .req-card .mono { color: var(--ad); }
+  .req-card .title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 6px 0 12px;
+    color: var(--ink);
+  }
+  .req-card .desc { font-size: 13.5px; color: var(--ink-2); line-height: 1.55; margin-bottom: 18px; }
+  .req-card .quotes {
+    padding-top: 18px;
+    border-top: 1px solid rgba(139,94,10,0.18);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .req-card .quotes .qnum {
+    font-family: var(--serif);
+    font-size: 34px; font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .req-card .quotes .qlbl { font-size: 11.5px; color: var(--ad); margin-top: 2px; }
+  .req-card .quotes .btn { background: var(--ink); color: var(--paper); border: 0; }
+
+  /* Vouch prompt — asks user to vouch */
+  .vouch-prompt {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px;
+    margin-top: 40px;
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+  }
+  .vouch-prompt .eye { color: var(--gl); }
+  .vouch-prompt h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 6px 0 8px;
+  }
+  .vouch-prompt h3 em { font-style: italic; color: var(--a); }
+  .vouch-prompt p { font-size: 13.5px; color: rgba(245,240,232,0.6); max-width: 480px; }
+  .vouch-prompt .vp-who {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 14px; font-size: 12.5px; color: rgba(245,240,232,0.8);
+  }
+  .vouch-prompt .vp-av { width: 32px; height: 32px; border-radius: 50%; background: var(--a); display: grid; place-items: center; color: var(--ink); font-weight: 600; font-size: 11px; }
+
+  /* Map placeholder */
+  .map-card {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    padding: 24px;
+    height: 320px;
+    position: relative;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+  .map-head {
+    position: absolute; top: 20px; left: 20px; right: 20px;
+    display: flex; justify-content: space-between; align-items: start;
+  }
+  .map-head h3 { font-family: var(--serif); font-weight: 500; font-size: 20px; letter-spacing: -0.01em; }
+  .map-pin {
+    position: absolute;
+    width: 28px; height: 28px; border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: var(--g);
+    border: 3px solid var(--paper);
+    display: grid; place-items: center;
+    cursor: pointer;
+  }
+  .map-pin::after {
+    content: attr(data-n);
+    transform: rotate(45deg);
+    color: var(--paper);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .map-pin.amber { background: var(--a); }
+  .map-pin.amber::after { color: var(--ink); }
+  .map-pin.big { width: 38px; height: 38px; }
+  .map-pin.big::after { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-left">
+    <a href="browse.html" class="nav-logo">
+      <svg width="26" height="26" viewBox="0 0 120 120" fill="none">
+        <path d="M12 95 C12 48 32 14 60 14" stroke="#085041" stroke-width="10" stroke-linecap="round"/>
+        <path d="M60 14 C88 14 108 48 108 95" stroke="#EF9F27" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="60" cy="14" r="9" fill="#0A0A0A"/>
+      </svg>
+      Sowo
+    </a>
+    <a href="browse.html" class="nav-link">Browse</a>
+    <a href="#" class="nav-link">How it works</a>
+    <a href="#" class="nav-link">For providers</a>
+  </div>
+  <div></div>
+  <div class="nav-right">
+    <a href="#" class="nav-auth">Messages</a>
+    <a href="dashboard.html" class="nav-avatar">AO</a>
+  </div>
+</nav>
+
+<div class="dash-wrap">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="dash-side">
+    <div class="dash-user">
+      <div class="du-av">AO</div>
+      <div>
+        <div class="du-name">Adaeze</div>
+        <div class="du-role">Consumer</div>
+      </div>
+    </div>
+
+    <div class="ds-nav">
+      <div class="ds-link active">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Overview
+      </div>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Bookings
+        <span class="badge">2</span>
+      </div>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Messages
+        <span class="badge">3</span>
+      </div>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Saved providers
+      </div>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L15 8l6 .9-4.5 4.4 1 6.2L12 16.8 6.5 19.5l1-6.2L3 8.9 9 8l3-6z"/></svg>
+        My vouches
+      </div>
+
+      <h5>Account</h5>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </div>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        Payment methods
+      </div>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </div>
+
+    <div class="dash-side-foot">
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        Help &amp; support
+      </div>
+      <div class="ds-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign out
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="dash-main">
+
+    <!-- Greeting -->
+    <div class="greet">
+      <div>
+        <div class="eyebrow">Tuesday · 21 April, 2026</div>
+        <h1>Welcome back,<br><em>Adaeze.</em></h1>
+        <p class="g-sub">Your next session is in four days. Three messages are waiting — and three people you've booked before have asked to be vouched.</p>
+      </div>
+      <div class="actions">
+        <a href="browse.html" class="btn btn-quiet">Browse providers</a>
+        <a href="#" class="btn btn-ink">Post a request</a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="d-stats">
+      <div class="d-stat">
+        <div class="lbl">Sessions booked</div>
+        <div class="v">12</div>
+        <div class="delta">↗ 3 this month</div>
+      </div>
+      <div class="d-stat">
+        <div class="lbl">Saved providers</div>
+        <div class="v">7</div>
+        <div class="delta">↗ 1 new</div>
+      </div>
+      <div class="d-stat">
+        <div class="lbl">Vouches given</div>
+        <div class="v"><em>9</em></div>
+        <div class="delta">3 pending</div>
+      </div>
+      <div class="d-stat">
+        <div class="lbl">Amount spent</div>
+        <div class="v">£1,240</div>
+        <div class="delta">Since Jan</div>
+      </div>
+    </div>
+
+    <div class="d-grid">
+
+      <!-- ─── Left col ─── -->
+      <div>
+
+        <!-- Upcoming -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Upcoming</h2>
+            <a href="#" class="see">See all 2 →</a>
+          </div>
+
+          <div class="up-card">
+            <div class="up-date">
+              <div class="day">Friday</div>
+              <div class="num">25</div>
+              <div class="mo">April</div>
+            </div>
+            <div class="up-meta">
+              <div class="title">Amara Osei</div>
+              <div class="sub">Everyday &amp; event makeup · 60 min</div>
+              <div class="details">
+                <div>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                  11:30 AM
+                </div>
+                <div>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Your flat · Hackney
+                </div>
+                <div>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                  £85 · in escrow
+                </div>
+              </div>
+            </div>
+            <div class="up-actions">
+              <a href="#" class="btn up-primary">Message Amara</a>
+              <a href="#" class="btn up-ghost">Booking details</a>
+            </div>
+          </div>
+
+          <div class="up-card-sm">
+            <div class="up-date">
+              <div class="day">Saturday</div>
+              <div class="num">3</div>
+              <div class="mo">May</div>
+            </div>
+            <div>
+              <div class="title">Priya Nair</div>
+              <div class="sub">Gel mani + pedi · 90 min · your flat</div>
+            </div>
+            <div class="status pending">Pending confirm</div>
+          </div>
+        </section>
+
+        <!-- Active request -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Your active request</h2>
+            <a href="#" class="see">Edit →</a>
+          </div>
+
+          <div class="req-card">
+            <div class="mono">Posted 2 hours ago · 4 views</div>
+            <div class="title">Private chef for a dinner party of 8, Saturday 17 May</div>
+            <div class="desc">
+              Looking for someone who can cook West African with confidence — jollof, grilled fish, plantain, sides. Budget £350–450 for food &amp; service, own kitchen in N1.
+            </div>
+            <div class="quotes">
+              <div>
+                <div class="qnum">3</div>
+                <div class="qlbl">QUOTES RECEIVED</div>
+              </div>
+              <a href="#" class="btn btn-sm">Review quotes →</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Activity -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Recent activity</h2>
+            <a href="#" class="see">See all →</a>
+          </div>
+
+          <div class="activity">
+            <div class="act">
+              <div class="when">2h ago</div>
+              <div class="dot amber"></div>
+              <div class="txt"><strong>Kwame Mensah</strong> sent a quote for your private chef request — £395</div>
+              <a href="#" class="cta">View quote</a>
+            </div>
+            <div class="act">
+              <div class="when">4h ago</div>
+              <div class="dot"></div>
+              <div class="txt">Booking confirmed — <strong>Amara Osei</strong>, Fri 25 April, 11:30</div>
+              <a href="#" class="cta">Open booking</a>
+            </div>
+            <div class="act">
+              <div class="when">Yesterday</div>
+              <div class="dot amber"></div>
+              <div class="txt"><strong>Priya Nair</strong> replied to your message about Sunday slots</div>
+              <a href="#" class="cta">Reply</a>
+            </div>
+            <div class="act">
+              <div class="when">Mon</div>
+              <div class="dot ink"></div>
+              <div class="txt">You saved <strong>Marcus Reid</strong> — Private chef · Islington</div>
+              <a href="provider.html" class="cta">View profile</a>
+            </div>
+            <div class="act">
+              <div class="when">Sun</div>
+              <div class="dot"></div>
+              <div class="txt">Session completed with <strong>Sofia Mensah</strong> · barber</div>
+              <a href="#" class="cta">Leave a vouch</a>
+            </div>
+            <div class="act">
+              <div class="when">Last week</div>
+              <div class="dot ink"></div>
+              <div class="txt">Payment of £55 released to <strong>Sofia Mensah</strong></div>
+              <a href="#" class="cta">Receipt</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ─── Right col ─── -->
+      <div>
+
+        <!-- Saved providers -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Saved</h2>
+            <a href="#" class="see">All 7 →</a>
+          </div>
+
+          <div class="saved-list">
+            <a href="provider.html" class="saved">
+              <div class="ph ph-avatar" data-initials="AO"></div>
+              <div>
+                <div class="s-name">Amara Osei</div>
+                <div class="s-meta">Makeup · Hackney · 24 vouches</div>
+              </div>
+              <div class="s-price">£85<span>session</span></div>
+            </a>
+            <a href="provider.html" class="saved">
+              <div class="ph ph-avatar" data-initials="PN"></div>
+              <div>
+                <div class="s-name">Priya Nair</div>
+                <div class="s-meta">Nails · Shoreditch · 42 vouches</div>
+              </div>
+              <div class="s-price">£45<span>session</span></div>
+            </a>
+            <a href="provider.html" class="saved">
+              <div class="ph ph-avatar" data-initials="SM"></div>
+              <div>
+                <div class="s-name">Sofia Mensah</div>
+                <div class="s-meta">Barber · Hackney · 16 vouches</div>
+              </div>
+              <div class="s-price">£55<span>session</span></div>
+            </a>
+            <a href="provider.html" class="saved">
+              <div class="ph ph-avatar" data-initials="MR"></div>
+              <div>
+                <div class="s-name">Marcus Reid</div>
+                <div class="s-meta">Chef · Islington · 11 vouches</div>
+              </div>
+              <div class="s-price">£120<span>session</span></div>
+            </a>
+            <a href="provider.html" class="saved">
+              <div class="ph ph-avatar" data-initials="KA"></div>
+              <div>
+                <div class="s-name">Kemi Akande</div>
+                <div class="s-meta">Tailor · Peckham · 8 vouches</div>
+              </div>
+              <div class="s-price">£40<span>hour</span></div>
+            </a>
+          </div>
+        </section>
+
+        <!-- Your neighbourhood map -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Your patch</h2>
+            <a href="browse.html" class="see">Open map →</a>
+          </div>
+          <div class="map-card">
+            <div class="map-head">
+              <div>
+                <h3>Hackney E8</h3>
+                <div class="mono" style="margin-top:2px;">42 providers within 2 miles</div>
+              </div>
+              <div class="role-tag consumer"><span class="dot"></span>You</div>
+            </div>
+            <div class="map-pin big" data-n="·" style="top:50%; left:50%; background:var(--a); border-color:var(--paper);"></div>
+            <div class="map-pin" data-n="3" style="top:30%; left:28%;"></div>
+            <div class="map-pin" data-n="5" style="top:40%; left:72%;"></div>
+            <div class="map-pin amber" data-n="2" style="top:65%; left:35%;"></div>
+            <div class="map-pin" data-n="4" style="top:75%; left:62%;"></div>
+            <div class="map-pin amber" data-n="1" style="top:22%; left:58%;"></div>
+          </div>
+        </section>
+
+        <!-- Vouch prompt -->
+        <div class="vouch-prompt">
+          <div>
+            <div class="eye mono">Three people need your word</div>
+            <h3>Sofia cut your hair<br>on <em>Sunday.</em></h3>
+            <p>She's asked you to leave a vouch. It takes two minutes, and it means everything for her next booking.</p>
+            <div class="vp-who">
+              <div class="vp-av">SM</div>
+              Sofia Mensah · Barber · 16 vouches
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="#" class="btn btn-amber">Leave a vouch</a>
+            <a href="#" class="btn up-ghost" style="border-radius:999px;">Later</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

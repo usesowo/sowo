@@ -1,70 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Become a Provider — Sowo</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Become a Provider | Sowo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,0,700;9..144,1,400;9..144,1,500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tokens.css">
+<link rel="stylesheet" href="/css/a11y.css">
 <style>
-:root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--white:#fff;--t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;--ease:cubic-bezier(.16,1,.3,1)}
+:root{
+  --green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--amuted:#9A5F0A;
+  --bg:#F5F0E8;--card:#FFFFFF;
+  --tp:#1A1614;--ts:rgba(26,22,20,0.68);--tm:rgba(26,22,20,0.46);
+  --border:rgba(26,22,20,0.10);--bh:rgba(26,22,20,0.20);
+  --s1:rgba(26,22,20,0.035);--s2:rgba(26,22,20,0.065);
+  --ease:cubic-bezier(.16,1,.3,1);
+  /* legacy aliases used in this file */
+  --t1:var(--tp);--t2:var(--ts);--t3:var(--tm);--surf:var(--s1);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--surf);color:var(--t1);min-height:100vh}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--tp);min-height:100vh}
 a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer;border:none}
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:#fff;border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between}
-.logo-wm{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--black)}
-.nav-user{display:flex;align-items:center;gap:10px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,240,232,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,22,20,0.10);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:8px}
+.logo svg{display:block;flex-shrink:0}
+.logo-wm{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:600;letter-spacing:-.02em;color:var(--tp)}
+.nav-links{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ts);white-space:nowrap;text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--green)}
+.nav-links a.active{color:var(--green);font-weight:600}
+.nav-user{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
+@media(max-width:768px){.nav-links{display:none}}
 .btn-sm{height:36px;padding:0 14px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center}
 .b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal)}
 
-main{margin-top:64px;padding:48px 20px 80px;display:flex;flex-direction:column;align-items:center}
+main{margin-top:77px;padding:48px 20px 80px;display:flex;flex-direction:column;align-items:center}
 
 /* PROGRESS */
-.progress-wrap{width:100%;max-width:640px;margin-bottom:40px}
-.progress-steps{display:flex;align-items:center;gap:0;margin-bottom:8px}
+.progress-wrap{width:100%;max-width:640px;margin-bottom:32px}
+.progress-steps{display:flex;align-items:center;gap:0;margin-bottom:10px}
 .step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
 .step::before{content:'';position:absolute;top:18px;left:50%;right:-50%;height:2px;background:var(--border);z-index:0}
 .step:last-child::before{display:none}
-.step-circle{width:36px;height:36px;border-radius:50%;background:#fff;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--t3);z-index:1;transition:all .3s}
-.step.done .step-circle{background:var(--teal);border-color:var(--teal);color:#fff}
+.step-circle{width:36px;height:36px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--tm);z-index:1;transition:all .3s}
+.step.done .step-circle{background:rgba(29,158,117,0.12);border-color:var(--teal);color:var(--teal)}
 .step.active .step-circle{background:var(--green);border-color:var(--green);color:var(--mint)}
-.step-label{font-size:11px;font-weight:600;color:var(--t3);margin-top:8px;text-align:center}
-.step.active .step-label{color:var(--green)}
+.step-label{font-size:11px;font-weight:600;color:var(--tm);margin-top:7px;text-align:center;letter-spacing:.01em}
+.step.active .step-label{color:var(--green);font-weight:700}
 .step.done .step-label{color:var(--teal)}
-.progress-bar{height:4px;background:var(--border);border-radius:4px;margin-top:8px}
-.progress-fill{height:100%;background:var(--green);border-radius:4px;transition:width .4s var(--ease)}
+.progress-bar{height:3px;background:var(--border);border-radius:4px;margin-top:6px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--teal));border-radius:4px;transition:width .4s var(--ease)}
 
 /* CARD */
-.form-card{width:100%;max-width:640px;background:#fff;border:1px solid var(--border);border-radius:20px;padding:36px 40px}
+.form-card{width:100%;max-width:640px;background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:36px 40px;box-shadow:0 2px 16px rgba(26,22,20,0.06)}
 .step-head{margin-bottom:28px}
-.step-head h2{font-size:24px;font-weight:900;letter-spacing:-.4px;margin-bottom:6px}
-.step-head p{font-size:14px;color:var(--t3)}
+.step-head h2{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:700;letter-spacing:-.2px;margin-bottom:6px;color:var(--tp)}
+.step-head p{font-size:14px;color:var(--ts)}
 
 /* FORM ELEMENTS */
 .field{margin-bottom:20px}
 label{display:block;font-size:13px;font-weight:700;color:var(--t1);margin-bottom:7px}
 .hint{font-size:11px;color:var(--t3);margin-top:4px}
 input[type=text],input[type=number],input[type=url],select,textarea{
-  width:100%;padding:0 14px;border:1px solid var(--border);border-radius:10px;
-  font-size:14px;font-family:inherit;color:var(--t1);outline:none;
+  width:100%;padding:0 14px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:14px;font-family:inherit;color:var(--tp);outline:none;
   transition:border-color .2s;background:#fff;
 }
 input[type=text],input[type=number],input[type=url],select{height:46px}
 textarea{height:110px;padding:12px 14px;resize:vertical;line-height:1.6}
-input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(29,158,117,0.08)}
 select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:36px}
 
 /* CATEGORY GRID */
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.cat-option{
-  padding:12px 14px;border:2px solid var(--border);border-radius:12px;
-  cursor:pointer;transition:all .2s;text-align:center;font-size:13px;font-weight:600;color:var(--t2);
-}
-.cat-option:hover{border-color:var(--teal);color:var(--black)}
-.cat-option.selected{border-color:var(--green);background:#E6F9F3;color:var(--green)}
-.cat-icon{font-size:22px;margin-bottom:4px}
+.cat-option{padding:14px 12px;border:1.5px solid var(--border);border-radius:14px;cursor:pointer;transition:all .18s;text-align:center;font-size:13px;font-weight:600;color:var(--ts);background:#fff}
+.cat-option:hover{border-color:var(--teal);color:var(--tp);background:rgba(29,158,117,0.04);transform:translateY(-1px)}
+.cat-option.selected{border-color:var(--teal);background:rgba(29,158,117,0.07);color:var(--green);box-shadow:0 2px 8px rgba(29,158,117,0.12)}
+.cat-icon{font-size:24px;margin-bottom:6px}
 
 /* SKILLS */
 .skills-input-wrap{display:flex;gap:8px;margin-bottom:10px}
@@ -86,16 +102,21 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .add-service-btn:hover{border-color:var(--teal);color:var(--teal)}
 
 /* PHOTO UPLOAD */
-.photo-upload{
-  border:2px dashed var(--border);border-radius:14px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:36px;cursor:pointer;transition:all .2s;text-align:center;
-}
+.photo-upload{border:2px dashed var(--border);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px;cursor:pointer;transition:all .2s;text-align:center}
 .photo-upload:hover{border-color:var(--teal);background:#F0FAF5}
 .photo-upload input{display:none}
 .photo-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:12px}
 .photo-upload-icon{font-size:36px;margin-bottom:10px}
 .photo-upload p{font-size:13px;color:var(--t3)}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.media-preview-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;min-height:40px}
+.media-thumb{position:relative;width:88px;height:88px;border-radius:10px;overflow:hidden;border:1px solid var(--border);background:var(--surf)}
+.media-thumb img,.media-thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.media-rm{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.media-rm:hover{background:#c0392b}
+.social-grid{display:grid;gap:14px}
+@media(min-width:560px){.social-grid{grid-template-columns:1fr 1fr}}
 
 /* RATE INPUT */
 .rate-input-wrap{position:relative}
@@ -115,24 +136,57 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 
 /* SUCCESS */
 .success-screen{text-align:center;padding:20px 0}
-.success-icon{font-size:64px;margin-bottom:16px}
-.success-title{font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:10px}
-.success-msg{font-size:15px;color:var(--t2);line-height:1.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
+.success-icon{font-size:56px;margin-bottom:16px}
+.success-title{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px;color:var(--tp)}
+.success-msg{font-size:14.5px;color:var(--ts);line-height:1.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
 .btn-dashboard{height:50px;padding:0 32px;background:var(--green);color:var(--mint);border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+/* GATE */
+.gate-screen{text-align:center;padding:12px 0 4px}
+.gate-ic{width:56px;height:56px;border-radius:16px;background:rgba(8,80,65,0.08);border:1.5px solid rgba(8,80,65,0.18);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.gate-ic svg{width:24px;height:24px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gate-h{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:700;margin-bottom:8px;color:var(--tp)}
+.gate-sub{font-size:14px;color:var(--ts);line-height:1.65;margin-bottom:20px;max-width:340px;margin-left:auto;margin-right:auto}
+.gate-preview{background:var(--s1);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:22px;text-align:left}
+.gate-preview-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-bottom:8px}
+.gate-preview-row{display:flex;gap:8px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
+.gate-preview-row:last-child{border-bottom:none}
+.gate-preview-row strong{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tm);flex-shrink:0;width:80px}
+.gate-preview-row span{color:var(--tp);font-weight:500}
+.gate-btns{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.gate-create{height:50px;border-radius:12px;background:var(--green);color:var(--mint);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;transition:background .13s}
+.gate-create:hover{background:#063D31}
+.gate-signin{height:44px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--ts);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:border-color .13s}
+.gate-signin:hover{border-color:var(--teal);color:var(--tp)}
+.gate-note{font-size:11.5px;color:var(--tm);line-height:1.5}
 
 @media(max-width:600px){.form-card{padding:24px 20px}.cat-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to form</a>
 
 <nav class="nav">
-  <a href="/" class="logo-wm">Sowo</a>
-  <div class="nav-user" id="navUser">
-    <a href="/login" class="btn-sm b-light">Log in first</a>
+  <a href="/" class="logo">
+    <svg width="28" height="26" viewBox="0 0 120 110" fill="none" aria-hidden="true">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
+      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+      <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+    </svg>
+    <span class="logo-wm">Sowo</span>
+  </a>
+  <div class="nav-links">
+    <a href="/browse.html">Browse providers</a>
+    <a href="/requests.html">Active requests</a>
+    <a href="/become-provider.html" class="active">List your service</a>
+  </div>
+  <div class="nav-user" id="navUser" style="display:flex;align-items:center;gap:10px">
+    <a href="/login.html" class="btn-sm b-light" id="navLoginBtn">Sign in</a>
+    <a href="/signup.html" class="btn-sm" id="navCtaBtn" style="background:var(--green);color:var(--mint);font-weight:600">Get started</a>
   </div>
 </nav>
 
-<main>
+<main id="main" tabindex="-1">
   <div class="progress-wrap">
     <div class="progress-steps" id="progressSteps">
       <div class="step active" id="step-ind-0"><div class="step-circle">1</div><div class="step-label">Category</div></div>
@@ -142,7 +196,6 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
     </div>
     <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:12%"></div></div>
   </div>
-
   <div class="form-card" id="formCard"></div>
 </main>
 
@@ -152,105 +205,272 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 <script>
 let currentStep = 0;
 let currentUser = null;
-let formData    = { category:'', bio:'', skills:[], hourly_rate:0, years_experience:0, services:[], avatar_file:null, avatar_url:'' };
-
-const CATEGORY_ICONS = {
-  'Plumber':'🔧','Electrician':'⚡','Cleaner':'🧹','Carpenter':'🪚','Painter':'🖌️',
-  'Plasterer':'🏗️','Gardener':'🌿','Handyman':'🔨','Tiler':'🧱','Locksmith':'🔐',
-  'Roofer':'🏠','Decorator':'🎨','Mechanic':'🚗','Builder':'👷','Tutor':'📚',
-  'Cook / Chef':'👨‍🍳','Tailor':'🪡','Photographer':'📷','IT Support':'💻','Childcare':'👶',
+let formData = {
+  category:'', trade:'', bio:'', location:'', skills:[], price_min:0, price_max:0, services:[],
+  avatar_file:null, avatar_url:'',
+  social_instagram:'', social_tiktok:'', social_twitter:'', social_facebook:'', social_youtube:'',
+  portfolio_images:[], portfolio_videos:[],
+  pendingPortfolioFiles:[], pendingVideoFiles:[],
 };
 
-async function init() {
-  currentUser = await Auth.requireAuth();
-  if (!currentUser) return;
-  document.getElementById('navUser').innerHTML = `<a href="/dashboard" class="btn-sm b-light">← Dashboard</a>`;
+function escAttr(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+}
+
+function normalizeSocialUrl(url) {
+  const u = String(url || '').trim();
+  if (!u) return '';
+  return (u.startsWith('http://') || u.startsWith('https://')) ? u : 'https://' + u;
+}
+
+function buildSocialLinksPayload() {
+  const o = {};
+  const add = (k, val) => { const t = String(val||'').trim(); if (t) o[k] = normalizeSocialUrl(t); };
+  add('instagram', formData.social_instagram);
+  add('tiktok',    formData.social_tiktok);
+  add('twitter',   formData.social_twitter);
+  add('facebook',  formData.social_facebook);
+  add('youtube',   formData.social_youtube);
+  return o;
+}
+
+function renderPortfolioImagePreviews() {
+  let html = '';
+  formData.portfolio_images.forEach((url,i) => {
+    html += `<div class="media-thumb"><img src="${String(url).replace(/"/g,'')}" alt=""><button type="button" class="media-rm" onclick="removeSavedPortfolioImg(${i})" aria-label="Remove">×</button></div>`;
+  });
+  formData.pendingPortfolioFiles.forEach((file,i) => {
+    html += `<div class="media-thumb"><img src="${URL.createObjectURL(file)}" alt=""><button type="button" class="media-rm" onclick="removePendingPortfolioImg(${i})" aria-label="Remove">×</button></div>`;
+  });
+  return html || '<span class="hint">No photos yet</span>';
+}
+
+function renderVideoPreviews() {
+  let html = '';
+  formData.portfolio_videos.forEach((url,i) => {
+    html += `<div class="media-thumb"><video src="${String(url).replace(/"/g,'')}" muted playsinline></video><button type="button" class="media-rm" onclick="removeSavedVideo(${i})" aria-label="Remove">×</button></div>`;
+  });
+  formData.pendingVideoFiles.forEach((file,i) => {
+    html += `<div class="media-thumb"><video src="${URL.createObjectURL(file)}" muted playsinline></video><button type="button" class="media-rm" onclick="removePendingVideo(${i})" aria-label="Remove">×</button></div>`;
+  });
+  return html || '<span class="hint">No videos yet</span>';
+}
+
+function updateMediaPreviews() {
+  const g = document.getElementById('portPrevGrid'); if (g) g.innerHTML = renderPortfolioImagePreviews();
+  const v = document.getElementById('vidPrevGrid');  if (v) v.innerHTML = renderVideoPreviews();
+}
+
+function removeSavedPortfolioImg(i)  { formData.portfolio_images.splice(i,1);       updateMediaPreviews(); }
+function removePendingPortfolioImg(i){ formData.pendingPortfolioFiles.splice(i,1);   updateMediaPreviews(); }
+function removeSavedVideo(i)         { formData.portfolio_videos.splice(i,1);        updateMediaPreviews(); }
+function removePendingVideo(i)       { formData.pendingVideoFiles.splice(i,1);       updateMediaPreviews(); }
+
+function onPickPortfolio(input) {
+  const cap = 12 - formData.portfolio_images.length - formData.pendingPortfolioFiles.length;
+  [...(input.files||[])].slice(0,Math.max(0,cap)).forEach(f => {
+    if (f.size > 8*1024*1024) { UI.toast(f.name+' too large (max 8MB)','error'); return; }
+    formData.pendingPortfolioFiles.push(f);
+  });
+  input.value=''; updateMediaPreviews();
+}
+
+function onPickVideos(input) {
+  const cap = 5 - formData.portfolio_videos.length - formData.pendingVideoFiles.length;
+  [...(input.files||[])].slice(0,Math.max(0,cap)).forEach(f => {
+    if (f.size > 80*1024*1024) { UI.toast(f.name+' too large (max 80MB)','error'); return; }
+    formData.pendingVideoFiles.push(f);
+  });
+  input.value=''; updateMediaPreviews();
+}
+
+const CATEGORY_ICONS = {
+  'Beauty & Makeup':'💄',
+  'Nail Technician':'💅',
+  'Hairdresser':'✂️',
+  'Barber':'💈',
+  'Private Chef':'🍽️',
+  'Massage Therapist':'🫶',
+  'Lash Technician':'👁️',
+  'Skincare & Facials':'🧖',
+  'Photographer':'📷',
+  'Personal Trainer':'🏋️',
+};
+
+const PROVIDER_CATEGORIES = Object.keys(CATEGORY_ICONS);
+
+function init() {
+  // 1. Pre-fill from a saved local draft synchronously - never blocks paint.
+  try {
+    const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
+    if (draft) {
+      formData.category         = draft.category         || '';
+      formData.bio              = draft.bio               || '';
+      formData.location         = draft.location          || '';
+      formData.skills           = draft.skills            || [];
+      formData.trade            = draft.trade             || '';
+      formData.price_min        = draft.price_min          || 0;
+      formData.price_max        = draft.price_max          || 0;
+      formData.services         = draft.services          || [];
+      formData.social_instagram = draft.social_instagram  || '';
+      formData.social_tiktok    = draft.social_tiktok     || '';
+      formData.social_twitter   = draft.social_twitter    || '';
+      formData.social_facebook  = draft.social_facebook   || '';
+      formData.social_youtube   = draft.social_youtube    || '';
+    }
+  } catch (e) {}
+
+  // 2. Render the form NOW so the user always sees something.
   renderStep(0);
+
+  // 3. Background: check if a session exists and pre-fill from server data.
+  //    Wrapped in a 4s timeout so a slow/unreachable Supabase never freezes the form.
+  hydrateFromSessionInBackground();
+}
+
+async function hydrateFromSessionInBackground() {
+  // Bail out if Supabase isn't actually configured or wired up
+  if (typeof sb === 'undefined' || !sb || !sb.auth) return;
+
+  const withTimeout = (p, ms) => Promise.race([
+    p,
+    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), ms))
+  ]);
+
+  let session = null;
+  try {
+    const res = await withTimeout(sb.auth.getSession(), 4000);
+    session = res?.data?.session || null;
+  } catch(e) { return; /* timed out or errored - silent fallback to draft mode */ }
+
+  if (!session?.user) return;
+  currentUser = session.user;
+  const navUser = document.getElementById('navUser');
+  if (navUser) navUser.innerHTML = `<a href="/dashboard.html" class="btn-sm b-light">← Dashboard</a>`;
+
+  try {
+    const r = await withTimeout(sb.from('providers').select('*').eq('id', currentUser.id).single(), 4000);
+    const p = r?.data;
+    if (p) {
+      formData.category         = p.category         || formData.category;
+      formData.bio              = p.bio               || formData.bio;
+      formData.skills           = Array.isArray(p.skills)           ? [...p.skills]           : formData.skills;
+      formData.trade            = p.trade              || formData.trade;
+      formData.price_min        = p.price_min          || formData.price_min;
+      formData.price_max        = p.price_max          || formData.price_max;
+      formData.portfolio_images = Array.isArray(p.portfolio_images) ? [...p.portfolio_images] : formData.portfolio_images;
+      formData.portfolio_videos = Array.isArray(p.portfolio_videos) ? [...p.portfolio_videos] : formData.portfolio_videos;
+      const sl = p.social_links;
+      if (sl && typeof sl === 'object' && !Array.isArray(sl)) {
+        formData.social_instagram   = sl.instagram     || formData.social_instagram;
+        formData.social_tiktok      = sl.tiktok        || formData.social_tiktok;
+        formData.social_twitter     = sl.twitter       || formData.social_twitter;
+        formData.social_facebook    = sl.facebook      || formData.social_facebook;
+        formData.social_youtube     = sl.youtube       || formData.social_youtube;
+      }
+      // Re-render the current step so pre-filled data appears
+      renderStep(currentStep);
+    }
+  } catch(e) {}
+
+  try {
+    const prof = await withTimeout(Profiles.get(currentUser.id), 4000);
+    if (prof) {
+      formData.location  = prof.location  || formData.location;
+      if (prof.avatar_url) formData.avatar_url = prof.avatar_url;
+      renderStep(currentStep);
+    }
+  } catch(e) {}
 }
 
 function renderStep(step) {
   currentStep = step;
-  const fills = [12, 37, 62, 87, 100];
-  document.getElementById('progressFill').style.width = fills[step] + '%';
-  document.querySelectorAll('.step').forEach((el, i) => {
+  const fills = [12,37,62,87,100,100];
+  const progWrap = document.querySelector('.progress-wrap');
+  // Hide progress bar on gate/success
+  if (progWrap) progWrap.style.display = (step >= 4) ? 'none' : '';
+  document.getElementById('progressFill').style.width = (fills[step]||100)+'%';
+  document.querySelectorAll('.step').forEach((el,i) => {
     el.classList.remove('active','done');
-    if (i < step) el.classList.add('done');
+    if (i < Math.min(step,4)) el.classList.add('done');
     if (i === step) el.classList.add('active');
-    el.querySelector('.step-circle').textContent = i < step ? '✓' : i + 1;
+    el.querySelector('.step-circle').textContent = i < Math.min(step,4) ? '✓' : i+1;
   });
-
   const card = document.getElementById('formCard');
-  if (step === 0) card.innerHTML = stepCategory();
-  else if (step === 1) card.innerHTML = stepProfile();
-  else if (step === 2) card.innerHTML = stepServices();
-  else if (step === 3) card.innerHTML = stepPhoto();
-  else if (step === 4) card.innerHTML = stepSuccess();
+  if      (step===0) card.innerHTML = stepCategory();
+  else if (step===1) card.innerHTML = stepProfile();
+  else if (step===2) card.innerHTML = stepServices();
+  else if (step===3) card.innerHTML = stepPhoto();
+  else if (step===4) card.innerHTML = stepGate();
+  else if (step===5) card.innerHTML = stepSuccess();
 }
 
-/* ── STEP 0: CATEGORY ─────────────────────────────────── */
+/* STEP 0 */
 function stepCategory() {
   return `
-    <div class="step-head">
-      <h2>What do you do?</h2>
-      <p>Choose your main category. You can add more skills on the next step.</p>
-    </div>
-    <div class="cat-grid" id="catGrid">
-      ${CATEGORIES.map(cat => `
+    <div class="step-head"><h2>What do you do?</h2><p>Choose your main category. You can add more skills on the next step.</p></div>
+    <div class="cat-grid">
+      ${PROVIDER_CATEGORIES.map(cat=>`
         <div class="cat-option ${formData.category===cat?'selected':''}" onclick="selectCat('${cat}',this)">
-          <div class="cat-icon">${CATEGORY_ICONS[cat]||'⚙️'}</div>
-          ${cat}
-        </div>
-      `).join('')}
+          <div class="cat-icon">${CATEGORY_ICONS[cat]||'⚙️'}</div>${cat}
+        </div>`).join('')}
     </div>
-    <div class="form-footer">
-      <div></div>
-      <button class="btn-next" onclick="goNext()" id="nextBtn" ${!formData.category?'disabled':''}>Next →</button>
-    </div>
+    <div class="form-footer"><div></div><button class="btn-next" onclick="goNext()" id="nextBtn" ${!formData.category?'disabled':''}>Next →</button></div>
   `;
 }
-
-function selectCat(cat, el) {
-  document.querySelectorAll('.cat-option').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  formData.category = cat;
-  document.getElementById('nextBtn').disabled = false;
+function selectCat(cat,el) {
+  document.querySelectorAll('.cat-option').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected'); formData.category=cat;
+  document.getElementById('nextBtn').disabled=false;
 }
 
-/* ── STEP 1: PROFILE ──────────────────────────────────── */
+/* STEP 1 */
 function stepProfile() {
   return `
-    <div class="step-head">
-      <h2>Tell us about yourself</h2>
-      <p>Clients will read this to decide whether to book you.</p>
+    <div class="step-head"><h2>Tell us about yourself</h2><p>Clients will read this to decide whether to book you.</p></div>
+    <div class="field">
+      <label>Your specialism <span style="color:var(--t3);font-weight:400">(required, max 60 chars)</span></label>
+      <input type="text" id="trade" maxlength="60" value="${escAttr(formData.trade)}" placeholder="e.g. Bridal makeup artist">
+      <div class="hint">One short line that tells clients exactly what you do best. Shown right under your name.</div>
     </div>
     <div class="field">
       <label>Bio <span style="color:var(--t3);font-weight:400">(required)</span></label>
-      <textarea id="bio" placeholder="E.g. I'm a fully qualified plumber with 10 years experience across East London. All work guaranteed and insured." maxlength="500">${formData.bio}</textarea>
+      <textarea id="bio" placeholder="Say it like you'd tell a neighbour: what you do, the kind of jobs you actually want more of, and what makes your work different." maxlength="500">${escAttr(formData.bio)}</textarea>
       <div class="hint" id="bioCount">${formData.bio.length}/500 characters</div>
     </div>
     <div class="field">
       <label>Your location <span style="color:var(--t3);font-weight:400">(e.g. Hackney, London)</span></label>
-      <input type="text" id="location" value="${formData.location||''}" placeholder="Hackney, London">
+      <input type="text" id="location" value="${escAttr(formData.location)}" placeholder="Hackney, London">
     </div>
     <div class="field">
-      <label>Years of experience</label>
-      <input type="number" id="years" value="${formData.years_experience||''}" min="0" max="50" placeholder="5" style="width:120px">
-    </div>
-    <div class="field">
-      <label>Hourly rate <span style="color:var(--t3);font-weight:400">(optional — clients will see this)</span></label>
-      <div class="rate-input-wrap" style="width:160px">
-        <input type="number" id="rate" value="${formData.hourly_rate?(formData.hourly_rate/100):''}" min="0" max="500" placeholder="25">
+      <label>Price range <span style="color:var(--t3);font-weight:400">(in £, shown as e.g. £45–£180)</span></label>
+      <div style="display:flex;gap:10px;align-items:center;max-width:320px">
+        <div class="rate-input-wrap" style="flex:1">
+          <input type="number" id="priceMin" value="${formData.price_min?(formData.price_min/100):''}" min="0" max="5000" placeholder="45">
+        </div>
+        <span style="color:var(--t3);font-weight:600">–</span>
+        <div class="rate-input-wrap" style="flex:1">
+          <input type="number" id="priceMax" value="${formData.price_max?(formData.price_max/100):''}" min="0" max="5000" placeholder="180">
+        </div>
       </div>
-      <div class="hint">Enter amount in £ per hour</div>
+      <div class="hint">Lowest to highest price across your services. Helps clients budget at a glance.</div>
     </div>
     <div class="field">
-      <label>Skills & specialisms</label>
+      <label>Skills &amp; specialisms <span style="color:var(--t3);font-weight:400">(optional - shown as tags on your profile)</span></label>
       <div class="skills-input-wrap">
-        <input type="text" id="skillInput" placeholder="e.g. Boiler servicing" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}">
+        <input type="text" id="skillInput" placeholder="e.g. 4C natural hair, locs, silk press" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}">
         <button class="add-skill-btn" onclick="addSkill()">+ Add</button>
       </div>
-      <div class="skills-tags" id="skillsTags">
-        ${formData.skills.map(s => skillTagHTML(s)).join('')}
+      <div class="skills-tags" id="skillsTags">${formData.skills.map(s=>skillTagHTML(s)).join('')}</div>
+    </div>
+    <div class="field">
+      <label>Social profiles <span style="color:var(--t3);font-weight:400">(optional)</span></label>
+      <p class="hint" style="margin-bottom:12px">Paste full links so clients can see more of your work. Icons appear on your profile.</p>
+      <div class="social-grid">
+        <div><label style="font-size:12px;font-weight:600;color:var(--t2)">Instagram</label><input type="url" id="soc_instagram" placeholder="https://instagram.com/…" value="${escAttr(formData.social_instagram)}"></div>
+        <div><label style="font-size:12px;font-weight:600;color:var(--t2)">TikTok</label><input type="url" id="soc_tiktok" placeholder="https://tiktok.com/@…" value="${escAttr(formData.social_tiktok)}"></div>
+        <div><label style="font-size:12px;font-weight:600;color:var(--t2)">YouTube</label><input type="url" id="soc_youtube" placeholder="https://youtube.com/…" value="${escAttr(formData.social_youtube)}"></div>
+        <div><label style="font-size:12px;font-weight:600;color:var(--t2)">Facebook</label><input type="url" id="soc_facebook" placeholder="https://facebook.com/…" value="${escAttr(formData.social_facebook)}"></div>
       </div>
     </div>
     <div class="form-footer">
@@ -261,58 +481,45 @@ function stepProfile() {
 }
 
 document.addEventListener('input', e => {
-  if (e.target.id === 'bio') {
-    document.getElementById('bioCount').textContent = e.target.value.length + '/500 characters';
-  }
+  if (e.target.id==='bio') { const el=document.getElementById('bioCount'); if(el) el.textContent=e.target.value.length+'/500 characters'; }
 });
 
 function skillTagHTML(skill) {
-  return `<span class="skill-tag">${skill}<button onclick="removeSkill('${skill}')">×</button></span>`;
+  const safe = String(skill).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  return `<span class="skill-tag">${escAttr(skill)}<button onclick="removeSkill('${safe}')">×</button></span>`;
 }
 function addSkill() {
-  const inp = document.getElementById('skillInput');
-  const val = inp.value.trim();
-  if (val && !formData.skills.includes(val)) {
-    formData.skills.push(val);
-    document.getElementById('skillsTags').insertAdjacentHTML('beforeend', skillTagHTML(val));
-  }
-  inp.value = '';
+  const inp=document.getElementById('skillInput'); const val=inp.value.trim();
+  if (val && !formData.skills.includes(val)) { formData.skills.push(val); document.getElementById('skillsTags').insertAdjacentHTML('beforeend',skillTagHTML(val)); }
+  inp.value='';
 }
 function removeSkill(skill) {
-  formData.skills = formData.skills.filter(s => s !== skill);
-  document.getElementById('skillsTags').innerHTML = formData.skills.map(skillTagHTML).join('');
+  formData.skills=formData.skills.filter(s=>s!==skill);
+  document.getElementById('skillsTags').innerHTML=formData.skills.map(skillTagHTML).join('');
 }
-
 function saveProfile() {
-  const bio      = document.getElementById('bio').value.trim();
-  const location = document.getElementById('location').value.trim();
-  const years    = parseInt(document.getElementById('years').value) || 0;
-  const rate     = parseFloat(document.getElementById('rate').value) || 0;
-  if (!bio) { UI.toast('Please add a bio', 'error'); return; }
+  const trade = document.getElementById('trade').value.trim();
+  const bio   = document.getElementById('bio').value.trim();
+  if (!trade) { (UI && UI.toast) ? UI.toast('Please add your specialism','error') : alert('Please add your specialism'); return; }
+  if (!bio)   { (UI && UI.toast) ? UI.toast('Please add a bio','error')           : alert('Please add a bio'); return; }
+  formData.trade            = trade;
   formData.bio              = bio;
-  formData.location         = location;
-  formData.years_experience = years;
-  formData.hourly_rate      = Math.round(rate * 100);
+  formData.location         = document.getElementById('location').value.trim();
+  formData.price_min        = Math.round((parseFloat(document.getElementById('priceMin').value)||0)*100);
+  formData.price_max        = Math.round((parseFloat(document.getElementById('priceMax').value)||0)*100);
+  formData.social_instagram = document.getElementById('soc_instagram').value.trim();
+  formData.social_tiktok    = document.getElementById('soc_tiktok').value.trim();
+  formData.social_facebook  = document.getElementById('soc_facebook').value.trim();
+  formData.social_youtube   = document.getElementById('soc_youtube').value.trim();
   renderStep(2);
 }
 
-/* ── STEP 2: SERVICES ─────────────────────────────────── */
-let serviceCount = 0;
+/* STEP 2 */
 function stepServices() {
-  serviceCount = formData.services.length || 0;
-  if (formData.services.length === 0) {
-    // Add one blank service
-    formData.services.push({ name:'', description:'', price:0 });
-    serviceCount = 1;
-  }
+  if (formData.services.length===0) formData.services.push({name:'',price:0});
   return `
-    <div class="step-head">
-      <h2>Your services & prices</h2>
-      <p>List specific jobs you offer with fixed prices. Clients book directly from these.</p>
-    </div>
-    <div id="servicesList">
-      ${formData.services.map((s, i) => serviceRowHTML(i, s)).join('')}
-    </div>
+    <div class="step-head"><h2>Your services & prices</h2><p>List specific jobs you offer with fixed prices. Clients book directly from these.</p></div>
+    <div id="servicesList">${formData.services.map((s,i)=>serviceRowHTML(i,s)).join('')}</div>
     <button class="add-service-btn" onclick="addServiceRow()">+ Add another service</button>
     <div class="form-footer">
       <button class="btn-back" onclick="renderStep(1)">← Back</button>
@@ -320,142 +527,193 @@ function stepServices() {
     </div>
   `;
 }
-
-function serviceRowHTML(i, s={}) {
+function serviceRowHTML(i,s={}) {
   return `
     <div class="service-row" id="srow-${i}">
       <div>
         <label style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:4px;display:block">Service name</label>
-        <input type="text" placeholder="e.g. Boiler service" value="${s.name||''}" data-field="name" data-idx="${i}">
+        <input type="text" placeholder="e.g. Boiler service" value="${escAttr(s.name)}" data-field="name" data-idx="${i}">
       </div>
       <div>
         <label style="font-size:12px;font-weight:700;color:var(--t2);margin-bottom:4px;display:block">Price (£)</label>
         <input type="number" placeholder="80" value="${s.price?(s.price/100):''}" min="0" style="width:90px" data-field="price" data-idx="${i}">
       </div>
       <button class="remove-btn" onclick="removeService(${i})" title="Remove">×</button>
-    </div>
-  `;
+    </div>`;
 }
-function addServiceRow() {
-  formData.services.push({ name:'', price:0 });
-  document.getElementById('servicesList').insertAdjacentHTML('beforeend', serviceRowHTML(formData.services.length - 1));
-}
-function removeService(i) {
-  formData.services.splice(i, 1);
-  renderStep(2);
-}
+function addServiceRow() { formData.services.push({name:'',price:0}); document.getElementById('servicesList').insertAdjacentHTML('beforeend',serviceRowHTML(formData.services.length-1)); }
+function removeService(i) { formData.services.splice(i,1); renderStep(2); }
 function saveServices() {
-  const rows = document.querySelectorAll('.service-row');
-  const services = [];
-  rows.forEach(row => {
-    const name  = row.querySelector('[data-field="name"]').value.trim();
-    const price = parseFloat(row.querySelector('[data-field="price"]').value) || 0;
-    if (name) services.push({ name, price: Math.round(price * 100) });
+  formData.services=[];
+  document.querySelectorAll('.service-row').forEach(row=>{
+    const name=row.querySelector('[data-field="name"]').value.trim();
+    const price=parseFloat(row.querySelector('[data-field="price"]').value)||0;
+    if (name) formData.services.push({name,price:Math.round(price*100)});
   });
-  formData.services = services;
   renderStep(3);
 }
 
-/* ── STEP 3: PHOTO ───────────────────────────────────── */
+/* STEP 3 */
 function stepPhoto() {
   return `
-    <div class="step-head">
-      <h2>Add a profile photo</h2>
-      <p>Providers with photos get significantly more bookings.</p>
-    </div>
+    <div class="step-head"><h2>Photo & work samples</h2><p>A face photo plus pictures of your work help clients trust you before they book.</p></div>
     <div class="photo-upload" id="photoUpload" onclick="document.getElementById('photoFile').click()">
-      ${formData.avatar_url
-        ? `<img class="photo-preview" src="${formData.avatar_url}" id="photoPreview">`
-        : `<div class="photo-upload-icon">📷</div>`}
+      ${formData.avatar_url?`<img class="photo-preview" src="${String(formData.avatar_url).replace(/"/g,'')}" id="photoPreview">`:`<div class="photo-upload-icon">📷</div>`}
       <input type="file" id="photoFile" accept="image/*" onchange="previewPhoto(this)">
-      <p id="photoHint">${formData.avatar_url ? 'Click to change photo' : 'Click to upload a photo<br><span style="font-size:11px">JPG or PNG, max 5MB</span>'}</p>
+      <p id="photoHint">${formData.avatar_url?'Click to change photo':'Click to upload a photo<br><span style="font-size:11px">JPG or PNG, max 5MB</span>'}</p>
+    </div>
+    <div class="field" style="margin-top:24px">
+      <label>Portfolio photos</label>
+      <p class="hint">Up to 12 images, 8MB each.</p>
+      <div id="portPrevGrid" class="media-preview-grid">${renderPortfolioImagePreviews()}</div>
+      <input type="file" id="portFiles" accept="image/*" multiple class="sr-only" aria-label="Add portfolio photos" onchange="onPickPortfolio(this)">
+      <button type="button" class="add-service-btn" onclick="document.getElementById('portFiles').click()">+ Add photos</button>
+    </div>
+    <div class="field">
+      <label>Work videos</label>
+      <p class="hint">Up to 5 files, 80MB each (MP4, WebM, MOV).</p>
+      <div id="vidPrevGrid" class="media-preview-grid">${renderVideoPreviews()}</div>
+      <input type="file" id="vidFiles" accept="video/*" multiple class="sr-only" aria-label="Add work videos" onchange="onPickVideos(this)">
+      <button type="button" class="add-service-btn" onclick="document.getElementById('vidFiles').click()">+ Add videos</button>
     </div>
     <div class="form-footer">
       <button class="btn-back" onclick="renderStep(2)">← Back</button>
-      <button class="btn-next" onclick="submitProfile()" id="submitBtn">Create profile →</button>
+      <button class="btn-next" onclick="submitProfile()" id="submitBtn">Save listing →</button>
     </div>
   `;
 }
+
 function previewPhoto(input) {
-  const file = input.files[0];
-  if (!file) return;
-  formData.avatar_file = file;
-  const reader = new FileReader();
-  reader.onload = e => {
-    formData.avatar_url = e.target.result;
-    const wrap = document.getElementById('photoUpload');
-    let preview = document.getElementById('photoPreview');
-    if (!preview) { preview = document.createElement('img'); preview.id='photoPreview'; preview.className='photo-preview'; wrap.prepend(preview); wrap.querySelector('.photo-upload-icon')?.remove(); }
-    preview.src = e.target.result;
-    document.getElementById('photoHint').textContent = 'Click to change photo';
+  const file=input.files[0]; if (!file) return;
+  formData.avatar_file=file;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    formData.avatar_url=e.target.result;
+    const wrap=document.getElementById('photoUpload');
+    let preview=document.getElementById('photoPreview');
+    if (!preview){preview=document.createElement('img');preview.id='photoPreview';preview.className='photo-preview';wrap.prepend(preview);wrap.querySelector('.photo-upload-icon')?.remove();}
+    preview.src=e.target.result;
+    document.getElementById('photoHint').textContent='Click to change photo';
   };
   reader.readAsDataURL(file);
 }
 
-/* ── SUBMIT ──────────────────────────────────────────── */
 async function submitProfile() {
-  const btn = document.getElementById('submitBtn');
-  UI.setLoading(btn, true);
+  // Not logged in - save draft and show account gate
+  if (!currentUser) {
+    try {
+      const draft = {
+        category: formData.category, trade: formData.trade, bio: formData.bio, location: formData.location,
+        skills: formData.skills, price_min: formData.price_min, price_max: formData.price_max,
+        services: formData.services,
+        social_instagram: formData.social_instagram, social_tiktok: formData.social_tiktok,
+        social_facebook: formData.social_facebook, social_youtube: formData.social_youtube,
+        savedAt: new Date().toISOString(),
+      };
+      localStorage.setItem('sowo_provider_draft', JSON.stringify(draft));
+    } catch(e) {}
+    renderStep(4); // gate step
+    return;
+  }
 
+  // Logged in - publish now
+  const btn=document.getElementById('submitBtn');
+  UI.setLoading(btn,true);
   try {
-    // 1. Upload avatar if provided
-    let avatarUrl = '';
-    if (formData.avatar_file) {
-      try { avatarUrl = await Storage.uploadAvatar(currentUser.id, formData.avatar_file); }
-      catch (e) { /* Storage not set up — skip */ }
-    }
-
-    // 2. Upsert profile
-    await Profiles.upsert(currentUser.id, {
-      full_name:   currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0],
-      location:    formData.location,
-      is_provider: true,
-      avatar_url:  avatarUrl || '',
+    let avatarUrl='';
+    if (formData.avatar_file) { try { avatarUrl=await Storage.uploadAvatar(currentUser.id,formData.avatar_file); } catch(e){} }
+    const keepAvatar=avatarUrl||(String(formData.avatar_url||'').startsWith('http')?formData.avatar_url:'');
+    await Profiles.upsert(currentUser.id,{
+      full_name: currentUser.user_metadata?.full_name||currentUser.email?.split('@')[0],
+      location:  formData.location, is_provider:true, avatar_url:keepAvatar,
     });
-
-    // 3. Create provider record
-    await Providers.create(currentUser.id, {
-      bio:              formData.bio,
-      category:         formData.category,
-      skills:           formData.skills,
-      hourly_rate:      formData.hourly_rate,
-      years_experience: formData.years_experience,
-      available:        true,
+    const imageUrls=[...formData.portfolio_images];
+    for (const f of formData.pendingPortfolioFiles) { try { imageUrls.push(await Storage.uploadPortfolioImage(currentUser.id,f)); } catch(e){ UI.toast('Some photos failed to upload','error'); } }
+    const videoUrls=[...formData.portfolio_videos];
+    for (const f of formData.pendingVideoFiles) { try { videoUrls.push(await Storage.uploadPortfolioVideo(currentUser.id,f)); } catch(e){ UI.toast('A video failed to upload','error'); } }
+    await Providers.create(currentUser.id,{
+      bio:formData.bio, category:formData.category, trade:formData.trade, skills:formData.skills,
+      price_min:formData.price_min, price_max:formData.price_max, available:true,
+      portfolio_images:imageUrls.filter(Boolean), portfolio_videos:videoUrls.filter(Boolean),
+      social_links:buildSocialLinksPayload(),
     });
-
-    // 4. Create services
-    for (const svc of formData.services) {
-      if (svc.name) {
-        try { await Providers.addService(currentUser.id, svc); } catch (e) {}
-      }
-    }
-
-    renderStep(4);
-
-  } catch (err) {
-    UI.toast(err.message || 'Failed to create profile. Please try again.', 'error');
-    UI.setLoading(btn, false);
+    for (const svc of formData.services) { if (svc.name) { try { await Providers.addService(currentUser.id,svc); } catch(e){} } }
+    formData.pendingPortfolioFiles=[]; formData.pendingVideoFiles=[];
+    formData.portfolio_images=imageUrls.filter(Boolean); formData.portfolio_videos=videoUrls.filter(Boolean);
+    localStorage.removeItem('sowo_provider_draft');
+    renderStep(5); // success step
+  } catch(err) {
+    UI.toast(err.message||'Failed to save profile. Please try again.','error');
+    UI.setLoading(btn,false);
   }
 }
 
-/* ── STEP 4: SUCCESS ─────────────────────────────────── */
+/* STEP 4 - Gate (not logged in) */
+function stepGate() {
+  const cat   = formData.category || 'your services';
+  const trade = formData.trade || '';
+  const loc   = formData.location || '';
+  const pmin  = formData.price_min ? Math.round(formData.price_min/100) : 0;
+  const pmax  = formData.price_max ? Math.round(formData.price_max/100) : 0;
+  const priceRange = (pmin || pmax) ? '£' + (pmin || pmax) + (pmin && pmax && pmin !== pmax ? '–£' + pmax : '') : '';
+  const svcCount = (formData.services||[]).filter(s=>s.name).length;
+  const signupUrl = '/signup.html?next=list';
+  const loginUrl  = '/login.html?next=list';
+  return `
+    <div class="gate-screen">
+      <div class="gate-ic">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="gate-h">One last step</div>
+      <p class="gate-sub">Create a free account to publish your listing. Clients will be able to find and book you straight away.</p>
+      <div class="gate-preview">
+        <div class="gate-preview-label">Your listing preview</div>
+        <div class="gate-preview-row"><strong>Category</strong><span>${escAttr(cat)}</span></div>
+        ${trade ? `<div class="gate-preview-row"><strong>Specialism</strong><span>${escAttr(trade)}</span></div>` : ''}
+        ${loc ? `<div class="gate-preview-row"><strong>Location</strong><span>${escAttr(loc)}</span></div>` : ''}
+        ${priceRange ? `<div class="gate-preview-row"><strong>Price range</strong><span>${escAttr(priceRange)}</span></div>` : ''}
+        ${svcCount ? `<div class="gate-preview-row"><strong>Services</strong><span>${svcCount} service${svcCount>1?'s':''} listed</span></div>` : ''}
+        ${formData.skills.length ? `<div class="gate-preview-row"><strong>Skills</strong><span>${formData.skills.slice(0,3).map(s=>escAttr(s)).join(', ')}${formData.skills.length>3?' +more':''}</span></div>` : ''}
+      </div>
+      <div class="gate-btns">
+        <a href="${signupUrl}" class="gate-create">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Create free account &amp; go live
+        </a>
+        <a href="${loginUrl}" class="gate-signin">Already have an account? Sign in</a>
+      </div>
+      <p class="gate-note">Free to list. No card required. Your listing is saved and will go live as soon as you create an account.</p>
+      <div style="margin-top:16px"><button class="btn-back" onclick="renderStep(3)">← Edit listing</button></div>
+    </div>`;
+}
+
+/* STEP 5 - Success (logged in, published) */
 function stepSuccess() {
-  document.getElementById('progressFill').style.width = '100%';
-  document.querySelectorAll('.step').forEach(el => { el.classList.remove('active'); el.classList.add('done'); el.querySelector('.step-circle').textContent = '✓'; });
+  localStorage.removeItem('sowo_provider_draft');
   return `
     <div class="success-screen">
       <div class="success-icon">🎉</div>
       <div class="success-title">You're live on Sowo!</div>
-      <p class="success-msg">
-        Your provider profile is now visible to clients across the community.
-        You'll get a notification when your first booking request arrives.
-      </p>
-      <a href="/dashboard" class="btn-dashboard">Go to dashboard →</a>
-    </div>
-  `;
+      <p class="success-msg">Your provider profile is now visible to clients across the community. You'll get a notification when your first booking request arrives.</p>
+      <a href="/dashboard.html" class="btn-dashboard">Go to dashboard →</a>
+    </div>`;
 }
 
-function goNext() { renderStep(currentStep + 1); }
+function goNext() { renderStep(currentStep+1); }
+
+// Restore draft if coming back from signup/login with ?next=list
+(function() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('next') === 'list') {
+    try {
+      const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
+      if (draft) {
+        // pre-fill will happen in init() - nothing extra needed here
+      }
+    } catch(e) {}
+  }
+})();
+
 init();
 </script>
 </body>

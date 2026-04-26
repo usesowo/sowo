@@ -3,441 +3,922 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Browse Providers — Sowo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Sowo - Browse trusted hands, near you</title>
+<link rel="stylesheet" href="shared.css">
 <style>
-:root{
-  --green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--amber-dk:#8B5E0A;
-  --black:#0A0A0A;--cream:#F5F0E8;--white:#fff;
-  --t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;
-  --ease:cubic-bezier(.16,1,.3,1)
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--white);color:var(--t1);overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-button{font-family:inherit;cursor:pointer;border:none}
+  /* ═══ BROWSE-SPECIFIC ═══ */
 
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;padding:0 40px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:#fff;border-bottom:1px solid var(--border);
-}
-.logo{display:flex;align-items:center;gap:8px}
-.logo-wm{font-family:Georgia,serif;font-size:19px;font-weight:700;color:var(--black)}
-.nav-links{display:flex;gap:28px}
-.nav-links a{font-size:13px;font-weight:500;color:var(--t2);transition:color .15s}
-.nav-links a:hover{color:var(--black)}
-.nav-links a.active{color:var(--green);font-weight:700}
-.nav-r{display:flex;align-items:center;gap:10px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .18s;white-space:nowrap}
-.btn-sm{height:38px;padding:0 16px;font-size:13px}
-.b-green{background:var(--green);color:var(--mint)}.b-green:hover{background:#063D31}
-.b-amber{background:var(--amber);color:var(--black)}.b-amber:hover{background:#D4891F}
-.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal);color:var(--black)}
-.ham{display:none;flex-direction:column;gap:5px;padding:6px;background:none;border:none}
-.ham span{display:block;width:22px;height:1.5px;background:var(--black);border-radius:2px}
+  /* Hero strip */
+  .browse-hero {
+    padding: 48px 40px 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .browse-hero .container { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: end; }
+  .browse-hero h1 {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(48px, 5.2vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+  .browse-hero h1 em { font-style: italic; color: var(--g); font-weight: 400; }
+  .browse-hero .meta {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+    text-align: right;
+  }
+  .browse-hero .meta .count {
+    font-family: var(--serif);
+    font-size: 44px; font-weight: 400;
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .browse-hero .meta .sub { font-size: 13px; color: var(--muted); }
 
-/* HERO SEARCH BAR */
-.search-hero{
-  background:var(--black);margin-top:68px;
-  padding:48px 40px 52px;
-}
-.search-hero h1{font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;letter-spacing:-.5px;margin-bottom:6px}
-.search-hero p{font-size:15px;color:rgba(255,255,255,.45);margin-bottom:28px}
-.search-bar{
-  display:flex;gap:10px;max-width:680px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
-  border-radius:14px;padding:6px 6px 6px 16px;
-}
-.search-bar input{
-  flex:1;background:none;border:none;outline:none;font-size:15px;
-  font-family:inherit;color:#fff;min-width:0;
-}
-.search-bar input::placeholder{color:rgba(255,255,255,.3)}
-.search-bar-btn{
-  height:44px;padding:0 22px;background:var(--amber);color:var(--black);
-  border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;
-  transition:background .15s;flex-shrink:0;
-}
-.search-bar-btn:hover{background:#D4891F}
+  /* Search toolbar */
+  .toolbar {
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+    position: sticky; top: 77px; z-index: 50;
+  }
+  .toolbar-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.3fr 1fr auto auto; gap: 14px;
+    align-items: center;
+  }
+  .tb-field {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--paper);
+    transition: border 0.15s;
+  }
+  .tb-field:focus-within { border-color: var(--ink); }
+  .tb-field svg { flex-shrink: 0; color: var(--muted); }
+  .tb-field input {
+    flex: 1; border: 0; outline: 0; background: transparent;
+    font-size: 14px; color: var(--ink);
+  }
+  .tb-field input::placeholder { color: var(--muted-2); }
+  .tb-field input[readonly] { cursor: default; caret-color: transparent; pointer-events: none; }
+  .tb-field .label {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-right: 4px;
+  }
+  .tb-sort {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13px; color: var(--ink);
+    cursor: pointer;
+  }
+  .tb-filter-btn {
+    padding: 14px 22px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .tb-filter-btn .badge {
+    background: var(--a); color: var(--ink);
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 999px;
+  }
 
-/* FILTER CHIPS */
-.filters{padding:20px 40px;border-bottom:1px solid var(--border);background:#fff;overflow-x:auto;display:flex;gap:8px;align-items:center}
-.filters::-webkit-scrollbar{display:none}
-.chip{
-  height:34px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;
-  background:var(--surf);color:var(--t2);border:1px solid var(--border);
-  cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0;
-}
-.chip:hover{border-color:var(--teal);color:var(--black)}
-.chip.active{background:var(--green);color:var(--mint);border-color:var(--green)}
-.filter-count{font-size:13px;color:var(--t3);margin-left:8px;flex-shrink:0;white-space:nowrap}
+  /* Category rail */
+  .cat-rail {
+    padding: 22px 40px;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cat-rail::-webkit-scrollbar { display: none; }
+  .cat-rail-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; gap: 8px;
+    flex-wrap: wrap;
+  }
 
-/* SORT */
-.browse-header{display:flex;align-items:center;justify-content:space-between;padding:20px 40px 0}
-.browse-header h2{font-size:15px;font-weight:600;color:var(--t2)}
-.browse-header span{color:var(--black);font-weight:700}
-.sort-select{
-  height:36px;padding:0 12px;border:1px solid var(--border);border-radius:8px;
-  font-size:13px;font-family:inherit;color:var(--t1);background:#fff;cursor:pointer;outline:none;
-}
+  /* Main grid */
+  .browse-body {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 48px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
 
-/* GRID */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding:20px 40px 60px}
+  /* Filter sidebar */
+  .sidebar { position: sticky; top: 170px; align-self: start; background: var(--paper); }
+  .sidebar-group { padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .sidebar-group:first-child { padding-top: 0; }
+  .sidebar-group h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .sb-option {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  .sb-option:hover { color: var(--ink); }
+  .sb-option .count { font-size: 12px; color: var(--muted-2); }
+  .sb-option input { margin-right: 10px; accent-color: var(--g); }
+  .sb-option label { cursor: pointer; flex: 1; display: flex; align-items: center; }
 
-/* PROVIDER CARD */
-.pcard{
-  border:1px solid var(--border);border-radius:16px;overflow:hidden;
-  background:#fff;transition:transform .2s var(--ease),box-shadow .2s;cursor:pointer;
-  display:flex;flex-direction:column;
-}
-.pcard:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.1)}
-.pcard-top{padding:20px 20px 16px;display:flex;align-items:flex-start;gap:14px}
-.pcard-avatar{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--surf)}
-.pcard-avatar-init{
-  width:56px;height:56px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;font-weight:800;color:var(--mint);background:var(--green);
-}
-.pcard-info{flex:1;min-width:0}
-.pcard-name{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pcard-cat{font-size:12px;color:var(--t3);margin-top:2px}
-.pcard-loc{font-size:12px;color:var(--t3);margin-top:2px;display:flex;align-items:center;gap:4px}
-.pcard-stars{color:var(--amber);font-size:13px;margin-top:4px}
-.pcard-rating{font-size:12px;color:var(--t3);font-weight:600;margin-left:4px}
+  .price-range {
+    display: flex; gap: 10px; align-items: center;
+    margin-top: 10px;
+  }
+  .price-display {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 13px;
+    background: transparent;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+  }
 
-.pcard-mid{padding:0 20px 14px}
-.pcard-bio{font-size:13px;color:var(--t2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .vouch-toggle {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--gs);
+    border-radius: 10px;
+    margin-top: 8px;
+  }
+  .vouch-toggle .lbl { font-size: 13px; color: var(--g); font-weight: 500; }
+  .switch {
+    width: 34px; height: 20px;
+    background: var(--g);
+    border-radius: 999px;
+    position: relative;
+    cursor: pointer;
+  }
+  .switch::after {
+    content: ''; position: absolute;
+    top: 2px; left: 16px;
+    width: 16px; height: 16px;
+    background: var(--paper);
+    border-radius: 50%;
+  }
 
-.pcard-skills{padding:0 20px;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
-.skill-tag{
-  height:24px;padding:0 10px;border-radius:999px;
-  background:var(--surf);color:var(--t2);border:1px solid var(--border);font-size:11px;font-weight:600;
-}
+  /* Results */
+  .results-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 24px;
+  }
+  .results-head .title { font-family: var(--serif); font-size: 24px; font-weight: 500; letter-spacing: -0.01em; }
+  .results-head .view-toggle {
+    display: flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px;
+  }
+  .results-head .view-toggle button {
+    padding: 6px 14px;
+    font-size: 12px;
+    border-radius: 999px;
+    color: var(--muted);
+  }
+  .results-head .view-toggle button.active { background: var(--ink); color: var(--paper); }
 
-.pcard-foot{
-  margin-top:auto;padding:14px 20px;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.pcard-price{font-size:18px;font-weight:800;color:var(--black)}
-.pcard-price span{font-size:12px;font-weight:500;color:var(--t3)}
-.pcard-vouch{font-size:12px;color:var(--t3);display:flex;align-items:center;gap:4px}
-.pcard-cta{
-  height:34px;padding:0 16px;background:var(--green);color:var(--mint);
-  border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;
-  transition:background .15s;
-}
-.pcard-cta:hover{background:#063D31}
+  /* Provider grid */
+  .p-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px 28px; }
+  @media(max-width:1100px){ .p-grid { grid-template-columns: 1fr 1fr; } }
 
-/* VERIFIED BADGE */
-.verified-badge{display:inline-flex;align-items:center;gap:4px;background:#E6F9F3;color:var(--teal);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700;margin-top:4px}
+  .p-card {
+    display: flex; flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .p-card:hover { transform: translateY(-2px); }
 
-/* LOADING / EMPTY */
-.skeleton{animation:pulse 1.5s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.sk-card{border:1px solid var(--border);border-radius:16px;padding:20px}
-.sk-line{background:var(--surf);border-radius:6px;margin-bottom:10px}
-.sk-avatar{width:56px;height:56px;background:var(--surf);border-radius:50%;margin-bottom:12px}
+  .p-card .img-wrap {
+    position: relative;
+    aspect-ratio: 4/5;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .p-card .img-wrap .ph { position: absolute; inset: 0; }
+  .p-card .img-wrap img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 20%;
+    display: block;
+  }
+  .p-featured > img {
+    width: 100%; height: 100%; min-height: 360px;
+    object-fit: cover; object-position: center 20%;
+    display: block;
+  }
+  .p-card .top-marks {
+    position: absolute; top: 14px; left: 14px; right: 14px;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    z-index: 2;
+  }
+  .p-card .vouch-count {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 5px 9px;
+    text-transform: uppercase;
+  }
+  .p-card .save {
+    width: 32px; height: 32px;
+    background: var(--paper);
+    display: grid; place-items: center;
+    border-radius: 50%;
+  }
+  .p-card .save svg { stroke: var(--ink); fill: none; }
 
-.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px}
-.empty-icon{font-size:48px;margin-bottom:16px}
-.empty-title{font-size:20px;font-weight:700;margin-bottom:8px}
-.empty-msg{font-size:14px;color:var(--t3)}
+  .p-card .num {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: flex; justify-content: space-between;
+  }
+  .p-card .name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .p-card .trade {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-bottom: 10px;
+  }
+  .p-card .p-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+  }
+  .p-card .loc { color: var(--muted); }
+  .p-card .price {
+    font-weight: 500;
+  }
+  .p-card .price span { color: var(--muted); font-weight: 400; }
 
-/* LOAD MORE */
-.load-more-wrap{text-align:center;padding:0 0 60px}
-.btn-load{
-  height:46px;padding:0 32px;background:var(--surf);color:var(--t1);
-  border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:600;
-  transition:all .15s;cursor:pointer;
-}
-.btn-load:hover{border-color:var(--teal);color:var(--green)}
+  /* Editorial featured card (full-bleed spanning 2 cols) */
+  .p-featured {
+    grid-column: span 2;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    gap: 28px;
+    padding: 28px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    align-items: stretch;
+    cursor: pointer;
+  }
+  .p-featured .ph { aspect-ratio: auto; height: 100%; min-height: 360px; }
+  .p-featured-body {
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 8px 4px;
+  }
+  .p-featured .kicker {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--g); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .p-featured .kicker::after {
+    content: ''; flex: 1; height: 1px; background: var(--line-2);
+  }
+  .p-featured .f-name {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 44px; line-height: 1; letter-spacing: -0.025em;
+    margin-bottom: 10px;
+  }
+  .p-featured .f-trade { font-size: 14px; color: var(--ink-2); margin-bottom: 24px; }
+  .p-featured .vouch-quote {
+    font-family: var(--serif); font-style: italic;
+    font-size: 17px; line-height: 1.45;
+    color: var(--ink-2);
+    padding-left: 16px;
+    border-left: 2px solid var(--a);
+    margin-bottom: 20px;
+  }
+  .p-featured .voucher {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12.5px; color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .p-featured .voucher .v-av {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--a); color: var(--ink);
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 600;
+  }
+  .p-featured .f-foot {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 20px; border-top: 1px solid var(--line-2);
+  }
+  .p-featured .f-foot .price {
+    font-family: var(--serif); font-size: 28px;
+    font-weight: 400; letter-spacing: -0.02em;
+  }
+  .p-featured .f-foot .price span { font-size: 13px; color: var(--muted); font-family: var(--sans); }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-  .nav{padding:0 20px}
-  .nav-links{display:none}
-  .ham{display:flex}
-  .search-hero{padding:32px 20px 36px}
-  .filters{padding:16px 20px}
-  .grid{padding:16px 20px 40px;grid-template-columns:1fr}
-  .browse-header{padding:16px 20px 0}
-}
+  /* ─── Results count/sort/grid bar (Walk London–style) ─── */
+  .results-bar {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+  .rbar-views {
+    display: flex; gap: 2px;
+  }
+  .rbar-views button {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--muted);
+    transition: all 0.12s;
+  }
+  .rbar-views button:hover { color: var(--ink); border-color: var(--line); }
+  .rbar-views button.active { color: var(--ink); border-color: var(--ink); }
+  .rbar-count {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rbar-sort {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .rbar-sort svg { color: var(--muted); }
+
+  /* Grid layout variants */
+  .p-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .p-grid.cols-2 .p-featured { grid-column: span 2; grid-template-columns: 1.1fr 1fr; }
+  .p-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px 16px; }
+  .p-grid.cols-4 .p-featured { grid-column: span 4; }
+  .p-grid.cols-4 .p-card .name { font-size: 17px; }
+  .p-grid.list-view {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .p-grid.list-view .p-card {
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    transform: none !important;
+  }
+  .p-grid.list-view .p-card .img-wrap {
+    width: 80px; height: 80px;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+  .p-grid.list-view .p-card .num { margin-bottom: 4px; }
+  .p-grid.list-view .p-card .name { font-size: 18px; margin-bottom: 2px; }
+  .p-grid.list-view .p-card .p-meta { border-top: none; padding-top: 4px; }
+  .p-grid.list-view .p-card .top-marks { display: none; }
+  .p-grid.list-view .p-featured { grid-column: span 1; }
+
+  /* Pagination */
+  .pagination {
+    display: flex; justify-content: center; align-items: center;
+    gap: 6px;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+  .pag-btn {
+    min-width: 36px; height: 36px;
+    display: grid; place-items: center;
+    font-size: 13px;
+    border-radius: 50%;
+    color: var(--ink-2);
+  }
+  .pag-btn.active { background: var(--ink); color: var(--paper); }
+  .pag-btn:hover:not(.active) { background: var(--paper-2); }
+
+  /* CTA strip */
+  .cta-strip {
+    max-width: 1400px; margin: 40px auto; padding: 0 40px;
+  }
+  .cta-strip-inner {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 56px;
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px;
+    align-items: center;
+  }
+  .cta-strip h3 {
+    font-family: var(--serif);
+    font-size: 36px; font-weight: 400;
+    line-height: 1.05; letter-spacing: -0.025em;
+  }
+  .cta-strip h3 em { font-style: italic; color: var(--a); }
+  .cta-strip p {
+    font-size: 14px;
+    color: rgba(245,240,232,0.6);
+    margin-top: 10px;
+    max-width: 420px;
+  }
+  .cta-strip .actions { display: flex; gap: 12px; justify-content: flex-end; }
+  .btn-amber.btn-lg { font-weight: 600; }
+  .btn-inverse { background: transparent; color: var(--paper); border: 1px solid rgba(245,240,232,0.3); }
+  .btn-inverse:hover { border-color: var(--paper); }
 </style>
 </head>
 <body>
 
+<!-- ═══ NAV ═══ -->
 <nav class="nav">
-  <a href="/" class="logo"><span class="logo-wm">Sowo</span></a>
-  <div class="nav-links">
-    <a href="/browse" class="active">Browse</a>
-    <a href="/become-provider">Become a provider</a>
-    <a href="/how-it-works">How it works</a>
+  <div class="nav-left">
+    <a href="/" class="nav-logo">
+      <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
+        <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
+        <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+        <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+      </svg>
+      Sowo
+    </a>
+    <a href="/browse.html" class="nav-link active">Browse providers</a>
+    <a href="/requests.html" class="nav-link">Active requests</a>
+    <a href="/become-provider.html" class="nav-link">List your service</a>
   </div>
-  <div class="nav-r" id="navR">
-    <a href="/login" class="btn btn-sm b-light">Log in</a>
-    <a href="/signup" class="btn btn-sm b-amber">Sign up</a>
+  <div></div>
+  <div class="nav-right">
+    <a href="/login.html" class="nav-auth" id="nav-login-btn">Sign in</a>
+    <a href="/signup.html" class="nav-cta" id="nav-cta-btn">Get started</a>
+    <div class="nav-user" id="nav-user" style="position:relative;display:none">
+      <div class="nav-avatar" id="nav-av" style="width:34px;height:34px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;background-size:cover;background-position:center;user-select:none;flex-shrink:0"></div>
+      <div class="nav-dropdown" id="nav-dropdown" style="position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:180px;padding:6px;z-index:999;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s">
+        <a href="/dashboard.html" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#374151;text-decoration:none">Dashboard</a>
+        <button id="nav-signout-btn" style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#dc2626;background:none;border:none;width:100%;text-align:left;cursor:pointer">Sign out</button>
+      </div>
+    </div>
   </div>
-  <button class="ham" id="ham"><span></span><span></span><span></span></button>
 </nav>
 
-<section class="search-hero">
-  <h1>Find trusted hands, near you</h1>
-  <p>Vouched-for professionals from your community — cleaners, plumbers, tutors and more.</p>
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search by skill, name, or category…" autocomplete="off">
-    <button class="search-bar-btn" id="searchBtn">Search</button>
+<script>
+/* Auth state - hide guest links and show user dropdown if a session exists */
+(function(){
+  var raw = sessionStorage.getItem('sowo_session');
+  if (!raw) return;
+  try {
+    var user = JSON.parse(raw);
+    var name = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0]);
+    var initials = name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
+    var email = user.email || '';
+    document.querySelectorAll('#nav-login-btn,#nav-cta-btn').forEach(function(b){ b.style.display='none'; });
+    var userEl = document.getElementById('nav-user');
+    if (userEl) { userEl.style.display='flex'; userEl.style.alignItems='center'; }
+    var av = document.getElementById('nav-av');
+    if (av) {
+      var photo = localStorage.getItem('sowo_avatar_'+email);
+      if (photo) { av.style.backgroundImage='url('+photo+')'; av.textContent=''; }
+      else av.textContent = initials;
+      av.addEventListener('click', function(ev){
+        ev.stopPropagation();
+        var d = document.getElementById('nav-dropdown');
+        var open = d.style.opacity === '1';
+        d.style.opacity = open ? '0' : '1';
+        d.style.pointerEvents = open ? 'none' : 'all';
+        d.style.transform = open ? 'translateY(-6px)' : 'translateY(0)';
+      });
+      document.addEventListener('click', function(){
+        var d = document.getElementById('nav-dropdown');
+        d.style.opacity='0'; d.style.pointerEvents='none'; d.style.transform='translateY(-6px)';
+      });
+      document.getElementById('nav-dropdown').addEventListener('click', function(ev){ ev.stopPropagation(); });
+    }
+    var so = document.getElementById('nav-signout-btn');
+    if (so) so.addEventListener('click', function(){ sessionStorage.removeItem('sowo_session'); window.location.reload(); });
+  } catch(e){}
+})();
+</script>
+
+<!-- ═══ HERO ═══ -->
+<section class="browse-hero">
+  <div class="container">
+    <div>
+      <div class="eyebrow" style="margin-bottom:20px;">Ìṣẹ́ Owó · Skilled Work · London</div>
+      <h1>Trusted hands,<br><em>near you.</em></h1>
+    </div>
+    <div class="meta">
+      <div class="mono">Available now</div>
+      <div class="count">1,284</div>
+      <div class="sub">vouched-for craftspeople · 47 neighbourhoods</div>
+    </div>
   </div>
 </section>
 
-<div class="filters" id="filters">
-  <div class="chip active" data-cat="all">All categories</div>
+<!-- ═══ TOOLBAR ═══ -->
+<section class="toolbar">
+  <div class="toolbar-inner">
+    <div class="tb-field">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>
+      </svg>
+      <span class="label">What</span>
+      <input type="text" placeholder="Makeup artist, chef, nail technician…" value="Makeup artist" readonly>
+    </div>
+    <div class="tb-field">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+      </svg>
+      <span class="label">Where</span>
+      <input type="text" placeholder="Location or postcode" value="Hackney, E8">
+    </div>
+    <div class="tb-sort">
+      <span class="mono" style="font-size:10px;">Sort</span>
+      Most vouched
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+    <button class="tb-filter-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M6 12h12M10 18h4"/></svg>
+      Filters
+      <span class="badge">3</span>
+    </button>
+  </div>
+</section>
+
+<!-- ═══ CATEGORY RAIL ═══ -->
+<div class="cat-rail">
+  <div class="cat-rail-inner">
+    <button class="chip active">All trades</button>
+    <button class="chip">Beauty &amp; hair</button>
+    <button class="chip">Makeup</button>
+    <button class="chip">Nails</button>
+    <button class="chip">Barbering</button>
+    <button class="chip">Food &amp; chefs</button>
+    <button class="chip">Tailoring</button>
+    <button class="chip">Cleaning</button>
+    <button class="chip">Home &amp; repair</button>
+    <button class="chip">Events &amp; DJs</button>
+    <button class="chip">Photography</button>
+  </div>
 </div>
 
-<div class="browse-header">
-  <h2>Showing <span id="countLabel">…</span> providers</h2>
-  <select class="sort-select" id="sortSelect">
-    <option value="vouches">Most vouched</option>
-    <option value="rating">Highest rated</option>
-    <option value="price_asc">Price: Low to high</option>
-    <option value="price_desc">Price: High to low</option>
-  </select>
+<!-- ═══ MAIN BODY ═══ -->
+<div class="browse-body">
+
+  <!-- ─── Sidebar ─── -->
+  <aside class="sidebar">
+
+    <div class="sidebar-group">
+      <h4>Trust level</h4>
+      <div class="vouch-toggle">
+        <span class="lbl">3+ community vouches</span>
+        <div class="switch"></div>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <h4>Price</h4>
+      <div class="price-range">
+        <span class="price-display">£30</span>
+        <span style="color:var(--muted);">–</span>
+        <span class="price-display">£120</span>
+      </div>
+    </div>
+
+    <div class="sidebar-group">
+      <h4>Availability</h4>
+      <div class="sb-option"><label><input type="checkbox" checked> Today</label><span class="count">218</span></div>
+      <div class="sb-option"><label><input type="checkbox"> This week</label><span class="count">512</span></div>
+      <div class="sb-option"><label><input type="checkbox"> This weekend</label><span class="count">186</span></div>
+      <div class="sb-option"><label><input type="checkbox"> Flexible</label><span class="count">1,284</span></div>
+    </div>
+
+    <div class="sidebar-group">
+      <h4>Service type</h4>
+      <div class="sb-option"><label><input type="checkbox" checked> Mobile · comes to you</label><span class="count">742</span></div>
+      <div class="sb-option"><label><input type="checkbox"> At their studio</label><span class="count">391</span></div>
+      <div class="sb-option"><label><input type="checkbox"> Either</label><span class="count">438</span></div>
+    </div>
+
+    <div class="sidebar-group">
+      <h4>Community</h4>
+      <div class="sb-option"><label><input type="checkbox"> Speaks Yoruba</label></div>
+      <div class="sb-option"><label><input type="checkbox"> Speaks Igbo</label></div>
+      <div class="sb-option"><label><input type="checkbox"> Speaks Twi</label></div>
+      <div class="sb-option"><label><input type="checkbox"> Works with Afro hair</label></div>
+      <div class="sb-option"><label><input type="checkbox"> Women-only service</label></div>
+    </div>
+
+    <div class="sidebar-group">
+      <h4>Experience</h4>
+      <div class="sb-option"><label><input type="checkbox"> 2+ years</label></div>
+      <div class="sb-option"><label><input type="checkbox"> 5+ years</label></div>
+      <div class="sb-option"><label><input type="checkbox"> 10+ years</label></div>
+    </div>
+
+    <button class="btn btn-quiet" style="margin-top:24px;width:100%;">Clear filters</button>
+  </aside>
+
+  <!-- ─── Results ─── -->
+  <main>
+    <div style="font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:-0.01em;margin-bottom:20px;">
+      Showing 46 makeup artists in Hackney
+    </div>
+
+    <!-- Walk London–style count + grid toggle bar -->
+    <div class="results-bar">
+      <div class="rbar-views" id="viewToggle">
+        <!-- 2-col -->
+        <button data-cols="cols-2" title="2 columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="6" height="14" rx="1"/><rect x="9" y="1" width="6" height="14" rx="1"/>
+          </svg>
+        </button>
+        <!-- 3-col (default active) -->
+        <button data-cols="cols-3" class="active" title="3 columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="4" height="14" rx="1"/><rect x="6" y="1" width="4" height="14" rx="1"/><rect x="11" y="1" width="4" height="14" rx="1"/>
+          </svg>
+        </button>
+        <!-- 4-col -->
+        <button data-cols="cols-4" title="4 columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="2.5" height="14" rx="0.5"/><rect x="4.5" y="1" width="2.5" height="14" rx="0.5"/><rect x="8" y="1" width="2.5" height="14" rx="0.5"/><rect x="11.5" y="1" width="3" height="14" rx="0.5"/>
+          </svg>
+        </button>
+        <!-- list -->
+        <button data-cols="list-view" title="List view">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="1" y1="4" x2="15" y2="4"/><line x1="1" y1="8" x2="15" y2="8"/><line x1="1" y1="12" x2="15" y2="12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="rbar-count">46 Providers</div>
+      <div class="rbar-sort">
+        Sort by
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+    </div>
+
+    <div class="p-grid" id="pGrid">
+
+      <!-- Featured editorial card (spans 2 cols) -->
+      <a href="provider.html#amara" class="p-featured">
+        <img src="/images/lashes-hero.jpg" alt="Amara Osei" loading="lazy">
+        <div class="p-featured-body">
+          <div>
+            <div class="kicker">Most vouched this month</div>
+            <div class="f-name">Amara Osei</div>
+            <div class="f-trade">Bridal &amp; editorial makeup · 8 years</div>
+            <blockquote class="vouch-quote">
+              "Booked Amara for my wedding in Lagos. She understood my skin tone without a single swatch. Every aunt at the party asked for her number."
+            </blockquote>
+            <div class="voucher">
+              <div class="v-av">TA</div>
+              Vouched by Tolu A. · 24 others have vouched
+            </div>
+          </div>
+          <div class="f-foot">
+            <div class="price">£85 <span>/ session</span></div>
+            <div class="btn btn-ink">View profile →</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Standard provider cards -->
+      <a href="provider.html#folake" class="p-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&q=80" alt="Folake Adeyemi" loading="lazy">
+          <div class="top-marks">
+            <div class="vouch-count">18 Vouches</div>
+            <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+        <div class="num"><span>Nº 02</span><span>Mobile</span></div>
+        <div class="name">Folake Adeyemi</div>
+        <div class="trade">Bridal makeup · special occasions</div>
+        <div class="p-meta">
+          <div class="loc">Shoreditch · 1.2mi</div>
+          <div class="price">£65 <span>/ session</span></div>
+        </div>
+      </a>
+
+      <a href="provider.html#priscilla" class="p-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=600&q=80" alt="Priscilla Mba" loading="lazy">
+          <div class="top-marks">
+            <div class="vouch-count">31 Vouches</div>
+            <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+        <div class="num"><span>Nº 03</span><span>Studio · Mobile</span></div>
+        <div class="name">Priscilla Mba</div>
+        <div class="trade">Editorial &amp; red carpet</div>
+        <div class="p-meta">
+          <div class="loc">Dalston · 0.8mi</div>
+          <div class="price">£120 <span>/ session</span></div>
+        </div>
+      </a>
+
+      <a href="provider.html#adaeze" class="p-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1589156191108-c762ff4b96ab?w=600&q=80" alt="Adaeze Okoye" loading="lazy">
+          <div class="top-marks">
+            <div class="vouch-count">9 Vouches</div>
+            <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+        <div class="num"><span>Nº 04</span><span>Mobile only</span></div>
+        <div class="name">Adaeze Okoye</div>
+        <div class="trade">Natural glam · soft beat</div>
+        <div class="p-meta">
+          <div class="loc">Hackney · 0.4mi</div>
+          <div class="price">£55 <span>/ session</span></div>
+        </div>
+      </a>
+
+      <a href="provider.html#zainab" class="p-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=600&q=80" alt="Zainab Hassan" loading="lazy">
+          <div class="top-marks">
+            <div class="vouch-count">22 Vouches</div>
+            <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+        <div class="num"><span>Nº 05</span><span>Studio · Mobile</span></div>
+        <div class="name">Zainab Hassan</div>
+        <div class="trade">Henna &amp; bridal packages</div>
+        <div class="p-meta">
+          <div class="loc">Whitechapel · 2.1mi</div>
+          <div class="price">£90 <span>/ session</span></div>
+        </div>
+      </a>
+
+      <a href="provider.html#lola" class="p-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1593351799227-75df2026356b?w=600&q=80" alt="Lola Agbenyega" loading="lazy">
+          <div class="top-marks">
+            <div class="vouch-count">14 Vouches</div>
+            <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+        <div class="num"><span>Nº 06</span><span>Mobile</span></div>
+        <div class="name">Lola Agbenyega</div>
+        <div class="trade">Everyday &amp; party looks</div>
+        <div class="p-meta">
+          <div class="loc">Stoke Newington · 1.6mi</div>
+          <div class="price">£45 <span>/ session</span></div>
+        </div>
+      </a>
+
+      <a href="provider.html#nkechi" class="p-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1512361436605-a484bdb34b5f?w=600&q=80" alt="Nkechi Okafor" loading="lazy">
+          <div class="top-marks">
+            <div class="vouch-count">6 Vouches</div>
+            <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+        <div class="num"><span>Nº 07</span><span>Studio only</span></div>
+        <div class="name">Nkechi Okafor</div>
+        <div class="trade">Stage &amp; film makeup</div>
+        <div class="p-meta">
+          <div class="loc">Bethnal Green · 1.9mi</div>
+          <div class="price">£150 <span>/ session</span></div>
+        </div>
+      </a>
+
+      <a href="provider.html#imani" class="p-card">
+        <div class="img-wrap">
+          <img src="https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?w=600&q=80" alt="Imani Johnson" loading="lazy">
+          <div class="top-marks">
+            <div class="vouch-count">27 Vouches</div>
+            <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+        <div class="num"><span>Nº 08</span><span>Mobile · Studio</span></div>
+        <div class="name">Imani Johnson</div>
+        <div class="trade">Skin-first, minimal makeup</div>
+        <div class="p-meta">
+          <div class="loc">Clapton · 1.1mi</div>
+          <div class="price">£70 <span>/ session</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="pag-btn">←</button>
+      <button class="pag-btn active">1</button>
+      <button class="pag-btn">2</button>
+      <button class="pag-btn">3</button>
+      <button class="pag-btn">4</button>
+      <span style="color:var(--muted);padding:0 6px;">…</span>
+      <button class="pag-btn">12</button>
+      <button class="pag-btn">→</button>
+    </div>
+
+  </main>
+
 </div>
 
-<div class="grid" id="grid">
-  <!-- Skeleton loaders -->
-  <div class="sk-card skeleton"><div class="sk-avatar"></div><div class="sk-line" style="height:16px;width:60%"></div><div class="sk-line" style="height:12px;width:40%"></div><div class="sk-line" style="height:12px;width:80%;margin-top:16px"></div><div class="sk-line" style="height:12px;width:70%"></div></div>
-  <div class="sk-card skeleton"><div class="sk-avatar"></div><div class="sk-line" style="height:16px;width:55%"></div><div class="sk-line" style="height:12px;width:45%"></div><div class="sk-line" style="height:12px;width:75%;margin-top:16px"></div><div class="sk-line" style="height:12px;width:65%"></div></div>
-  <div class="sk-card skeleton"><div class="sk-avatar"></div><div class="sk-line" style="height:16px;width:65%"></div><div class="sk-line" style="height:12px;width:35%"></div><div class="sk-line" style="height:12px;width:80%;margin-top:16px"></div><div class="sk-line" style="height:12px;width:60%"></div></div>
-</div>
+<!-- ═══ CTA STRIP ═══ -->
+<section class="cta-strip">
+  <div class="cta-strip-inner">
+    <div>
+      <h3>Can't find the right hands?<br><em>Post a request.</em></h3>
+      <p>Tell the community what you need. Vouched providers in your area come to you - usually within the hour.</p>
+    </div>
+    <div class="actions">
+      <a href="/#how" class="btn btn-inverse btn-lg">How it works</a>
+      <a href="/requests.html" class="btn btn-amber btn-lg">Post a request →</a>
+    </div>
+  </div>
+</section>
 
-<div class="load-more-wrap" id="loadMoreWrap" style="display:none">
-  <button class="btn-load" id="loadMoreBtn">Load more providers</button>
-</div>
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="mark">Sowo.</div>
+      <p>Ìṣẹ́ Owó - skilled work, trusted hands. A community marketplace for the diaspora, built in London.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="/browse.html">Browse providers</a></li>
+        <li><a href="/requests.html">Active requests</a></li>
+        <li><a href="/requests.html">Post a request</a></li>
+        <li><a href="/become-provider.html">List your service</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Providers</h5>
+      <ul>
+        <li><a href="/become-provider.html">Become a provider</a></li>
+        <li><a href="/#how">How vouching works</a></li>
+        <li><a href="/login.html">Sign in</a></li>
+        <li><a href="/signup.html">Create account</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Sowo</h5>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/#marketplace">Community</a></li>
+        <li><a href="mailto:hello@sowo.co.uk">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <div>© 2026 Sowo Ltd · London</div>
+    <div style="display:flex;gap:24px;">
+      <a href="#" style="color:rgba(245,240,232,0.45);">Privacy</a>
+      <a href="#" style="color:rgba(245,240,232,0.45);">Terms</a>
+      <a href="#" style="color:rgba(245,240,232,0.45);">Cookies</a>
+    </div>
+  </div>
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="/js/config.js"></script>
-<script src="/js/sowo.js"></script>
 <script>
-let currentQuery    = '';
-let currentCategory = 'all';
-let currentSort     = 'vouches';
-let currentOffset   = 0;
-const PAGE_SIZE     = 18;
-let totalCount      = 0;
-
-/* ── Build category chips ─────────────────────────────────── */
-const filtersEl = document.getElementById('filters');
-CATEGORIES.forEach(cat => {
-  const chip = document.createElement('div');
-  chip.className = 'chip';
-  chip.dataset.cat = cat;
-  chip.textContent = cat;
-  filtersEl.appendChild(chip);
-});
-
-filtersEl.addEventListener('click', e => {
-  const chip = e.target.closest('.chip');
-  if (!chip) return;
-  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-  chip.classList.add('active');
-  currentCategory = chip.dataset.cat;
-  currentOffset = 0;
-  loadProviders(true);
-});
-
-/* ── Search ───────────────────────────────────────────────── */
-let searchTimer;
-document.getElementById('searchInput').addEventListener('input', e => {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => {
-    currentQuery  = e.target.value.trim();
-    currentOffset = 0;
-    loadProviders(true);
-  }, 350);
-});
-document.getElementById('searchBtn').addEventListener('click', () => {
-  currentQuery  = document.getElementById('searchInput').value.trim();
-  currentOffset = 0;
-  loadProviders(true);
-});
-document.getElementById('searchInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') document.getElementById('searchBtn').click();
-});
-
-/* ── Sort ─────────────────────────────────────────────────── */
-document.getElementById('sortSelect').addEventListener('change', e => {
-  currentSort   = e.target.value;
-  currentOffset = 0;
-  loadProviders(true);
-});
-
-/* ── Load providers ───────────────────────────────────────── */
-async function loadProviders(reset = false) {
-  if (reset) {
-    currentOffset = 0;
-    document.getElementById('grid').innerHTML = '';
-  }
-
-  try {
-    let q = sb
-      .from('providers')
-      .select(`
-        id, bio, category, skills, hourly_rate, vouch_count, rating, verified, available,
-        profiles ( id, full_name, avatar_url, location )
-      `, { count: 'exact' })
-      .eq('available', true)
-      .range(currentOffset, currentOffset + PAGE_SIZE - 1);
-
-    if (currentCategory !== 'all') q = q.eq('category', currentCategory);
-    if (currentQuery) q = q.or(`bio.ilike.%${currentQuery}%,category.ilike.%${currentQuery}%`);
-
-    switch (currentSort) {
-      case 'rating':      q = q.order('rating',      { ascending: false }); break;
-      case 'price_asc':   q = q.order('hourly_rate',  { ascending: true  }); break;
-      case 'price_desc':  q = q.order('hourly_rate',  { ascending: false }); break;
-      default:            q = q.order('vouch_count',  { ascending: false });
-    }
-
-    const { data, error, count } = await q;
-    if (error) throw error;
-
-    totalCount = count || 0;
-    document.getElementById('countLabel').textContent = totalCount.toLocaleString();
-
-    const grid = document.getElementById('grid');
-    if (reset) grid.innerHTML = '';
-
-    if (!data || data.length === 0) {
-      if (currentOffset === 0) {
-        grid.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">🔍</div>
-            <div class="empty-title">No providers found</div>
-            <p class="empty-msg">Try a different search or category.</p>
-          </div>`;
-      }
-    } else {
-      data.forEach(p => grid.appendChild(buildCard(p)));
-      currentOffset += data.length;
-    }
-
-    // Load more button
-    const lmw = document.getElementById('loadMoreWrap');
-    lmw.style.display = currentOffset < totalCount ? 'block' : 'none';
-
-  } catch (err) {
-    console.error(err);
-    // Show demo cards if Supabase isn't configured yet
-    if (currentOffset === 0) renderDemoCards();
-  }
-}
-
-/* ── Build a provider card ────────────────────────────────── */
-function buildCard(p) {
-  const profile = p.profiles || {};
-  const name    = profile.full_name  || 'Provider';
-  const loc     = profile.location   || 'London';
-  const initials= name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  const price   = p.hourly_rate ? UI.formatPrice(p.hourly_rate) + '<span>/hr</span>' : '<span>Contact for price</span>';
-  const stars   = p.rating ? UI.stars(p.rating) : '☆☆☆☆☆';
-  const skills  = (p.skills || []).slice(0,3).map(s => `<span class="skill-tag">${s}</span>`).join('');
-
-  const div = document.createElement('div');
-  div.className = 'pcard';
-  div.innerHTML = `
-    <div class="pcard-top">
-      ${profile.avatar_url
-        ? `<img class="pcard-avatar" src="${profile.avatar_url}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-        : ''}
-      <div class="pcard-avatar-init" ${profile.avatar_url ? 'style="display:none"' : ''}>${initials}</div>
-      <div class="pcard-info">
-        <div class="pcard-name">${name}</div>
-        <div class="pcard-cat">${p.category || 'Service Provider'}</div>
-        <div class="pcard-loc">📍 ${loc}</div>
-        <div class="pcard-stars">${stars} <span class="pcard-rating">${p.rating ? p.rating + ' · ' + p.vouch_count + ' vouches' : 'New provider'}</span></div>
-        ${p.verified ? '<div class="verified-badge">✓ Verified</div>' : ''}
-      </div>
-    </div>
-    ${p.bio ? `<div class="pcard-mid"><p class="pcard-bio">${p.bio}</p></div>` : ''}
-    ${skills ? `<div class="pcard-skills">${skills}</div>` : ''}
-    <div class="pcard-foot">
-      <div class="pcard-price">${price}</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span class="pcard-vouch">✦ ${p.vouch_count || 0} vouches</span>
-        <button class="pcard-cta" onclick="window.location='/provider?id=${p.id}'">View →</button>
-      </div>
-    </div>
-  `;
-  div.addEventListener('click', e => {
-    if (!e.target.closest('.pcard-cta')) {
-      window.location = '/provider?id=' + p.id;
-    }
+  // Grid-size toggle
+  document.getElementById('viewToggle').addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-cols]');
+    if (!btn) return;
+    var grid = document.getElementById('pGrid');
+    grid.classList.remove('cols-2', 'cols-4', 'list-view');
+    if (btn.dataset.cols !== 'cols-3') grid.classList.add(btn.dataset.cols);
+    document.querySelectorAll('#viewToggle button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
   });
-  return div;
-}
-
-/* ── Load more ─────────────────────────────────────────────── */
-document.getElementById('loadMoreBtn').addEventListener('click', () => loadProviders(false));
-
-/* ── Demo cards (shown before Supabase is wired up) ────────── */
-function renderDemoCards() {
-  const DEMOS = [
-    { name:'Kwame Asante', cat:'Plumber', loc:'Peckham, London', rating:4.9, vouches:62, price:3500, bio:'Fully qualified plumber. Fast response, no callout fee on weekdays.', skills:['Leaks','Boilers','Bathrooms'], verified:true },
-    { name:'Ngozi Williams', cat:'Cleaner', loc:'Hackney, London', rating:5.0, vouches:88, price:1800, bio:'Eco-friendly deep cleaning for homes and offices. References available.', skills:['Deep clean','Move-out','Weekly'], verified:true },
-    { name:'Seun Adeyemi', cat:'Electrician', loc:'Tottenham, London', rating:4.8, vouches:41, price:4200, bio:'18th Edition qualified electrician. All work certified.', skills:['Rewiring','Fault finding','EV charging'], verified:false },
-    { name:'Ama Darko', cat:'Tutor', loc:'Brixton, London', rating:4.9, vouches:35, price:2500, bio:'Maths + Sciences tutor. GCSE and A-Level specialist. Flexible hours.', skills:['Maths','Physics','Chemistry'], verified:true },
-    { name:'Tunde Bello', cat:'Carpenter', loc:'Stratford, London', rating:4.7, vouches:29, price:3800, bio:'Bespoke furniture and fitted wardrobes. 10+ years experience.', skills:['Wardrobes','Kitchens','Floors'], verified:false },
-    { name:'Fatima Al-Hassan', cat:'Painter', loc:'Lewisham, London', rating:4.8, vouches:54, price:2200, bio:'Interior and exterior painting. Clean, neat, reliable.', skills:['Interior','Exterior','Feature walls'], verified:true },
-  ];
-
-  document.getElementById('countLabel').textContent = DEMOS.length;
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  DEMOS.forEach((d, i) => {
-    const initials = d.name.split(' ').map(w=>w[0]).join('').toUpperCase();
-    const stars = UI.stars(d.rating);
-    const price = UI.formatPrice(d.price);
-    const div = document.createElement('div');
-    div.className = 'pcard';
-    div.innerHTML = `
-      <div class="pcard-top">
-        <div class="pcard-avatar-init">${initials}</div>
-        <div class="pcard-info">
-          <div class="pcard-name">${d.name}</div>
-          <div class="pcard-cat">${d.cat}</div>
-          <div class="pcard-loc">📍 ${d.loc}</div>
-          <div class="pcard-stars">${stars} <span class="pcard-rating">${d.rating} · ${d.vouches} vouches</span></div>
-          ${d.verified ? '<div class="verified-badge">✓ Verified</div>' : ''}
-        </div>
-      </div>
-      <div class="pcard-mid"><p class="pcard-bio">${d.bio}</p></div>
-      <div class="pcard-skills">${d.skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
-      <div class="pcard-foot">
-        <div class="pcard-price">${price}<span>/hr</span></div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="pcard-vouch">✦ ${d.vouches} vouches</span>
-          <button class="pcard-cta" onclick="alert('Connect Supabase to enable profiles')">View →</button>
-        </div>
-      </div>
-    `;
-    grid.appendChild(div);
-  });
-}
-
-/* ── Update nav for logged-in user ─────────────────────────── */
-Auth.getUser().then(user => {
-  if (user) {
-    document.getElementById('navR').innerHTML = `
-      <a href="/dashboard" class="btn btn-sm b-green">Dashboard</a>
-    `;
-  }
-});
-
-/* ── Init ──────────────────────────────────────────────────── */
-loadProviders(true);
 </script>
+
 </body>
 </html>

@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Create account — Sowo</title>
+<title>Create account - Sowo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,600;9..144,1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--white:#fff;--ease:cubic-bezier(.16,1,.3,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -16,7 +16,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 
 .nav{height:64px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07)}
 .logo{display:flex;align-items:center;gap:8px}
-.logo-wm{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#fff}
+.logo-wm{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:600;letter-spacing:-.02em;color:#fff}
 .nav-hint{font-size:13px;color:rgba(255,255,255,.4)}
 .nav-hint a{color:var(--amber);font-weight:600}
 
@@ -100,14 +100,22 @@ footer a{color:rgba(255,255,255,.35)}
 <body>
 
 <nav class="nav">
-  <a href="/" class="logo"><span class="logo-wm">Sowo</span></a>
-  <span class="nav-hint">Already have an account? <a href="/login">Log in</a></span>
+  <a href="/" class="logo">
+    <svg width="28" height="26" viewBox="0 0 120 110" fill="none" aria-hidden="true">
+      <path d="M10 90 C10 44 30 10 60 10" stroke="#9FE1CB" stroke-width="9" stroke-linecap="round"/>
+      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+      <circle cx="60" cy="10" r="5" fill="#fff"/>
+    </svg>
+    <span class="logo-wm">Sowo</span>
+  </a>
+  <span class="nav-hint">Already have an account? <a href="/login.html">Sign in</a></span>
 </nav>
 
 <main>
   <div class="card" id="mainCard">
     <h1 class="card-title">Create your account</h1>
-    <p class="card-sub">Already on Sowo? <a href="/login">Log in →</a></p>
+    <p class="card-sub">Already on Sowo? <a href="/login.html">Sign in →</a></p>
 
     <div class="role-pick">
       <button class="role-btn active-consumer" id="roleConsumer" data-role="consumer">
@@ -239,6 +247,18 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
     // Store intent so we redirect properly after confirmation
     localStorage.setItem('sowo_signup_role', selectedRole);
 
+    // Pull the ?next= intent so the success copy + post-login destination match
+    const nextParam = new URLSearchParams(location.search).get('next');
+    let intentLine = '';
+    if (nextParam === 'post') {
+      try {
+        const drafts = JSON.parse(localStorage.getItem('sowo_request_drafts') || '[]');
+        if (drafts.length) intentLine = `Your ${drafts.length === 1 ? 'request is' : drafts.length + ' requests are'} saved and will publish the moment you sign in.`;
+      } catch(e) {}
+    } else if (nextParam === 'list') {
+      intentLine = 'Your provider listing is saved and will go live as soon as you sign in.';
+    }
+
     // Show success state
     document.getElementById('mainCard').innerHTML = `
       <div class="success-state">
@@ -247,6 +267,7 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
         <p class="success-msg">
           We sent a confirmation link to <strong>${email}</strong>.<br><br>
           Click the link to activate your account, then come back to log in.
+          ${intentLine ? '<br><br><strong>' + intentLine + '</strong>' : ''}
         </p>
       </div>
     `;
@@ -259,9 +280,11 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
 
 // Google OAuth
 document.getElementById('googleBtn').addEventListener('click', async () => {
+  const nextParam = new URLSearchParams(location.search).get('next');
+  const nextSuffix = nextParam ? '?next=' + nextParam : '';
   const redirect = selectedRole === 'provider'
-    ? window.location.origin + '/become-provider'
-    : window.location.origin + '/dashboard';
+    ? window.location.origin + '/become-provider.html' + nextSuffix
+    : window.location.origin + '/dashboard.html' + nextSuffix;
   const { error } = await sb.auth.signInWithOAuth({
     provider: 'google',
     options:  { redirectTo: redirect }
@@ -269,9 +292,24 @@ document.getElementById('googleBtn').addEventListener('click', async () => {
   if (error) UI.toast(error.message, 'error');
 });
 
-// Already logged in?
+// Forward ?next= across the signup→login cross-links so context survives a click
+(function(){
+  const nextParam = new URLSearchParams(location.search).get('next');
+  if (!nextParam) return;
+  document.querySelectorAll('a[href^="/login"]').forEach(a => {
+    const href = a.getAttribute('href');
+    a.setAttribute('href', href + (href.includes('?') ? '&' : '?') + 'next=' + nextParam);
+  });
+})();
+
+// Already logged in? Honour the next= param so they don't land in the wrong place.
 Auth.getUser().then(user => {
-  if (user) window.location.href = '/dashboard';
+  if (user) {
+    const nextParam = new URLSearchParams(location.search).get('next');
+    if (nextParam === 'post') window.location.href = '/requests.html';
+    else if (nextParam === 'list') window.location.href = '/become-provider.html?next=list';
+    else window.location.href = '/dashboard.html';
+  }
 });
 </script>
 </body>
