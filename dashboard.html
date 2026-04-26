@@ -778,264 +778,16 @@
       </div>
     </div>
 
-    <!-- ════════════════════════════════════════════════════════════
-         FOCAL HERO: NEXT BOOKING — the one obvious next thing
-         ════════════════════════════════════════════════════════════ -->
-    <div class="focal">
-      <div class="focal-date">
-        <div class="day">Friday</div>
-        <div class="num">25</div>
-        <div class="mo">April</div>
-        <div class="countdown">in 4 days · 11:30 AM</div>
-      </div>
+    <!-- Focal hero: populated from real data (next response, top request, or get-started) -->
+    <div id="focalSlot"></div>
 
-      <div class="focal-meta">
-        <div class="focal-with">Booked with</div>
-        <div class="focal-name">Amara Osei</div>
-        <div class="focal-svc">Soft glam — full face · 90 min</div>
-        <div class="focal-rows">
-          <div class="focal-row">
-            <span class="k">Where</span>
-            <span class="v"><strong>Your flat</strong> · 14 Lansdowne Drive, Hackney E8</span>
-          </div>
-          <div class="focal-row">
-            <span class="k">Provider</span>
-            <span class="v"><strong>Replies in &lt;1 hour</strong> · 42 vouches</span>
-          </div>
-          <div class="focal-row">
-            <span class="k">Payment</span>
-            <span class="v"><strong>£95</strong> <span class="escrow"><svg width="9" height="9" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>held in escrow</span></span>
-          </div>
-        </div>
-      </div>
+    <!-- Escrow bar appears only when there are real bookings -->
+    <div id="escrowSlot"></div>
 
-      <div class="focal-aside">
-        <div class="focal-prep">
-          <div class="prep-eye">A note from Amara</div>
-          <p>"Wash your face the morning of — no SPF or oils. I'll bring everything else."</p>
-        </div>
-        <div class="focal-actions">
-          <a href="provider.html" class="focal-btn primary">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            Message Amara
-          </a>
-          <a href="#" class="focal-btn ghost">Booking details</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- ════════════════════════════════════════════════════════════
-         ESCROW BAR — signature trust moment
-         ════════════════════════════════════════════════════════════ -->
-    <div class="escrow-bar">
-      <span class="badge">
-        <svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-        Sowo Pocket
-      </span>
-      <div class="label-line">
-        <strong>£235 of yours</strong> is currently held in escrow across 2 bookings.
-        <br><span style="color:var(--muted); font-size:12px;">Released only when you confirm the work is done.</span>
-      </div>
-      <div class="escrow-amount"><em>£</em>235</div>
-      <a href="#" class="see-link">Breakdown →</a>
-    </div>
-
-    <!-- ─── TWO COLUMN GRID ─── -->
+    <!-- ─── TWO COLUMN GRID — populated from real session + localStorage ─── -->
     <div class="d-grid">
-
-      <!-- LEFT COLUMN -->
-      <div>
-
-        <!-- Active request -->
-        <section class="d-section">
-          <div class="d-section-head">
-            <h2>Your <em>request</em> · live</h2>
-            <a href="#" class="see">Edit →</a>
-          </div>
-
-          <div class="req-card">
-            <div class="req-mono">
-              <span>Posted 2h ago</span>
-              <span class="sep">·</span>
-              <span>4 views</span>
-              <span class="sep">·</span>
-              <span style="color: var(--ink); font-weight: 500;">★ 3 quotes in</span>
-            </div>
-            <div class="title">Private chef for a dinner of 8 — Saturday 17 May</div>
-            <div class="desc">Looking for someone who can cook West African with confidence. Jollof, grilled fish, plantain, sides. Budget £350–450 for food &amp; service. Own kitchen in N1.</div>
-            <div class="quotes-row">
-              <div class="left">
-                <span class="qnum">3</span>
-                <span class="qlbl"><strong>Kwame Mensah</strong>, <strong>Tola Adeyemi</strong> &amp; one other<br>have sent quotes</span>
-              </div>
-              <a href="#" class="req-btn">Review quotes →</a>
-            </div>
-          </div>
-        </section>
-
-        <!-- Activity — tightened to 4 actionable items -->
-        <section class="d-section">
-          <div class="d-section-head">
-            <h2>Recent <em>activity</em></h2>
-            <a href="#" class="see">All</a>
-          </div>
-
-          <div class="activity">
-            <div class="act">
-              <div class="when">2h ago</div>
-              <div class="dot-wrap"><div class="dot amber"></div></div>
-              <div class="txt"><strong>Kwame Mensah</strong> sent a quote for your private chef request — £395</div>
-              <a href="#" class="cta">View quote</a>
-            </div>
-            <div class="act">
-              <div class="when">4h ago</div>
-              <div class="dot-wrap"><div class="dot"></div></div>
-              <div class="txt">Booking confirmed — <strong>Amara Osei</strong>, Fri 25 April, 11:30</div>
-              <a href="#" class="cta">Open</a>
-            </div>
-            <div class="act">
-              <div class="when">Yesterday</div>
-              <div class="dot-wrap"><div class="dot amber"></div></div>
-              <div class="txt"><strong>Priya Nair</strong> replied about Sunday slots — <em>"How about the 11th?"</em></div>
-              <a href="#" class="cta">Reply</a>
-            </div>
-            <div class="act">
-              <div class="when">Sunday</div>
-              <div class="dot-wrap"><div class="dot muted"></div></div>
-              <div class="txt">Session completed with <strong>Sofia Mensah</strong> · barber · £55 released</div>
-              <a href="#" class="cta">Vouch</a>
-            </div>
-          </div>
-        </section>
-
-      </div>
-
-      <!-- RIGHT COLUMN -->
-      <div>
-
-        <!-- VOUCH PROMPT — signature anchor at top of right rail -->
-        <div class="vouch-anchor">
-          <div class="vouch-eye">Someone's waiting on your word</div>
-          <h3>Sofia cut your hair<br>on <em>Sunday.</em></h3>
-          <p>She's asked for a vouch — a named, public reference that travels with her. Two minutes from you. Means everything for her next booking.</p>
-
-          <div class="vp-who">
-            <div class="vp-av">SM</div>
-            <div>
-              <div class="vp-name">Sofia Mensah</div>
-              <div class="vp-detail">Barber · Hackney · 16 vouches so far</div>
-            </div>
-          </div>
-
-          <div class="vouch-actions">
-            <button class="vouch-btn primary" onclick="showToast('Opening vouch flow…')">Leave a vouch</button>
-            <button class="vouch-btn ghost">Skip</button>
-          </div>
-
-          <div class="vouch-more">2 others awaiting · <strong>Marcus &amp; Priya</strong></div>
-        </div>
-
-        <!-- Saved providers — address book feel -->
-        <section class="d-section" style="margin-top: 40px;">
-          <div class="d-section-head">
-            <h2>Your <em>people</em></h2>
-            <a href="#" class="see">All 7</a>
-          </div>
-          <div class="saved-list">
-            <a href="provider.html" class="saved">
-              <div class="s-av">AO</div>
-              <div>
-                <div class="s-name">Amara Osei</div>
-                <div class="s-meta">Makeup · Hackney <span class="dot"></span><span class="vouches">42 vouches</span></div>
-              </div>
-              <span class="s-action">Book →</span>
-            </a>
-            <a href="provider.html" class="saved">
-              <div class="s-av">PN</div>
-              <div>
-                <div class="s-name">Priya Nair</div>
-                <div class="s-meta">Nails · Shoreditch <span class="dot"></span><span class="vouches">38 vouches</span></div>
-              </div>
-              <span class="s-action">Book →</span>
-            </a>
-            <a href="provider.html" class="saved">
-              <div class="s-av amber">SM</div>
-              <div>
-                <div class="s-name">Sofia Mensah</div>
-                <div class="s-meta">Barber · Hackney <span class="dot"></span><span class="vouches">16 vouches</span></div>
-              </div>
-              <span class="s-action">Book →</span>
-            </a>
-            <a href="provider.html" class="saved">
-              <div class="s-av">MR</div>
-              <div>
-                <div class="s-name">Marcus Reid</div>
-                <div class="s-meta">Chef · Islington <span class="dot"></span><span class="vouches">11 vouches</span></div>
-              </div>
-              <span class="s-action">Book →</span>
-            </a>
-          </div>
-        </section>
-
-        <!-- Patch — real neighbourhood, named places -->
-        <section class="d-section">
-          <div class="d-section-head">
-            <h2>Your <em>patch</em></h2>
-            <a href="browse.html" class="see">Map</a>
-          </div>
-          <div class="patch">
-            <div class="patch-head">
-              <div>
-                <h3>Hackney E8</h3>
-                <div class="patch-sub">42 providers within 2 miles</div>
-              </div>
-              <span class="patch-tag"><span class="dot"></span>You</span>
-            </div>
-
-            <div class="patch-list">
-              <a href="browse.html" class="patch-row">
-                <div class="pin"><span>9</span></div>
-                <div>
-                  <div class="place-name">London Fields</div>
-                  <div class="place-meta">9 providers · barbers, MUAs, nails</div>
-                </div>
-                <div class="dist">0.4 mi</div>
-              </a>
-              <a href="browse.html" class="patch-row">
-                <div class="pin amber"><span>6</span></div>
-                <div>
-                  <div class="place-name">Broadway Market</div>
-                  <div class="place-meta">6 providers · 3 chefs, 2 stylists</div>
-                </div>
-                <div class="dist">0.8 mi</div>
-              </a>
-              <a href="browse.html" class="patch-row">
-                <div class="pin"><span>14</span></div>
-                <div>
-                  <div class="place-name">Dalston</div>
-                  <div class="place-meta">14 providers · everything</div>
-                </div>
-                <div class="dist">1.1 mi</div>
-              </a>
-              <a href="browse.html" class="patch-row">
-                <div class="pin amber"><span>13</span></div>
-                <div>
-                  <div class="place-name">Stoke Newington</div>
-                  <div class="place-meta">13 providers · tailors, MUAs</div>
-                </div>
-                <div class="dist">1.6 mi</div>
-              </a>
-            </div>
-
-            <div class="patch-foot">
-              <span class="ftxt">2 of your saved live within walking distance.</span>
-              <a href="browse.html" class="open-map">Open map →</a>
-            </div>
-          </div>
-        </section>
-
-      </div>
-
+      <div id="leftColSlot"></div>
+      <div id="rightColSlot"></div>
     </div>
 
   </main>
@@ -1130,7 +882,165 @@
 
   document.getElementById('greetSub').innerHTML = activityLine ||
     'Welcome to your dashboard. <a href="/browse.html" style="color:var(--g);font-weight:600">Browse providers</a> or <a href="/requests.html" style="color:var(--g);font-weight:600">post a request</a> to get started.';
+
+  /* ── Render real content into focal/escrow/columns ── */
+  renderDashboardBody(user, firstName);
 })();
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderDashboardBody(user, firstName) {
+  // Pull real data
+  let myReqs = [];
+  let allResponses = []; // flat list of {req, resp}
+  let savedProviders = [];
+  try {
+    const owned  = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+    const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    myReqs = stored.filter(r => owned.includes(r.id));
+    myReqs.forEach(r => (r.responses || []).forEach(resp => allResponses.push({ req: r, resp })));
+    savedProviders = JSON.parse(localStorage.getItem('sowo_saved_providers') || '[]');
+  } catch(e) {}
+
+  /* ── Focal slot ── */
+  const focal = document.getElementById('focalSlot');
+  if (allResponses.length) {
+    // Most recent response on a user's request
+    const latest = allResponses[allResponses.length - 1];
+    const initials = (latest.resp.initials || (latest.resp.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2)).toUpperCase();
+    focal.innerHTML = `
+      <div class="focal" style="background:var(--ink);color:var(--paper);padding:32px;border-radius:14px;display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;margin-bottom:24px">
+        <div style="width:54px;height:54px;border-radius:50%;background:var(--g);color:var(--gl);display:grid;place-items:center;font-weight:700;font-size:18px">${esc(initials)}</div>
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:6px">Newest response</div>
+          <div style="font-family:var(--serif);font-size:22px;letter-spacing:-.01em;margin-bottom:4px">${esc(latest.resp.name)} replied</div>
+          <div style="font-size:13px;color:rgba(245,240,232,.7);margin-bottom:10px">on your request: <em style="color:var(--paper)">"${esc(latest.req.title || latest.req.cat)}"</em></div>
+          <div style="font-size:13.5px;color:rgba(245,240,232,.85);line-height:1.55;max-width:520px">"${esc((latest.resp.msg||'').slice(0,160))}${(latest.resp.msg||'').length>160?'…':''}"</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="/request.html#${esc(latest.req.id)}" class="focal-btn primary" style="background:var(--a);color:var(--ink);padding:11px 20px;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;display:inline-block">Open thread →</a>
+        </div>
+      </div>`;
+  } else {
+    // No real activity — honest get-started card
+    focal.innerHTML = `
+      <div class="focal" style="background:var(--ink);color:var(--paper);padding:36px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Get started</div>
+          <div style="font-family:var(--serif);font-size:28px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Tell us what you need,<br>${esc(firstName)} — providers will reply.</div>
+          <div style="font-size:14px;color:rgba(245,240,232,.65);max-width:520px;line-height:1.55">Post one short request and trusted local providers come to you. No card required, no spam — just direct messages from real people.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="/requests.html" style="background:var(--a);color:var(--ink);padding:14px 26px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center">Post a request</a>
+          <a href="/browse.html" style="background:transparent;color:var(--paper);padding:13px 26px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;border:1.5px solid rgba(245,240,232,.25);text-align:center">Browse providers</a>
+        </div>
+      </div>`;
+  }
+
+  /* ── Escrow slot — hidden until real bookings ship ── */
+  document.getElementById('escrowSlot').innerHTML = '';
+
+  /* ── LEFT COLUMN: Your requests + Recent activity ── */
+  const left = document.getElementById('leftColSlot');
+  let leftHtml = '';
+
+  // Your requests
+  leftHtml += '<section class="d-section"><div class="d-section-head"><h2>Your <em>requests</em></h2>' +
+    (myReqs.length ? '<a href="/requests.html" class="see">All</a>' : '') + '</div>';
+  if (myReqs.length) {
+    leftHtml += myReqs.slice(0, 3).map(r => {
+      const respCount = (r.responses || []).length;
+      const respTxt = respCount === 0 ? 'No responses yet' : respCount + ' response' + (respCount>1?'s':'');
+      return `
+        <a href="/request.html#${esc(r.id)}" class="req-card" style="display:block;text-decoration:none;color:inherit;margin-bottom:10px">
+          <div class="req-mono">
+            <span>Posted ${esc(r.age || 'recently')}</span>
+            <span class="sep">·</span>
+            <span>${esc(r.cat || '—')}</span>
+            <span class="sep">·</span>
+            <span style="color:var(--ink);font-weight:500">${respCount > 0 ? '★ ' : ''}${respTxt}</span>
+          </div>
+          <div class="title">${esc(r.title || 'Untitled request')}</div>
+          ${r.desc ? `<div class="desc">${esc(r.desc.slice(0, 180))}${r.desc.length>180?'…':''}</div>` : ''}
+        </a>`;
+    }).join('');
+  } else {
+    leftHtml += `
+      <div style="background:var(--paper-2);border:1px dashed var(--line);border-radius:12px;padding:32px;text-align:center">
+        <div style="font-family:var(--serif);font-size:18px;color:var(--ink);margin-bottom:6px">No requests yet</div>
+        <div style="font-size:13.5px;color:var(--muted);line-height:1.55;max-width:340px;margin:0 auto 16px">Post a request and providers in your area will reply directly. Free, no card required.</div>
+        <a href="/requests.html" style="display:inline-block;background:var(--ink);color:var(--paper);padding:10px 22px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none">Post your first request</a>
+      </div>`;
+  }
+  leftHtml += '</section>';
+
+  // Recent activity (only if there is some)
+  if (allResponses.length) {
+    leftHtml += '<section class="d-section"><div class="d-section-head"><h2>Recent <em>activity</em></h2></div><div class="activity">';
+    leftHtml += allResponses.slice().reverse().slice(0, 6).map(({ req, resp }) => `
+      <div class="act">
+        <div class="when">${esc(resp.time || 'recently')}</div>
+        <div class="dot-wrap"><div class="dot amber"></div></div>
+        <div class="txt"><strong>${esc(resp.name)}</strong> replied to <em>"${esc(req.title || req.cat)}"</em></div>
+        <a href="/request.html#${esc(req.id)}" class="cta">Open</a>
+      </div>`).join('');
+    leftHtml += '</div></section>';
+  }
+
+  left.innerHTML = leftHtml;
+
+  /* ── RIGHT COLUMN: Saved providers + Your patch ── */
+  const right = document.getElementById('rightColSlot');
+  let rightHtml = '';
+
+  // Saved providers
+  rightHtml += '<section class="d-section"><div class="d-section-head"><h2>Your <em>saved</em></h2>' +
+    (savedProviders.length ? '<a href="/browse.html" class="see">More</a>' : '') + '</div>';
+  if (savedProviders.length) {
+    rightHtml += '<div class="saved-list">' + savedProviders.slice(0, 6).map(p => `
+      <a href="/provider.html#${esc(p.id)}" class="saved">
+        <div class="s-av">${esc(p.initials || (p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase())}</div>
+        <div>
+          <div class="s-name">${esc(p.name)}</div>
+          <div class="s-meta">${esc(p.cat||'')} ${p.area ? '· ' + esc(p.area) : ''}</div>
+        </div>
+        <span class="s-action">View →</span>
+      </a>`).join('') + '</div>';
+  } else {
+    rightHtml += `
+      <div style="background:var(--paper-2);border:1px dashed var(--line);border-radius:12px;padding:24px;text-align:center">
+        <div style="font-size:13.5px;color:var(--muted);line-height:1.55;margin-bottom:14px">Save providers as you browse for one-tap booking later.</div>
+        <a href="/browse.html" style="display:inline-block;background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:8px;font-weight:600;font-size:12.5px;text-decoration:none">Browse providers</a>
+      </div>`;
+  }
+  rightHtml += '</section>';
+
+  // Your patch (only if we know their location)
+  if (user && user.location) {
+    const patchName = user.location.split(',')[0].trim();
+    rightHtml += `
+      <section class="d-section">
+        <div class="d-section-head">
+          <h2>Your <em>patch</em></h2>
+          <a href="/browse.html" class="see">All</a>
+        </div>
+        <div class="patch">
+          <div class="patch-head">
+            <div>
+              <h3>${esc(patchName)}</h3>
+              <div class="patch-sub">Browse providers near you</div>
+            </div>
+            <span class="patch-tag"><span class="dot"></span>You</span>
+          </div>
+          <div style="padding:18px 0;text-align:center">
+            <a href="/browse.html?q=${encodeURIComponent(patchName)}" style="display:inline-block;background:var(--ink);color:var(--paper);padding:10px 22px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none">See providers in ${esc(patchName)} →</a>
+          </div>
+        </div>
+      </section>`;
+  }
+
+  right.innerHTML = rightHtml;
+}
 </script>
 
 </body>
