@@ -206,10 +206,9 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 let currentStep = 0;
 let currentUser = null;
 let formData = {
-  category:'', bio:'', location:'', skills:[], hourly_rate:0, years_experience:0, services:[],
+  category:'', trade:'', bio:'', location:'', skills:[], price_min:0, price_max:0, services:[],
   avatar_file:null, avatar_url:'',
   social_instagram:'', social_tiktok:'', social_twitter:'', social_facebook:'', social_youtube:'',
-  social_other_label:'', social_other_url:'',
   portfolio_images:[], portfolio_videos:[],
   pendingPortfolioFiles:[], pendingVideoFiles:[],
 };
@@ -232,8 +231,6 @@ function buildSocialLinksPayload() {
   add('twitter',   formData.social_twitter);
   add('facebook',  formData.social_facebook);
   add('youtube',   formData.social_youtube);
-  const ou = String(formData.social_other_url||'').trim();
-  if (ou) o.other = { label: String(formData.social_other_label||'Link').trim()||'Link', url: normalizeSocialUrl(ou) };
   return o;
 }
 
@@ -311,8 +308,9 @@ function init() {
       formData.bio              = draft.bio               || '';
       formData.location         = draft.location          || '';
       formData.skills           = draft.skills            || [];
-      formData.hourly_rate      = draft.hourly_rate       || 0;
-      formData.years_experience = draft.years_experience  || 0;
+      formData.trade            = draft.trade             || '';
+      formData.price_min        = draft.price_min          || 0;
+      formData.price_max        = draft.price_max          || 0;
       formData.services         = draft.services          || [];
       formData.social_instagram = draft.social_instagram  || '';
       formData.social_tiktok    = draft.social_tiktok     || '';
@@ -357,8 +355,9 @@ async function hydrateFromSessionInBackground() {
       formData.category         = p.category         || formData.category;
       formData.bio              = p.bio               || formData.bio;
       formData.skills           = Array.isArray(p.skills)           ? [...p.skills]           : formData.skills;
-      formData.hourly_rate      = p.hourly_rate       || formData.hourly_rate;
-      formData.years_experience = p.years_experience  || formData.years_experience;
+      formData.trade            = p.trade              || formData.trade;
+      formData.price_min        = p.price_min          || formData.price_min;
+      formData.price_max        = p.price_max          || formData.price_max;
       formData.portfolio_images = Array.isArray(p.portfolio_images) ? [...p.portfolio_images] : formData.portfolio_images;
       formData.portfolio_videos = Array.isArray(p.portfolio_videos) ? [...p.portfolio_videos] : formData.portfolio_videos;
       const sl = p.social_links;
@@ -368,10 +367,6 @@ async function hydrateFromSessionInBackground() {
         formData.social_twitter     = sl.twitter       || formData.social_twitter;
         formData.social_facebook    = sl.facebook      || formData.social_facebook;
         formData.social_youtube     = sl.youtube       || formData.social_youtube;
-        if (sl.other && typeof sl.other === 'object') {
-          formData.social_other_label = sl.other.label || '';
-          formData.social_other_url   = sl.other.url   || '';
-        }
       }
       // Re-render the current step so pre-filled data appears
       renderStep(currentStep);
@@ -434,8 +429,13 @@ function stepProfile() {
   return `
     <div class="step-head"><h2>Tell us about yourself</h2><p>Clients will read this to decide whether to book you.</p></div>
     <div class="field">
+      <label>Your specialism <span style="color:var(--t3);font-weight:400">(required, max 60 chars)</span></label>
+      <input type="text" id="trade" maxlength="60" value="${escAttr(formData.trade)}" placeholder="e.g. Bridal makeup artist">
+      <div class="hint">One short line that tells clients exactly what you do best. Shown right under your name.</div>
+    </div>
+    <div class="field">
       <label>Bio <span style="color:var(--t3);font-weight:400">(required)</span></label>
-      <textarea id="bio" placeholder="Say it like you'd tell a neighbour: what you do, how long you've done it, and the kind of jobs you actually want more of." maxlength="500">${escAttr(formData.bio)}</textarea>
+      <textarea id="bio" placeholder="Say it like you'd tell a neighbour: what you do, the kind of jobs you actually want more of, and what makes your work different." maxlength="500">${escAttr(formData.bio)}</textarea>
       <div class="hint" id="bioCount">${formData.bio.length}/500 characters</div>
     </div>
     <div class="field">
@@ -443,38 +443,34 @@ function stepProfile() {
       <input type="text" id="location" value="${escAttr(formData.location)}" placeholder="Hackney, London">
     </div>
     <div class="field">
-      <label>Years of experience</label>
-      <input type="number" id="years" value="${formData.years_experience||''}" min="0" max="50" placeholder="5" style="width:120px">
-    </div>
-    <div class="field">
-      <label>Hourly rate <span style="color:var(--t3);font-weight:400">(optional)</span></label>
-      <div class="rate-input-wrap" style="width:160px">
-        <input type="number" id="rate" value="${formData.hourly_rate?(formData.hourly_rate/100):''}" min="0" max="500" placeholder="25">
+      <label>Price range <span style="color:var(--t3);font-weight:400">(in £, shown as e.g. £45–£180)</span></label>
+      <div style="display:flex;gap:10px;align-items:center;max-width:320px">
+        <div class="rate-input-wrap" style="flex:1">
+          <input type="number" id="priceMin" value="${formData.price_min?(formData.price_min/100):''}" min="0" max="5000" placeholder="45">
+        </div>
+        <span style="color:var(--t3);font-weight:600">–</span>
+        <div class="rate-input-wrap" style="flex:1">
+          <input type="number" id="priceMax" value="${formData.price_max?(formData.price_max/100):''}" min="0" max="5000" placeholder="180">
+        </div>
       </div>
-      <div class="hint">Enter amount in £ per hour</div>
+      <div class="hint">Lowest to highest price across your services. Helps clients budget at a glance.</div>
     </div>
     <div class="field">
-      <label>Skills & specialisms</label>
+      <label>Skills &amp; specialisms <span style="color:var(--t3);font-weight:400">(optional — shown as tags on your profile)</span></label>
       <div class="skills-input-wrap">
-        <input type="text" id="skillInput" placeholder="e.g. Boiler servicing" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}">
+        <input type="text" id="skillInput" placeholder="e.g. 4C natural hair, locs, silk press" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}">
         <button class="add-skill-btn" onclick="addSkill()">+ Add</button>
       </div>
       <div class="skills-tags" id="skillsTags">${formData.skills.map(s=>skillTagHTML(s)).join('')}</div>
     </div>
     <div class="field">
       <label>Social profiles <span style="color:var(--t3);font-weight:400">(optional)</span></label>
-      <p class="hint" style="margin-bottom:12px">Paste full links so clients can see more of your work.</p>
+      <p class="hint" style="margin-bottom:12px">Paste full links so clients can see more of your work. Icons appear on your profile.</p>
       <div class="social-grid">
         <div><label style="font-size:12px;font-weight:600;color:var(--t2)">Instagram</label><input type="url" id="soc_instagram" placeholder="https://instagram.com/…" value="${escAttr(formData.social_instagram)}"></div>
         <div><label style="font-size:12px;font-weight:600;color:var(--t2)">TikTok</label><input type="url" id="soc_tiktok" placeholder="https://tiktok.com/@…" value="${escAttr(formData.social_tiktok)}"></div>
-        <div><label style="font-size:12px;font-weight:600;color:var(--t2)">X / Twitter</label><input type="url" id="soc_twitter" placeholder="https://x.com/…" value="${escAttr(formData.social_twitter)}"></div>
-        <div><label style="font-size:12px;font-weight:600;color:var(--t2)">Facebook</label><input type="url" id="soc_facebook" placeholder="https://facebook.com/…" value="${escAttr(formData.social_facebook)}"></div>
         <div><label style="font-size:12px;font-weight:600;color:var(--t2)">YouTube</label><input type="url" id="soc_youtube" placeholder="https://youtube.com/…" value="${escAttr(formData.social_youtube)}"></div>
-        <div>
-          <label style="font-size:12px;font-weight:600;color:var(--t2)">Other</label>
-          <input type="text" id="soc_other_label" placeholder="Label (e.g. WhatsApp)" value="${escAttr(formData.social_other_label)}" style="margin-bottom:8px">
-          <input type="url" id="soc_other_url" placeholder="https://…" value="${escAttr(formData.social_other_url)}">
-        </div>
+        <div><label style="font-size:12px;font-weight:600;color:var(--t2)">Facebook</label><input type="url" id="soc_facebook" placeholder="https://facebook.com/…" value="${escAttr(formData.social_facebook)}"></div>
       </div>
     </div>
     <div class="form-footer">
@@ -502,19 +498,19 @@ function removeSkill(skill) {
   document.getElementById('skillsTags').innerHTML=formData.skills.map(skillTagHTML).join('');
 }
 function saveProfile() {
-  const bio=document.getElementById('bio').value.trim();
-  if (!bio) { UI.toast('Please add a bio','error'); return; }
+  const trade = document.getElementById('trade').value.trim();
+  const bio   = document.getElementById('bio').value.trim();
+  if (!trade) { (UI && UI.toast) ? UI.toast('Please add your specialism','error') : alert('Please add your specialism'); return; }
+  if (!bio)   { (UI && UI.toast) ? UI.toast('Please add a bio','error')           : alert('Please add a bio'); return; }
+  formData.trade            = trade;
   formData.bio              = bio;
   formData.location         = document.getElementById('location').value.trim();
-  formData.years_experience = parseInt(document.getElementById('years').value)||0;
-  formData.hourly_rate      = Math.round((parseFloat(document.getElementById('rate').value)||0)*100);
+  formData.price_min        = Math.round((parseFloat(document.getElementById('priceMin').value)||0)*100);
+  formData.price_max        = Math.round((parseFloat(document.getElementById('priceMax').value)||0)*100);
   formData.social_instagram = document.getElementById('soc_instagram').value.trim();
   formData.social_tiktok    = document.getElementById('soc_tiktok').value.trim();
-  formData.social_twitter   = document.getElementById('soc_twitter').value.trim();
   formData.social_facebook  = document.getElementById('soc_facebook').value.trim();
   formData.social_youtube   = document.getElementById('soc_youtube').value.trim();
-  formData.social_other_label = document.getElementById('soc_other_label').value.trim();
-  formData.social_other_url = document.getElementById('soc_other_url').value.trim();
   renderStep(2);
 }
 
@@ -607,12 +603,12 @@ async function submitProfile() {
   if (!currentUser) {
     try {
       const draft = {
-        category: formData.category, bio: formData.bio, location: formData.location,
-        skills: formData.skills, hourly_rate: formData.hourly_rate,
-        years_experience: formData.years_experience, services: formData.services,
+        category: formData.category, trade: formData.trade, bio: formData.bio, location: formData.location,
+        skills: formData.skills, price_min: formData.price_min, price_max: formData.price_max,
+        services: formData.services,
         social_instagram: formData.social_instagram, social_tiktok: formData.social_tiktok,
-        social_twitter: formData.social_twitter, social_facebook: formData.social_facebook,
-        social_youtube: formData.social_youtube, savedAt: new Date().toISOString(),
+        social_facebook: formData.social_facebook, social_youtube: formData.social_youtube,
+        savedAt: new Date().toISOString(),
       };
       localStorage.setItem('sowo_provider_draft', JSON.stringify(draft));
     } catch(e) {}
@@ -636,8 +632,8 @@ async function submitProfile() {
     const videoUrls=[...formData.portfolio_videos];
     for (const f of formData.pendingVideoFiles) { try { videoUrls.push(await Storage.uploadPortfolioVideo(currentUser.id,f)); } catch(e){ UI.toast('A video failed to upload','error'); } }
     await Providers.create(currentUser.id,{
-      bio:formData.bio, category:formData.category, skills:formData.skills,
-      hourly_rate:formData.hourly_rate, years_experience:formData.years_experience, available:true,
+      bio:formData.bio, category:formData.category, trade:formData.trade, skills:formData.skills,
+      price_min:formData.price_min, price_max:formData.price_max, available:true,
       portfolio_images:imageUrls.filter(Boolean), portfolio_videos:videoUrls.filter(Boolean),
       social_links:buildSocialLinksPayload(),
     });
@@ -654,9 +650,12 @@ async function submitProfile() {
 
 /* STEP 4 — Gate (not logged in) */
 function stepGate() {
-  const cat  = formData.category || 'your services';
-  const loc  = formData.location || '';
-  const rate = formData.hourly_rate ? '£' + (formData.hourly_rate/100) + '/hr' : '';
+  const cat   = formData.category || 'your services';
+  const trade = formData.trade || '';
+  const loc   = formData.location || '';
+  const pmin  = formData.price_min ? Math.round(formData.price_min/100) : 0;
+  const pmax  = formData.price_max ? Math.round(formData.price_max/100) : 0;
+  const priceRange = (pmin || pmax) ? '£' + (pmin || pmax) + (pmin && pmax && pmin !== pmax ? '–£' + pmax : '') : '';
   const svcCount = (formData.services||[]).filter(s=>s.name).length;
   const signupUrl = '/signup.html?next=list';
   const loginUrl  = '/login.html?next=list';
@@ -670,8 +669,9 @@ function stepGate() {
       <div class="gate-preview">
         <div class="gate-preview-label">Your listing preview</div>
         <div class="gate-preview-row"><strong>Category</strong><span>${escAttr(cat)}</span></div>
+        ${trade ? `<div class="gate-preview-row"><strong>Specialism</strong><span>${escAttr(trade)}</span></div>` : ''}
         ${loc ? `<div class="gate-preview-row"><strong>Location</strong><span>${escAttr(loc)}</span></div>` : ''}
-        ${rate ? `<div class="gate-preview-row"><strong>Rate</strong><span>${escAttr(rate)}</span></div>` : ''}
+        ${priceRange ? `<div class="gate-preview-row"><strong>Price range</strong><span>${escAttr(priceRange)}</span></div>` : ''}
         ${svcCount ? `<div class="gate-preview-row"><strong>Services</strong><span>${svcCount} service${svcCount>1?'s':''} listed</span></div>` : ''}
         ${formData.skills.length ? `<div class="gate-preview-row"><strong>Skills</strong><span>${formData.skills.slice(0,3).map(s=>escAttr(s)).join(', ')}${formData.skills.length>3?' +more':''}</span></div>` : ''}
       </div>
