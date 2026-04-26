@@ -1375,7 +1375,22 @@ function renderClientMode(user, firstName) {
           <div style="font-size:13.5px;color:rgba(245,240,232,.85);line-height:1.55;max-width:520px">"${esc((latest.resp.msg||'').slice(0,160))}${(latest.resp.msg||'').length>160?'…':''}"</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <a href="/request.html#${esc(latest.req.id)}" class="focal-btn primary" style="background:var(--a);color:var(--ink);padding:11px 20px;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;display:inline-block">Open thread →</a>
+          <a href="/request.html#${esc(latest.req.id)}" class="focal-btn primary" style="background:var(--a);color:var(--ink);padding:11px 20px;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;display:inline-block">Open thread -&gt;</a>
+        </div>
+      </div>`;
+  } else if (myReqs.length) {
+    // Has at least one request but zero responses yet - show their newest waiting request
+    const r = myReqs[0];
+    focal.innerHTML = `
+      <div class="focal" style="background:var(--ink);color:var(--paper);padding:32px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">
+        <div>
+          <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Your request is live - posted ${esc(r.age || 'recently')}</div>
+          <div style="font-family:var(--serif);font-size:24px;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px">${esc(r.title || 'Untitled request')}</div>
+          <div style="font-size:13.5px;color:rgba(245,240,232,.7);max-width:520px;line-height:1.55;margin-bottom:10px">Providers in <strong style="color:var(--paper)">${esc(r.cat || 'your area')}</strong> can see this and will reply directly. No need to chase - we'll notify you the moment someone responds.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <a href="/request.html#${esc(r.id)}" style="background:var(--a);color:var(--ink);padding:11px 22px;border-radius:8px;font-weight:700;font-size:13px;text-align:center;text-decoration:none;display:inline-block">View request -&gt;</a>
+          <a href="/browse.html" style="background:transparent;color:var(--paper);padding:10px 22px;border-radius:8px;font-weight:600;font-size:12.5px;text-decoration:none;border:1.5px solid rgba(245,240,232,.25);text-align:center">Browse providers</a>
         </div>
       </div>`;
   } else {
@@ -1384,8 +1399,8 @@ function renderClientMode(user, firstName) {
       <div class="focal" style="background:var(--ink);color:var(--paper);padding:36px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">
         <div>
           <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Get started</div>
-          <div style="font-family:var(--serif);font-size:28px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Tell us what you need,<br>${esc(firstName)} - providers will reply.</div>
-          <div style="font-size:14px;color:rgba(245,240,232,.65);max-width:520px;line-height:1.55">Post one short request and trusted local providers come to you. No card required, no spam - just direct messages from real people.</div>
+          <div style="font-family:var(--serif);font-size:28px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Tell us what you need,<br>${esc(firstName)}. Providers will reply.</div>
+          <div style="font-size:14px;color:rgba(245,240,232,.65);max-width:520px;line-height:1.55">Post one short request and trusted local providers come to you. No card required, no spam, just direct messages from real people.</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <a href="/requests.html" style="background:var(--a);color:var(--ink);padding:14px 26px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center">Post a request</a>
