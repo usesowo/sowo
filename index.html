@@ -67,9 +67,17 @@ nav{
   max-width:840px;margin:0 auto;
 }
 .hero-tagline{
-  font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-  color:#6b7280;margin-bottom:20px;
+  font-size:.78rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:#9ca3af;margin-bottom:20px;
 }
+.hero-main h1{
+  font-family:'Lora',serif;
+  font-size:clamp(2.2rem,4.5vw,3.6rem);
+  font-weight:700;line-height:1.1;
+  color:#0a0a0a;letter-spacing:-.03em;
+  margin-bottom:28px;
+}
+.hero-main h1 em{font-style:italic;color:#085041}
 
 /* Search bar */
 .search-bar{
@@ -593,6 +601,7 @@ footer a:hover{color:#fff}
   <!-- Search strip -->
   <div class="hero-main">
     <p class="hero-tagline">Trusted providers, near you</p>
+    <h1>Find someone who <em>gets you</em></h1>
     <form class="search-bar" action="/browse.html" method="get" role="search">
       <input type="text" name="q" placeholder="What do you need help with?" autocomplete="off">
       <div class="search-divider"></div>
