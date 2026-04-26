@@ -207,6 +207,17 @@
     overflow: hidden;
   }
   .p-card .img-wrap .ph { position: absolute; inset: 0; }
+  .p-card .img-wrap img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center 20%;
+    display: block;
+  }
+  .p-featured > img {
+    width: 100%; height: 100%; min-height: 360px;
+    object-fit: cover; object-position: center 20%;
+    display: block;
+  }
   .p-card .top-marks {
     position: absolute; top: 14px; left: 14px; right: 14px;
     display: flex; justify-content: space-between; align-items: flex-start;
@@ -630,7 +641,7 @@
 
       <!-- Featured editorial card (spans 2 cols) -->
       <a href="provider.html" class="p-featured">
-        <div class="ph ph-portrait" data-label="portrait / amara"></div>
+        <img src="/images/lashes-hero.jpg" alt="Amara Osei" loading="lazy">
         <div class="p-featured-body">
           <div>
             <div class="kicker">Most vouched this month</div>
@@ -654,7 +665,7 @@
       <!-- Standard provider cards -->
       <a href="provider.html" class="p-card">
         <div class="img-wrap">
-          <div class="ph ph-portrait" data-label="portrait / folake"></div>
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&q=80" alt="Folake Adeyemi" loading="lazy">
           <div class="top-marks">
             <div class="vouch-count">18 Vouches</div>
             <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -671,7 +682,7 @@
 
       <a href="provider.html" class="p-card">
         <div class="img-wrap">
-          <div class="ph ph-portrait" data-label="portrait / priscilla"></div>
+          <img src="https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=600&q=80" alt="Priscilla Mba" loading="lazy">
           <div class="top-marks">
             <div class="vouch-count">31 Vouches</div>
             <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -688,7 +699,7 @@
 
       <a href="provider.html" class="p-card">
         <div class="img-wrap">
-          <div class="ph ph-portrait" data-label="portrait / adaeze"></div>
+          <img src="https://images.unsplash.com/photo-1589156191108-c762ff4b96ab?w=600&q=80" alt="Adaeze Okoye" loading="lazy">
           <div class="top-marks">
             <div class="vouch-count">9 Vouches</div>
             <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -705,7 +716,7 @@
 
       <a href="provider.html" class="p-card">
         <div class="img-wrap">
-          <div class="ph ph-portrait" data-label="portrait / zainab"></div>
+          <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=600&q=80" alt="Zainab Hassan" loading="lazy">
           <div class="top-marks">
             <div class="vouch-count">22 Vouches</div>
             <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -722,7 +733,7 @@
 
       <a href="provider.html" class="p-card">
         <div class="img-wrap">
-          <div class="ph ph-portrait" data-label="portrait / lola"></div>
+          <img src="https://images.unsplash.com/photo-1593351799227-75df2026356b?w=600&q=80" alt="Lola Agbenyega" loading="lazy">
           <div class="top-marks">
             <div class="vouch-count">14 Vouches</div>
             <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -739,7 +750,7 @@
 
       <a href="provider.html" class="p-card">
         <div class="img-wrap">
-          <div class="ph ph-portrait" data-label="portrait / nkechi"></div>
+          <img src="https://images.unsplash.com/photo-1512361436605-a484bdb34b5f?w=600&q=80" alt="Nkechi Okafor" loading="lazy">
           <div class="top-marks">
             <div class="vouch-count">6 Vouches</div>
             <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -756,7 +767,7 @@
 
       <a href="provider.html" class="p-card">
         <div class="img-wrap">
-          <div class="ph ph-portrait" data-label="portrait / imani"></div>
+          <img src="https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?w=600&q=80" alt="Imani Johnson" loading="lazy">
           <div class="top-marks">
             <div class="vouch-count">27 Vouches</div>
             <button class="save"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
