@@ -1100,7 +1100,7 @@ footer a:hover{color:#fff}
     'Hair Stylist': {
       title: 'Hair stylists who know your hair',
       bullets: ['Natural hair specialists &amp; weavers','Locs, braids, twists &amp; more','Book studio or home visit'],
-      photo: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=1400&q=85', link: '/browse.html?cat=hair'
+      photo: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1400&q=85', link: '/browse.html?cat=hair'
     },
     'Nails': {
       title: 'Nail technicians near you',
@@ -1110,12 +1110,12 @@ footer a:hover{color:#fff}
     'Barber': {
       title: 'Barbers who know your cut',
       bullets: ['Fades, shape-ups &amp; beard trims','Mobile barbers come to you','Afro &amp; textured hair specialists'],
-      photo: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1400&q=85', link: '/browse.html?cat=barber'
+      photo: 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?w=1400&q=85', link: '/browse.html?cat=barber'
     },
     'Photography': {
       title: 'Photographers for every moment',
       bullets: ['Portraits, events &amp; brand shoots','Studio or location — your choice','Packages from £90'],
-      photo: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1400&q=85', link: '/browse.html?cat=photography'
+      photo: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=1400&q=85', link: '/browse.html?cat=photography'
     },
   };
 
@@ -1254,13 +1254,17 @@ document.getElementById('useLocationBtn').addEventListener('click', function() {
 
 /* ── Featured providers ──────────────────────────────────────── */
 const MOCK_PROVIDERS = [
-  { name:'Amara O.',  category:'Beauty & Makeup', location:'Brixton, London',    reviews:47,  price:85,  img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80',
+  { name:'Amara O.',  category:'Beauty & Makeup', location:'Brixton, London',    reviews:47,  price:85,
+    img:'/images/lashes-hero.jpg',
     availability:'Available today', distance:'1.2 mi' },
-  { name:'Kwame O.',  category:'Barber',           location:'Peckham, London',    reviews:53,  price:35,  img:'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80',
+  { name:'Kwame A.',  category:'Barber',           location:'Peckham, London',    reviews:53,  price:35,
+    img:'https://images.unsplash.com/photo-1567894340315-735d7c361db0?w=600&q=80',
     availability:'Available today', distance:'2.8 mi' },
-  { name:'Zara M.',   category:'Hair Stylist',      location:'Brixton, London',    reviews:34,  price:65,  img:'/images/lashes-hero.jpg',
+  { name:'Chioma A.', category:'Hair Stylist',      location:'Lewisham, London',   reviews:34,  price:65,
+    img:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=600&q=80',
     availability:'Next: Mon',       distance:'0.9 mi' },
-  { name:'Ngozi O.',  category:'Nail Technician',   location:'Shoreditch, London', reviews:88,  price:45,  img:'/images/nails-hero.jpg',
+  { name:'Ngozi O.',  category:'Nail Technician',   location:'Dalston, London',    reviews:88,  price:45,
+    img:'/images/nails-hero.jpg',
     availability:'Available today', distance:'3.4 mi' },
 ];
 
