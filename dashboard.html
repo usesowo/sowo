@@ -697,10 +697,10 @@
   <!-- ─── SIDEBAR ─── -->
   <aside class="dash-side">
     <div class="dash-user">
-      <div class="du-av">A</div>
+      <div class="du-av" id="duAv">?</div>
       <div>
-        <div class="du-name">Adaeze</div>
-        <div class="du-role">Hackney · since 2024</div>
+        <div class="du-name" id="duName">Welcome</div>
+        <div class="du-role" id="duRole"></div>
       </div>
     </div>
 
@@ -768,9 +768,9 @@
     <!-- Greeting (honest, matches what's on screen) -->
     <div class="greet">
       <div>
-        <div class="g-eye"><span class="live-dot"></span>Tuesday · 21 April</div>
-        <h1>Good afternoon,<br><em>Adaeze.</em></h1>
-        <p class="g-sub">Amara's at your flat in <strong style="color:var(--ink);">four days</strong>. There's a quote in for your dinner-party request, and <a href="#">Sofia is waiting on a vouch</a> from Sunday.</p>
+        <div class="g-eye"><span class="live-dot"></span><span id="greetDate">—</span></div>
+        <h1 id="greetH">Good day,<br><em id="greetName">friend.</em></h1>
+        <p class="g-sub" id="greetSub">Looking for help, or ready to share your skills? Pick where to start.</p>
       </div>
       <div class="g-actions">
         <a href="/browse.html" class="btn btn-quiet">Browse</a>
@@ -1055,6 +1055,82 @@
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 1800);
   }
+</script>
+
+<script>
+/* ── Hydrate dashboard from the logged-in session ──
+   Reads sowo_session (set by login.html) and replaces the placeholder
+   user data so the dashboard reflects the actual signed-in person —
+   not the "Adaeze" mock. Falls back to a neutral welcome state if no session.
+─────────────────────────────────────────────────────── */
+(function(){
+  // Time-aware greeting + date line
+  const now = new Date();
+  const hr  = now.getHours();
+  const greet = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
+  const dateStr = now.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long' });
+  document.getElementById('greetDate').textContent = dateStr;
+
+  // Try to read the session
+  let user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
+
+  if (!user) {
+    // Logged-out fallback — show neutral welcome + sign-in prompt
+    document.getElementById('greetH').innerHTML = greet + ',<br><em>friend.</em>';
+    document.getElementById('greetSub').innerHTML =
+      'You\'re not signed in yet. <a href="/login.html?next=dashboard" style="color:var(--g);font-weight:600">Sign in</a> to see your bookings, requests and saved providers.';
+    document.getElementById('duName').textContent = 'Guest';
+    document.getElementById('duRole').textContent = 'Not signed in';
+    return;
+  }
+
+  // Pull display name from session
+  const fullName = user.firstName
+    ? user.firstName + (user.lastName ? ' ' + user.lastName : '')
+    : (user.name || (user.email||'').split('@')[0] || 'there');
+  const firstName = (user.firstName || fullName.split(' ')[0] || 'there');
+  const initials  = fullName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+
+  // Sidebar
+  document.getElementById('duAv').textContent = initials;
+  document.getElementById('duName').textContent = firstName;
+  const loc = user.location || '';
+  const since = user.createdAt ? 'since ' + new Date(user.createdAt).getFullYear() : '';
+  document.getElementById('duRole').textContent = [loc, since].filter(Boolean).join(' · ');
+
+  // Optional avatar photo (saved by signup/profile)
+  try {
+    const photo = localStorage.getItem('sowo_avatar_' + (user.email||''));
+    if (photo) {
+      const av = document.getElementById('duAv');
+      av.style.backgroundImage = 'url(' + photo + ')';
+      av.style.backgroundSize = 'cover';
+      av.style.backgroundPosition = 'center';
+      av.textContent = '';
+    }
+  } catch(e) {}
+
+  // Greeting
+  document.getElementById('greetH').innerHTML = greet + ',<br><em>' + firstName.replace(/</g,'&lt;') + '.</em>';
+
+  // Subcopy: prefer real activity (user-posted requests) over mock content
+  let activityLine = '';
+  try {
+    const owned   = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+    const stored  = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    const myReqs  = stored.filter(r => owned.includes(r.id));
+    if (myReqs.length) {
+      const totalResp = myReqs.reduce((acc, r) => acc + (r.responses?.length || 0), 0);
+      activityLine = 'You have <strong style="color:var(--ink)">' + myReqs.length + ' active request' + (myReqs.length>1?'s':'') + '</strong>'
+        + (totalResp ? ' with <strong style="color:var(--ink)">' + totalResp + ' response' + (totalResp>1?'s':'') + '</strong> waiting for your reply' : ' — providers will reply directly when they see them')
+        + '.';
+    }
+  } catch(e) {}
+
+  document.getElementById('greetSub').innerHTML = activityLine ||
+    'Welcome to your dashboard. <a href="/browse.html" style="color:var(--g);font-weight:600">Browse providers</a> or <a href="/requests.html" style="color:var(--g);font-weight:600">post a request</a> to get started.';
+})();
 </script>
 
 </body>
