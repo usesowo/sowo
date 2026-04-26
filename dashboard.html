@@ -1221,13 +1221,23 @@ function dsRenderModeSwitcher(user, currentMode) {
   const el = document.getElementById('modeSwitcher');
   if (!el) return;
   const capable = dsIsProviderCapable(user);
-  if (!capable) { el.innerHTML = ''; return; }
-  const tab = (mode, label) => `<button onclick="dsSetMode('${mode}')" style="padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:13px;font-weight:${currentMode===mode?'600':'500'};cursor:pointer;background:${currentMode===mode?'var(--ink)':'#fff'};color:${currentMode===mode?'var(--paper)':'var(--ink-2)'};transition:all .13s">${label}</button>`;
+
+  // "I need help" — always a real mode tab
+  const clientTab = `<button onclick="dsSetMode('client')" style="padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:13px;font-weight:${currentMode==='client'?'600':'500'};cursor:pointer;background:${currentMode==='client'?'var(--ink)':'#fff'};color:${currentMode==='client'?'var(--paper)':'var(--ink-2)'};transition:all .13s">I need help</button>`;
+
+  // "I offer services" — real mode tab if capable, otherwise links to /become-provider.html
+  let providerTab;
+  if (capable) {
+    providerTab = `<button onclick="dsSetMode('provider')" style="padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:13px;font-weight:${currentMode==='provider'?'600':'500'};cursor:pointer;background:${currentMode==='provider'?'var(--ink)':'#fff'};color:${currentMode==='provider'?'var(--paper)':'var(--ink-2)'};transition:all .13s">I offer services</button>`;
+  } else {
+    providerTab = `<a href="/become-provider.html" style="padding:8px 18px;border-radius:999px;border:1px dashed var(--line);font:inherit;font-size:13px;font-weight:500;cursor:pointer;background:#fff;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px">+ I offer services</a>`;
+  }
+
   el.innerHTML = `
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">
       <span class="mono" style="margin-right:6px">Viewing as</span>
-      ${tab('client','I need help')}
-      ${tab('provider','I offer services')}
+      ${clientTab}
+      ${providerTab}
     </div>`;
 }
 
