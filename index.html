@@ -1216,12 +1216,14 @@ footer a:hover{color:#fff}
 /* ── POST REQUEST FLOW ── */
 var PR_STEP = 0;
 var PR_DATA = {};
-var PR_TOTAL = 3; // 3 content steps + gate
+var PR_DRAFTS = []; // accumulates all requests before account creation
 
 var PR_CATS = ['Beauty & Makeup','Hair Stylist','Nails','Barber','Cleaning','Private Chef','Photography','Moving','Tutoring','Childcare','Plumbing','Electrical','Other'];
 
 function openPostRequest() {
   PR_STEP = 0; PR_DATA = {};
+  // Load any existing drafts from storage so they persist across modal opens
+  try { PR_DRAFTS = JSON.parse(localStorage.getItem('sowo_request_drafts') || '[]'); } catch(e) { PR_DRAFTS = []; }
   prRender();
   document.getElementById('prOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1233,7 +1235,6 @@ function closePostRequest() {
 function prCloseBg(e) {
   if (e.target === document.getElementById('prOverlay')) closePostRequest();
 }
-function prNext() { prPersist(); PR_STEP++; prRender(); }
 function prBack() { PR_STEP--; prRender(); }
 
 function prPersist() {
@@ -1242,7 +1243,6 @@ function prPersist() {
   if (g('prLoc'))    PR_DATA.location = g('prLoc');
   if (g('prBudget')) PR_DATA.budget   = g('prBudget');
   if (g('prTiming')) PR_DATA.timing   = g('prTiming');
-  // category is set via button clicks
 }
 
 function prSelectCat(cat) {
@@ -1250,11 +1250,11 @@ function prSelectCat(cat) {
   document.querySelectorAll('.pr-cat-btn').forEach(function(b){
     b.classList.toggle('sel', b.dataset.cat === cat);
   });
-  document.getElementById('prNextBtn0') && (document.getElementById('prNextBtn0').disabled = false);
+  var nb = document.getElementById('prNextBtn0');
+  if (nb) nb.disabled = false;
 }
 
 function prRender() {
-  // Progress bar: steps 0,1,2 + gate = 4 phases, show 3 bars
   var prog = document.getElementById('prProg');
   if (PR_STEP < 3) {
     prog.innerHTML = [0,1,2].map(function(i){
@@ -1274,7 +1274,6 @@ function prRender() {
   else if (PR_STEP === 2) body.innerHTML = prStep2();
   else                    body.innerHTML = prGate();
 
-  // Restore category selection
   if (PR_STEP === 0 && PR_DATA.category) {
     var btn = document.querySelector('.pr-cat-btn[data-cat="' + PR_DATA.category + '"]');
     if (btn) btn.classList.add('sel');
@@ -1284,7 +1283,13 @@ function prRender() {
 }
 
 function prStep0() {
-  return '<p class="pr-sub">Tell us what kind of help you\'re looking for. You can add details in the next step.</p>' +
+  var queueNote = PR_DRAFTS.length > 0
+    ? '<div style="display:flex;align-items:center;gap:7px;background:#f0faf6;border:1px solid rgba(8,80,65,.18);border-radius:8px;padding:9px 13px;margin-bottom:16px;font-size:12.5px;color:#085041;font-weight:600;">' +
+      '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>' +
+      PR_DRAFTS.length + ' request' + (PR_DRAFTS.length > 1 ? 's' : '') + ' queued — add another or <button onclick="PR_STEP=3;prRender()" style="background:none;border:none;padding:0;font:inherit;font-weight:700;color:#085041;cursor:pointer;text-decoration:underline;">publish all</button></div>'
+    : '';
+  return queueNote +
+    '<p class="pr-sub">Tell us what kind of help you\'re looking for.</p>' +
     '<div class="pr-field"><label>What category?</label>' +
     '<div class="pr-cats">' +
     PR_CATS.map(function(c){
@@ -1344,44 +1349,81 @@ function prStep2() {
       return '<div class="pr-rev-row"><span class="pr-rk">' + r[0] + '</span><span class="pr-rv">' + r[1].replace(/</g,'&lt;') + '</span></div>';
     }).join('') +
     '</div>' +
-    '<div class="pr-actions">' +
-    '<button class="pr-btn-back" onclick="prBack()">Edit</button>' +
-    '<button class="pr-btn-next" onclick="prSubmitToGate()">Looks good →</button>' +
+    '<div class="pr-actions" style="flex-direction:column;gap:8px">' +
+    '<button class="pr-btn-next" style="width:100%" onclick="prSaveDraftAndGate()">Looks good — publish</button>' +
+    '<button class="pr-btn-next" style="width:100%;background:#f9fafb;color:#085041;border:1.5px solid rgba(8,80,65,.25)" onclick="prSaveDraftAndAnother()">Save &amp; add another request</button>' +
+    '<button class="pr-btn-back" style="align-self:flex-start" onclick="prBack()">Edit</button>' +
     '</div>';
 }
 
-function prSubmitToGate() {
-  // Save draft to localStorage so signup page can pick it up and publish
+function prSaveDraft() {
   try {
     var draft = Object.assign({}, PR_DATA, { id: 'draft-' + Date.now(), savedAt: new Date().toISOString() });
-    localStorage.setItem('sowo_request_draft', JSON.stringify(draft));
+    PR_DRAFTS.push(draft);
+    localStorage.setItem('sowo_request_drafts', JSON.stringify(PR_DRAFTS));
   } catch(e) {}
+}
+
+function prSaveDraftAndGate() {
+  prSaveDraft();
   PR_STEP = 3; prRender();
 }
 
+function prSaveDraftAndAnother() {
+  prSaveDraft();
+  PR_DATA = {};    // reset current form
+  PR_STEP = 0;
+  prRender();
+}
+
 function prGate() {
-  var cat  = PR_DATA.category || 'a service';
-  var loc  = PR_DATA.location || '';
-  var desc = PR_DATA.desc ? PR_DATA.desc.slice(0, 60) + (PR_DATA.desc.length > 60 ? '…' : '') : '';
+  var count = PR_DRAFTS.length;
   var signupUrl = '/signup.html?next=post';
   var loginUrl  = '/login.html?next=post';
+
+  // Build a list of queued requests
+  var listHtml = PR_DRAFTS.map(function(d, i) {
+    var desc = d.desc ? d.desc.slice(0, 50) + (d.desc.length > 50 ? '…' : '') : '';
+    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;' + (i < PR_DRAFTS.length - 1 ? 'border-bottom:1px solid #f3f4f6;' : '') + '">' +
+      '<div style="width:22px;height:22px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">' + (i+1) + '</div>' +
+      '<div>' +
+      '<div style="font-size:13px;font-weight:700;color:#111">' + (d.category || '—') + (d.location ? ' · ' + d.location : '') + '</div>' +
+      (desc ? '<div style="font-size:12px;color:#9ca3af;margin-top:1px">' + desc.replace(/</g,'&lt;') + '</div>' : '') +
+      '</div>' +
+      '<button onclick="prRemoveDraft(' + i + ')" style="margin-left:auto;background:none;border:none;font-size:13px;color:#d1d5db;cursor:pointer;flex-shrink:0;padding:2px 4px" title="Remove">✕</button>' +
+      '</div>';
+  }).join('');
+
   return '<div class="pr-gate">' +
     '<div class="pr-gate-ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>' +
-    '<div class="pr-gate-h">One last step</div>' +
-    '<p class="pr-gate-sub">Create a free account to publish your request. Providers will reply directly — no spam, no cold calls.</p>' +
+    '<div class="pr-gate-h">Almost there</div>' +
+    '<p class="pr-gate-sub">Create a free account to publish ' + (count === 1 ? 'your request' : 'your ' + count + ' requests') + '. Providers will reply directly — no spam, no cold calls.</p>' +
     '<div class="pr-gate-preview">' +
-    '<div class="pr-gate-preview-label">Your request</div>' +
-    '<div class="pr-gate-preview-title">' + (cat) + (loc ? ' · ' + loc : '') + '</div>' +
-    (desc ? '<div class="pr-gate-preview-meta">' + desc.replace(/</g,'&lt;') + '</div>' : '') +
+    '<div class="pr-gate-preview-label">' + count + ' request' + (count !== 1 ? 's' : '') + ' ready to publish</div>' +
+    listHtml +
     '</div>' +
     '<div class="pr-gate-btns">' +
     '<a href="' + signupUrl + '" class="pr-gate-create">' +
     '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>' +
     'Create free account &amp; publish</a>' +
     '<a href="' + loginUrl + '" class="pr-gate-signin">Already have an account? Sign in</a>' +
+    '<button class="pr-gate-signin" style="border-style:dashed" onclick="prAddAnother()">+ Add another request</button>' +
     '</div>' +
-    '<div class="pr-gate-note">Free to post. No card required. Your request is saved — it\'ll publish as soon as you sign up.</div>' +
+    '<div class="pr-gate-note">Free to post. No card required. Your requests are saved and will publish as soon as you sign up.</div>' +
     '</div>';
+}
+
+function prRemoveDraft(index) {
+  PR_DRAFTS.splice(index, 1);
+  try { localStorage.setItem('sowo_request_drafts', JSON.stringify(PR_DRAFTS)); } catch(e) {}
+  if (PR_DRAFTS.length === 0) { PR_STEP = 0; prRender(); }
+  else prRender();
+}
+
+function prAddAnother() {
+  PR_DATA = {};
+  PR_STEP = 0;
+  prRender();
 }
 </script>
 
