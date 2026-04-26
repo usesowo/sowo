@@ -1067,6 +1067,69 @@
 </div>
 
 <script>
+  /* ── Provider data ────────────────────────────────────────────────────── */
+  const PROVIDERS = {
+    amara:    { first:'Amara',    last:'Osei',      initials:'AO', trade:'Bridal makeup artist',         price:'£65–£320', area:'Brixton, SW2',    vouches:42, rating:'4.9', reviews:214, status:'Available today',          next:'Next slot 2:30 PM', about:'Brixton-based makeup artist working with brown skin, deep tones, and the kind of lighting that doesn\'t do them favours. Twelve years between London and Lagos, four of those at MAC, the rest freelance — bridal, editorial, film.', about2:'I\'ll come to you with a kit packed for your skin, not the average. Trial sessions are free for weddings booked four weeks out.', photo:'/images/lashes-hero.jpg' },
+    folake:   { first:'Folake',   last:'Adeyemi',   initials:'FA', trade:'Bridal makeup artist',         price:'£55–£180', area:'Shoreditch, E1',  vouches:18, rating:'4.8', reviews:89,  status:'Available today',          next:'Next slot 11:00 AM', about:'East London makeup artist specialising in bridal and special occasion looks. Eight years in the industry, known for clean, flawless skin and a deep understanding of diverse skin tones.', about2:'Mobile across East and Central London. Trials are a must for bridal clients — I like to know your skin before the big day.', photo:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=1400&q=85' },
+    priscilla:{ first:'Priscilla',last:'Mba',       initials:'PM', trade:'Editorial & red carpet makeup',price:'£80–£400', area:'Dalston, E8',     vouches:31, rating:'5.0', reviews:62,  status:'Next available: Monday',   next:'', about:'Dalston-based editorial MUA who\'s worked Lagos Fashion Week, Cannes, and back again. Specialising in high-impact looks for film, print, and red carpet moments.', about2:'Every job is a collaboration. I read the brief, I match the aesthetic, and I don\'t leave until the lighting director is happy.', photo:'https://images.unsplash.com/photo-1523824921871-d6f1a15151f1?w=1400&q=85' },
+    adaeze:   { first:'Adaeze',   last:'Okoye',     initials:'AO', trade:'Natural glam artist',          price:'£45–£120', area:'Hackney, E8',     vouches:9,  rating:'4.7', reviews:34,  status:'Available today',          next:'Next slot 3:00 PM', about:'Hackney-based artist who believes in skin-first beauty — enhancing what\'s there rather than covering it. Specialises in natural glam and soft-beat looks for everyday life and events.', about2:'I bring the kit, you bring the vibes. Available most weekdays and all weekend.', photo:'https://images.unsplash.com/photo-1589156191108-c762ff4b96ab?w=1400&q=85' },
+    zainab:   { first:'Zainab',   last:'Hassan',    initials:'ZH', trade:'Henna & bridal artist',        price:'£70–£250', area:'Whitechapel, E1', vouches:22, rating:'4.9', reviews:76,  status:'Available today',          next:'Next slot 4:00 PM', about:'Whitechapel-based henna and bridal artist with roots in West African and South Asian traditions. Offers full packages for multi-day celebrations — mehndi, nikah, reception.', about2:'I design every henna pattern by hand. No stencils. Everything is measured to your hands and your story.', photo:'https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=1400&q=85' },
+    lola:     { first:'Lola',     last:'Agbenyega', initials:'LA', trade:'Everyday & party makeup',      price:'£40–£95',  area:'Lewisham, SE13',  vouches:14, rating:'4.6', reviews:51,  status:'Next available: Saturday', next:'', about:'Lewisham-based MUA who keeps it real — fast, flawless, affordable. Whether it\'s a birthday night out or a leaving-do, Lola delivers looks that last and don\'t break the budget.', about2:'I do house calls across South East London. Book at least 48 hours ahead for weekends.', photo:'https://images.unsplash.com/photo-1593351799227-75df2026356b?w=1400&q=85' },
+    nkechi:   { first:'Nkechi',   last:'Okafor',    initials:'NO', trade:'Stage & film makeup artist',   price:'£90–£500', area:'Peckham, SE15',   vouches:6,  rating:'4.8', reviews:19,  status:'Next available: Wednesday',next:'', about:'Peckham-based specialist in stage and film makeup. Trained at LAMDA and worked across West End productions and independent films. Understands lighting, camera, and movement.', about2:'I work fast and quietly on set. Key team experience only — if you need someone to run an entire kit department, I\'m that person.', photo:'https://images.unsplash.com/photo-1512361436605-a484bdb34b5f?w=1400&q=85' },
+    imani:    { first:'Imani',    last:'Johnson',   initials:'IJ', trade:'Skin-first makeup artist',     price:'£50–£150', area:'Brixton, SW2',    vouches:27, rating:'4.9', reviews:93,  status:'Available today',          next:'Next slot 1:00 PM', about:'Brixton-based artist who believes less is more. Specialises in skincare-led makeup — glass skin, no-makeup looks, and effortless beauty for people who don\'t want to think about it.', about2:'I\'ll assess your skin before I open a single product. Prep is everything. The rest follows.', photo:'https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?w=1400&q=85' },
+  };
+
+  /* ── Hydrate page from URL param ─────────────────────────────────────── */
+  const _pid = (window.location.hash.slice(1) || new URLSearchParams(window.location.search).get('id') || 'amara').toLowerCase();
+  const P = PROVIDERS[_pid] || PROVIDERS.amara;
+
+  (function hydrate() {
+    // Title
+    document.title = P.first + ' ' + P.last + ' — ' + P.trade + ' · Sowo';
+    // Name
+    document.querySelector('.id-name').innerHTML = P.first + ' <em>' + P.last + '</em>';
+    // Rating / vouches
+    document.querySelector('.id-rating').innerHTML = P.rating + ' <span class="stars">★★★★★</span><span class="count">(' + P.reviews + ' reviews)</span>';
+    document.querySelector('.id-meta .pill').innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> ' + P.vouches + ' vouches';
+    // Trade line
+    document.querySelector('.id-line2').innerHTML = P.trade + ' · <span class="price">' + P.price + '</span> · <span class="area">' + P.area + '</span>';
+    // Status
+    document.querySelector('.id-status').innerHTML = P.next
+      ? '<span class="dot"></span>' + P.status + '<span class="next"> · ' + P.next + '</span>'
+      : P.status;
+    // Photo strip — inject real image into feature cell
+    const featureCell = document.querySelector('.photo-cell.feature');
+    if (featureCell) {
+      const ph = featureCell.querySelector('.ph');
+      if (ph) ph.style.display = 'none';
+      const img = document.createElement('img');
+      img.src = P.photo; img.alt = P.first + ' ' + P.last;
+      img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;z-index:0;';
+      featureCell.insertBefore(img, featureCell.firstChild);
+    }
+    // About
+    const aboutTitle = document.querySelector('#about .block-title');
+    if (aboutTitle) aboutTitle.innerHTML = 'About <em>' + P.first + '</em>';
+    const aboutPs = document.querySelectorAll('#about .about-text');
+    if (aboutPs[0]) aboutPs[0].textContent = P.about;
+    if (aboutPs[1]) aboutPs[1].textContent = P.about2;
+    // Vouches block
+    const vTitle = document.querySelector('#vouches .block-title');
+    if (vTitle) vTitle.innerHTML = 'Community <em>vouches</em> · ' + P.vouches;
+    const vDesc = document.querySelector('#vouches .about-text');
+    if (vDesc) vDesc.textContent = 'Vouches are named references from people who know ' + P.first + '\'s work — colleagues, past clients, employers. Portable reputation that travels with the provider.';
+    // Tabs
+    document.querySelectorAll('.tab').forEach(t => {
+      if (t.dataset.target === 'vouches') t.innerHTML = 'Vouches <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:4px;">' + P.vouches + '</span>';
+      if (t.dataset.target === 'reviews') t.innerHTML = 'Reviews <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:4px;">' + P.reviews + '</span>';
+    });
+    // Mini sidebar card
+    const miniAv = document.querySelector('.mini-av');
+    const miniName = document.querySelector('.mini-name');
+    if (miniAv) miniAv.textContent = P.initials;
+    if (miniName) miniName.textContent = P.first + ' ' + P.last;
+  })();
+
   /* ── State ── */
   let chosenSvc = null;
   let chosenPrice = 0;
@@ -1213,7 +1276,7 @@
 
   document.getElementById('bookBtn').addEventListener('click', () => {
     if (document.getElementById('bookBtn').disabled) return;
-    showToast('Booking requested · Amara will reply in <1 hour');
+    showToast('Booking requested · ' + P.first + ' will reply in <1 hour');
   });
 
   updateActiveTab();
