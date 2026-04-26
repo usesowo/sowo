@@ -204,9 +204,9 @@ nav{
 .feed-card--provider{background:#fffbeb;border:1px solid #fde68a}
 .feed-card--provider:hover{border-color:#fbbf24}
 .feed-tag{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;border-radius:20px;padding:3px 10px;margin-bottom:8px}
-/* Request cards — all tags green */
+/* Request cards - all tags green */
 .feed-card--request .feed-tag{background:#dcfce7;color:#166534}
-/* Provider cards — all tags amber */
+/* Provider cards - all tags amber */
 .feed-card--provider .feed-tag{background:#fef3c7;color:#92400e}
 .feed-card-title{font-size:.95rem;font-weight:600;color:#0a0a0a;line-height:1.3;margin-bottom:6px}
 .feed-card-meta{font-size:.78rem;color:#9ca3af}
@@ -647,15 +647,15 @@ footer a:hover{color:#fff}
 ║  SOWO HOMEPAGE  –  SECTION MAP                                               ║
 ║  10 sections, in order top → bottom                                          ║
 ╠══════════════════════════════════════════════════════════════════════════════╣
-║  §1  NAV              Sticky top bar — logo, links, sign-in, get started     ║
-║  §2  HERO             Split layout — search, category pills, provider card   ║
-║  §3  POPULAR SERVICES Editorial image grid — 5 service categories            ║
-║  §4  STATS BAND       Dark green strip — 4 headline numbers                  ║
-║  §5  DUAL ROLE        "One account. Two sides." — client & provider modes    ║
+║  §1  NAV              Sticky top bar - logo, links, sign-in, get started     ║
+║  §2  HERO             Split layout - search, category pills, provider card   ║
+║  §3  POPULAR SERVICES Editorial image grid - 5 service categories            ║
+║  §4  STATS BAND       Dark green strip - 4 headline numbers                  ║
+║  §5  DUAL ROLE        "One account. Two sides." - client & provider modes    ║
 ║  §6  REVIEWS          6 client review cards with coloured initials           ║
-║  §7  TRUST PILLARS    3 trust signals — Sowo Protect, ID-verified, Support   ║
+║  §7  TRUST PILLARS    3 trust signals - Sowo Protect, ID-verified, Support   ║
 ║  §8  HOW IT WORKS     Photo + 3-step process (id="how")                      ║
-║  §9  PROVIDER BANNER  Dark CTA card — "Turn your skill into income"          ║
+║  §9  PROVIDER BANNER  Dark CTA card - "Turn your skill into income"          ║
 ║  §10 FOOTER           4-column dark footer + legal bar                       ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 -->
@@ -736,7 +736,7 @@ footer a:hover{color:#fff}
     • Headline     → <h1> inside .hero-main
     • Search       → placeholder on <input>, button text
     • Categories   → .cat-item elements in .cat-nav; update onclick data-pills
-    • Pills        → JS object CAT_PILLS — keys match data-cat on each .cat-item
+    • Pills        → JS object CAT_PILLS - keys match data-cat on each .cat-item
     • Hero photo   → Unsplash URL on .hero-inner > img
     • Info card    → .hero-info-card h2 + <li> bullet points
     • Corner decor → .hero-stripes (colour/opacity) + .hero-blob in <style>
@@ -809,8 +809,8 @@ footer a:hover{color:#fff}
         <h2 id="panelTitle">Find the right provider for you</h2>
         <ul id="panelBullets">
           <li>143 providers active near London right now</li>
-          <li>Real names, real vouches — no anonymous stars</li>
-          <li>Home visits or studio — book in minutes</li>
+          <li>Real names, real vouches - no anonymous stars</li>
+          <li>Home visits or studio - book in minutes</li>
         </ul>
         <div class="cat-panel-cta"><a href="/browse.html" id="panelCta">Browse providers</a></div>
       </div>
@@ -895,10 +895,10 @@ footer a:hover{color:#fff}
   §2c  FEATURED PROVIDERS
   ─────────────────────────────────────────────────────────────────────────
   What's here:
-    • Section header — "Top-rated providers near you" + "See all" link
+    • Section header - "Top-rated providers near you" + "See all" link
     • Horizontal scrolling row of provider cards (avatar, name, category,
       location, star rating + review count, starting price, Book CTA)
-    • JS: loadFeaturedProviders() — calls Providers.list() when Supabase
+    • JS: loadFeaturedProviders() - calls Providers.list() when Supabase
       is live; falls back to MOCK_PROVIDERS for the static preview
   ─────────────────────────────────────────────────────────────────────────
 -->
@@ -928,7 +928,7 @@ footer a:hover{color:#fff}
   §6  REVIEWS
   ─────────────────────────────────────────────────────────────────────────
   What's here:
-    • Section header — "What clients are saying" + sub-copy
+    • Section header - "What clients are saying" + sub-copy
     • 6 review cards (.rv-card) in a responsive grid (3 cols → 2 → 1)
       Each card has:
         - Coloured initial avatar (.rv-av  background set inline)
@@ -1031,7 +1031,7 @@ footer a:hover{color:#fff}
         <div class="rv-stars">
           <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">I have natural hair and it's hard finding someone who knows how to treat it. My hairdresser from Sowo was incredible — best braid style I've ever had.</p>
+        <p class="rv-text">I have natural hair and it's hard finding someone who knows how to treat it. My hairdresser from Sowo was incredible - best braid style I've ever had.</p>
       </div>
 
       <div class="rv-card">
@@ -1056,12 +1056,12 @@ footer a:hover{color:#fff}
   §7  TRUST PILLARS
   ─────────────────────────────────────────────────────────────────────────
   What's here:
-    • Section headline — "Your satisfaction, guaranteed" (italic "guaranteed")
+    • Section headline - "Your satisfaction, guaranteed" (italic "guaranteed")
     • Sub-copy
     • 3 pillar cards (.pillar) side-by-side:
-        1. Sowo Protect    — shield icon  — up to £1,000 coverage
-        2. ID-verified Providers — ID card icon — identity-checked before booking
-        3. 7-day Support   — chat bubble icon — team available daily
+        1. Sowo Protect    - shield icon  - up to £1,000 coverage
+        2. ID-verified Providers - ID card icon - identity-checked before booking
+        3. 7-day Support   - chat bubble icon - team available daily
 
   To edit:
     • Section headline / italic word → the <h2> text; <em> wraps the italic word
@@ -1089,14 +1089,14 @@ footer a:hover{color:#fff}
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
         </div>
         <h3>Talk first, book later</h3>
-        <p>Message providers directly before you commit. Ask the questions that matter — about your hair, your skin, your space — and decide on your terms. No middleman.</p>
+        <p>Message providers directly before you commit. Ask the questions that matter - about your hair, your skin, your space - and decide on your terms. No middleman.</p>
       </div>
       <div class="pillar">
         <div class="p-icon">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
         <h3>Free to post, free to list</h3>
-        <p>No card needed to post a request. No subscription to list your service. We only earn when you actually book — and even then, never from anonymous middlemen.</p>
+        <p>No card needed to post a request. No subscription to list your service. We only earn when you actually book - and even then, never from anonymous middlemen.</p>
       </div>
     </div>
   </div>
@@ -1109,13 +1109,13 @@ footer a:hover{color:#fff}
     2-column layout (photo left, steps right):
       LEFT  (.how-img-wrap): lifestyle photo of a provider at work
       RIGHT (.how-text):
-        • H2 — "From request to done, in three steps"
+        • H2 - "From request to done, in three steps"
         • Step 1: Post what you need
         • Step 2: Compare vetted providers
         • Step 3: Book, pay, and review
       Each step (.step) has a numbered badge (.step-n) and body (.step-body > h3 + p)
 
-  Anchor: id="how" on the <section> — nav "How it works" link points here
+  Anchor: id="how" on the <section> - nav "How it works" link points here
 
   To edit:
     • Section headline → <h2> text inside .how-text
@@ -1132,10 +1132,10 @@ footer a:hover{color:#fff}
   What's here:
     4-column dark footer (.footer-top):
       Col 1 (.fb): Sowo logo (mint + amber SVG) + brand tagline
-      Col 2: Services links — Beauty & Makeup, Nail Technicians, Hairdressers,
+      Col 2: Services links - Beauty & Makeup, Nail Technicians, Hairdressers,
                               Barbers, Private Chefs, Massage
-      Col 3: Company links  — About, How it works, Safety & Trust, Blog, Careers
-      Col 4: Support links  — Help Centre, Contact, Sowo Protect,
+      Col 3: Company links  - About, How it works, Safety & Trust, Blog, Careers
+      Col 4: Support links  - Help Centre, Contact, Sowo Protect,
                               Become a Provider, Sign in
 
     Legal bar (.footer-bottom):
@@ -1315,7 +1315,7 @@ function prStep0() {
   var queueNote = PR_DRAFTS.length > 0
     ? '<div style="display:flex;align-items:center;gap:7px;background:#f0faf6;border:1px solid rgba(8,80,65,.18);border-radius:8px;padding:9px 13px;margin-bottom:16px;font-size:12.5px;color:#085041;font-weight:600;">' +
       '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20,6 9,17 4,12"/></svg>' +
-      PR_DRAFTS.length + ' request' + (PR_DRAFTS.length > 1 ? 's' : '') + ' queued — add another or <button onclick="PR_STEP=3;prRender()" style="background:none;border:none;padding:0;font:inherit;font-weight:700;color:#085041;cursor:pointer;text-decoration:underline;">publish all</button></div>'
+      PR_DRAFTS.length + ' request' + (PR_DRAFTS.length > 1 ? 's' : '') + ' queued - add another or <button onclick="PR_STEP=3;prRender()" style="background:none;border:none;padding:0;font:inherit;font-weight:700;color:#085041;cursor:pointer;text-decoration:underline;">publish all</button></div>'
     : '';
   return queueNote +
     '<p class="pr-sub">Tell us what kind of help you\'re looking for.</p>' +
@@ -1365,7 +1365,7 @@ function prStep1() {
     '<div class="pr-field"><label>Timing <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>' +
     '<input id="prTiming" placeholder="e.g. This week" value="' + (PR_DATA.timing || '') + '"></div>' +
     '</div>' +
-    '<div class="pr-field"><label>Preferences <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional — tap any that apply)</span></label>' +
+    '<div class="pr-field"><label>Preferences <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional - tap any that apply)</span></label>' +
     '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px">' + prefsHtml + '</div></div>' +
     '<div class="pr-field"><label>How should they reach you?</label>' +
     '<div style="display:flex;gap:6px;margin-top:2px">' + contactRadios + '</div></div>' +
@@ -1387,9 +1387,9 @@ function prNextFromStep1() {
 
 function prStep2() {
   var rows = [
-    ['Headline', PR_DATA.title || '—'],
-    ['Category', PR_DATA.category || '—'],
-    ['Location', PR_DATA.location || '—'],
+    ['Headline', PR_DATA.title || '-'],
+    ['Category', PR_DATA.category || '-'],
+    ['Location', PR_DATA.location || '-'],
   ];
   if (PR_DATA.desc)    rows.push(['Details', PR_DATA.desc]);
   if (PR_DATA.budget)  rows.push(['Budget', PR_DATA.budget]);
@@ -1403,7 +1403,7 @@ function prStep2() {
     }).join('') +
     '</div>' +
     '<div class="pr-actions" style="flex-direction:column;gap:8px">' +
-    '<button class="pr-btn-next" style="width:100%" onclick="prSaveDraftAndGate()">Looks good — publish</button>' +
+    '<button class="pr-btn-next" style="width:100%" onclick="prSaveDraftAndGate()">Looks good - publish</button>' +
     '<button class="pr-btn-next" style="width:100%;background:#f9fafb;color:#085041;border:1.5px solid rgba(8,80,65,.25)" onclick="prSaveDraftAndAnother()">Save &amp; add another request</button>' +
     '<button class="pr-btn-back" style="align-self:flex-start" onclick="prBack()">Edit</button>' +
     '</div>';
@@ -1451,7 +1451,7 @@ function prGate() {
   return '<div class="pr-gate">' +
     '<div class="pr-gate-ic"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>' +
     '<div class="pr-gate-h">Almost there</div>' +
-    '<p class="pr-gate-sub">Create a free account to publish ' + (count === 1 ? 'your request' : 'your ' + count + ' requests') + '. Providers will reply directly — no spam, no cold calls.</p>' +
+    '<p class="pr-gate-sub">Create a free account to publish ' + (count === 1 ? 'your request' : 'your ' + count + ' requests') + '. Providers will reply directly - no spam, no cold calls.</p>' +
     '<div class="pr-gate-preview">' +
     '<div class="pr-gate-preview-label">' + count + ' request' + (count !== 1 ? 's' : '') + ' ready to publish</div>' +
     listHtml +
@@ -1495,7 +1495,7 @@ function prAddAnother() {
   var CAT_PANELS = {
     'all': {
       title: 'Find the right provider for you',
-      bullets: ['143 providers active near London right now','Real names, real vouches — no anonymous stars','Home visits or studio — book in minutes'],
+      bullets: ['143 providers active near London right now','Real names, real vouches - no anonymous stars','Home visits or studio - book in minutes'],
       photo: '/images/lashes-hero.jpg', link: '/browse.html'
     },
     'Beauty and Makeup': {
@@ -1520,7 +1520,7 @@ function prAddAnother() {
     },
     'Photography': {
       title: 'Photographers for every moment',
-      bullets: ['Portraits, events &amp; brand shoots','Studio or location — your choice','Packages from £90'],
+      bullets: ['Portraits, events &amp; brand shoots','Studio or location - your choice','Packages from £90'],
       photo: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=1400&q=85', link: '/browse.html?cat=photography'
     },
   };
@@ -1614,7 +1614,7 @@ function prAddAnother() {
       window.location.reload();
     });
 
-    // Profile link — go to dashboard and open profile tab
+    // Profile link - go to dashboard and open profile tab
     document.getElementById('nav-dd-profile').addEventListener('click', function(e) {
       e.preventDefault();
       window.location.href = '/dashboard.html';

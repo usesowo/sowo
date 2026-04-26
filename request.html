@@ -917,7 +917,7 @@ const owner = isOwner(R.id);
 const responses = R.responses || [];
 
 if(!owner) {
-  // Not the poster — show locked state
+  // Not the poster - show locked state
   document.getElementById('respCount').textContent = '';
   document.getElementById('respBody').innerHTML = `
     <div class="resp-locked">
@@ -932,7 +932,7 @@ if(!owner) {
       </a>
     </div>`;
 } else {
-  // The poster — show all responses
+  // The poster - show all responses
   document.getElementById('respCount').textContent = responses.length > 0 ? `(${responses.length})` : '';
   document.getElementById('respBody').innerHTML = responses.length === 0
     ? `<div class="response-empty">
@@ -1008,7 +1008,7 @@ if (owner) {
         Only you can see who's responded
       </div>`;
   }
-  // Hide the match-card ("You might be a good fit") — irrelevant for owner
+  // Hide the match-card ("You might be a good fit") - irrelevant for owner
   const matchCard = document.getElementById('matchCard');
   if (matchCard) matchCard.style.display = 'none';
 } else {
@@ -1300,7 +1300,7 @@ function submitReply(respId, respIndex) {
   showToast('Reply sent');
 }
 
-/* SMS stub — swap fetch URL for real Supabase Edge Function */
+/* SMS stub - swap fetch URL for real Supabase Edge Function */
 async function sendSMSNotification(phone, message) {
   try {
     // await fetch('https://your-project.supabase.co/functions/v1/notify-poster', {

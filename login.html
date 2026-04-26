@@ -322,7 +322,7 @@ document.getElementById('loginForm').addEventListener('submit', e => {
   btn.disabled = true;
   btn.innerHTML = '<span class="spin"></span>';
 
-  /* Check localStorage for MVP — scan every key for a matching email */
+  /* Check localStorage for MVP - scan every key for a matching email */
   setTimeout(() => {
     try {
       let match = null;
@@ -355,7 +355,7 @@ document.getElementById('loginForm').addEventListener('submit', e => {
   }, 800);
 });
 
-/* Google — coming soon */
+/* Google - coming soon */
 document.getElementById('googleBtn').addEventListener('click', () => {
   toast('Google sign-in coming soon');
 });

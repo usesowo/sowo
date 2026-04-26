@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sowo — Active Requests</title>
+<title>Sowo - Active Requests</title>
 <meta name="description" content="Browse live service requests from people near you. If you can help, respond directly.">
 <link rel="stylesheet" href="shared.css">
 <style>
@@ -259,7 +259,7 @@
   <div class="container">
     <h1>Active<br><em>requests</em></h1>
     <div class="meta">
-      <div class="count" id="heroCount">—</div>
+      <div class="count" id="heroCount">-</div>
       <div class="sub">
         <span class="live-dot" style="margin-right:5px"></span>live requests right now
       </div>
@@ -387,7 +387,7 @@
 
 <script>
 /* ══════════════════════════════════
-   SEED REQUESTS — mirror of request.html
+   SEED REQUESTS - mirror of request.html
 ══════════════════════════════════ */
 const SEED_REQUESTS = [
   {
@@ -430,7 +430,7 @@ const SEED_REQUESTS = [
     id:'req-005', cat:'Beauty & Makeup',
     title:'Makeup artist for engagement party',
     loc:'Brixton, London', age:'30m ago', poster:'Adaeze K.', posterInitials:'AK',
-    desc:'Looking for a makeup artist for my engagement celebration next Saturday. Natural glam finish. I have deep brown skin — needs to be someone experienced with deeper skin tones.',
+    desc:'Looking for a makeup artist for my engagement celebration next Saturday. Natural glam finish. I have deep brown skin - needs to be someone experienced with deeper skin tones.',
     prefs:['Home visit','Bridal experience'],
     budget:'£80–£150', timing:'Next Saturday afternoon',
     responses:[{name:'Amara O.'},{name:'Folake A.'}],
@@ -626,7 +626,7 @@ function prRender() {
   }
 }
 function prStep0() {
-  var q=PR_DRAFTS.length>0?'<div style="display:flex;align-items:center;gap:7px;background:#f0faf6;border:1px solid rgba(8,80,65,.18);border-radius:8px;padding:9px 13px;margin-bottom:16px;font-size:12.5px;color:#085041;font-weight:600;">✓ '+PR_DRAFTS.length+' request'+(PR_DRAFTS.length>1?'s':'')+' queued — <button onclick="PR_STEP=3;prRender()" style="background:none;border:none;padding:0;font:inherit;font-weight:700;color:#085041;cursor:pointer;text-decoration:underline;">publish all</button></div>':'';
+  var q=PR_DRAFTS.length>0?'<div style="display:flex;align-items:center;gap:7px;background:#f0faf6;border:1px solid rgba(8,80,65,.18);border-radius:8px;padding:9px 13px;margin-bottom:16px;font-size:12.5px;color:#085041;font-weight:600;">✓ '+PR_DRAFTS.length+' request'+(PR_DRAFTS.length>1?'s':'')+' queued - <button onclick="PR_STEP=3;prRender()" style="background:none;border:none;padding:0;font:inherit;font-weight:700;color:#085041;cursor:pointer;text-decoration:underline;">publish all</button></div>':'';
   return q+'<p style="font-size:13.5px;color:#6b7280;margin-bottom:20px;line-height:1.55">Tell us what kind of help you\'re looking for.</p>'+
     '<div class="pr-field"><label>What category?</label><div class="pr-cats">'+
     PR_CATS.map(function(c){ return '<button class="pr-cat-btn" data-cat="'+c+'" onclick="prSelectCat(\''+c.replace(/'/g,"\\'")+'\')">' +c+'</button>'; }).join('')+
@@ -660,7 +660,7 @@ function prStep1() {
     '<div class="pr-field"><label>Budget <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label><input id="prBudget" placeholder="e.g. £30–£60" value="'+(PR_DATA.budget||'')+'"></div>'+
     '<div class="pr-field"><label>Timing <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label><input id="prTiming" placeholder="e.g. This week" value="'+(PR_DATA.timing||'')+'"></div>'+
     '</div>'+
-    '<div class="pr-field"><label>Preferences <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional — tap any that apply)</span></label>'+
+    '<div class="pr-field"><label>Preferences <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional - tap any that apply)</span></label>'+
     '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px">'+prefsHtml+'</div></div>'+
     '<div class="pr-field"><label>How should they reach you?</label>'+
     '<div style="display:flex;gap:6px;margin-top:2px">'+contactRadios+'</div></div>'+
@@ -672,7 +672,7 @@ function prNextFromStep1() {
   PR_STEP=2; prRender();
 }
 function prStep2() {
-  var rows=[['Headline',PR_DATA.title||'—'],['Category',PR_DATA.category||'—'],['Location',PR_DATA.location||'—']];
+  var rows=[['Headline',PR_DATA.title||'-'],['Category',PR_DATA.category||'-'],['Location',PR_DATA.location||'-']];
   if(PR_DATA.desc)   rows.push(['Details',PR_DATA.desc]);
   if(PR_DATA.budget) rows.push(['Budget',PR_DATA.budget]);
   if(PR_DATA.timing) rows.push(['Timing',PR_DATA.timing]);
@@ -681,7 +681,7 @@ function prStep2() {
   return '<p style="font-size:13.5px;color:#6b7280;margin-bottom:20px;line-height:1.55">This is how your request will appear.</p>'+
     '<div class="pr-rev">'+rows.map(function(r){ return '<div class="pr-rev-row"><span class="pr-rk">'+r[0]+'</span><span class="pr-rv">'+r[1].replace(/</g,'&lt;')+'</span></div>'; }).join('')+'</div>'+
     '<div class="pr-actions" style="flex-direction:column;gap:8px">'+
-    '<button class="pr-btn-next" style="width:100%" onclick="prSaveDraftAndGate()">Looks good — publish</button>'+
+    '<button class="pr-btn-next" style="width:100%" onclick="prSaveDraftAndGate()">Looks good - publish</button>'+
     '<button class="pr-btn-next" style="width:100%;background:#f9fafb;color:#085041;border:1.5px solid rgba(8,80,65,.25)" onclick="prSaveDraftAndAnother()">Save &amp; add another request</button>'+
     '<button class="pr-btn-back" style="align-self:flex-start" onclick="prBack()">Edit</button>'+
     '</div>';
@@ -712,7 +712,7 @@ function prGate() {
     '<a href="'+loginUrl+'" class="pr-gate-signin">Already have an account? Sign in</a>'+
     '<button class="pr-gate-signin" style="border-style:dashed;cursor:pointer" onclick="prAddAnother()">+ Add another request</button>'+
     '</div>'+
-    '<div class="pr-gate-note">Free to post. No card required. Your requests are saved — they\'ll publish as soon as you sign up.</div>'+
+    '<div class="pr-gate-note">Free to post. No card required. Your requests are saved - they\'ll publish as soon as you sign up.</div>'+
     '</div>';
 }
 function prRemoveDraft(i){ PR_DRAFTS.splice(i,1); try{localStorage.setItem('sowo_request_drafts',JSON.stringify(PR_DRAFTS));}catch(e){} if(PR_DRAFTS.length===0){PR_STEP=0;prRender();}else prRender(); }

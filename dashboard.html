@@ -746,7 +746,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Profile
       </a>
-      <a class="ds-link" data-mode="client" href="#" onclick="event.preventDefault();dsShowEmpty('Payment methods','Your saved cards and Sowo Pocket history will appear here. You\\'ll be asked to add a card the first time you book a provider — held in escrow until the work is done.','Browse providers','/browse.html')">
+      <a class="ds-link" data-mode="client" href="#" onclick="event.preventDefault();dsShowEmpty('Payment methods','Your saved cards and Sowo Pocket history will appear here. You\\'ll be asked to add a card the first time you book a provider - held in escrow until the work is done.','Browse providers','/browse.html')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
         Payment
       </a>
@@ -781,7 +781,7 @@
     <!-- Greeting (honest, matches what's on screen) -->
     <div class="greet">
       <div>
-        <div class="g-eye"><span class="live-dot"></span><span id="greetDate">—</span></div>
+        <div class="g-eye"><span class="live-dot"></span><span id="greetDate">-</span></div>
         <h1 id="greetH">Good day,<br><em id="greetName">friend.</em></h1>
         <p class="g-sub" id="greetSub">Looking for help, or ready to share your skills? Pick where to start.</p>
       </div>
@@ -797,7 +797,7 @@
     <!-- Escrow bar appears only when there are real bookings -->
     <div id="escrowSlot"></div>
 
-    <!-- ─── TWO COLUMN GRID — populated from real session + localStorage ─── -->
+    <!-- ─── TWO COLUMN GRID - populated from real session + localStorage ─── -->
     <div class="d-grid">
       <div id="leftColSlot"></div>
       <div id="rightColSlot"></div>
@@ -825,7 +825,7 @@
 <script>
 /* ── Hydrate dashboard from the logged-in session ──
    Reads sowo_session (set by login.html) and replaces the placeholder
-   user data so the dashboard reflects the actual signed-in person —
+   user data so the dashboard reflects the actual signed-in person -
    not the "Adaeze" mock. Falls back to a neutral welcome state if no session.
 ─────────────────────────────────────────────────────── */
 (function(){
@@ -841,7 +841,7 @@
   try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
 
   if (!user) {
-    // Logged-out fallback — show neutral welcome + sign-in prompt
+    // Logged-out fallback - show neutral welcome + sign-in prompt
     document.getElementById('greetH').innerHTML = greet + ',<br><em>friend.</em>';
     document.getElementById('greetSub').innerHTML =
       'You\'re not signed in yet. <a href="/login.html?next=dashboard" style="color:var(--g);font-weight:600">Sign in</a> to see your bookings, requests and saved providers.';
@@ -888,7 +888,7 @@
     if (myReqs.length) {
       const totalResp = myReqs.reduce((acc, r) => acc + (r.responses?.length || 0), 0);
       activityLine = 'You have <strong style="color:var(--ink)">' + myReqs.length + ' active request' + (myReqs.length>1?'s':'') + '</strong>'
-        + (totalResp ? ' with <strong style="color:var(--ink)">' + totalResp + ' response' + (totalResp>1?'s':'') + '</strong> waiting for your reply' : ' — providers will reply directly when they see them')
+        + (totalResp ? ' with <strong style="color:var(--ink)">' + totalResp + ' response' + (totalResp>1?'s':'') + '</strong> waiting for your reply' : ' - providers will reply directly when they see them')
         + '.';
     }
   } catch(e) {}
@@ -944,7 +944,7 @@ function dsShowEmpty(title, body, ctaLabel, ctaHref) {
   document.body.style.overflow = 'hidden';
 }
 
-/* Profile peek — shows the actual session data we have, in a clean panel */
+/* Profile peek - shows the actual session data we have, in a clean panel */
 function dsShowProfile() {
   let user = null;
   try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
@@ -966,10 +966,10 @@ function dsShowProfile() {
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:18px">
-          <div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:var(--muted)">Email</span><span style="color:var(--ink);font-weight:500">${esc(user.email || '—')}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:var(--muted)">Email</span><span style="color:var(--ink);font-weight:500">${esc(user.email || '-')}</span></div>
           <div style="display:flex;justify-content:space-between;font-size:13.5px"><span style="color:var(--muted)">Location</span><span style="color:var(--ink);font-weight:500">${esc(user.location || 'Not set')}</span></div>
         </div>
-        <p style="font-size:12.5px;color:var(--muted);margin-top:18px;line-height:1.55">Editing these fields lives in account settings — building it next.</p>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:18px;line-height:1.55">Editing these fields lives in account settings - building it next.</p>
       </div>
     </div>`;
   document.body.insertAdjacentHTML('beforeend', html);
@@ -1244,9 +1244,9 @@ function dsRenderModeSwitcher(user, currentMode) {
   if (!el) return;
   const capable = dsIsProviderCapable(user);
 
-  // Active state pill (black, current mode) — visual emphasis on what you ARE
+  // Active state pill (black, current mode) - visual emphasis on what you ARE
   const activePill = 'padding:8px 18px;border-radius:999px;border:1px solid var(--ink);font:inherit;font-size:12.5px;font-weight:600;background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;gap:6px';
-  // Action pill (light, secondary) — the switch action
+  // Action pill (light, secondary) - the switch action
   const switchPill = 'padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s;text-decoration:none;display:inline-flex;align-items:center;gap:6px';
   const switchHover = 'this.style.borderColor=\'var(--ink)\';this.style.color=\'var(--ink)\'';
   const switchReset = 'this.style.borderColor=\'var(--line)\';this.style.color=\'var(--ink-2)\'';
@@ -1379,13 +1379,13 @@ function renderClientMode(user, firstName) {
         </div>
       </div>`;
   } else {
-    // No real activity — honest get-started card
+    // No real activity - honest get-started card
     focal.innerHTML = `
       <div class="focal" style="background:var(--ink);color:var(--paper);padding:36px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">
         <div>
           <div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Get started</div>
-          <div style="font-family:var(--serif);font-size:28px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Tell us what you need,<br>${esc(firstName)} — providers will reply.</div>
-          <div style="font-size:14px;color:rgba(245,240,232,.65);max-width:520px;line-height:1.55">Post one short request and trusted local providers come to you. No card required, no spam — just direct messages from real people.</div>
+          <div style="font-family:var(--serif);font-size:28px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Tell us what you need,<br>${esc(firstName)} - providers will reply.</div>
+          <div style="font-size:14px;color:rgba(245,240,232,.65);max-width:520px;line-height:1.55">Post one short request and trusted local providers come to you. No card required, no spam - just direct messages from real people.</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px">
           <a href="/requests.html" style="background:var(--a);color:var(--ink);padding:14px 26px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;text-align:center">Post a request</a>
@@ -1394,7 +1394,7 @@ function renderClientMode(user, firstName) {
       </div>`;
   }
 
-  /* ── Escrow slot — only when there are real held funds ── */
+  /* ── Escrow slot - only when there are real held funds ── */
   const escrow = document.getElementById('escrowSlot');
   if (heldEscrow > 0) {
     const heldCount = bookings.filter(b => b.escrow === 'held').length;
@@ -1430,7 +1430,7 @@ function renderClientMode(user, firstName) {
           <div class="req-mono">
             <span>Posted ${esc(r.age || 'recently')}</span>
             <span class="sep">·</span>
-            <span>${esc(r.cat || '—')}</span>
+            <span>${esc(r.cat || '-')}</span>
             <span class="sep">·</span>
             <span style="color:var(--ink);font-weight:500">${respCount > 0 ? '★ ' : ''}${respTxt}</span>
           </div>
@@ -1448,7 +1448,7 @@ function renderClientMode(user, firstName) {
   }
   leftHtml += '</section>';
 
-  // Recent activity — merge bookings + responses chronologically
+  // Recent activity - merge bookings + responses chronologically
   const activityItems = [];
   allResponses.forEach(({ req, resp }) => {
     activityItems.push({
@@ -1468,7 +1468,7 @@ function renderClientMode(user, firstName) {
       dot: isPast ? 'muted' : '',
       html: (isPast ? 'Booking with <strong>' : 'Booking requested · <strong>') + esc(b.providerName) + '</strong>' +
         (b.service ? ' · ' + esc(b.service) : '') +
-        (isPast && b.escrow === 'held' ? ' — confirm to release £' + esc(b.price) : ''),
+        (isPast && b.escrow === 'held' ? ' - confirm to release £' + esc(b.price) : ''),
       cta: '/provider.html#' + esc(b.providerId),
       ctaLabel: isPast && b.escrow === 'held' ? 'Vouch & release' : 'View',
     });
@@ -1492,7 +1492,7 @@ function renderClientMode(user, firstName) {
   const right = document.getElementById('rightColSlot');
   let rightHtml = '';
 
-  // Vouch prompt — for completed bookings still in escrow
+  // Vouch prompt - for completed bookings still in escrow
   const awaitingVouch = past.filter(b => b.escrow === 'held');
   if (awaitingVouch.length) {
     const v = awaitingVouch[0];
@@ -1501,7 +1501,7 @@ function renderClientMode(user, firstName) {
       <div class="vouch-anchor">
         <div class="vouch-eye">Someone's waiting on your word</div>
         <h3>${esc((v.providerName||'').split(' ')[0])} ${v.service ? 'did your ' + esc(v.service) : 'completed your booking'}<br>on <em>${v.date ? esc(new Date(v.date).toLocaleDateString('en-GB', { weekday:'long' })) : 'recently'}.</em></h3>
-        <p>Confirm the work was done and leave a vouch — it releases the £${esc(v.price)} held in escrow and gives them a named, public reference for their next booking.</p>
+        <p>Confirm the work was done and leave a vouch - it releases the £${esc(v.price)} held in escrow and gives them a named, public reference for their next booking.</p>
         <div class="vp-who">
           <div class="vp-av">${esc(v.providerInitials || '?')}</div>
           <div>
@@ -1578,7 +1578,7 @@ function renderProviderMode(user, firstName) {
   // Pull data
   let allReqs = [];
   let bookings = [];
-  let myResponses = [];  // responses I've sent (no current tracking — placeholder for empty state)
+  let myResponses = [];  // responses I've sent (no current tracking - placeholder for empty state)
   try {
     allReqs  = JSON.parse(localStorage.getItem('sowo_r') || '[]');
     bookings = JSON.parse(localStorage.getItem('sowo_bookings') || '[]');
@@ -1589,7 +1589,7 @@ function renderProviderMode(user, firstName) {
     ? allReqs.filter(r => (r.cat || '').toLowerCase() === cat.toLowerCase())
     : [];
 
-  // Bookings as the provider — we don't have a stable provider id, so match by name
+  // Bookings as the provider - we don't have a stable provider id, so match by name
   const myFullName = (user && (user.firstName + (user.lastName ? ' ' + user.lastName : ''))) || '';
   const incomingBookings = bookings.filter(b =>
     (b.providerName || '').toLowerCase() === myFullName.toLowerCase()
@@ -1601,7 +1601,7 @@ function renderProviderMode(user, firstName) {
     '<a href="/become-provider.html" class="btn btn-quiet">Edit listing</a>' +
     (cat ? '<a href="/requests.html" class="btn btn-ink">See all requests</a>' : '<a href="/become-provider.html" class="btn btn-ink">Finish your listing</a>');
 
-  // Sidebar badges — provider context: incoming-matching count, incoming bookings, listing live = 1
+  // Sidebar badges - provider context: incoming-matching count, incoming bookings, listing live = 1
   dsSetBadge('dsBookingBadge', incomingBookings.length);
   dsSetBadge('dsSavedBadge',   0);                     // saved isn't relevant for providers
   dsSetBadge('dsReqBadge',     matching.length);       // "Requests" now means matching incoming
@@ -1631,7 +1631,7 @@ function renderProviderMode(user, firstName) {
           '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Top match · ' + esc(r.cat) + ' · ' + esc(r.age || 'recently') + '</div>' +
           '<div style="font-family:var(--serif);font-size:24px;letter-spacing:-.02em;line-height:1.15;margin-bottom:8px">' + esc(r.title || 'Untitled request') + '</div>' +
           '<div style="font-size:13.5px;color:rgba(245,240,232,.7);line-height:1.55;margin-bottom:10px">' + esc((r.desc||'').slice(0,180)) + ((r.desc||'').length>180?'…':'') + '</div>' +
-          '<div style="display:flex;gap:14px;font-size:12px;color:rgba(245,240,232,.55)"><span>📍 ' + esc(r.loc || '—') + '</span>' +
+          '<div style="display:flex;gap:14px;font-size:12px;color:rgba(245,240,232,.55)"><span>📍 ' + esc(r.loc || '-') + '</span>' +
           (r.budget ? '<span>💷 ' + esc(r.budget) + '</span>' : '') +
           (respCount > 0 ? '<span>★ ' + respCount + ' other response' + (respCount>1?'s':'') + '</span>' : '<span style="color:var(--gl)">★ Be the first to reply</span>') +
           '</div>' +
@@ -1642,7 +1642,7 @@ function renderProviderMode(user, firstName) {
         '</div>' +
       '</div>';
   } else {
-    // Listing live but no matches yet — or listing in draft
+    // Listing live but no matches yet - or listing in draft
     if (cat) {
       focal.innerHTML =
         '<div style="background:var(--ink);color:var(--paper);padding:36px;border-radius:14px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:24px">' +
@@ -1662,14 +1662,14 @@ function renderProviderMode(user, firstName) {
           '<div>' +
             '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,240,232,.55);margin-bottom:8px">Finish your listing</div>' +
             '<div style="font-family:var(--serif);font-size:26px;letter-spacing:-.02em;line-height:1.15;margin-bottom:10px">Your listing is saved as a draft.</div>' +
-            '<div style="font-size:14px;color:rgba(245,240,232,.65);max-width:480px;line-height:1.55">Pick a category, add a bio and price range to publish — then clients can find and book you.</div>' +
+            '<div style="font-size:14px;color:rgba(245,240,232,.65);max-width:480px;line-height:1.55">Pick a category, add a bio and price range to publish - then clients can find and book you.</div>' +
           '</div>' +
           '<a href="/become-provider.html" style="background:var(--a);color:var(--ink);padding:13px 24px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;align-self:start">Finish &amp; publish</a>' +
         '</div>';
     }
   }
 
-  // No escrow/Sowo Pocket on provider side (yet) — earnings would go here
+  // No escrow/Sowo Pocket on provider side (yet) - earnings would go here
   document.getElementById('escrowSlot').innerHTML = '';
 
   /* ── LEFT COLUMN: Incoming requests + Upcoming bookings (clients booking me) ── */
@@ -1711,7 +1711,7 @@ function renderProviderMode(user, firstName) {
         const when = b.date ? new Date(b.date).toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : 'soon';
         return '<div class="act"><div class="when">' + esc(when) + (b.time ? ' · ' + esc(b.time) : '') + '</div>' +
           '<div class="dot-wrap"><div class="dot"></div></div>' +
-          '<div class="txt">Booking · <strong>' + esc(b.service || 'Service') + '</strong>' + (b.price ? ' — £' + esc(b.price) + ' held in escrow' : '') + '</div>' +
+          '<div class="txt">Booking · <strong>' + esc(b.service || 'Service') + '</strong>' + (b.price ? ' - £' + esc(b.price) + ' held in escrow' : '') + '</div>' +
           '<a href="/provider.html" class="cta">View</a>' +
         '</div>';
       }).join('');
@@ -1750,7 +1750,7 @@ function renderProviderMode(user, firstName) {
   }
   rightHtml += '</div></section>';
 
-  // Quick stats — honest numbers we actually have
+  // Quick stats - honest numbers we actually have
   rightHtml += '<section class="d-section"><div class="d-section-head"><h2>Quick <em>stats</em></h2></div>';
   rightHtml += '<div style="background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 18px">' +
     '<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)"><span style="font-size:13px;color:var(--muted)">Matching requests</span><span style="font-family:var(--serif);font-size:22px;color:var(--ink)">' + matching.length + '</span></div>' +

@@ -300,7 +300,7 @@ const CATEGORY_ICONS = {
 const PROVIDER_CATEGORIES = Object.keys(CATEGORY_ICONS);
 
 function init() {
-  // 1. Pre-fill from a saved local draft synchronously — never blocks paint.
+  // 1. Pre-fill from a saved local draft synchronously - never blocks paint.
   try {
     const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
     if (draft) {
@@ -341,7 +341,7 @@ async function hydrateFromSessionInBackground() {
   try {
     const res = await withTimeout(sb.auth.getSession(), 4000);
     session = res?.data?.session || null;
-  } catch(e) { return; /* timed out or errored — silent fallback to draft mode */ }
+  } catch(e) { return; /* timed out or errored - silent fallback to draft mode */ }
 
   if (!session?.user) return;
   currentUser = session.user;
@@ -456,7 +456,7 @@ function stepProfile() {
       <div class="hint">Lowest to highest price across your services. Helps clients budget at a glance.</div>
     </div>
     <div class="field">
-      <label>Skills &amp; specialisms <span style="color:var(--t3);font-weight:400">(optional — shown as tags on your profile)</span></label>
+      <label>Skills &amp; specialisms <span style="color:var(--t3);font-weight:400">(optional - shown as tags on your profile)</span></label>
       <div class="skills-input-wrap">
         <input type="text" id="skillInput" placeholder="e.g. 4C natural hair, locs, silk press" onkeydown="if(event.key==='Enter'){event.preventDefault();addSkill()}">
         <button class="add-skill-btn" onclick="addSkill()">+ Add</button>
@@ -599,7 +599,7 @@ function previewPhoto(input) {
 }
 
 async function submitProfile() {
-  // Not logged in — save draft and show account gate
+  // Not logged in - save draft and show account gate
   if (!currentUser) {
     try {
       const draft = {
@@ -616,7 +616,7 @@ async function submitProfile() {
     return;
   }
 
-  // Logged in — publish now
+  // Logged in - publish now
   const btn=document.getElementById('submitBtn');
   UI.setLoading(btn,true);
   try {
@@ -648,7 +648,7 @@ async function submitProfile() {
   }
 }
 
-/* STEP 4 — Gate (not logged in) */
+/* STEP 4 - Gate (not logged in) */
 function stepGate() {
   const cat   = formData.category || 'your services';
   const trade = formData.trade || '';
@@ -687,7 +687,7 @@ function stepGate() {
     </div>`;
 }
 
-/* STEP 5 — Success (logged in, published) */
+/* STEP 5 - Success (logged in, published) */
 function stepSuccess() {
   localStorage.removeItem('sowo_provider_draft');
   return `
@@ -708,7 +708,7 @@ function goNext() { renderStep(currentStep+1); }
     try {
       const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
       if (draft) {
-        // pre-fill will happen in init() — nothing extra needed here
+        // pre-fill will happen in init() - nothing extra needed here
       }
     } catch(e) {}
   }
