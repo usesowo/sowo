@@ -984,15 +984,109 @@ if(!owner) {
       }).join('');
 }
 
-/* ── Respond CTA sidebar ── */
-document.getElementById('respondSub').textContent =
-  `This person is looking for a ${R.cat} in ${R.loc}. If that's you, introduce yourself.`;
-document.getElementById('matchRows').innerHTML =
-  (R.matchHints || []).map(h => `
-    <div class="match-row">
-      <svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>
-      ${h}
-    </div>`).join('');
+/* ── Sidebar: provider CTAs vs owner controls ── */
+if (owner) {
+  // OWNER VIEW: replace respond/message buttons with edit/delete + response summary
+  const respondCard = document.querySelector('.respond-card');
+  const respCount = (R.responses || []).length;
+  if (respondCard) {
+    respondCard.innerHTML = `
+      <div class="respond-card-title">Your request</div>
+      <div class="respond-card-sub">${respCount === 0
+        ? 'No responses yet. You\'ll see them here as providers reply.'
+        : '<strong style="color:#fff">' + respCount + ' provider' + (respCount>1?'s have':' has') + ' responded.</strong> Reply to start a conversation.'}</div>
+      <button class="btn-respond" onclick="openEditModal()" style="background:#F3F0E9;color:#1A1614">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit request
+      </button>
+      <button class="btn-respond-msg" onclick="deleteRequest()" style="color:rgba(255,150,150,0.85);border-color:rgba(255,100,100,0.25)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+        Delete request
+      </button>
+      <div class="respond-note">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Only you can see who's responded
+      </div>`;
+  }
+  // Hide the match-card ("You might be a good fit") — irrelevant for owner
+  const matchCard = document.getElementById('matchCard');
+  if (matchCard) matchCard.style.display = 'none';
+} else {
+  // PROVIDER / VISITOR VIEW: keep the original CTA copy
+  document.getElementById('respondSub').textContent =
+    `This person is looking for a ${R.cat} in ${R.loc}. If that's you, introduce yourself.`;
+  document.getElementById('matchRows').innerHTML =
+    (R.matchHints || []).map(h => `
+      <div class="match-row">
+        <svg viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>
+        ${h}
+      </div>`).join('');
+}
+
+/* ── Edit / Delete handlers (owner only) ── */
+function openEditModal() {
+  const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+  const liveR = stored.find(r => r.id === R.id) || R;
+  const html = `
+    <div class="overlay open" id="editOv" onclick="if(event.target===this){closeEditModal()}" style="display:flex">
+      <div class="modal" style="max-width:520px">
+        <div class="modal-head">
+          <div class="modal-title">Edit your request</div>
+          <button class="modal-x" onclick="closeEditModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="field"><label>Headline</label><input id="ed_title" maxlength="80" value="${(liveR.title||'').replace(/"/g,'&quot;')}"></div>
+          <div class="field"><label>Details</label><textarea id="ed_desc" style="min-height:90px">${(liveR.desc||'').replace(/</g,'&lt;')}</textarea></div>
+          <div class="field"><label>Location</label><input id="ed_loc" value="${(liveR.loc||'').replace(/"/g,'&quot;')}"></div>
+          <div style="display:flex;gap:10px">
+            <div class="field" style="flex:1"><label>Budget</label><input id="ed_budget" value="${(liveR.budget||'').replace(/"/g,'&quot;')}"></div>
+            <div class="field" style="flex:1"><label>Timing</label><input id="ed_timing" value="${(liveR.timing||'').replace(/"/g,'&quot;')}"></div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-back" onclick="closeEditModal()">Cancel</button>
+            <button class="btn-next" onclick="saveEdits()">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
+}
+function closeEditModal() {
+  const ov = document.getElementById('editOv');
+  if (ov) ov.remove();
+  document.body.style.overflow = '';
+}
+function saveEdits() {
+  const get = id => document.getElementById(id)?.value.trim() || '';
+  const title  = get('ed_title');
+  const desc   = get('ed_desc');
+  const loc    = get('ed_loc');
+  const budget = get('ed_budget');
+  const timing = get('ed_timing');
+  if (!title) { alert('Headline is required'); return; }
+  try {
+    const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    const idx = stored.findIndex(r => r.id === R.id);
+    if (idx !== -1) {
+      stored[idx] = Object.assign({}, stored[idx], { title, desc, loc, budget, timing });
+      localStorage.setItem('sowo_r', JSON.stringify(stored));
+    }
+  } catch(e) {}
+  showToast('Request updated');
+  setTimeout(() => window.location.reload(), 600);
+}
+function deleteRequest() {
+  if (!confirm('Delete this request? This cannot be undone.')) return;
+  try {
+    const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
+    const filtered = stored.filter(r => r.id !== R.id);
+    localStorage.setItem('sowo_r', JSON.stringify(filtered));
+    const owned = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
+    localStorage.setItem('sowo_my_requests', JSON.stringify(owned.filter(id => id !== R.id)));
+  } catch(e) {}
+  window.location.href = '/requests.html';
+}
 
 /* ── Share ── */
 document.getElementById('shareUrlText').textContent = reqUrl;
