@@ -351,6 +351,9 @@
 .pr-cat-btn{padding:7px 14px;border-radius:999px;font-size:13px;font-weight:500;border:1.5px solid #e5e7eb;background:#f9fafb;color:#555;cursor:pointer;transition:all .13s}
 .pr-cat-btn:hover{border-color:#085041;color:#085041}
 .pr-cat-btn.sel{background:#085041;color:#9FE1CB;border-color:#085041}
+.pr-pref-btn{padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:500;border:1.5px solid #e5e7eb;background:#f9fafb;color:#555;cursor:pointer;transition:all .13s;font-family:inherit}
+.pr-pref-btn:hover{border-color:#085041;color:#085041}
+.pr-pref-btn.sel{background:#0A6647;color:#9FE1CB;border-color:#0A6647}
 .pr-row{display:flex;gap:10px}
 .pr-row .pr-field{flex:1}
 .pr-actions{display:flex;gap:8px;margin-top:6px}
@@ -577,12 +580,26 @@ document.addEventListener('keydown', function(e){
   if (e.key === 'Escape' && document.getElementById('prOverlay').classList.contains('open')) closePostRequest();
 });
 function prBack() { PR_STEP--; prRender(); }
+var PR_PREFS = ['Speaks my language','Verified only','Female provider','Male provider','Same-day','Mobile / comes to me','Eco-friendly','DBS checked','Student-friendly'];
+
 function prPersist() {
   var g = function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
+  if(g('prTitle'))  PR_DATA.title    = g('prTitle');
   if(g('prDesc'))   PR_DATA.desc     = g('prDesc');
   if(g('prLoc'))    PR_DATA.location = g('prLoc');
   if(g('prBudget')) PR_DATA.budget   = g('prBudget');
   if(g('prTiming')) PR_DATA.timing   = g('prTiming');
+  var contactEl = document.querySelector('input[name="prContact"]:checked');
+  if (contactEl) PR_DATA.contact = contactEl.value;
+}
+function prTogglePref(p) {
+  PR_DATA.prefs = PR_DATA.prefs || [];
+  var i = PR_DATA.prefs.indexOf(p);
+  if (i >= 0) PR_DATA.prefs.splice(i, 1);
+  else PR_DATA.prefs.push(p);
+  document.querySelectorAll('.pr-pref-btn').forEach(function(b){
+    b.classList.toggle('sel', PR_DATA.prefs.indexOf(b.dataset.pref) >= 0);
+  });
 }
 function prSelectCat(cat) {
   PR_DATA.category = cat;
@@ -614,18 +631,39 @@ function prStep0() {
     '<div class="pr-field"><label>What category?</label><div class="pr-cats">'+
     PR_CATS.map(function(c){ return '<button class="pr-cat-btn" data-cat="'+c+'" onclick="prSelectCat(\''+c.replace(/'/g,"\\'")+'\')">' +c+'</button>'; }).join('')+
     '</div></div>'+
-    '<div class="pr-field" style="margin-top:14px"><label>Describe what you need</label>'+
-    '<textarea id="prDesc" placeholder="e.g. Looking for a makeup artist for my wedding in June…">'+(PR_DATA.desc||'')+'</textarea></div>'+
+    '<div class="pr-field" style="margin-top:14px"><label>Sum it up in one line <span style="text-transform:none;letter-spacing:0;font-weight:400">(this is your headline)</span></label>'+
+    '<input id="prTitle" maxlength="80" placeholder="e.g. Bridal makeup artist for June wedding" value="'+(PR_DATA.title||'').replace(/"/g,'&quot;')+'"></div>'+
+    '<div class="pr-field"><label>Add details</label>'+
+    '<textarea id="prDesc" placeholder="e.g. I have deep brown skin and prefer a natural glam look. Wedding in Hackney, ~80 guests…">'+(PR_DATA.desc||'')+'</textarea></div>'+
     '<div class="pr-actions"><button id="prNextBtn0" class="pr-btn-next" '+(PR_DATA.category?'':'disabled')+' onclick="prNextFromStep0()">Continue</button></div>';
 }
-function prNextFromStep0() { prPersist(); if(!PR_DATA.category) return; PR_STEP=1; prRender(); }
+function prNextFromStep0() {
+  prPersist();
+  if(!PR_DATA.category) return;
+  if(!PR_DATA.title){ var el=document.getElementById('prTitle'); if(el){el.focus();el.style.borderColor='#ef4444';setTimeout(function(){el.style.borderColor='';},1800);} return; }
+  PR_STEP=1; prRender();
+}
 function prStep1() {
+  PR_DATA.prefs = PR_DATA.prefs || [];
+  PR_DATA.contact = PR_DATA.contact || 'Message on Sowo';
+  var prefsHtml = PR_PREFS.map(function(p){
+    var sel = PR_DATA.prefs.indexOf(p) >= 0 ? ' sel' : '';
+    return '<button type="button" class="pr-pref-btn'+sel+'" data-pref="'+p+'" onclick="prTogglePref(\''+p.replace(/'/g,"\\'")+'\')">'+p+'</button>';
+  }).join('');
+  var contactRadios = ['Message on Sowo','WhatsApp','Either works'].map(function(c){
+    var checked = PR_DATA.contact === c ? ' checked' : '';
+    return '<label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:9px;background:#f9fafb;cursor:pointer;font-size:13px;flex:1;justify-content:center"><input type="radio" name="prContact" value="'+c+'"'+checked+' style="margin:0;accent-color:#085041">'+c+'</label>';
+  }).join('');
   return '<p style="font-size:13.5px;color:#6b7280;margin-bottom:20px;line-height:1.55">Help providers understand your needs.</p>'+
     '<div class="pr-field"><label>Your location</label><input id="prLoc" placeholder="e.g. Hackney, London" value="'+(PR_DATA.location||'')+'"></div>'+
     '<div class="pr-row">'+
     '<div class="pr-field"><label>Budget <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label><input id="prBudget" placeholder="e.g. £30–£60" value="'+(PR_DATA.budget||'')+'"></div>'+
     '<div class="pr-field"><label>Timing <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label><input id="prTiming" placeholder="e.g. This week" value="'+(PR_DATA.timing||'')+'"></div>'+
     '</div>'+
+    '<div class="pr-field"><label>Preferences <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional — tap any that apply)</span></label>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:2px">'+prefsHtml+'</div></div>'+
+    '<div class="pr-field"><label>How should they reach you?</label>'+
+    '<div style="display:flex;gap:6px;margin-top:2px">'+contactRadios+'</div></div>'+
     '<div class="pr-actions"><button class="pr-btn-back" onclick="prBack()">Back</button><button class="pr-btn-next" onclick="prNextFromStep1()">Review request</button></div>';
 }
 function prNextFromStep1() {
@@ -634,9 +672,12 @@ function prNextFromStep1() {
   PR_STEP=2; prRender();
 }
 function prStep2() {
-  var rows=[['Category',PR_DATA.category||'—'],['Description',PR_DATA.desc||'—'],['Location',PR_DATA.location||'—']];
+  var rows=[['Headline',PR_DATA.title||'—'],['Category',PR_DATA.category||'—'],['Location',PR_DATA.location||'—']];
+  if(PR_DATA.desc)   rows.push(['Details',PR_DATA.desc]);
   if(PR_DATA.budget) rows.push(['Budget',PR_DATA.budget]);
   if(PR_DATA.timing) rows.push(['Timing',PR_DATA.timing]);
+  if(PR_DATA.prefs && PR_DATA.prefs.length) rows.push(['Preferences', PR_DATA.prefs.join(' · ')]);
+  rows.push(['Contact', PR_DATA.contact||'Message on Sowo']);
   return '<p style="font-size:13.5px;color:#6b7280;margin-bottom:20px;line-height:1.55">This is how your request will appear.</p>'+
     '<div class="pr-rev">'+rows.map(function(r){ return '<div class="pr-rev-row"><span class="pr-rk">'+r[0]+'</span><span class="pr-rv">'+r[1].replace(/</g,'&lt;')+'</span></div>'; }).join('')+'</div>'+
     '<div class="pr-actions" style="flex-direction:column;gap:8px">'+
@@ -654,10 +695,11 @@ function prGate() {
   var count=PR_DRAFTS.length;
   var signupUrl='/signup.html?next=post', loginUrl='/login.html?next=post';
   var listHtml=PR_DRAFTS.map(function(d,i){
-    var desc=d.desc?d.desc.slice(0,50)+(d.desc.length>50?'…':''):'';
+    var headline = d.title || d.category || 'New request';
+    var sub = (d.category?d.category:'') + (d.location?(d.category?' · ':'')+d.location:'');
     return '<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;'+(i<PR_DRAFTS.length-1?'border-bottom:1px solid #f3f4f6;':'')+'">'+
       '<div style="width:22px;height:22px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">'+(i+1)+'</div>'+
-      '<div><div style="font-size:13px;font-weight:700;color:#111">'+(d.category||'—')+(d.location?' · '+d.location:'')+'</div>'+(desc?'<div style="font-size:12px;color:#9ca3af;margin-top:1px">'+desc.replace(/</g,'&lt;')+'</div>':'')+'</div>'+
+      '<div><div style="font-size:13px;font-weight:700;color:#111">'+headline.replace(/</g,'&lt;')+'</div>'+(sub?'<div style="font-size:12px;color:#9ca3af;margin-top:1px">'+sub.replace(/</g,'&lt;')+'</div>':'')+'</div>'+
       '<button onclick="prRemoveDraft('+i+')" style="margin-left:auto;background:none;border:none;font-size:13px;color:#d1d5db;cursor:pointer;flex-shrink:0;padding:2px 4px" title="Remove">✕</button></div>';
   }).join('');
   return '<div class="pr-gate">'+

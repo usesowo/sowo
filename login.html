@@ -390,14 +390,15 @@ function resolveNextDestination() {
           const id = 'req-u-' + (now + i);
           stored.unshift({
             id,
-            cat:   d.category || 'Other',
-            title: (d.desc || d.category || 'New request').split('\n')[0].slice(0, 80),
-            loc:   d.location || '',
-            age:   'just now',
-            desc:  d.desc || '',
+            cat:    d.category || 'Other',
+            title:  d.title || (d.desc || d.category || 'New request').split('\n')[0].slice(0, 80),
+            loc:    d.location || '',
+            age:    'just now',
+            desc:   d.desc || '',
             budget: d.budget || '',
             timing: d.timing || '',
-            prefs: [],
+            prefs:  Array.isArray(d.prefs) ? d.prefs : [],
+            contact: d.contact || 'Message on Sowo',
             responses: [],
           });
           owned.push(id);
