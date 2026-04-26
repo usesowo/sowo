@@ -6,10 +6,10 @@
 <title>Request - Sowo</title>
 <meta name="description" content="View service request details and respond as a provider.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,400;9..144,1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:     #FAF8F4;
+  --bg:     #F5F0E8;
   --card:   #FFFFFF;
   --tp:     #1A1614;
   --ts:     rgba(26,22,20,0.68);
@@ -38,21 +38,21 @@ button { font-family:inherit; cursor:pointer; border:none; background:none; colo
 /* ── STANDARD NAV ── */
 nav {
   position:sticky; top:0; left:0; right:0; z-index:500;
-  height:68px; padding:0 40px;
+  padding:20px 40px;
   display:flex; align-items:center; justify-content:space-between;
-  background:#fff; border-bottom:1px solid var(--border);
+  background:rgba(245,240,232,.97); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
 }
-.nav-logo { display:flex; align-items:center; gap:8px; font-weight:800; font-size:1.1rem; color:#0A0A0A; text-decoration:none }
-.nav-links { display:flex; gap:24px }
-.nav-links a { font-size:13px; font-weight:500; color:#555; text-decoration:none; transition:color .15s }
-.nav-links a:hover { color:#0A0A0A }
-.nav-auth { font-size:13px; font-weight:600; color:#555; text-decoration:none; transition:color .15s }
-.nav-auth:hover { color:#0A0A0A }
+.nav-logo { display:flex; align-items:center; gap:10px; font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:22px; letter-spacing:-.02em; color:#0A0A0A; text-decoration:none }
+.nav-links { display:flex; gap:28px }
+.nav-links a { font-size:13px; font-weight:500; color:var(--ts); text-decoration:none; transition:color .15s }
+.nav-links a:hover { color:#085041 }
+.nav-auth { font-size:13px; font-weight:500; color:var(--ts); text-decoration:none; transition:color .15s }
+.nav-auth:hover { color:#085041 }
 /* Auth nav */
 .nav-user{position:relative;display:none}
 .nav-user.visible{display:flex;align-items:center}
-.nav-avatar{width:34px;height:34px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s;background-size:cover;background-position:center;user-select:none;flex-shrink:0}
-.nav-avatar:hover{border-color:#085041}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid #EF9F27;background-size:cover;background-position:center;user-select:none;flex-shrink:0}
 .nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:200px;padding:6px;z-index:999;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s}
 .nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
 .nav-dd-info{padding:10px 12px 8px;border-bottom:1px solid #f3f4f6;margin-bottom:4px}
@@ -62,15 +62,15 @@ nav {
 .nav-dd-item:hover{background:#f9fafb;color:#085041}
 .nav-dd-item.danger{color:#dc2626}
 .nav-dd-item.danger:hover{background:#fff5f5}
-.nav-cta { height:38px; padding:0 16px; background:#085041; color:#9FE1CB; border-radius:10px; font-size:13px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; transition:background .15s }
-.nav-cta:hover { background:#063D31 }
+.nav-cta { padding:10px 18px; background:#0A0A0A; color:#F5F0E8; border-radius:999px; font-size:13px; font-weight:500; text-decoration:none; display:inline-flex; align-items:center; transition:background .15s }
+.nav-cta:hover { background:#085041 }
 
 /* ── TOPBAR (kept for share button) ── */
 .tb-right { display:flex; align-items:center; gap:8px }
 .tb-btn {
   display:flex; align-items:center; gap:6px;
   height:36px; padding:0 15px; border-radius:9px;
-  border:1.5px solid var(--border); font-size:13px; font-weight:600; color:var(--ts);
+  border:1px solid var(--border); font-size:13px; font-weight:600; color:var(--ts);
   background:var(--card); transition:border-color .13s, color .13s;
 }
 .tb-btn:hover { border-color:var(--bh); color:var(--tp) }
@@ -120,7 +120,7 @@ footer ul li a:hover { color:#fff }
   color:rgba(29,158,117,0.90); background:rgba(29,158,117,0.10); border:1px solid rgba(29,158,117,0.22);
 }
 .req-title {
-  font-family:'Lora',Georgia,serif; font-size:32px; font-weight:600;
+  font-family:'Fraunces',Georgia,serif; font-size:32px; font-weight:600;
   letter-spacing:-.025em; line-height:1.15; color:#F3F0E9;
   margin-bottom:16px; max-width:580px;
 }
@@ -168,14 +168,14 @@ footer ul li a:hover { color:#fff }
 
 /* ── SECTION CARDS ── */
 .sec {
-  background:var(--card); border:1.5px solid var(--border); border-radius:16px;
+  background:var(--card); border:1px solid var(--border); border-radius:16px;
   box-shadow:0 2px 12px rgba(26,22,20,0.05); overflow:hidden;
 }
-.sec-head { padding:20px 24px 0; font-family:'Lora',Georgia,serif; font-size:17px; font-weight:600; letter-spacing:-.01em }
+.sec-head { padding:20px 24px 0; font-family:'Fraunces',Georgia,serif; font-size:17px; font-weight:600; letter-spacing:-.01em }
 .sec-body { padding:16px 24px 24px }
 
 /* Details */
-.detail-text { font-size:14.5px; color:var(--ts); line-height:1.80; margin-bottom:20px }
+.detail-text { font-size:15px; color:var(--ts); line-height:1.80; margin-bottom:20px }
 .detail-text.placeholder { color:var(--tm); font-style:italic }
 .chips { display:flex; flex-wrap:wrap; gap:7px }
 .chip {
@@ -243,7 +243,7 @@ footer ul li a:hover { color:#fff }
 .resp-view:hover { background:#000 }
 .resp-msg-btn {
   height:34px; padding:0 14px; border-radius:8px;
-  border:1.5px solid var(--border); font-size:12.5px; font-weight:600; color:var(--ts); background:var(--bg);
+  border:1px solid var(--border); font-size:12.5px; font-weight:600; color:var(--ts); background:var(--bg);
   transition:border-color .13s;
 }
 .resp-msg-btn:hover { border-color:var(--bh) }
@@ -263,7 +263,7 @@ footer ul li a:hover { color:#fff }
 .reply-time { font-size:11px; color:var(--tm); margin-top:3px }
 .reply-form { margin-top:8px; display:flex; gap:8px; align-items:flex-end }
 .reply-form textarea {
-  flex:1; min-height:60px; border-radius:9px; border:1.5px solid var(--border);
+  flex:1; min-height:60px; border-radius:9px; border:1px solid var(--border);
   padding:9px 12px; font-size:13px; line-height:1.55; resize:none;
   background:var(--bg); color:var(--tp); font-family:'Inter',sans-serif;
   transition:border-color .13s;
@@ -284,7 +284,7 @@ footer ul li a:hover { color:#fff }
   box-shadow:0 8px 28px rgba(26,22,20,0.18);
 }
 .respond-card-title {
-  font-family:'Lora',Georgia,serif; font-size:17px; font-weight:600;
+  font-family:'Fraunces',Georgia,serif; font-size:17px; font-weight:600;
   color:#FAF8F4; margin-bottom:4px;
 }
 .respond-card-sub { font-size:13px; color:rgba(250,248,244,0.55); margin-bottom:20px; line-height:1.5 }
@@ -333,13 +333,13 @@ footer ul li a:hover { color:#fff }
 
 /* Share card */
 .share-card {
-  background:var(--card); border:1.5px solid var(--border);
+  background:var(--card); border:1px solid var(--border);
   border-radius:14px; padding:18px 20px;
 }
 .share-label { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--tm); margin-bottom:11px }
 .share-url {
   display:flex; align-items:center;
-  background:var(--bg); border:1.5px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:10px;
+  background:var(--bg); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:10px;
 }
 .share-url-text {
   flex:1; padding:10px 12px; font-size:12px; color:var(--ts); font-weight:500;
@@ -371,7 +371,7 @@ footer ul li a:hover { color:#fff }
 .overlay.open { opacity:1; pointer-events:all }
 .modal {
   width:100%; max-width:480px; background:#fff;
-  border:1.5px solid var(--border); border-radius:20px;
+  border:1px solid var(--border); border-radius:20px;
   box-shadow:0 28px 72px rgba(26,22,20,0.18);
   transform:translateY(16px) scale(.984); transition:transform .28s var(--ease);
   max-height:92vh; overflow-y:auto;
@@ -380,7 +380,7 @@ footer ul li a:hover { color:#fff }
 .modal-head {
   padding:22px 24px 0; display:flex; align-items:center; justify-content:space-between;
 }
-.modal-title { font-family:'Lora',Georgia,serif; font-size:20px; font-weight:600 }
+.modal-title { font-family:'Fraunces',Georgia,serif; font-size:20px; font-weight:600 }
 .modal-x {
   width:30px; height:30px; border-radius:8px; background:var(--s1); border:1px solid var(--border);
   display:flex; align-items:center; justify-content:center;
@@ -401,7 +401,7 @@ footer ul li a:hover { color:#fff }
 .field span.opt { text-transform:none; letter-spacing:0; font-weight:400; color:var(--tm) }
 .field input, .field textarea, .field select {
   width:100%; padding:11px 13px; border-radius:9px;
-  background:var(--bg); border:1.5px solid var(--border);
+  background:var(--bg); border:1px solid var(--border);
   font-size:13.5px; color:var(--tp); outline:none; transition:border-color .14s;
 }
 .field input:focus, .field textarea:focus, .field select:focus { border-color:rgba(26,22,20,0.30); background:#fff }
@@ -410,7 +410,7 @@ footer ul li a:hover { color:#fff }
 .modal-actions { display:flex; gap:8px; margin-top:4px }
 .btn-back {
   height:44px; padding:0 16px; border-radius:9px;
-  border:1.5px solid var(--border); font-size:13.5px; font-weight:600; color:var(--ts); background:var(--bg);
+  border:1px solid var(--border); font-size:13.5px; font-weight:600; color:var(--ts); background:var(--bg);
 }
 .btn-next {
   flex:1; height:44px; border-radius:9px;
@@ -426,7 +426,7 @@ footer ul li a:hover { color:#fff }
 .btn-submit-msg:hover { background:#000 }
 
 /* Review box */
-.rev-box { border:1.5px solid var(--border); border-radius:11px; overflow:hidden; margin-bottom:18px }
+.rev-box { border:1px solid var(--border); border-radius:11px; overflow:hidden; margin-bottom:18px }
 .rev-row { display:flex; align-items:flex-start; justify-content:space-between; padding:11px 14px; border-bottom:1px solid var(--border) }
 .rev-row:last-child { border-bottom:none }
 .rk { font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--tm); padding-top:1px }
@@ -439,11 +439,11 @@ footer ul li a:hover { color:#fff }
   display:flex; align-items:center; justify-content:center; margin:0 auto 18px;
 }
 .sc-ic svg { width:22px; height:22px; stroke:var(--teal); fill:none; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round }
-.sc-h { font-family:'Lora',Georgia,serif; font-size:21px; font-weight:600; margin-bottom:8px }
+.sc-h { font-family:'Fraunces',Georgia,serif; font-size:21px; font-weight:600; margin-bottom:8px }
 .sc-p { font-size:13.5px; color:var(--ts); line-height:1.65; margin-bottom:16px; max-width:320px; margin-left:auto; margin-right:auto }
 .sms-confirm { display:flex; align-items:center; gap:7px; justify-content:center; font-size:12.5px; font-weight:600; color:#0A6647; background:rgba(15,122,88,0.09); border:1px solid rgba(15,122,88,0.18); border-radius:8px; padding:9px 14px; margin:0 auto 20px; max-width:280px }
 .nudge {
-  padding:18px; border-radius:12px; background:var(--bg); border:1.5px solid var(--border); text-align:left;
+  padding:18px; border-radius:12px; background:var(--bg); border:1px solid var(--border); text-align:left;
 }
 .nudge-t { font-size:13.5px; font-weight:700; margin-bottom:5px }
 .nudge-s { font-size:12.5px; color:var(--ts); line-height:1.55; margin-bottom:14px }
@@ -453,7 +453,7 @@ footer ul li a:hover { color:#fff }
   font-size:13px; font-weight:700;
 }
 .np { background:var(--teal); color:#fff }
-.ns { background:var(--s1); border:1.5px solid var(--border); color:var(--ts) }
+.ns { background:var(--s1); border:1px solid var(--border); color:var(--ts) }
 
 /* ── RESPONSES LOCKED STATE ── */
 .resp-locked {
@@ -462,7 +462,7 @@ footer ul li a:hover { color:#fff }
 }
 .resp-locked-ic {
   width:52px; height:52px; border-radius:14px;
-  background:var(--s1); border:1.5px solid var(--border);
+  background:var(--s1); border:1px solid var(--border);
   display:flex; align-items:center; justify-content:center;
 }
 .resp-locked-ic svg { width:22px; height:22px; stroke:var(--tm); fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round }

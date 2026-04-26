@@ -6,13 +6,13 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <title>Become a Provider | Sowo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,0,700;9..144,1,400;9..144,1,500&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/tokens.css">
 <link rel="stylesheet" href="/css/a11y.css">
 <style>
 :root{
   --green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--amuted:#9A5F0A;
-  --bg:#FAF8F4;--card:#FFFFFF;
+  --bg:#F5F0E8;--card:#FFFFFF;
   --tp:#1A1614;--ts:rgba(26,22,20,0.68);--tm:rgba(26,22,20,0.46);
   --border:rgba(26,22,20,0.10);--bh:rgba(26,22,20,0.20);
   --s1:rgba(26,22,20,0.035);--s2:rgba(26,22,20,0.065);
@@ -25,20 +25,20 @@ html{-webkit-font-smoothing:antialiased}
 body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--tp);min-height:100vh}
 a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer;border:none}
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:#fff;border-bottom:1px solid rgba(26,22,20,0.10);padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(245,240,232,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,22,20,0.10);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{display:flex;align-items:center;gap:8px}
 .logo svg{display:block;flex-shrink:0}
-.logo-wm{font-family:Georgia,serif;font-size:18px;font-weight:700;color:var(--black)}
+.logo-wm{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:600;letter-spacing:-.02em;color:var(--tp)}
 .nav-links{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
-.nav-links a{font-size:13px;font-weight:500;color:var(--t2);white-space:nowrap}
-.nav-links a:hover{color:var(--black)}
-.nav-links a.active{color:var(--green);font-weight:700}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ts);white-space:nowrap;text-decoration:none;transition:color .15s}
+.nav-links a:hover{color:var(--green)}
+.nav-links a.active{color:var(--green);font-weight:600}
 .nav-user{display:flex;align-items:center;gap:10px;flex-shrink:0;margin-left:auto}
 @media(max-width:768px){.nav-links{display:none}}
 .btn-sm{height:36px;padding:0 14px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center}
 .b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal)}
 
-main{margin-top:64px;padding:48px 20px 80px;display:flex;flex-direction:column;align-items:center}
+main{margin-top:77px;padding:48px 20px 80px;display:flex;flex-direction:column;align-items:center}
 
 /* PROGRESS */
 .progress-wrap{width:100%;max-width:640px;margin-bottom:32px}
@@ -58,7 +58,7 @@ main{margin-top:64px;padding:48px 20px 80px;display:flex;flex-direction:column;a
 /* CARD */
 .form-card{width:100%;max-width:640px;background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:36px 40px;box-shadow:0 2px 16px rgba(26,22,20,0.06)}
 .step-head{margin-bottom:28px}
-.step-head h2{font-family:'Lora',Georgia,serif;font-size:24px;font-weight:700;letter-spacing:-.2px;margin-bottom:6px;color:var(--tp)}
+.step-head h2{font-family:'Fraunces',Georgia,serif;font-size:24px;font-weight:700;letter-spacing:-.2px;margin-bottom:6px;color:var(--tp)}
 .step-head p{font-size:14px;color:var(--ts)}
 
 /* FORM ELEMENTS */
@@ -137,14 +137,14 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 /* SUCCESS */
 .success-screen{text-align:center;padding:20px 0}
 .success-icon{font-size:56px;margin-bottom:16px}
-.success-title{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px;color:var(--tp)}
+.success-title{font-family:'Fraunces',Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px;color:var(--tp)}
 .success-msg{font-size:14.5px;color:var(--ts);line-height:1.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
 .btn-dashboard{height:50px;padding:0 32px;background:var(--green);color:var(--mint);border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
 /* GATE */
 .gate-screen{text-align:center;padding:12px 0 4px}
 .gate-ic{width:56px;height:56px;border-radius:16px;background:rgba(8,80,65,0.08);border:1.5px solid rgba(8,80,65,0.18);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
 .gate-ic svg{width:24px;height:24px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.gate-h{font-family:'Lora',Georgia,serif;font-size:22px;font-weight:700;margin-bottom:8px;color:var(--tp)}
+.gate-h{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:700;margin-bottom:8px;color:var(--tp)}
 .gate-sub{font-size:14px;color:var(--ts);line-height:1.65;margin-bottom:20px;max-width:340px;margin-left:auto;margin-right:auto}
 .gate-preview{background:var(--s1);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:22px;text-align:left}
 .gate-preview-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-bottom:8px}
