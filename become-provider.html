@@ -140,6 +140,24 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
 .success-title{font-family:'Lora',Georgia,serif;font-size:26px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px;color:var(--tp)}
 .success-msg{font-size:14.5px;color:var(--ts);line-height:1.7;margin-bottom:28px;max-width:400px;margin-left:auto;margin-right:auto}
 .btn-dashboard{height:50px;padding:0 32px;background:var(--green);color:var(--mint);border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+/* GATE */
+.gate-screen{text-align:center;padding:12px 0 4px}
+.gate-ic{width:56px;height:56px;border-radius:16px;background:rgba(8,80,65,0.08);border:1.5px solid rgba(8,80,65,0.18);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.gate-ic svg{width:24px;height:24px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gate-h{font-family:'Lora',Georgia,serif;font-size:22px;font-weight:700;margin-bottom:8px;color:var(--tp)}
+.gate-sub{font-size:14px;color:var(--ts);line-height:1.65;margin-bottom:20px;max-width:340px;margin-left:auto;margin-right:auto}
+.gate-preview{background:var(--s1);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:22px;text-align:left}
+.gate-preview-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-bottom:8px}
+.gate-preview-row{display:flex;gap:8px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
+.gate-preview-row:last-child{border-bottom:none}
+.gate-preview-row strong{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tm);flex-shrink:0;width:80px}
+.gate-preview-row span{color:var(--tp);font-weight:500}
+.gate-btns{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.gate-create{height:50px;border-radius:12px;background:var(--green);color:var(--mint);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:9px;text-decoration:none;transition:background .13s}
+.gate-create:hover{background:#063D31}
+.gate-signin{height:44px;border-radius:12px;border:1.5px solid var(--border);background:transparent;color:var(--ts);font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:border-color .13s}
+.gate-signin:hover{border-color:var(--teal);color:var(--tp)}
+.gate-note{font-size:11.5px;color:var(--tm);line-height:1.5}
 
 @media(max-width:600px){.form-card{padding:24px 20px}.cat-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
@@ -164,7 +182,7 @@ select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%
     <a href="/#vouches">Community</a>
   </div>
   <div class="nav-user" id="navUser">
-    <a href="/login" class="btn-sm b-light">Log in first</a>
+    <a href="/login.html" class="btn-sm b-light" id="navLoginBtn">Sign in</a>
   </div>
 </nav>
 
@@ -286,38 +304,62 @@ const CATEGORY_ICONS = {
 const CATEGORIES = Object.keys(CATEGORY_ICONS);
 
 async function init() {
-  currentUser = await Auth.requireAuth();
-  if (!currentUser) return;
-  document.getElementById('navUser').innerHTML = `<a href="/dashboard" class="btn-sm b-light">← Dashboard</a>`;
-
+  // Try to get current user but don't redirect — let them fill the form first
   try {
-    const { data: p } = await sb.from('providers').select('*').eq('id', currentUser.id).single();
-    if (p) {
-      formData.category         = p.category         || '';
-      formData.bio              = p.bio               || '';
-      formData.skills           = Array.isArray(p.skills)           ? [...p.skills]           : [];
-      formData.hourly_rate      = p.hourly_rate       || 0;
-      formData.years_experience = p.years_experience  || 0;
-      formData.portfolio_images = Array.isArray(p.portfolio_images) ? [...p.portfolio_images] : [];
-      formData.portfolio_videos = Array.isArray(p.portfolio_videos) ? [...p.portfolio_videos] : [];
-      const sl = p.social_links;
-      if (sl && typeof sl === 'object' && !Array.isArray(sl)) {
-        formData.social_instagram   = sl.instagram     || '';
-        formData.social_tiktok      = sl.tiktok        || '';
-        formData.social_twitter     = sl.twitter       || '';
-        formData.social_facebook    = sl.facebook      || '';
-        formData.social_youtube     = sl.youtube       || '';
-        if (sl.other && typeof sl.other === 'object') {
-          formData.social_other_label = sl.other.label || '';
-          formData.social_other_url   = sl.other.url   || '';
+    const { data: { session } } = await sb.auth.getSession();
+    if (session?.user) {
+      currentUser = session.user;
+      document.getElementById('navUser').innerHTML = `<a href="/dashboard.html" class="btn-sm b-light">← Dashboard</a>`;
+      // Pre-fill from existing provider record if editing
+      try {
+        const { data: p } = await sb.from('providers').select('*').eq('id', currentUser.id).single();
+        if (p) {
+          formData.category         = p.category         || '';
+          formData.bio              = p.bio               || '';
+          formData.skills           = Array.isArray(p.skills)           ? [...p.skills]           : [];
+          formData.hourly_rate      = p.hourly_rate       || 0;
+          formData.years_experience = p.years_experience  || 0;
+          formData.portfolio_images = Array.isArray(p.portfolio_images) ? [...p.portfolio_images] : [];
+          formData.portfolio_videos = Array.isArray(p.portfolio_videos) ? [...p.portfolio_videos] : [];
+          const sl = p.social_links;
+          if (sl && typeof sl === 'object' && !Array.isArray(sl)) {
+            formData.social_instagram   = sl.instagram     || '';
+            formData.social_tiktok      = sl.tiktok        || '';
+            formData.social_twitter     = sl.twitter       || '';
+            formData.social_facebook    = sl.facebook      || '';
+            formData.social_youtube     = sl.youtube       || '';
+            if (sl.other && typeof sl.other === 'object') {
+              formData.social_other_label = sl.other.label || '';
+              formData.social_other_url   = sl.other.url   || '';
+            }
+          }
         }
-      }
+      } catch (e) {}
+      try {
+        const prof = await Profiles.get(currentUser.id);
+        formData.location  = prof.location  || '';
+        if (prof.avatar_url) formData.avatar_url = prof.avatar_url;
+      } catch (e) {}
+    } else {
+      // Not logged in — check for a saved draft to pre-fill
+      try {
+        const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
+        if (draft) {
+          formData.category         = draft.category         || '';
+          formData.bio              = draft.bio               || '';
+          formData.location         = draft.location          || '';
+          formData.skills           = draft.skills            || [];
+          formData.hourly_rate      = draft.hourly_rate       || 0;
+          formData.years_experience = draft.years_experience  || 0;
+          formData.services         = draft.services          || [];
+          formData.social_instagram = draft.social_instagram  || '';
+          formData.social_tiktok    = draft.social_tiktok     || '';
+          formData.social_twitter   = draft.social_twitter    || '';
+          formData.social_facebook  = draft.social_facebook   || '';
+          formData.social_youtube   = draft.social_youtube    || '';
+        }
+      } catch (e) {}
     }
-  } catch (e) {}
-  try {
-    const prof = await Profiles.get(currentUser.id);
-    formData.location  = prof.location  || '';
-    if (prof.avatar_url) formData.avatar_url = prof.avatar_url;
   } catch (e) {}
 
   renderStep(0);
@@ -325,20 +367,24 @@ async function init() {
 
 function renderStep(step) {
   currentStep = step;
-  const fills = [12,37,62,87,100];
-  document.getElementById('progressFill').style.width = fills[step]+'%';
+  const fills = [12,37,62,87,100,100];
+  const progWrap = document.querySelector('.progress-wrap');
+  // Hide progress bar on gate/success
+  if (progWrap) progWrap.style.display = (step >= 4) ? 'none' : '';
+  document.getElementById('progressFill').style.width = (fills[step]||100)+'%';
   document.querySelectorAll('.step').forEach((el,i) => {
     el.classList.remove('active','done');
-    if (i < step) el.classList.add('done');
+    if (i < Math.min(step,4)) el.classList.add('done');
     if (i === step) el.classList.add('active');
-    el.querySelector('.step-circle').textContent = i < step ? '✓' : i+1;
+    el.querySelector('.step-circle').textContent = i < Math.min(step,4) ? '✓' : i+1;
   });
   const card = document.getElementById('formCard');
   if      (step===0) card.innerHTML = stepCategory();
   else if (step===1) card.innerHTML = stepProfile();
   else if (step===2) card.innerHTML = stepServices();
   else if (step===3) card.innerHTML = stepPhoto();
-  else if (step===4) card.innerHTML = stepSuccess();
+  else if (step===4) card.innerHTML = stepGate();
+  else if (step===5) card.innerHTML = stepSuccess();
 }
 
 /* STEP 0 */
@@ -534,6 +580,24 @@ function previewPhoto(input) {
 }
 
 async function submitProfile() {
+  // Not logged in — save draft and show account gate
+  if (!currentUser) {
+    try {
+      const draft = {
+        category: formData.category, bio: formData.bio, location: formData.location,
+        skills: formData.skills, hourly_rate: formData.hourly_rate,
+        years_experience: formData.years_experience, services: formData.services,
+        social_instagram: formData.social_instagram, social_tiktok: formData.social_tiktok,
+        social_twitter: formData.social_twitter, social_facebook: formData.social_facebook,
+        social_youtube: formData.social_youtube, savedAt: new Date().toISOString(),
+      };
+      localStorage.setItem('sowo_provider_draft', JSON.stringify(draft));
+    } catch(e) {}
+    renderStep(4); // gate step
+    return;
+  }
+
+  // Logged in — publish now
   const btn=document.getElementById('submitBtn');
   UI.setLoading(btn,true);
   try {
@@ -557,27 +621,76 @@ async function submitProfile() {
     for (const svc of formData.services) { if (svc.name) { try { await Providers.addService(currentUser.id,svc); } catch(e){} } }
     formData.pendingPortfolioFiles=[]; formData.pendingVideoFiles=[];
     formData.portfolio_images=imageUrls.filter(Boolean); formData.portfolio_videos=videoUrls.filter(Boolean);
-    renderStep(4);
+    localStorage.removeItem('sowo_provider_draft');
+    renderStep(5); // success step
   } catch(err) {
     UI.toast(err.message||'Failed to save profile. Please try again.','error');
     UI.setLoading(btn,false);
   }
 }
 
-/* STEP 4 */
+/* STEP 4 — Gate (not logged in) */
+function stepGate() {
+  const cat  = formData.category || 'your services';
+  const loc  = formData.location || '';
+  const rate = formData.hourly_rate ? '£' + (formData.hourly_rate/100) + '/hr' : '';
+  const svcCount = (formData.services||[]).filter(s=>s.name).length;
+  const signupUrl = '/signup.html?next=list';
+  const loginUrl  = '/login.html?next=list';
+  return `
+    <div class="gate-screen">
+      <div class="gate-ic">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="gate-h">One last step</div>
+      <p class="gate-sub">Create a free account to publish your listing. Clients will be able to find and book you straight away.</p>
+      <div class="gate-preview">
+        <div class="gate-preview-label">Your listing preview</div>
+        <div class="gate-preview-row"><strong>Category</strong><span>${escAttr(cat)}</span></div>
+        ${loc ? `<div class="gate-preview-row"><strong>Location</strong><span>${escAttr(loc)}</span></div>` : ''}
+        ${rate ? `<div class="gate-preview-row"><strong>Rate</strong><span>${escAttr(rate)}</span></div>` : ''}
+        ${svcCount ? `<div class="gate-preview-row"><strong>Services</strong><span>${svcCount} service${svcCount>1?'s':''} listed</span></div>` : ''}
+        ${formData.skills.length ? `<div class="gate-preview-row"><strong>Skills</strong><span>${formData.skills.slice(0,3).map(s=>escAttr(s)).join(', ')}${formData.skills.length>3?' +more':''}</span></div>` : ''}
+      </div>
+      <div class="gate-btns">
+        <a href="${signupUrl}" class="gate-create">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Create free account &amp; go live
+        </a>
+        <a href="${loginUrl}" class="gate-signin">Already have an account? Sign in</a>
+      </div>
+      <p class="gate-note">Free to list. No card required. Your listing is saved and will go live as soon as you create an account.</p>
+      <div style="margin-top:16px"><button class="btn-back" onclick="renderStep(3)">← Edit listing</button></div>
+    </div>`;
+}
+
+/* STEP 5 — Success (logged in, published) */
 function stepSuccess() {
-  document.getElementById('progressFill').style.width='100%';
-  document.querySelectorAll('.step').forEach(el=>{el.classList.remove('active');el.classList.add('done');el.querySelector('.step-circle').textContent='✓';});
+  localStorage.removeItem('sowo_provider_draft');
   return `
     <div class="success-screen">
       <div class="success-icon">🎉</div>
       <div class="success-title">You're live on Sowo!</div>
       <p class="success-msg">Your provider profile is now visible to clients across the community. You'll get a notification when your first booking request arrives.</p>
-      <a href="/dashboard" class="btn-dashboard">Go to dashboard →</a>
+      <a href="/dashboard.html" class="btn-dashboard">Go to dashboard →</a>
     </div>`;
 }
 
 function goNext() { renderStep(currentStep+1); }
+
+// Restore draft if coming back from signup/login with ?next=list
+(function() {
+  const params = new URLSearchParams(location.search);
+  if (params.get('next') === 'list') {
+    try {
+      const draft = JSON.parse(localStorage.getItem('sowo_provider_draft') || 'null');
+      if (draft) {
+        // pre-fill will happen in init() — nothing extra needed here
+      }
+    } catch(e) {}
+  }
+})();
+
 init();
 </script>
 </body>
