@@ -11,7 +11,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',system-ui,sans-serif;background:#fff;color:#111;line-height:1.5;overflow-x:hidden}
+body{font-family:'Inter',system-ui,sans-serif;background:#F5F0E8;color:#111;line-height:1.5;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 img{display:block;max-width:100%}
@@ -23,7 +23,7 @@ img{display:block;max-width:100%}
 nav{
   height:68px;display:flex;align-items:center;justify-content:space-between;
   padding:0 48px;position:sticky;top:0;z-index:200;
-  background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
+  background:rgba(245,240,232,.97);backdrop-filter:blur(20px);
   border-bottom:1px solid rgba(0,0,0,.07);
 }
 .nav-right{display:flex;align-items:center;gap:28px}
@@ -55,7 +55,7 @@ nav{
 
 /* ─── HERO ─── */
 .hero{
-  background:#fff;
+  background:#F5F0E8;
   border-bottom:1px solid #e5e7eb;
   padding-bottom:0;
 }
@@ -82,7 +82,7 @@ nav{
 /* Search bar */
 .search-bar{
   display:flex;align-items:center;
-  background:#fff;border:1.5px solid #d1d5db;border-radius:50px;
+  background:#fff;border:1px solid #d1d5db;border-radius:50px;
   box-shadow:0 2px 12px rgba(0,0,0,.08);
   max-width:780px;margin:0 auto;
   transition:border-color .2s,box-shadow .2s;
@@ -124,7 +124,7 @@ nav{
   display:flex;justify-content:center;
   gap:0;flex-wrap:nowrap;overflow-x:auto;
   padding:0 40px;scrollbar-width:none;
-  border-top:1px solid #f3f4f6;
+  border-top:1px solid #e5e0d6;
   max-width:1200px;margin:0 auto;
 }
 .cat-nav::-webkit-scrollbar{display:none}
@@ -179,7 +179,7 @@ nav{
 
 
 /* ── Live feed ────────────────────────────────────────────────── */
-.feed-section{padding:64px 40px;background:#fff}
+.feed-section{padding:64px 40px;background:#F5F0E8}
 .feed-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px}
 @media(max-width:700px){.feed-inner{grid-template-columns:1fr}}
 .feed-col-head{display:flex;align-items:center;gap:10px;margin-bottom:20px}
@@ -212,7 +212,7 @@ nav{
 .m-strike{color:#6b5e4a;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:#6b5e4a}
 
 /* ── Featured providers ───────────────────────────────────────── */
-.providers-section{padding:72px 0 56px;background:#f9fafb}
+.providers-section{padding:72px 0 56px;background:#EDE6D8}
 .providers-inner{max-width:1200px;margin:0 auto;padding:0 40px}
 .providers-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px}
 .providers-title{font-family:'Lora',serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:700;color:#0a0a0a;line-height:1.15}
@@ -292,7 +292,7 @@ nav{
 .stat-label{font-size:.875rem;color:rgba(255,255,255,.65);font-weight:500}
 
 /* ─── Dual role section ─── */
-.dual{padding:80px 0 88px;background:#fafaf8}
+.dual{padding:80px 0 88px;background:#F5F0E8}
 .dual-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .dual-text .eyebrow{
   font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
@@ -340,7 +340,7 @@ nav{
 .db-tag.amber{background:#fffbeb;color:#92400e}
 
 /* ─── Reviews ─── */
-.reviews{padding:80px 0 88px}
+.reviews{padding:80px 0 88px;background:#F5F0E8}
 .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .rv-card{
   background:#fff;border:1px solid #f0f0f0;border-radius:18px;
@@ -362,7 +362,7 @@ nav{
 .rv-text{font-size:.875rem;color:#374151;line-height:1.7}
 
 /* ─── Trust pillars ─── */
-.trust{padding:72px 0 80px;background:#f9fafb;border-top:1px solid #e5e7eb}
+.trust{padding:72px 0 80px;background:#EDE6D8;border-top:1px solid #D8D1C2}
 .trust h2{font-family:'Lora',serif;font-size:1.9rem;font-weight:700;color:#0a0a0a;margin-bottom:6px}
 .trust h2 em{font-style:normal;color:#085041}
 .trust-sub{color:#6b7280;font-size:.9rem;margin-bottom:52px}
@@ -376,7 +376,7 @@ nav{
 .pillar p{font-size:.875rem;color:#4b5563;line-height:1.7}
 
 /* ─── How it works ─── */
-.how{padding:80px 0 88px}
+.how{padding:80px 0 88px;background:#F5F0E8}
 .how-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .how-img-wrap{order:-1;border-radius:24px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,.12)}
 .how-img-wrap img{width:100%;height:500px;object-fit:cover}
@@ -543,11 +543,13 @@ footer a:hover{color:#fff}
     <span>Sowo</span>
   </a>
   <div class="nav-right">
-    <a href="/browse.html" class="nav-links-item">Marketplace</a>
+    <a href="/browse.html" class="nav-links-item">Browse</a>
+    <a href="#how" class="nav-links-item">How it works</a>
+    <a href="/become-provider.html" class="nav-links-item">Become a provider</a>
 
     <!-- Logged-out state -->
-    <a href="/login.html" class="nav-auth" id="nav-login-btn">Sign up / Log in</a>
-    <a href="/become-provider.html" class="nav-cta" id="nav-provider-btn">Become a Provider</a>
+    <a href="/login.html" class="nav-auth" id="nav-login-btn">Log in</a>
+    <a href="/signup.html" class="nav-cta" id="nav-provider-btn">Get started</a>
 
     <!-- Logged-in state -->
     <div class="nav-user" id="nav-user">
