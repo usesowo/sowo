@@ -738,7 +738,7 @@
 
     <div class="ds-section">
       <h5>Account</h5>
-      <a class="ds-link" href="#" onclick="event.preventDefault();dsShowProfile()">
+      <a class="ds-link" href="#" onclick="event.preventDefault();dsOpenProfile()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Profile
       </a>
@@ -746,8 +746,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
         Payment
       </a>
-      <a class="ds-link" href="#" onclick="event.preventDefault();dsShowEmpty('Account settings','Notification preferences, password and account controls will live here. For now, sign out from the bottom of the sidebar.','',''
-      )">
+      <a class="ds-link" href="#" onclick="event.preventDefault();dsOpenSettings()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         Settings
       </a>
@@ -964,6 +963,231 @@ function dsShowProfile() {
     </div>`;
   document.body.insertAdjacentHTML('beforeend', html);
   document.body.style.overflow = 'hidden';
+}
+
+/* ─── Profile editor ─── */
+var _pendingAvatar = null;
+
+function dsCloseAnyModal() {
+  ['dsEmptyOv','dsProfileOv','dsSettingsOv'].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.remove();
+  });
+  document.body.style.overflow = '';
+}
+
+function dsOpenProfile() {
+  var user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
+  if (!user) { dsShowEmpty('Profile','Sign in to view and edit your profile.','Sign in','/login.html?next=dashboard'); return; }
+
+  var fullName = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0] || '');
+  var firstName = user.firstName || (fullName.split(' ')[0] || '');
+  var lastName  = user.lastName  || (fullName.split(' ').slice(1).join(' ') || '');
+  var initials  = ((firstName[0]||'?') + (lastName[0]||'')).toUpperCase();
+  var photo = '';
+  try { photo = localStorage.getItem('sowo_avatar_'+(user.email||'')) || ''; } catch(e) {}
+  var since = user.createdAt ? 'Member since ' + new Date(user.createdAt).toLocaleDateString('en-GB',{month:'long',year:'numeric'}) : 'Tell us a bit about yourself';
+
+  dsCloseAnyModal();
+
+  var avInner = photo ? '' : esc(initials);
+  var avStyle = 'width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:22px;flex-shrink:0;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);';
+  if (photo) avStyle += 'background:transparent;background-image:url('+photo+');background-size:cover;background-position:center;';
+  else       avStyle += 'background:var(--g);color:var(--gl);';
+
+  var removeBtn = photo
+    ? '<button type="button" onclick="dsRemoveAvatar()" style="margin-left:8px;font-size:12.5px;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline">Remove</button>'
+    : '';
+
+  var html = ''
+    + '<div id="dsProfileOv" onclick="if(event.target===this)dsCloseAnyModal()" style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto">'
+    +   '<div style="background:#fff;border-radius:16px;max-width:480px;width:100%;padding:30px 30px 26px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;max-height:90vh;overflow-y:auto">'
+    +     '<button onclick="dsCloseAnyModal()" style="position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;background:#f3f4f6;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7280;cursor:pointer">✕</button>'
+    +     '<h3 style="font-family:var(--serif);font-size:22px;letter-spacing:-.01em;color:var(--ink);margin-bottom:6px">Your profile</h3>'
+    +     '<p style="font-size:13px;color:var(--muted);margin-bottom:22px">' + esc(since) + '</p>'
+    +     '<div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">'
+    +       '<div id="profAvPreview" style="' + avStyle + '">' + avInner + '</div>'
+    +       '<div>'
+    +         '<label for="profPhoto" style="display:inline-block;font-size:13px;font-weight:600;color:var(--g);cursor:pointer;padding:8px 14px;border:1px solid var(--line);border-radius:8px">Change photo</label>'
+    +         '<input type="file" id="profPhoto" accept="image/*" style="display:none" onchange="dsHandleAvatarUpload(this)">'
+    +         removeBtn
+    +         '<div style="font-size:11.5px;color:var(--muted);margin-top:6px">JPG or PNG, max 2MB</div>'
+    +       '</div>'
+    +     '</div>'
+    +     '<div style="display:flex;gap:10px;margin-bottom:14px">'
+    +       '<div style="flex:1">'
+    +         '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">First name</label>'
+    +         '<input id="profFirst" type="text" value="' + esc(firstName) + '" style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none">'
+    +       '</div>'
+    +       '<div style="flex:1">'
+    +         '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Last name</label>'
+    +         '<input id="profLast" type="text" value="' + esc(lastName) + '" style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none">'
+    +       '</div>'
+    +     '</div>'
+    +     '<div style="margin-bottom:14px">'
+    +       '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Email</label>'
+    +       '<input type="email" value="' + esc(user.email||'') + '" disabled style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:var(--paper-2);color:var(--muted);outline:none;cursor:not-allowed">'
+    +       '<div style="font-size:11.5px;color:var(--muted);margin-top:5px">Email is locked. Contact support to change it.</div>'
+    +     '</div>'
+    +     '<div style="margin-bottom:22px">'
+    +       '<label style="display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px">Location</label>'
+    +       '<input id="profLoc" type="text" value="' + esc(user.location||'') + '" placeholder="e.g. Hackney, London" style="width:100%;padding:10px 13px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--ink);outline:none">'
+    +     '</div>'
+    +     '<div style="display:flex;gap:10px">'
+    +       '<button onclick="dsCloseAnyModal()" style="padding:11px 18px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer">Cancel</button>'
+    +       '<button onclick="dsSaveProfile()" style="flex:1;padding:11px 22px;background:var(--ink);color:var(--paper);border:none;border-radius:9px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer">Save changes</button>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>';
+
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
+}
+
+function dsHandleAvatarUpload(input) {
+  var file = input.files && input.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { showToast('Image too large (max 2MB)'); input.value = ''; return; }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    _pendingAvatar = e.target.result;
+    var av = document.getElementById('profAvPreview');
+    if (av) {
+      av.style.background = 'transparent';
+      av.style.backgroundImage = 'url(' + _pendingAvatar + ')';
+      av.style.backgroundSize = 'cover';
+      av.style.backgroundPosition = 'center';
+      av.textContent = '';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function dsRemoveAvatar() {
+  var user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null'); } catch(e) {}
+  if (user && user.email) { try { localStorage.removeItem('sowo_avatar_' + user.email); } catch(e) {} }
+  _pendingAvatar = 'REMOVE';
+  showToast('Photo will be removed when you save');
+  dsOpenProfile();
+}
+
+function dsSaveProfile() {
+  var first = (document.getElementById('profFirst') || {}).value || '';
+  var last  = (document.getElementById('profLast')  || {}).value || '';
+  var loc   = (document.getElementById('profLoc')   || {}).value || '';
+  first = first.trim(); last = last.trim(); loc = loc.trim();
+  if (!first) { showToast('First name is required'); return; }
+  var user = null;
+  try { user = JSON.parse(sessionStorage.getItem('sowo_session') || 'null') || {}; } catch(e) { user = {}; }
+  user.firstName = first;
+  user.lastName  = last;
+  user.location  = loc;
+  user.name      = first + (last ? ' ' + last : '');
+  try { sessionStorage.setItem('sowo_session', JSON.stringify(user)); } catch(e) {}
+  if (_pendingAvatar && _pendingAvatar !== 'REMOVE' && user.email) {
+    try { localStorage.setItem('sowo_avatar_' + user.email, _pendingAvatar); } catch(e) {}
+  }
+  if (_pendingAvatar === 'REMOVE' && user.email) {
+    try { localStorage.removeItem('sowo_avatar_' + user.email); } catch(e) {}
+  }
+  _pendingAvatar = null;
+  dsCloseAnyModal();
+  showToast('Profile saved');
+  setTimeout(function() { window.location.reload(); }, 600);
+}
+
+/* ─── Settings ─── */
+function dsGetSettings() {
+  var defaults = { email_responses: true, email_nearby: false, public_name: true, public_requests: true };
+  try { return Object.assign(defaults, JSON.parse(localStorage.getItem('sowo_settings') || '{}')); }
+  catch(e) { return defaults; }
+}
+
+function dsToggleHtml(id, label, sub, on) {
+  var bgCol = on ? 'var(--g)' : '#cbc8c0';
+  var leftPx = on ? '21' : '3';
+  return ''
+    + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)">'
+    +   '<div>'
+    +     '<div style="font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:3px">' + label + '</div>'
+    +     '<div style="font-size:12.5px;color:var(--muted);line-height:1.5">' + sub + '</div>'
+    +   '</div>'
+    +   '<label style="position:relative;display:inline-block;width:42px;height:24px;flex-shrink:0;cursor:pointer">'
+    +     '<input type="checkbox" id="' + id + '"' + (on ? ' checked' : '') + ' style="opacity:0;width:0;height:0;position:absolute" onchange="dsRefreshToggle(\'' + id + '\')">'
+    +     '<span class="ds-toggle" style="position:absolute;inset:0;background:' + bgCol + ';border-radius:999px;transition:background .15s"></span>'
+    +     '<span class="ds-toggle-knob" style="position:absolute;top:3px;left:' + leftPx + 'px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.2)"></span>'
+    +   '</label>'
+    + '</div>';
+}
+
+function dsOpenSettings() {
+  var s = dsGetSettings();
+  dsCloseAnyModal();
+  var html = ''
+    + '<div id="dsSettingsOv" onclick="if(event.target===this)dsCloseAnyModal()" style="position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto">'
+    +   '<div style="background:#fff;border-radius:16px;max-width:500px;width:100%;padding:30px 30px 26px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;max-height:90vh;overflow-y:auto">'
+    +     '<button onclick="dsCloseAnyModal()" style="position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:8px;background:#f3f4f6;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;font-size:14px;color:#6b7280;cursor:pointer">✕</button>'
+    +     '<h3 style="font-family:var(--serif);font-size:22px;letter-spacing:-.01em;color:var(--ink);margin-bottom:24px">Account settings</h3>'
+    +     '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Notifications</div>'
+    +     dsToggleHtml('set_email_resp', 'Email me when a provider responds', 'Get a heads-up the moment someone replies to your request.', s.email_responses)
+    +     dsToggleHtml('set_email_near', 'Email me about new providers nearby', 'Occasional emails when great providers join in your area.', s.email_nearby)
+    +     '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:22px 0 6px">Privacy</div>'
+    +     dsToggleHtml('set_pub_name', 'Show my full name to providers', 'Off shows only your first initial when you respond.', s.public_name)
+    +     dsToggleHtml('set_pub_req',  'Make my requests publicly browseable', 'Off keeps your requests visible only to providers you message directly.', s.public_requests)
+    +     '<div style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px">Account</div>'
+    +     '<div style="display:flex;flex-direction:column;gap:8px">'
+    +       '<button onclick="dsCloseAnyModal();dsSignOut(event)" style="padding:11px 14px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:var(--ink);cursor:pointer;text-align:left">Sign out of this device</button>'
+    +       '<button onclick="dsDeleteAccount()" style="padding:11px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:#dc2626;cursor:pointer;text-align:left">Delete my account &amp; data</button>'
+    +     '</div>'
+    +     '<div style="display:flex;gap:10px;margin-top:24px;padding-top:18px;border-top:1px solid var(--line)">'
+    +       '<button onclick="dsCloseAnyModal()" style="padding:11px 18px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13.5px;font-weight:500;color:var(--muted);cursor:pointer">Cancel</button>'
+    +       '<button onclick="dsSaveSettings()" style="flex:1;padding:11px 22px;background:var(--ink);color:var(--paper);border:none;border-radius:9px;font:inherit;font-size:13.5px;font-weight:600;cursor:pointer">Save changes</button>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>';
+
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
+}
+
+function dsRefreshToggle(id) {
+  var inp = document.getElementById(id);
+  if (!inp) return;
+  var wrap = inp.parentElement;
+  var bg   = wrap.querySelector('.ds-toggle');
+  var knob = wrap.querySelector('.ds-toggle-knob');
+  bg.style.background = inp.checked ? 'var(--g)' : '#cbc8c0';
+  knob.style.left = inp.checked ? '21px' : '3px';
+}
+
+function dsSaveSettings() {
+  var get = function(id) { var el = document.getElementById(id); return !!(el && el.checked); };
+  var s = {
+    email_responses: get('set_email_resp'),
+    email_nearby:    get('set_email_near'),
+    public_name:     get('set_pub_name'),
+    public_requests: get('set_pub_req'),
+  };
+  try { localStorage.setItem('sowo_settings', JSON.stringify(s)); } catch(e) {}
+  dsCloseAnyModal();
+  showToast('Settings saved');
+}
+
+function dsDeleteAccount() {
+  if (!confirm('Delete your account?\n\nThis removes your session, requests, bookings, saved providers and preferences from this device. This cannot be undone.')) return;
+  ['sowo_session','sowo_r','sowo_my_requests','sowo_bookings','sowo_saved_providers','sowo_settings','sowo_request_drafts','sowo_provider_draft'].forEach(function(k) {
+    try { localStorage.removeItem(k); } catch(e) {}
+  });
+  try { sessionStorage.removeItem('sowo_session'); } catch(e) {}
+  try {
+    for (var i = localStorage.length - 1; i >= 0; i--) {
+      var k = localStorage.key(i);
+      if (k && k.indexOf('sowo_avatar_') === 0) localStorage.removeItem(k);
+    }
+  } catch(e) {}
+  window.location.href = '/';
 }
 
 function renderDashboardBody(user, firstName) {
