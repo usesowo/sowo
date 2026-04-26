@@ -78,6 +78,13 @@ nav{
   margin-bottom:28px;
 }
 .hero-main h1 em{font-style:italic;color:#085041}
+.hero-sub{
+  font-family:'Fraunces',serif;font-weight:400;font-style:italic;
+  font-size:clamp(1.05rem,1.4vw,1.3rem);line-height:1.45;
+  color:#3B3933;letter-spacing:-.005em;
+  max-width:540px;margin:-12px auto 32px;
+}
+.hero-sub em{color:#085041;font-weight:500}
 
 /* Search bar */
 .search-bar{
@@ -360,11 +367,10 @@ nav{
 .rv-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.07)}
 .rv-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .rv-av{
-  width:40px;height:40px;
-  display:grid;place-items:center;
-  font-family:'Lora',serif;font-size:17px;font-weight:500;
-  color:#0a0a0a;background:#fff;
-  border:1px solid #e5e7eb;flex-shrink:0;
+  width:46px;height:46px;border-radius:50%;
+  background-size:cover;background-position:center 20%;
+  border:1.5px solid #fff;flex-shrink:0;
+  box-shadow:0 0 0 1px rgba(0,0,0,.08);
 }
 .rv-meta .rv-name{font-weight:700;font-size:.9rem;color:#0a0a0a}
 .rv-meta .rv-svc{font-size:.75rem;color:#6b7280;margin-top:2px}
@@ -474,7 +480,7 @@ footer a:hover{color:#fff}
   background:#fff;
   border:1px solid #e5e7eb;
   padding:32px;max-width:320px;
-  border-radius:4px;
+  border-radius:14px;
   box-shadow:0 4px 20px rgba(0,0,0,.08);
 }
 .cat-panel-text h2{font-family:'Lora',serif;font-size:1.35rem;font-weight:700;color:#0a0a0a;line-height:1.25}
@@ -737,6 +743,7 @@ footer a:hover{color:#fff}
   <div class="hero-main">
     <p class="hero-tagline">Trusted providers, near you</p>
     <h1>Find someone who <em>gets you</em></h1>
+    <p class="hero-sub">Real names. Real accountability. <em>No five-star theatre.</em></p>
     <form class="search-bar" action="/browse.html" method="get" role="search">
       <input type="text" name="q" placeholder="What do you need help with?" autocomplete="off">
       <div class="search-divider"></div>
@@ -954,7 +961,7 @@ footer a:hover{color:#fff}
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av">EF</div>
+          <div class="rv-av" style="background-image:url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&q=80')"></div>
           <div class="rv-meta">
             <div class="rv-name">Efua F.</div>
             <div class="rv-svc">Beauty &amp; Makeup · Hackney</div>
@@ -968,7 +975,7 @@ footer a:hover{color:#fff}
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av">AK</div>
+          <div class="rv-av" style="background-image:url('https://images.unsplash.com/photo-1589156191108-c762ff4b96ab?w=200&q=80')"></div>
           <div class="rv-meta">
             <div class="rv-name">Adaeze K.</div>
             <div class="rv-svc">Nail Technician · Peckham</div>
@@ -982,7 +989,7 @@ footer a:hover{color:#fff}
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av">JO</div>
+          <div class="rv-av" style="background-image:url('https://images.unsplash.com/photo-1531384441138-2736e62e0919?w=200&q=80')"></div>
           <div class="rv-meta">
             <div class="rv-name">Jide O.</div>
             <div class="rv-svc">Photographer · Islington</div>
@@ -996,7 +1003,7 @@ footer a:hover{color:#fff}
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av">AV</div>
+          <div class="rv-av" style="background-image:url('https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=200&q=80')"></div>
           <div class="rv-meta">
             <div class="rv-name">Adaora V.</div>
             <div class="rv-svc">Barber · Brixton</div>
@@ -1010,7 +1017,7 @@ footer a:hover{color:#fff}
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av">FA</div>
+          <div class="rv-av" style="background-image:url('https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?w=200&q=80')"></div>
           <div class="rv-meta">
             <div class="rv-name">Fatima A.</div>
             <div class="rv-svc">Hairdresser · Lewisham</div>
@@ -1024,7 +1031,7 @@ footer a:hover{color:#fff}
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av">SS</div>
+          <div class="rv-av" style="background-image:url('https://images.unsplash.com/photo-1593351799227-75df2026356b?w=200&q=80')"></div>
           <div class="rv-meta">
             <div class="rv-name">Sade S.</div>
             <div class="rv-svc">Beauty &amp; Makeup · Camden</div>
@@ -1062,29 +1069,29 @@ footer a:hover{color:#fff}
   ───────────────────────────────────────────────────────────────────────── -->
 <section class="trust">
   <div class="wrap">
-    <h2>Built to earn your <em>trust</em></h2>
-    <p class="trust-sub">We are early. These are the commitments we are building toward, and we will not launch them until they are done properly.</p>
+    <h2>Built differently, on <em>purpose</em></h2>
+    <p class="trust-sub">No hidden fees, no anonymous reviews, no algorithmic gatekeeping. Just real people, recommending real people.</p>
     <div class="pillars">
       <div class="pillar">
         <div class="p-icon">
-          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6 5.87a4 4 0 11-8 0 4 4 0 018 0zm6-8a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
         </div>
-        <h3>Sowo Protect <span style="font-size:.72rem;font-weight:600;color:#d97706;background:#fef3c7;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle">Coming soon</span></h3>
-        <p>Up to £1,000 in coverage if something goes wrong. We are working with partners to build this properly before we switch it on.</p>
-      </div>
-      <div class="pillar">
-        <div class="p-icon">
-          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
-        </div>
-        <h3>ID-verified Providers <span style="font-size:.72rem;font-weight:600;color:#d97706;background:#fef3c7;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle">Coming soon</span></h3>
-        <p>Every provider will be identity-checked before their first booking. We are setting up the verification process now.</p>
+        <h3>Named vouches, not stars</h3>
+        <p>Every recommendation comes from a real person with a name and a face. No anonymous five-star theatre, no gamed ratings. If someone vouches, they put their name on it.</p>
       </div>
       <div class="pillar">
         <div class="p-icon">
           <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
         </div>
-        <h3>Dedicated Support <span style="font-size:.72rem;font-weight:600;color:#d97706;background:#fef3c7;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle">Coming soon</span></h3>
-        <p>A real support team, available every day of the week. Right now you can reach us directly at <a href="mailto:hello@sowo.co.uk" style="color:#085041;text-decoration:underline">hello@sowo.co.uk</a>.</p>
+        <h3>Talk first, book later</h3>
+        <p>Message providers directly before you commit. Ask the questions that matter — about your hair, your skin, your space — and decide on your terms. No middleman.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3>Free to post, free to list</h3>
+        <p>No card needed to post a request. No subscription to list your service. We only earn when you actually book — and even then, never from anonymous middlemen.</p>
       </div>
     </div>
   </div>
