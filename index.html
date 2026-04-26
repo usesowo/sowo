@@ -1684,10 +1684,10 @@ if (document.readyState === 'loading') {
 // ── Marketplace feed (static) ─────────────────────────────────────────────
 (function() {
   const REQUESTS = [
-    { tag:'barber',   cls:'feed-tag--barber',   title:'Need a barber who knows afro hair',       meta:'Manchester · just now' },
-    { tag:'beauty',   cls:'feed-tag--beauty',   title:'Bridal makeup artist for June wedding',    meta:'Birmingham · 1m ago' },
-    { tag:'cleaning', cls:'feed-tag--cleaning', title:'Looking for a reliable cleaner',           meta:'East London · 2m ago' },
-    { tag:'chef',     cls:'feed-tag--chef',     title:'Private chef for dinner party of 10',      meta:'Chelsea · 3m ago' },
+    { tag:'barber',   cls:'feed-tag--barber',   title:'Need a barber who knows afro hair',        meta:'Manchester · 2h ago',  id:'req-001' },
+    { tag:'beauty',   cls:'feed-tag--beauty',   title:'Makeup artist for engagement party',       meta:'Brixton · 30m ago',    id:'req-005' },
+    { tag:'cleaning', cls:'feed-tag--cleaning', title:'Looking for a reliable cleaner',           meta:'East London · 3h ago', id:'req-002' },
+    { tag:'chef',     cls:'feed-tag--chef',     title:'Private chef for dinner party (8 guests)', meta:'Islington · 4h ago',   id:'req-007' },
   ];
   const PROVIDERS = [
     { tag:'barber',   cls:'feed-tag--barber',   title:'Barber specialising in African hair',      meta:'Manchester · just now',  demo:'1' },
@@ -1708,7 +1708,7 @@ if (document.readyState === 'loading') {
   const reqList = document.getElementById('feed-requests');
   const prvList = document.getElementById('feed-providers');
   if (!reqList || !prvList) return;
-  REQUESTS.forEach(item => reqList.appendChild(makeCard(item, '/request.html', 'request')));
+  REQUESTS.forEach(item => reqList.appendChild(makeCard(item, `/request.html#${item.id}`, 'request')));
   PROVIDERS.forEach(item => prvList.appendChild(makeCard(item, `/provider.html?demo=${item.demo}`, 'provider')));
 })();
 </script>

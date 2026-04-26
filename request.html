@@ -822,8 +822,10 @@ const SEED_REQUESTS = [
 ];
 
 /* ── resolve request ── */
+// Hash fragments survive serve's redirect stripping; fall back to query param
+const _hash = location.hash.slice(1);
 const params = new URLSearchParams(location.search);
-const rid = params.get('id') || 'req-001';
+const rid = (_hash && _hash !== 'as-poster' ? _hash : null) || params.get('id') || 'req-001';
 
 /* also check localStorage items */
 function getAllRequests() {
@@ -831,7 +833,7 @@ function getAllRequests() {
   return [...stored, ...SEED_REQUESTS];
 }
 const R = getAllRequests().find(r => r.id === rid) || SEED_REQUESTS[0];
-const reqUrl = `${location.origin}/request?id=${R.id}`;
+const reqUrl = `${location.origin}/request.html#${R.id}`;
 document.title = `${R.title} - Sowo`;
 
 /* ── Render fresh badge ── */

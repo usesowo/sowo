@@ -476,7 +476,7 @@ function buildCard(r) {
   const prefsHtml = (r.prefs || []).slice(0, 3).map(p =>
     `<span class="req-pref">${p}</span>`).join('');
   return `
-    <a class="req-card" href="request.html?id=${r.id}">
+    <a class="req-card" href="request.html#${r.id}">
       <div class="req-card-top">
         <span class="req-cat-tag">${r.cat}</span>
         <span class="req-age">${r.age}</span>
