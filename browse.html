@@ -322,6 +322,79 @@
   }
   .p-featured .f-foot .price span { font-size: 13px; color: var(--muted); font-family: var(--sans); }
 
+  /* ─── Results count/sort/grid bar (Walk London–style) ─── */
+  .results-bar {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 0;
+    margin-bottom: 32px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+  }
+  .rbar-views {
+    display: flex; gap: 2px;
+  }
+  .rbar-views button {
+    width: 36px; height: 36px;
+    display: grid; place-items: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--muted);
+    transition: all 0.12s;
+  }
+  .rbar-views button:hover { color: var(--ink); border-color: var(--line); }
+  .rbar-views button.active { color: var(--ink); border-color: var(--ink); }
+  .rbar-count {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rbar-sort {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .rbar-sort svg { color: var(--muted); }
+
+  /* Grid layout variants */
+  .p-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .p-grid.cols-2 .p-featured { grid-column: span 2; grid-template-columns: 1.1fr 1fr; }
+  .p-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px 16px; }
+  .p-grid.cols-4 .p-featured { grid-column: span 4; }
+  .p-grid.cols-4 .p-card .name { font-size: 17px; }
+  .p-grid.list-view {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .p-grid.list-view .p-card {
+    flex-direction: row;
+    gap: 24px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    transform: none !important;
+  }
+  .p-grid.list-view .p-card .img-wrap {
+    width: 80px; height: 80px;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+  .p-grid.list-view .p-card .num { margin-bottom: 4px; }
+  .p-grid.list-view .p-card .name { font-size: 18px; margin-bottom: 2px; }
+  .p-grid.list-view .p-card .p-meta { border-top: none; padding-top: 4px; }
+  .p-grid.list-view .p-card .top-marks { display: none; }
+  .p-grid.list-view .p-featured { grid-column: span 1; }
+
   /* Pagination */
   .pagination {
     display: flex; justify-content: center; align-items: center;
@@ -514,15 +587,46 @@
 
   <!-- ─── Results ─── -->
   <main>
-    <div class="results-head">
-      <div class="title">Showing 46 makeup artists in Hackney</div>
-      <div class="view-toggle">
-        <button class="active">Grid</button>
-        <button>Map</button>
+    <div style="font-family:var(--serif);font-size:20px;font-weight:500;letter-spacing:-0.01em;margin-bottom:20px;">
+      Showing 46 makeup artists in Hackney
+    </div>
+
+    <!-- Walk London–style count + grid toggle bar -->
+    <div class="results-bar">
+      <div class="rbar-views" id="viewToggle">
+        <!-- 2-col -->
+        <button data-cols="cols-2" title="2 columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="6" height="14" rx="1"/><rect x="9" y="1" width="6" height="14" rx="1"/>
+          </svg>
+        </button>
+        <!-- 3-col (default active) -->
+        <button data-cols="cols-3" class="active" title="3 columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="4" height="14" rx="1"/><rect x="6" y="1" width="4" height="14" rx="1"/><rect x="11" y="1" width="4" height="14" rx="1"/>
+          </svg>
+        </button>
+        <!-- 4-col -->
+        <button data-cols="cols-4" title="4 columns">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="1" width="2.5" height="14" rx="0.5"/><rect x="4.5" y="1" width="2.5" height="14" rx="0.5"/><rect x="8" y="1" width="2.5" height="14" rx="0.5"/><rect x="11.5" y="1" width="3" height="14" rx="0.5"/>
+          </svg>
+        </button>
+        <!-- list -->
+        <button data-cols="list-view" title="List view">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="1" y1="4" x2="15" y2="4"/><line x1="1" y1="8" x2="15" y2="8"/><line x1="1" y1="12" x2="15" y2="12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="rbar-count">46 Providers</div>
+      <div class="rbar-sort">
+        Sort by
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
       </div>
     </div>
 
-    <div class="p-grid">
+    <div class="p-grid" id="pGrid">
 
       <!-- Featured editorial card (spans 2 cols) -->
       <a href="provider.html" class="p-featured">
@@ -743,6 +847,19 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // Grid-size toggle
+  document.getElementById('viewToggle').addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-cols]');
+    if (!btn) return;
+    var grid = document.getElementById('pGrid');
+    grid.classList.remove('cols-2', 'cols-4', 'list-view');
+    if (btn.dataset.cols !== 'cols-3') grid.classList.add(btn.dataset.cols);
+    document.querySelectorAll('#viewToggle button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+  });
+</script>
 
 </body>
 </html>
