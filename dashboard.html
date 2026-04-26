@@ -894,17 +894,66 @@ function renderDashboardBody(user, firstName) {
   let myReqs = [];
   let allResponses = []; // flat list of {req, resp}
   let savedProviders = [];
+  let bookings = [];
   try {
     const owned  = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
     const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
     myReqs = stored.filter(r => owned.includes(r.id));
     myReqs.forEach(r => (r.responses || []).forEach(resp => allResponses.push({ req: r, resp })));
     savedProviders = JSON.parse(localStorage.getItem('sowo_saved_providers') || '[]');
+    bookings = JSON.parse(localStorage.getItem('sowo_bookings') || '[]');
   } catch(e) {}
 
-  /* ── Focal slot ── */
+  // Sort bookings: upcoming first by date, then completed
+  const today = new Date().toISOString().split('T')[0];
+  const upcoming = bookings.filter(b => !b.date || b.date >= today)
+    .sort((a,b) => (a.date||'').localeCompare(b.date||''));
+  const past = bookings.filter(b => b.date && b.date < today)
+    .sort((a,b) => (b.date||'').localeCompare(a.date||''));
+  const heldEscrow = bookings.filter(b => b.escrow === 'held')
+    .reduce((sum, b) => sum + (Number(b.price)||0), 0);
+
+  /* ── Focal slot ── Priority: upcoming booking → newest response → get-started */
   const focal = document.getElementById('focalSlot');
-  if (allResponses.length) {
+  if (upcoming.length) {
+    const b = upcoming[0];
+    const dateLabel = b.date ? new Date(b.date) : null;
+    const day  = dateLabel ? dateLabel.toLocaleDateString('en-GB', { weekday:'long' }) : '';
+    const num  = dateLabel ? dateLabel.getDate() : '';
+    const mo   = dateLabel ? dateLabel.toLocaleDateString('en-GB', { month:'long' }) : '';
+    const daysUntil = dateLabel ? Math.ceil((dateLabel - new Date(today)) / (1000*60*60*24)) : null;
+    const countdown = daysUntil !== null
+      ? (daysUntil === 0 ? 'today' : daysUntil === 1 ? 'tomorrow' : 'in ' + daysUntil + ' days')
+        + (b.time ? ' · ' + b.time : '')
+      : 'date to confirm';
+    focal.innerHTML = `
+      <div class="focal" style="margin-bottom:24px">
+        <div class="focal-date">
+          ${day ? `<div class="day">${esc(day)}</div>` : ''}
+          ${num !== '' ? `<div class="num">${num}</div>` : ''}
+          ${mo ? `<div class="mo">${esc(mo)}</div>` : ''}
+          <div class="countdown">${esc(countdown)}</div>
+        </div>
+        <div class="focal-meta">
+          <div class="focal-with">Booked with</div>
+          <div class="focal-name">${esc(b.providerName)}</div>
+          <div class="focal-svc">${esc(b.service || 'Service')}</div>
+          <div class="focal-rows">
+            ${b.providerArea ? `<div class="focal-row"><span class="k">Where</span><span class="v"><strong>${esc(b.providerArea)}</strong></span></div>` : ''}
+            ${b.notes ? `<div class="focal-row"><span class="k">Brief</span><span class="v">${esc(b.notes.slice(0,140))}${b.notes.length>140?'…':''}</span></div>` : ''}
+            ${b.price ? `<div class="focal-row"><span class="k">Payment</span><span class="v"><strong>£${esc(b.price)}</strong> <span class="escrow"><svg width="9" height="9" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>${b.escrow === 'held' ? 'held in escrow' : 'released'}</span></span></div>` : ''}
+          </div>
+        </div>
+        <div class="focal-aside">
+          <div class="focal-actions">
+            <a href="/provider.html#${esc(b.providerId)}" class="focal-btn primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+              Message ${esc((b.providerName||'').split(' ')[0])}
+            </a>
+          </div>
+        </div>
+      </div>`;
+  } else if (allResponses.length) {
     // Most recent response on a user's request
     const latest = allResponses[allResponses.length - 1];
     const initials = (latest.resp.initials || (latest.resp.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2)).toUpperCase();
@@ -937,8 +986,25 @@ function renderDashboardBody(user, firstName) {
       </div>`;
   }
 
-  /* ── Escrow slot — hidden until real bookings ship ── */
-  document.getElementById('escrowSlot').innerHTML = '';
+  /* ── Escrow slot — only when there are real held funds ── */
+  const escrow = document.getElementById('escrowSlot');
+  if (heldEscrow > 0) {
+    const heldCount = bookings.filter(b => b.escrow === 'held').length;
+    escrow.innerHTML = `
+      <div class="escrow-bar">
+        <span class="badge">
+          <svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          Sowo Pocket
+        </span>
+        <div class="label-line">
+          <strong>£${heldEscrow} of yours</strong> is currently held in escrow across ${heldCount} booking${heldCount>1?'s':''}.
+          <br><span style="color:var(--muted); font-size:12px;">Released only when you confirm the work is done.</span>
+        </div>
+        <div class="escrow-amount"><em>£</em>${heldEscrow}</div>
+      </div>`;
+  } else {
+    escrow.innerHTML = '';
+  }
 
   /* ── LEFT COLUMN: Your requests + Recent activity ── */
   const left = document.getElementById('leftColSlot');
@@ -974,27 +1040,77 @@ function renderDashboardBody(user, firstName) {
   }
   leftHtml += '</section>';
 
-  // Recent activity (only if there is some)
-  if (allResponses.length) {
+  // Recent activity — merge bookings + responses chronologically
+  const activityItems = [];
+  allResponses.forEach(({ req, resp }) => {
+    activityItems.push({
+      ts: resp.createdAt || resp.time || '',
+      label: resp.time || 'recently',
+      dot: 'amber',
+      html: '<strong>' + esc(resp.name) + '</strong> replied to <em>"' + esc(req.title || req.cat) + '"</em>',
+      cta: '/request.html#' + esc(req.id),
+      ctaLabel: 'Open',
+    });
+  });
+  bookings.forEach(b => {
+    const isPast = b.date && b.date < today;
+    activityItems.push({
+      ts: b.createdAt || '',
+      label: b.date ? new Date(b.date).toLocaleDateString('en-GB', { day:'numeric', month:'short' }) : 'recently',
+      dot: isPast ? 'muted' : '',
+      html: (isPast ? 'Booking with <strong>' : 'Booking requested · <strong>') + esc(b.providerName) + '</strong>' +
+        (b.service ? ' · ' + esc(b.service) : '') +
+        (isPast && b.escrow === 'held' ? ' — confirm to release £' + esc(b.price) : ''),
+      cta: '/provider.html#' + esc(b.providerId),
+      ctaLabel: isPast && b.escrow === 'held' ? 'Vouch & release' : 'View',
+    });
+  });
+  if (activityItems.length) {
+    activityItems.sort((a,b) => (b.ts||'').localeCompare(a.ts||''));
     leftHtml += '<section class="d-section"><div class="d-section-head"><h2>Recent <em>activity</em></h2></div><div class="activity">';
-    leftHtml += allResponses.slice().reverse().slice(0, 6).map(({ req, resp }) => `
+    leftHtml += activityItems.slice(0, 6).map(it => `
       <div class="act">
-        <div class="when">${esc(resp.time || 'recently')}</div>
-        <div class="dot-wrap"><div class="dot amber"></div></div>
-        <div class="txt"><strong>${esc(resp.name)}</strong> replied to <em>"${esc(req.title || req.cat)}"</em></div>
-        <a href="/request.html#${esc(req.id)}" class="cta">Open</a>
+        <div class="when">${esc(it.label)}</div>
+        <div class="dot-wrap"><div class="dot${it.dot ? ' ' + it.dot : ''}"></div></div>
+        <div class="txt">${it.html}</div>
+        <a href="${it.cta}" class="cta">${esc(it.ctaLabel)}</a>
       </div>`).join('');
     leftHtml += '</div></section>';
   }
 
   left.innerHTML = leftHtml;
 
-  /* ── RIGHT COLUMN: Saved providers + Your patch ── */
+  /* ── RIGHT COLUMN: Vouch prompt + Saved providers + Your patch ── */
   const right = document.getElementById('rightColSlot');
   let rightHtml = '';
 
+  // Vouch prompt — for completed bookings still in escrow
+  const awaitingVouch = past.filter(b => b.escrow === 'held');
+  if (awaitingVouch.length) {
+    const v = awaitingVouch[0];
+    const otherCount = awaitingVouch.length - 1;
+    rightHtml += `
+      <div class="vouch-anchor">
+        <div class="vouch-eye">Someone's waiting on your word</div>
+        <h3>${esc((v.providerName||'').split(' ')[0])} ${v.service ? 'did your ' + esc(v.service) : 'completed your booking'}<br>on <em>${v.date ? esc(new Date(v.date).toLocaleDateString('en-GB', { weekday:'long' })) : 'recently'}.</em></h3>
+        <p>Confirm the work was done and leave a vouch — it releases the £${esc(v.price)} held in escrow and gives them a named, public reference for their next booking.</p>
+        <div class="vp-who">
+          <div class="vp-av">${esc(v.providerInitials || '?')}</div>
+          <div>
+            <div class="vp-name">${esc(v.providerName)}</div>
+            <div class="vp-detail">${esc(v.service || 'Service')}${v.providerArea ? ' · ' + esc(v.providerArea) : ''}</div>
+          </div>
+        </div>
+        <div class="vouch-actions">
+          <a href="/provider.html#${esc(v.providerId)}" class="vouch-btn primary" style="text-decoration:none;text-align:center">Confirm &amp; vouch</a>
+          <button class="vouch-btn ghost">Skip</button>
+        </div>
+        ${otherCount > 0 ? `<div class="vouch-more">${otherCount} other${otherCount>1?'s':''} also awaiting</div>` : ''}
+      </div>`;
+  }
+
   // Saved providers
-  rightHtml += '<section class="d-section"><div class="d-section-head"><h2>Your <em>saved</em></h2>' +
+  rightHtml += '<section class="d-section" style="' + (awaitingVouch.length ? 'margin-top:40px' : '') + '"><div class="d-section-head"><h2>Your <em>saved</em></h2>' +
     (savedProviders.length ? '<a href="/browse.html" class="see">More</a>' : '') + '</div>';
   if (savedProviders.length) {
     rightHtml += '<div class="saved-list">' + savedProviders.slice(0, 6).map(p => `

@@ -1202,11 +1202,33 @@
   let chosenSvc = null;
   let chosenPrice = 0;
 
-  /* ── Save toggle ── */
+  /* ── Save toggle (persists to sowo_saved_providers so dashboard can render it) ── */
   const saveBtn = document.getElementById('saveBtn');
+  function getSaved() {
+    try { return JSON.parse(localStorage.getItem('sowo_saved_providers') || '[]'); } catch(e) { return []; }
+  }
+  function isSaved() { return getSaved().some(p => p.id === _pid); }
+  if (isSaved()) saveBtn.classList.add('saved');
   saveBtn.addEventListener('click', () => {
-    saveBtn.classList.toggle('saved');
-    showToast(saveBtn.classList.contains('saved') ? 'Saved to favourites' : 'Removed');
+    let saved = getSaved();
+    const exists = saved.some(p => p.id === _pid);
+    if (exists) {
+      saved = saved.filter(p => p.id !== _pid);
+      saveBtn.classList.remove('saved');
+      showToast('Removed from saved');
+    } else {
+      saved.push({
+        id: _pid,
+        name: P.first + ' ' + P.last,
+        initials: P.initials,
+        cat: P.trade || '',
+        area: P.area || '',
+        savedAt: new Date().toISOString(),
+      });
+      saveBtn.classList.add('saved');
+      showToast('Saved · view in your dashboard');
+    }
+    try { localStorage.setItem('sowo_saved_providers', JSON.stringify(saved)); } catch(e) {}
   });
 
   /* ── Share ── */
@@ -1344,7 +1366,29 @@
 
   document.getElementById('bookBtn').addEventListener('click', () => {
     if (document.getElementById('bookBtn').disabled) return;
-    showToast('Booking requested · ' + P.first + ' will reply in <1 hour');
+    const date = document.getElementById('bookDate').value;
+    const time = document.getElementById('bookTime').value;
+    const msg  = document.getElementById('bookMsg').value.trim();
+    try {
+      const bookings = JSON.parse(localStorage.getItem('sowo_bookings') || '[]');
+      bookings.push({
+        id: 'book-' + Date.now(),
+        providerId: _pid,
+        providerName: P.first + ' ' + P.last,
+        providerInitials: P.initials,
+        providerArea: P.area || '',
+        service: chosenSvc,
+        price: chosenPrice,                 // pounds (integer)
+        date: date || '',                   // YYYY-MM-DD
+        time: time || '',                   // HH:MM
+        notes: msg,
+        status: 'pending',                  // pending → confirmed → completed → released
+        escrow: 'held',                     // held → released
+        createdAt: new Date().toISOString(),
+      });
+      localStorage.setItem('sowo_bookings', JSON.stringify(bookings));
+    } catch(e) {}
+    showToast('Booking requested · view it in your dashboard');
   });
 
   updateActiveTab();
