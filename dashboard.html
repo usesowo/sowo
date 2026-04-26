@@ -1244,27 +1244,30 @@ function dsRenderModeSwitcher(user, currentMode) {
   if (!el) return;
   const capable = dsIsProviderCapable(user);
 
-  const pillStyle = 'padding:8px 18px;border-radius:999px;border:1px solid var(--ink);font:inherit;font-size:12.5px;font-weight:600;cursor:pointer;background:var(--ink);color:var(--paper);transition:all .13s';
-  const pillHover = 'this.style.background=\'#000\'';
-  const pillReset = 'this.style.background=\'var(--ink)\'';
+  // Active state pill (black, current mode) — visual emphasis on what you ARE
+  const activePill = 'padding:8px 18px;border-radius:999px;border:1px solid var(--ink);font:inherit;font-size:12.5px;font-weight:600;background:var(--ink);color:var(--paper);display:inline-flex;align-items:center;gap:6px';
+  // Action pill (light, secondary) — the switch action
+  const switchPill = 'padding:8px 18px;border-radius:999px;border:1px solid var(--line);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;background:#fff;color:var(--ink-2);transition:all .13s;text-decoration:none;display:inline-flex;align-items:center;gap:6px';
+  const switchHover = 'this.style.borderColor=\'var(--ink)\';this.style.color=\'var(--ink)\'';
+  const switchReset = 'this.style.borderColor=\'var(--line)\';this.style.color=\'var(--ink-2)\'';
 
-  let label, action;
+  let activeLabel, switchAction;
   if (currentMode === 'provider') {
-    label = 'Viewing as <strong style="color:var(--ink);font-weight:600">provider</strong>';
-    action = '<button onclick="dsSetMode(\'client\')" onmouseover="' + pillHover + '" onmouseout="' + pillReset + '" style="' + pillStyle + '">Become a user →</button>';
+    activeLabel  = '<span style="' + activePill + '">Viewing as provider</span>';
+    switchAction = '<button onclick="dsSetMode(\'client\')" onmouseover="' + switchHover + '" onmouseout="' + switchReset + '" style="' + switchPill + '">Become a user →</button>';
   } else {
-    label = 'Viewing as <strong style="color:var(--ink);font-weight:600">user</strong>';
+    activeLabel = '<span style="' + activePill + '">Viewing as user</span>';
     if (capable) {
-      action = '<button onclick="dsSetMode(\'provider\')" onmouseover="' + pillHover + '" onmouseout="' + pillReset + '" style="' + pillStyle + '">Become a provider →</button>';
+      switchAction = '<button onclick="dsSetMode(\'provider\')" onmouseover="' + switchHover + '" onmouseout="' + switchReset + '" style="' + switchPill + '">Become a provider →</button>';
     } else {
-      action = '<a href="/become-provider.html" onmouseover="' + pillHover + '" onmouseout="' + pillReset + '" style="' + pillStyle + ';text-decoration:none;display:inline-block">Become a provider →</a>';
+      switchAction = '<a href="/become-provider.html" onmouseover="' + switchHover + '" onmouseout="' + switchReset + '" style="' + switchPill + '">Become a provider →</a>';
     }
   }
 
   el.innerHTML =
-    '<div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">' +
-      '<span style="font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">' + label + '</span>' +
-      action +
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">' +
+      activeLabel +
+      switchAction +
     '</div>';
 }
 
