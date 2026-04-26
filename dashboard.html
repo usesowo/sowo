@@ -733,7 +733,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
         Vouches received
       </a>
-      <a class="ds-link" data-mode="both" href="/requests.html">
+      <a class="ds-link" data-mode="both" id="dsRequestsLink" href="#leftColSlot" onclick="dsRequestsLinkClick(event)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
         <span data-label="Requests">Requests</span>
         <span class="badge" id="dsReqBadge" style="display:none">0</span>
@@ -1237,6 +1237,25 @@ function dsApplyModeToSidebar(mode) {
   if (bookings) bookings.textContent = mode === 'provider' ? 'Bookings (clients)' : 'Bookings';
   var requests = document.querySelector('.ds-link [data-label="Requests"]');
   if (requests) requests.textContent = mode === 'provider' ? 'Incoming requests' : 'My requests';
+  // The Requests link target depends on mode:
+  // - Client: scroll to "Your requests" section on this dashboard (only owns)
+  // - Provider: jump to /requests.html (public marketplace of incoming requests)
+  var reqLink = document.getElementById('dsRequestsLink');
+  if (reqLink) reqLink.setAttribute('data-target-mode', mode);
+}
+
+function dsRequestsLinkClick(ev) {
+  var link = document.getElementById('dsRequestsLink');
+  var mode = link?.getAttribute('data-target-mode') || 'client';
+  if (mode === 'client') {
+    ev.preventDefault();
+    var target = document.getElementById('leftColSlot');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    // Provider mode: let the link behave normally, but to /requests.html
+    window.location.href = '/requests.html';
+    ev.preventDefault();
+  }
 }
 
 function dsRenderModeSwitcher(user, currentMode) {
