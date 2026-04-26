@@ -383,6 +383,14 @@ function resolveNextDestination() {
     try {
       const drafts = JSON.parse(localStorage.getItem('sowo_request_drafts') || '[]');
       if (drafts.length) {
+        // Pull the just-signed-in user so we can attach their name as the poster
+        let user = {};
+        try { user = JSON.parse(sessionStorage.getItem('sowo_session') || '{}'); } catch(e) {}
+        const fullName = user.firstName
+          ? user.firstName + (user.lastName ? ' ' + user.lastName : '')
+          : (user.name || (user.email||'').split('@')[0] || 'You');
+        const initials = fullName.split(' ').map(w => w[0] || '').join('').toUpperCase().slice(0, 2) || '?';
+
         const stored = JSON.parse(localStorage.getItem('sowo_r') || '[]');
         const owned  = JSON.parse(localStorage.getItem('sowo_my_requests') || '[]');
         const now    = Date.now();
@@ -394,6 +402,8 @@ function resolveNextDestination() {
             title:  d.title || (d.desc || d.category || 'New request').split('\n')[0].slice(0, 80),
             loc:    d.location || '',
             age:    'just now',
+            poster: fullName,
+            posterInitials: initials,
             desc:   d.desc || '',
             budget: d.budget || '',
             timing: d.timing || '',

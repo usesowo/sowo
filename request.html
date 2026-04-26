@@ -94,21 +94,17 @@ footer ul li a:hover { color:#fff }
 
 /* ── HERO BANNER ── */
 .req-banner {
-  background:linear-gradient(135deg,#1A1614 0%,#2E2926 100%);
-  padding:52px 0 0;
+  background:var(--bg);
+  padding:48px 0 0;
   position:relative; overflow:hidden;
-}
-.req-banner::before {
-  content:''; position:absolute; inset:0;
-  background:radial-gradient(ellipse 60% 80% at 80% 50%, rgba(239,159,39,0.10) 0%, transparent 70%);
-  pointer-events:none;
+  border-bottom:1px solid var(--border);
 }
 .banner-inner { max-width:900px; margin:0 auto; padding:0 32px 0; position:relative }
 .req-fresh {
   display:inline-flex; align-items:center; gap:7px;
   height:24px; padding:0 11px; margin-bottom:20px;
   border-radius:999px; font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
-  color:rgba(239,159,39,0.80); border:1px solid rgba(239,159,39,0.22); background:rgba(239,159,39,0.07);
+  color:var(--amuted); border:1px solid rgba(193,122,20,0.22); background:var(--abg);
 }
 .fresh-dot { width:5px; height:5px; border-radius:50%; background:var(--amber); animation:pulse 2.5s ease-in-out infinite }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
@@ -117,24 +113,24 @@ footer ul li a:hover { color:#fff }
   display:inline-flex; align-items:center; gap:7px;
   height:26px; padding:0 12px; border-radius:6px; margin-bottom:14px;
   font-size:11px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
-  color:rgba(29,158,117,0.90); background:rgba(29,158,117,0.10); border:1px solid rgba(29,158,117,0.22);
+  color:var(--tmuted); background:var(--tbg); border:1px solid var(--tbr);
 }
 .req-title {
   font-family:'Fraunces',Georgia,serif; font-size:32px; font-weight:600;
-  letter-spacing:-.025em; line-height:1.15; color:#F3F0E9;
+  letter-spacing:-.025em; line-height:1.15; color:var(--tp);
   margin-bottom:16px; max-width:580px;
 }
 .req-meta-row {
   display:flex; align-items:center; gap:20px; flex-wrap:wrap;
-  padding-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.07);
+  padding-bottom:24px; border-bottom:1px solid var(--border);
   margin-bottom:0;
 }
 .req-meta-item {
   display:flex; align-items:center; gap:6px;
-  font-size:13px; color:rgba(243,240,233,0.55); font-weight:500;
+  font-size:13px; color:var(--tm); font-weight:500;
 }
 .req-meta-item svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round }
-.req-meta-item strong { color:rgba(243,240,233,0.80); font-weight:600 }
+.req-meta-item strong { color:var(--ts); font-weight:600 }
 
 /* poster info strip */
 .poster-strip {
@@ -144,12 +140,12 @@ footer ul li a:hover { color:#fff }
 .poster-info { display:flex; align-items:center; gap:12px }
 .poster-av {
   width:38px; height:38px; border-radius:50%;
-  background:rgba(239,159,39,0.18); border:1px solid rgba(239,159,39,0.22);
+  background:var(--abg); border:1px solid rgba(193,122,20,0.22);
   display:flex; align-items:center; justify-content:center;
-  font-size:14px; font-weight:700; color:var(--amber); flex-shrink:0;
+  font-size:14px; font-weight:700; color:var(--amuted); flex-shrink:0;
 }
-.poster-name { font-size:13.5px; font-weight:600; color:#F3F0E9 }
-.poster-sub  { font-size:12px; color:rgba(243,240,233,0.46) }
+.poster-name { font-size:13.5px; font-weight:600; color:var(--tp) }
+.poster-sub  { font-size:12px; color:var(--tm) }
 .req-status-badge {
   display:inline-flex; align-items:center; gap:6px;
   height:26px; padding:0 12px; border-radius:999px;
