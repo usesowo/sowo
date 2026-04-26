@@ -1,983 +1,1223 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Provider Profile - Sowo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Amara Osei — Bridal Makeup Artist · Sowo</title>
+<link rel="stylesheet" href="shared.css">
 <style>
-:root{--green:#085041;--teal:#1D9E75;--mint:#9FE1CB;--amber:#EF9F27;--black:#0A0A0A;--cream:#F5F0E8;--white:#fff;--t1:#0A0A0A;--t2:#555;--t3:#999;--border:#E8E8E8;--surf:#F6F6F6;--ease:cubic-bezier(.16,1,.3,1)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--white);color:var(--t1)}
-a{text-decoration:none;color:inherit}button{font-family:inherit;cursor:pointer;border:none}
+  body { background: var(--paper); }
+  html { scroll-behavior: smooth; }
 
-/* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border)}
-.logo-wm{font-family:Georgia,serif;font-size:19px;font-weight:700;color:var(--black)}
-.nav-back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);font-weight:600;transition:color .15s}
-.nav-back:hover{color:var(--black)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:14px;font-weight:600;border-radius:10px;cursor:pointer;transition:all .18s;white-space:nowrap}
-.btn-sm{height:38px;padding:0 16px;font-size:13px}
-.b-amber{background:var(--amber);color:var(--black)}.b-amber:hover{background:#D4891F}
-.b-light{background:transparent;color:var(--t2);border:1px solid var(--border)}.b-light:hover{border-color:var(--teal)}
+  .pp-page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 32px 40px 80px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 1080px) { .pp-page { grid-template-columns: 1fr; gap: 40px; } }
 
-main{margin-top:68px;max-width:1080px;margin-left:auto;margin-right:auto;padding:0 32px 80px;display:grid;grid-template-columns:1fr 340px;gap:40px;align-items:start}
-@media(max-width:900px){main{grid-template-columns:1fr;padding:0 20px 60px}}
+  /* ─── Identity card ─── */
+  .id-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 28px 32px 24px;
+  }
+  .id-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+  .id-name {
+    font-family: var(--serif); font-weight: 400;
+    font-size: clamp(36px, 4vw, 52px);
+    letter-spacing: -0.035em; line-height: 1;
+    color: var(--ink); margin-bottom: 14px;
+  }
+  .id-name em { font-style: italic; color: var(--g); font-weight: 400; }
 
-/* LEFT COL */
-.profile-header{padding:40px 0 32px;display:flex;gap:24px;align-items:flex-start}
-.avatar-wrap{position:relative;flex-shrink:0}
-.avatar{width:100px;height:100px;border-radius:50%;object-fit:cover;background:var(--surf)}
-.avatar-init{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:var(--mint);background:var(--green)}
-.verified-ring{position:absolute;bottom:4px;right:4px;width:24px;height:24px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;border:2px solid #fff}
-.profile-meta{flex:1}
-.profile-name{font-size:28px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
-.profile-cat{font-size:15px;color:var(--t2);font-weight:600;margin-bottom:6px}
-.profile-loc{font-size:14px;color:var(--t3);margin-bottom:10px}
-.stars-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.stars{color:var(--amber);font-size:18px}
-.rating-num{font-size:15px;font-weight:700}
-.vouch-cnt{font-size:13px;color:var(--t3)}
-.meta-pills{display:flex;flex-wrap:wrap;gap:8px}
-.meta-pill{height:30px;padding:0 12px;border-radius:999px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
-.pill-green{background:#E6F9F3;color:var(--teal)}
-.pill-amber{background:#FEF3E0;color:#8B5E0A}
-.pill-grey{background:var(--surf);color:var(--t2);border:1px solid var(--border)}
+  .id-meta {
+    display: flex; flex-wrap: wrap; gap: 0 14px;
+    align-items: center; font-size: 13.5px;
+    color: var(--ink-2); margin-bottom: 6px;
+  }
+  .id-meta .sep { color: var(--line-2); }
+  .id-rating { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+  .id-rating .stars { color: var(--a); letter-spacing: -1px; font-size: 14px; }
+  .id-rating .count { font-weight: 400; color: var(--muted); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .id-meta .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.10em;
+    color: var(--g); cursor: pointer;
+  }
+  .id-meta .pill:hover { color: var(--ink); }
+  .id-meta .pill svg { fill: var(--g); }
+  .id-meta .pill:hover svg { fill: var(--ink); }
 
-/* SECTIONS */
-.section{margin-bottom:32px}
-.section-title{font-size:17px;font-weight:800;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+  .id-line2 { font-size: 13.5px; color: var(--ink-2); margin-bottom: 4px; }
+  .id-line2 .price { font-weight: 600; color: var(--ink); }
+  .id-line2 .area { color: var(--muted); }
 
-/* Bio */
-.bio-text{font-size:15px;color:var(--t2);line-height:1.7}
+  .id-status {
+    font-size: 13.5px; color: var(--g); font-weight: 600; margin-top: 6px;
+  }
+  .id-status .next { color: var(--muted); font-weight: 400; }
+  .id-status .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--g); margin-right: 6px; vertical-align: 1px; animation: pulse 2.4s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
-/* Skills */
-.skills-grid{display:flex;flex-wrap:wrap;gap:8px}
-.skill-chip{height:32px;padding:0 14px;border-radius:999px;background:var(--surf);color:var(--t1);border:1px solid var(--border);font-size:13px;font-weight:600}
+  .id-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .icon-btn {
+    width: 40px; height: 40px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line);
+    background: var(--paper); color: var(--ink-2);
+    transition: all 0.15s; cursor: pointer;
+  }
+  .icon-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .icon-btn.saved { color: var(--g); border-color: var(--g); background: var(--gs); }
+  .icon-btn.saved svg { fill: currentColor; }
 
-/* Services */
-.services-list{display:flex;flex-direction:column;gap:12px}
-.service-card{border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;transition:border-color .15s}
-.service-card:hover{border-color:var(--teal)}
-.service-card.selected{border-color:var(--green);background:#F0FAF5}
-.service-info h3{font-size:15px;font-weight:700;margin-bottom:3px}
-.service-info p{font-size:13px;color:var(--t3)}
-.service-price{font-size:20px;font-weight:900;color:var(--black);white-space:nowrap;text-align:right}
-.service-price span{font-size:12px;font-weight:500;color:var(--t3);display:block}
+  /* CTA row — three honest actions only */
+  .id-cta-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px; margin-top: 22px; padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+  .cta-pill {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; height: 46px;
+    font-size: 13.5px; font-weight: 500;
+    border-radius: 999px; transition: all 0.15s;
+    cursor: pointer; border: 1px solid transparent;
+  }
+  .cta-pill.primary { background: var(--g); color: #fff; }
+  .cta-pill.primary:hover { background: #063D31; transform: translateY(-1px); }
+  .cta-pill.primary svg { fill: #fff; }
+  .cta-pill.secondary { background: var(--gs); color: var(--g); }
+  .cta-pill.secondary:hover { background: #C8EBDC; }
+  .cta-pill.secondary svg { fill: var(--g); }
+  .cta-pill.tertiary { background: var(--paper); color: var(--ink); border-color: var(--line); }
+  .cta-pill.tertiary:hover { border-color: var(--ink); }
 
-/* Vouches */
-.vouches-list{display:flex;flex-direction:column;gap:16px}
-.vouch-card{border:1px solid var(--border);border-radius:14px;padding:18px 20px}
-.vouch-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.vouch-av{width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--surf)}
-.vouch-av-init{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--mint);background:var(--green)}
-.vouch-author{font-size:14px;font-weight:700}
-.vouch-date{font-size:12px;color:var(--t3);margin-top:1px}
-.vouch-stars{color:var(--amber);font-size:13px;margin-left:auto}
-.vouch-text{font-size:14px;color:var(--t2);line-height:1.6}
+  /* ─── Photo strip ─── */
+  .photo-strip {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 8px; height: 340px; margin-top: 24px;
+    position: relative;
+  }
+  .photo-cell {
+    position: relative; overflow: hidden;
+    background: var(--paper-2); cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .photo-cell:hover { opacity: 0.92; }
+  .photo-cell.feature { grid-row: span 2; }
+  .photo-cell .ph {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--paper-2) 0%, var(--paper-3) 100%);
+  }
+  .photo-cell .ph::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 30% 20%, rgba(8,80,65,0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(239,159,39,0.10) 0%, transparent 45%);
+  }
+  .photo-cell .ph-label {
+    position: relative; z-index: 1;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .photo-cell .when {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(10,10,10,0.7); color: #fff;
+    font-size: 11px; font-weight: 500;
+    padding: 5px 10px; border-radius: 999px;
+    z-index: 2; backdrop-filter: blur(4px);
+  }
+  .photo-cell .credit {
+    position: absolute; bottom: 10px; left: 12px;
+    color: rgba(255,255,255,0.85);
+    font-size: 10.5px; font-style: italic;
+    z-index: 2; text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+  }
+  .photo-cell.more {
+    display: grid; place-items: center;
+    background: var(--ink); color: var(--paper);
+  }
+  .photo-cell.more .more-num {
+    font-family: var(--serif); font-size: 30px; line-height: 1; margin-bottom: 4px;
+  }
+  .photo-cell.more .more-lbl {
+    font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.6;
+  }
+  .view-all-btn {
+    position: absolute; bottom: 14px; right: 14px;
+    background: rgba(10,10,10,0.85); color: var(--paper);
+    border-radius: 999px; padding: 9px 16px;
+    font-size: 12px; font-weight: 500;
+    backdrop-filter: blur(8px); z-index: 5;
+    display: inline-flex; align-items: center; gap: 6px;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .view-all-btn:hover { background: var(--ink); }
 
-/* RIGHT COL — BOOKING WIDGET */
-.booking-card{
-  position:sticky;top:90px;
-  background:#fff;border:1px solid var(--border);border-radius:20px;padding:28px 24px;
-}
-.booking-price{font-size:30px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px}
-.booking-price span{font-size:14px;font-weight:500;color:var(--t3)}
-.booking-vouch{font-size:13px;color:var(--t3);margin-bottom:24px}
+  /* ─── Sticky tabs (jump scroll) ─── */
+  .tabs-sticky {
+    position: sticky; top: 70px; z-index: 50;
+    background: var(--paper);
+    margin-top: 36px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tabs-bar { display: flex; gap: 0; }
+  .tab {
+    padding: 14px 22px 12px;
+    font-size: 14px; font-weight: 500;
+    color: var(--muted); position: relative;
+    cursor: pointer; background: none; border: none;
+    margin-bottom: -1px;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--g); font-weight: 600; }
+  .tab.active::after {
+    content: ''; position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px; background: var(--g);
+  }
 
-.book-label{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:7px}
-.book-input{
-  width:100%;height:46px;border:1px solid var(--border);border-radius:10px;
-  padding:0 14px;font-size:14px;font-family:inherit;color:var(--t1);
-  outline:none;transition:border-color .2s;background:#fff;
-}
-.book-input:focus{border-color:var(--teal)}
-textarea.book-input{height:90px;padding:12px 14px;resize:none;line-height:1.5}
-.book-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.book-field{margin-bottom:14px}
+  /* ─── Info stack ─── */
+  .info-stack {
+    display: flex; flex-direction: column; gap: 1px;
+    margin-top: 28px; background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .info-row {
+    background: var(--paper); padding: 0;
+    transition: background 0.12s;
+  }
+  .info-row.expandable { cursor: pointer; }
+  .info-row-head {
+    display: grid; grid-template-columns: 28px 1fr auto;
+    gap: 18px; align-items: center;
+    padding: 18px 22px;
+    width: 100%; text-align: left;
+    background: none; border: none;
+    cursor: inherit;
+  }
+  .info-row.expandable:hover { background: #FAF6EE; }
+  .info-row .ico { color: var(--muted); display: flex; }
+  .info-row .ico svg { stroke: var(--muted); }
+  .info-row .body { font-size: 14px; color: var(--ink); line-height: 1.45; }
+  .info-row .body strong { font-weight: 600; }
+  .info-row .body .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .info-row .body .accent { color: var(--g); font-weight: 600; }
+  .info-row .chev { color: var(--muted-2); transition: transform 0.2s; }
+  .info-row.open .chev { transform: rotate(180deg); }
 
-.btn-book{
-  width:100%;height:52px;background:var(--green);color:var(--mint);
-  border-radius:12px;font-size:16px;font-weight:700;border:none;cursor:pointer;
-  transition:background .15s,transform .12s;margin-top:4px;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
-.btn-book:hover{background:#063D31}
-.btn-book:active{transform:scale(.97)}
-.btn-book:disabled{opacity:.5;cursor:not-allowed}
+  .info-row-detail {
+    display: none; padding: 0 22px 22px 68px;
+    font-size: 13.5px; color: var(--ink-2); line-height: 1.7;
+  }
+  .info-row.open .info-row-detail { display: block; }
 
-.spin{width:20px;height:20px;border:2px solid rgba(159,225,203,.3);border-top-color:var(--mint);border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
+  /* Hours grid inside expander */
+  .hours-grid {
+    display: grid; grid-template-columns: 110px 1fr;
+    gap: 6px 24px; max-width: 360px;
+  }
+  .hours-grid .day { color: var(--muted); font-family: var(--mono); font-size: 12px; }
+  .hours-grid .day.today { color: var(--ink); font-weight: 600; }
+  .hours-grid .time { color: var(--ink); font-size: 13px; }
+  .hours-grid .time.today { color: var(--g); font-weight: 600; }
 
-.book-trust{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t3);margin-top:12px;justify-content:center}
-.book-trust svg{width:14px;height:14px;fill:var(--teal)}
-.book-divider{height:1px;background:var(--border);margin:18px 0}
-.book-share{display:flex;gap:8px;justify-content:center}
-.share-btn{height:32px;padding:0 12px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid var(--border);background:#fff;color:var(--t2);cursor:pointer;transition:all .15s}
-.share-btn:hover{border-color:var(--teal);color:var(--black)}
+  /* ─── Section blocks ─── */
+  .block { margin-top: 56px; scroll-margin-top: 130px; }
+  .block-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 18px; border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+  }
+  .block-title {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 26px; letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .block-title em { font-style: italic; color: var(--g); }
+  .block-link {
+    font-family: var(--mono); font-size: 10.5px;
+    text-transform: uppercase; letter-spacing: 0.10em;
+    color: var(--ink-2); cursor: pointer;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px; background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .block-link:hover { border-bottom-color: var(--ink); color: var(--ink); }
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:900;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
-.modal-overlay.show{opacity:1;pointer-events:all}
-.modal{background:#fff;border-radius:20px;padding:36px;max-width:440px;width:90%;transform:translateY(20px);transition:transform .25s var(--ease)}
-.modal-overlay.show .modal{transform:none}
-.modal-icon{font-size:40px;margin-bottom:12px}
-.modal-title{font-size:22px;font-weight:800;margin-bottom:8px}
-.modal-msg{font-size:14px;color:var(--t2);line-height:1.6;margin-bottom:24px}
-.modal-btns{display:flex;gap:10px}
-.modal-btns .btn{flex:1;height:46px;font-size:14px}
+  .about-text { font-size: 15px; line-height: 1.75; color: var(--ink-2); max-width: 640px; }
+  .about-text + .about-text { margin-top: 14px; }
+  .spec-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
 
-/* Loading */
-.page-loading{display:flex;align-items:center;justify-content:center;min-height:60vh;font-size:14px;color:var(--t3)}
+  /* Services */
+  .svc-list { display: flex; flex-direction: column; }
+  .svc-item {
+    display: grid; grid-template-columns: 1fr auto auto auto;
+    gap: 24px; align-items: center;
+    padding: 20px 0; border-bottom: 1px solid var(--line);
+    transition: padding 0.15s;
+  }
+  .svc-item:first-child { border-top: 1px solid var(--ink); }
+  .svc-item .svc-name { font-family: var(--serif); font-size: 19px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); }
+  .svc-item .svc-desc { font-size: 12.5px; color: var(--muted); margin-top: 4px; max-width: 460px; }
+  .svc-item .svc-dur { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .svc-item .svc-price { font-family: var(--serif); font-size: 22px; letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+  .svc-item .svc-price small { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-left: 4px; display: block; }
+  .svc-pick {
+    background: var(--ink); color: var(--paper);
+    border-radius: 999px; padding: 8px 16px;
+    font-size: 12px; font-weight: 500;
+    transition: background 0.15s; white-space: nowrap;
+  }
+  .svc-pick:hover { background: var(--g); }
+  .svc-pick.selected { background: var(--g); }
+  .svc-pick.selected::before { content: '✓ '; }
 
-/* STANDARD NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;padding:0 40px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--border)}
-.nav-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:1.1rem;color:var(--black);text-decoration:none}
-.nav-links{display:flex;gap:24px}
-.nav-links a{font-size:13px;font-weight:500;color:var(--t2);text-decoration:none;transition:color .15s}
-.nav-links a:hover{color:var(--black)}
-.nav-auth{font-size:13px;font-weight:600;color:var(--t2);text-decoration:none;transition:color .15s}
-.nav-auth:hover{color:var(--black)}
-/* Auth nav */
-.nav-user{position:relative;display:none}
-.nav-user.visible{display:flex;align-items:center}
-.nav-avatar{width:34px;height:34px;border-radius:50%;background:#085041;color:#9FE1CB;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid transparent;transition:border-color .15s;background-size:cover;background-position:center;user-select:none;flex-shrink:0}
-.nav-avatar:hover{border-color:#085041}
-.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.12);min-width:200px;padding:6px;z-index:999;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s}
-.nav-dropdown.open{opacity:1;pointer-events:all;transform:translateY(0)}
-.nav-dd-info{padding:10px 12px 8px;border-bottom:1px solid #f3f4f6;margin-bottom:4px}
-.nav-dd-info .dd-name{font-size:13px;font-weight:700;color:#111}
-.nav-dd-info .dd-email{font-size:11.5px;color:#9ca3af;margin-top:1px}
-.nav-dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;cursor:pointer;background:none;border:none;width:100%;text-align:left;transition:background .12s}
-.nav-dd-item:hover{background:#f9fafb;color:#085041}
-.nav-dd-item.danger{color:#dc2626}
-.nav-dd-item.danger:hover{background:#fff5f5}
-.nav-cta{height:38px;padding:0 16px;background:var(--green);color:var(--mint);border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;transition:background .15s}
-.nav-cta:hover{background:#063D31}
+  /* Vouches */
+  .vouch-strip {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 18px;
+  }
+  .vouch {
+    background: var(--paper); border: 1px solid var(--line);
+    padding: 22px; display: flex; flex-direction: column;
+  }
+  .vouch-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .vouch-rel {
+    font-family: var(--mono); font-size: 9.5px;
+    text-transform: uppercase; letter-spacing: 0.10em;
+    color: var(--muted);
+  }
+  .vouch-verified {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--mono); font-size: 9.5px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--g);
+  }
+  .vouch-verified svg { fill: var(--g); }
+  .vouch-quote {
+    font-family: var(--serif); font-style: italic;
+    font-size: 16.5px; line-height: 1.5;
+    letter-spacing: -0.005em; color: var(--ink);
+    margin-bottom: 18px; flex: 1;
+  }
+  .vouch-quote::before { content: '\201C'; color: var(--a); margin-right: 2px; font-style: normal; font-size: 22px; }
+  .vouch-by { display: flex; align-items: center; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .vouch-av {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--gs); color: var(--g);
+    display: grid; place-items: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0;
+  }
+  .vouch-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .vouch-from { font-size: 11.5px; color: var(--muted); margin-top: 1px; }
 
-/* FOOTER */
-.wrap{max-width:1080px;margin:0 auto;padding:0 40px}
-footer{background:#0a0a0a;color:#fff;padding:60px 0 0}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid #1f1f1f}
-.fb p{color:#9ca3af;font-size:.875rem;line-height:1.6;margin-top:12px}
-footer h4{font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;margin-bottom:16px}
-footer ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:10px}
-footer ul li a{color:#d1d5db;font-size:.875rem;text-decoration:none;transition:color .15s}
-footer ul li a:hover{color:#fff}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-size:.8rem;color:#6b7280}
-.footer-bottom nav{display:flex;gap:20px;position:static;height:auto;background:none;border:none;padding:0}
-.footer-bottom nav a{color:#6b7280;text-decoration:none;font-size:.8rem;font-weight:400}
-.footer-bottom nav a:hover{color:#fff}
-.footer-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1.1rem;color:#fff}
-@media(max-width:768px){.footer-top{grid-template-columns:1fr 1fr}}
+  /* Reviews */
+  .reviews-summary {
+    display: grid; grid-template-columns: 240px 1fr;
+    gap: 40px; align-items: center;
+    padding: 20px 0 28px; border-bottom: 1px solid var(--line);
+  }
+  .reviews-score {
+    text-align: center; padding-right: 32px; border-right: 1px solid var(--line);
+  }
+  .reviews-score .num {
+    font-family: var(--serif); font-size: 56px;
+    font-weight: 400; letter-spacing: -0.04em;
+    line-height: 1; color: var(--ink); margin-bottom: 6px;
+  }
+  .reviews-score .stars { color: var(--a); letter-spacing: 1px; font-size: 16px; margin-bottom: 4px; }
+  .reviews-score .count { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+  .reviews-bars { display: flex; flex-direction: column; gap: 6px; }
+  .bar-row { display: grid; grid-template-columns: 16px 1fr 32px; gap: 12px; align-items: center; font-size: 11.5px; }
+  .bar-row .b-lbl { color: var(--muted); font-family: var(--mono); }
+  .bar-row .b-track { height: 5px; background: var(--paper-2); position: relative; overflow: hidden; }
+  .bar-row .b-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink); }
+  .bar-row .b-num { color: var(--muted); font-family: var(--mono); text-align: right; }
+
+  .review-list { display: flex; flex-direction: column; gap: 0; margin-top: 20px; }
+  .review {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: 56px 1fr;
+    gap: 18px;
+  }
+  .review-av {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--as); color: var(--ad);
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 600;
+  }
+  .review-head { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .review-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .review-date { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+  .review-stars { color: var(--a); letter-spacing: 1px; font-size: 13px; }
+  .review-svc { font-family: var(--mono); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.10em; color: var(--g); background: var(--gs); padding: 3px 8px; }
+  .review-text { font-size: 14px; line-height: 1.65; color: var(--ink-2); }
+
+  /* ─── Right sidebar ─── */
+  .book-side { position: sticky; top: 100px; }
+  .book-card {
+    background: var(--ink); color: var(--paper);
+    padding: 26px 26px 22px;
+  }
+  .book-eyebrow {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(245,240,232,0.55); margin-bottom: 6px;
+  }
+  .book-price {
+    font-family: var(--serif); font-weight: 400;
+    font-size: 38px; letter-spacing: -0.025em;
+    line-height: 1; margin-bottom: 4px;
+  }
+  .book-price em { font-style: italic; color: var(--a); }
+  .book-price .unit { font-size: 14px; color: rgba(245,240,232,0.55); margin-left: 4px; font-style: normal; }
+  .book-sub { font-size: 12.5px; color: rgba(245,240,232,0.55); margin-bottom: 18px; }
+
+  .book-step-label {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    padding-top: 16px; border-top: 1px solid rgba(245,240,232,0.15);
+    margin-bottom: 10px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .book-step-label .num { color: var(--a); }
+
+  .book-svc {
+    display: flex; flex-direction: column;
+    margin-bottom: 4px;
+  }
+  .book-svc-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 12px;
+    margin: 0 -8px;
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.12s;
+  }
+  .book-svc-row:hover { background: rgba(245,240,232,0.06); }
+  .book-svc-row.selected { background: rgba(159,225,203,0.12); }
+  .book-svc-row.selected::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gl); margin-right: 8px;
+  }
+  .book-svc-row .svc-l { color: rgba(245,240,232,0.85); flex: 1; }
+  .book-svc-row.selected .svc-l { color: var(--paper); }
+  .book-svc-row .svc-dur-mini { font-family: var(--mono); font-size: 10px; color: rgba(245,240,232,0.45); margin-left: 8px; }
+  .book-svc-row .svc-r { font-family: var(--serif); font-size: 16px; color: var(--paper); }
+
+  .book-fields { margin-top: 14px; }
+  .book-fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .book-label { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.10em; text-transform: uppercase; color: rgba(245,240,232,0.55); margin-bottom: 5px; display: block; }
+  .book-input {
+    width: 100%; padding: 10px 12px;
+    background: rgba(245,240,232,0.06);
+    border: 1px solid rgba(245,240,232,0.15);
+    color: var(--paper); font-size: 13px;
+    outline: none; transition: border-color 0.15s;
+    font-family: var(--sans);
+  }
+  .book-input:focus { border-color: rgba(245,240,232,0.4); }
+  .book-input::placeholder { color: rgba(245,240,232,0.3); }
+  textarea.book-input { resize: none; line-height: 1.5; }
+  .book-input::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); cursor: pointer; }
+
+  .book-summary {
+    margin: 16px -8px 0;
+    padding: 12px;
+    background: rgba(245,240,232,0.04);
+    border: 1px dashed rgba(245,240,232,0.15);
+    font-size: 12px;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.6;
+    display: none;
+  }
+  .book-summary.show { display: block; }
+  .book-summary .total {
+    display: flex; justify-content: space-between;
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px solid rgba(245,240,232,0.12);
+    font-family: var(--serif);
+    font-size: 18px; color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+
+  .book-btn {
+    width: 100%; height: 50px;
+    background: var(--a); color: var(--ink);
+    font-size: 14px; font-weight: 600;
+    border-radius: 999px; margin-top: 12px;
+    transition: all 0.15s; cursor: pointer;
+  }
+  .book-btn:hover:not(:disabled) { background: #D88D1A; transform: translateY(-1px); }
+  .book-btn:disabled { background: rgba(245,240,232,0.12); color: rgba(245,240,232,0.4); cursor: not-allowed; }
+
+  .book-msg-btn {
+    width: 100%; height: 44px; background: transparent;
+    color: var(--paper); border: 1px solid rgba(245,240,232,0.25);
+    border-radius: 999px; font-size: 13px; font-weight: 500;
+    margin-top: 8px; transition: border-color 0.15s; cursor: pointer;
+  }
+  .book-msg-btn:hover { border-color: var(--paper); }
+
+  .book-foot {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid rgba(245,240,232,0.15);
+    font-size: 11.5px; color: rgba(245,240,232,0.55);
+    line-height: 1.5;
+  }
+  .book-foot svg { flex-shrink: 0; fill: var(--gl); }
+
+  /* Mini provider card */
+  .mini-card {
+    background: var(--paper); border: 1px solid var(--line);
+    padding: 16px 18px; margin-top: 12px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .mini-av {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--gs); color: var(--g);
+    display: grid; place-items: center;
+    font-family: var(--serif); font-size: 16px; font-weight: 500;
+    flex-shrink: 0; border: 2px solid var(--g);
+  }
+  .mini-info { flex: 1; min-width: 0; }
+  .mini-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .mini-resp { font-size: 11.5px; color: var(--muted); margin-top: 2px; display: inline-flex; align-items: center; gap: 5px; }
+  .mini-resp .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--g); animation: pulse 2.4s infinite; }
+
+  /* Trust strip — single line */
+  .trust-strip-mini {
+    margin-top: 12px; padding: 14px 18px;
+    background: var(--paper); border: 1px solid var(--line);
+    font-size: 12px; color: var(--ink-2);
+    line-height: 1.6; display: flex; gap: 6px; align-items: flex-start;
+  }
+  .trust-strip-mini svg { flex-shrink: 0; fill: var(--g); margin-top: 2px; }
+  .trust-strip-mini strong { color: var(--ink); font-weight: 600; }
+
+  /* ─── Lightbox ─── */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,10,10,0.92);
+    display: none; align-items: center; justify-content: center;
+    padding: 60px 40px;
+  }
+  .lightbox.open { display: flex; }
+  .lb-close {
+    position: absolute; top: 20px; right: 24px;
+    width: 44px; height: 44px;
+    background: rgba(245,240,232,0.08);
+    border: 1px solid rgba(245,240,232,0.2);
+    color: var(--paper); display: grid; place-items: center;
+    border-radius: 50%; cursor: pointer; transition: background 0.15s;
+  }
+  .lb-close:hover { background: rgba(245,240,232,0.18); }
+  .lb-counter {
+    position: absolute; top: 30px; left: 32px;
+    font-family: var(--mono); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.7);
+  }
+  .lb-image {
+    max-width: 1000px; width: 100%;
+    aspect-ratio: 4/3; background: var(--paper-3);
+    background-image:
+      radial-gradient(circle at 30% 20%, rgba(8,80,65,0.18) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(239,159,39,0.20) 0%, transparent 45%);
+    display: grid; place-items: center;
+  }
+  .lb-image .ph-label {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  .lb-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px;
+    background: rgba(245,240,232,0.08);
+    border: 1px solid rgba(245,240,232,0.2);
+    color: var(--paper); display: grid; place-items: center;
+    border-radius: 50%; cursor: pointer; transition: background 0.15s;
+  }
+  .lb-nav:hover { background: rgba(245,240,232,0.18); }
+  .lb-nav.prev { left: 24px; }
+  .lb-nav.next { right: 24px; }
+
+  /* ─── Toast ─── */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: var(--paper);
+    padding: 12px 22px; border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    z-index: 300; opacity: 0; pointer-events: none;
+    transition: all 0.25s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast svg { fill: var(--gl); }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="nav-logo">
-    <svg width="32" height="30" viewBox="0 0 120 110" fill="none">
-      <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
-      <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
-      <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
-      <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
-    </svg>
-    <span>Sowo</span>
-  </a>
-  <div class="nav-links">
-    <a href="/#marketplace">Marketplace</a>
-    <a href="/become-provider.html">Become a Provider</a>
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-left">
+    <a href="browse.html" class="nav-logo">
+      <svg width="22" height="22" viewBox="0 0 120 110" fill="none">
+        <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="10" stroke-linecap="round"/>
+        <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="60" cy="10" r="11" fill="#EF9F27"/>
+        <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
+      </svg>
+      Sowo
+    </a>
+    <a href="browse.html" class="nav-link">Browse</a>
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <a href="/login.html" class="nav-auth" id="nav-login-btn">Sign in</a>
-    <a href="/signup.html" class="nav-cta" id="nav-cta-btn">Get started</a>
-      <div class="nav-user" id="nav-user">
-      <div class="nav-avatar" id="nav-av">?</div>
-      <div class="nav-dropdown" id="nav-dropdown">
-        <div class="nav-dd-info">
-          <div class="dd-name" id="nav-dd-name"></div>
-          <div class="dd-email" id="nav-dd-email"></div>
-        </div>
-        <a href="/dashboard.html" class="nav-dd-item">
-          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-          Dashboard
-        </a>
-        <a href="/dashboard.html" class="nav-dd-item">
-          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          My Profile
-        </a>
-        <button class="nav-dd-item danger" id="nav-signout-btn">
-          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-          Sign out
-        </button>
-      </div>
-    </div>
+  <div></div>
+  <div class="nav-right">
+    <a href="#" class="nav-auth">How vouching works</a>
+    <a href="#" class="nav-cta">Get started</a>
   </div>
 </nav>
 
-<div id="pageContent" style="margin-top:68px">
-  <div style="max-width:1080px;margin:0 auto;padding:16px 32px 0"><a href="/#marketplace" class="nav-back">← Back to home</a></div>
-  <div class="page-loading">Loading provider…</div>
-</div>
+<!-- ═══ PAGE ═══ -->
+<div class="pp-page">
 
-<!-- Booking confirmation modal -->
-<div class="modal-overlay" id="confirmModal">
-  <div class="modal">
-    <div class="modal-icon">🤝</div>
-    <div class="modal-title">Confirm your booking</div>
-    <div class="modal-msg" id="confirmMsg">Review your booking details below.</div>
-    <div class="modal-btns">
-      <button class="btn b-light" onclick="closeModal()">Cancel</button>
-      <button class="btn b-amber" id="confirmPayBtn">Pay & book →</button>
-    </div>
-  </div>
-</div>
+  <!-- ━━━ MAIN COLUMN ━━━ -->
+  <div>
 
-<!-- Success modal -->
-<div class="modal-overlay" id="successModal">
-  <div class="modal" style="text-align:center">
-    <div class="modal-icon">🎉</div>
-    <div class="modal-title">Booking requested!</div>
-    <div class="modal-msg">Your booking request has been sent. The provider will confirm within 24 hours. You'll get an email update.</div>
-    <div class="modal-btns">
-      <a href="/dashboard" class="btn b-green" style="flex:1;height:46px;font-size:14px;border-radius:10px;display:flex;align-items:center;justify-content:center">Go to dashboard</a>
-    </div>
-  </div>
-</div>
+    <!-- Identity card -->
+    <div class="id-card">
+      <div class="id-row">
+        <div style="flex:1; min-width: 0;">
+          <h1 class="id-name">Amara <em>Osei</em></h1>
 
-<footer>
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="fb">
-        <div class="footer-logo">
-          <svg width="28" height="26" viewBox="0 0 120 110" fill="none">
-            <path d="M10 90 C10 44 30 10 60 10" stroke="#9FE1CB" stroke-width="9" stroke-linecap="round"/>
-            <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
-            <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
-            <circle cx="60" cy="10" r="5" fill="#fff"/>
-          </svg>
-          <span>Sowo</span>
-        </div>
-        <p>Trusted help, near you. Find vetted providers or earn doing what you love. One account, both sides.</p>
-      </div>
-      <div>
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#">Beauty &amp; Makeup</a></li>
-          <li><a href="#">Nail Technicians</a></li>
-          <li><a href="#">Hairdressers</a></li>
-          <li><a href="#">Barbers</a></li>
-          <li><a href="#">Private Chefs</a></li>
-          <li><a href="#">Massage</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About Sowo</a></li>
-          <li><a href="#">How it works</a></li>
-          <li><a href="#">Safety &amp; Trust</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Careers</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Support</h4>
-        <ul>
-          <li><a href="#">Help Centre</a></li>
-          <li><a href="#">Contact us</a></li>
-          <li><a href="/become-provider.html">Become a Provider</a></li>
-          <li><a href="/login.html">Sign in</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2025 Sowo. This is an early-stage MVP. Features are still being tested and some things may not work as expected. Not yet a registered company.</p>
-      <nav>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">Cookies</a>
-      </nav>
-    </div>
-  </div>
-</footer>
-
-<script>
-const params     = new URLSearchParams(window.location.search);
-const providerId = params.get('id');
-const demoId     = params.get('demo');
-let providerData = null;
-let selectedServiceId = null;
-let currentUser  = null;
-
-/* Minimal UI helpers so the page works without sowo.js */
-if (typeof UI === 'undefined') {
-  window.UI = {
-    stars(r) { const n=Math.round(r||0); return '★'.repeat(n)+'☆'.repeat(5-n); },
-    formatPrice(p) { return p ? '£'+(p/100).toFixed(0) : '£0'; },
-    toast(msg, type='info') {
-      const t=document.createElement('div');
-      t.textContent=msg;
-      t.style.cssText=`position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:10px;font-size:14px;font-weight:600;z-index:9999;background:${type==='error'?'#c0392b':type==='success'?'#085041':'#333'};color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.2)`;
-      document.body.appendChild(t);
-      setTimeout(()=>t.remove(),3000);
-    },
-    setLoading(btn,on){ if(on){btn.dataset.orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span>';btn.disabled=true;}else{btn.innerHTML=btn.dataset.orig||'Submit';btn.disabled=false;} }
-  };
-}
-
-function init() {
-  /* Check sessionStorage first — set by browse.html when a card is clicked */
-  const raw = sessionStorage.getItem('sowo_preview');
-  if (raw) {
-    sessionStorage.removeItem('sowo_preview');
-    const p = JSON.parse(raw);
-    if (p && p.name) { renderPreviewPage(p); return; }
-  }
-
-  if (demoId) {
-    renderDemoPage(demoId);
-    return;
-  }
-
-  /* Nothing to show — send back to marketplace */
-  window.location.replace('/browse.html');
-  return;
-
-  /* Real provider lookup — only runs if ?id= is set and backend is available */
-  if (typeof sb !== 'undefined') {
-    sb.from('providers')
-      .select(`*, profiles(*), services(*), vouches(*)`)
-      .eq('id', providerId)
-      .single()
-      .then(({ data, error }) => {
-        if (error || !data) { renderDemoPage(); return; }
-        providerData = data;
-        renderPage(data);
-      })
-      .catch(() => renderDemoPage());
-  } else {
-    renderDemoPage();
-  }
-}
-
-
-function renderPreviewPage(p) {
-  /* real = has local_ id, OR has an email (came from sowo_providers) */
-  const isReal  = (p.id && String(p.id).startsWith('local_')) || !!p.email;
-  /* check if viewing user is the owner */
-  var sessionRaw = sessionStorage.getItem('sowo_session');
-  var isOwn = false;
-  try { var sess = JSON.parse(sessionRaw || '{}'); isOwn = sess.email && p.email && sess.email.toLowerCase() === p.email.toLowerCase(); } catch(e) {}
-
-  const initials  = p.name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
-  const starsStr  = p.rating ? UI.stars(p.rating) : '☆☆☆☆☆';
-  const ratingText= p.rating ? p.rating + ' · ' + p.reviews + ' reviews' : 'New provider';
-
-  /* resolve rate: p.price (pence from demo data), p.hourly_rate (pence from sowo_providers) */
-  var rawPrice = p.price || p.hourly_rate || 0;
-  var priceStr = rawPrice ? ('£' + (rawPrice / 100).toFixed(0)) : 'Contact';
-
-  const skillChips = (p.skills || []).map(function(s){ return '<span class="skill-chip">'+s+'</span>'; }).join('');
-
-  /* build services rows */
-  var servicesHtml = '';
-  if (p.services && p.services.length) {
-    servicesHtml = p.services.map(function(s) {
-      if (!s || typeof s !== 'object') return '';
-      var sp = s.price ? ('£' + (s.price / 100).toFixed(0)) : priceStr;
-      return '<div class="service-card" style="cursor:default">' +
-        '<div class="service-info"><h3>'+s.name+'</h3><p>'+p.category+'</p></div>' +
-        '<div class="service-price">'+sp+'</div>' +
-      '</div>';
-    }).join('');
-  } else {
-    servicesHtml = '<div class="service-card" style="cursor:default">' +
-      '<div class="service-info"><h3>Standard session</h3><p>'+p.category+' &middot; 1h</p></div>' +
-      '<div class="service-price">'+priceStr+'<span>/hr</span></div>' +
-    '</div>';
-  }
-
-  var bannerHtml = '';
-  if (isOwn) {
-    bannerHtml = '<div style="background:#edf4f1;border:1px solid #a4ccbd;border-radius:10px;padding:14px 16px;font-size:13px;color:#085041;margin-bottom:16px">' +
-      'This is a preview of your public listing.' +
-    '</div>';
-  }
-
-  document.title = p.name + ' - Sowo';
-  document.getElementById('pageContent').innerHTML =
-    '<div style="max-width:1080px;margin:0 auto;padding:16px 32px 0"><a href="/browse.html" class="nav-back">&larr; Back to marketplace</a></div>' +
-    '<main>' +
-      '<div class="left-col">' +
-        '<div class="profile-header">' +
-          '<div class="avatar-wrap">' +
-            (p.img ? '<img src="'+p.img+'" alt="'+p.name+'" style="width:88px;height:88px;border-radius:50%;object-fit:cover;display:block">' : '<div class="avatar-init">'+initials+'</div>') +
-            (p.verified ? '<div class="verified-ring">\u2713</div>' : '') +
-          '</div>' +
-          '<div class="profile-meta">' +
-            '<h1 class="profile-name">'+p.name+'</h1>' +
-            '<div class="profile-cat">'+(p.category||'')+'</div>' +
-            (p.location ? '<div class="profile-loc"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> '+p.location+'</div>' : '') +
-            '<div style="margin-top:6px;color:#EF9F27;font-size:14px">'+starsStr+' <span style="color:#666;font-size:12px">'+ratingText+'</span></div>' +
-            '<div class="meta-pills" style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' +
-              (p.verified ? '<span class="meta-pill pill-green">\u2713 Verified</span>' : '') +
-              '<span class="meta-pill pill-green">\u25cf Available now</span>' +
-              (rawPrice ? '<span class="meta-pill pill-amber">From '+priceStr+'/hr</span>' : '') +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-        (p.bio ? '<div class="section"><div class="section-title">About</div><p class="bio-text">'+p.bio+'</p></div>' : '') +
-        (skillChips ? '<div class="section"><div class="section-title">Skills</div><div class="skills-grid">'+skillChips+'</div></div>' : '') +
-        '<div class="section"><div class="section-title">Services &amp; Pricing</div><div class="services-list">'+servicesHtml+'</div></div>' +
-      '</div>' +
-      '<div class="right-col">' +
-        '<div class="booking-card">' +
-          '<div class="booking-price">'+priceStr+'<span> / hr</span></div>' +
-          '<div class="booking-vouch">'+(p.rating ? '\u2605 '+p.rating+' \u00b7 '+p.reviews+' reviews' : 'New provider')+'</div>' +
-          bannerHtml +
-          (isOwn
-            ? '<a href="/dashboard.html" class="btn-book" style="text-decoration:none">Back to dashboard</a>'
-            : '<a href="/signup.html" class="btn-book" style="text-decoration:none">Request to book \u2192</a>') +
-          '<div class="book-trust"><svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--teal)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg> Protected by Sowo escrow</div>' +
-        '</div>' +
-      '</div>' +
-    '</main>';
-}
-
-function renderPage(p) {
-  const profile  = p.profiles || {};
-  const name     = profile.full_name || 'Provider';
-  const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  const services = p.services || [];
-  const vouches  = p.vouches  || [];
-
-  document.title = name + ' - Sowo';
-
-  document.getElementById('pageContent').innerHTML = `
-    <main>
-      <div class="left-col">
-        <div class="profile-header">
-          <div class="avatar-wrap">
-            ${profile.avatar_url
-              ? `<img class="avatar" src="${profile.avatar_url}" alt="${name}">`
-              : `<div class="avatar-init">${initials}</div>`}
-            ${p.verified ? '<div class="verified-ring">✓</div>' : ''}
+          <div class="id-meta">
+            <button class="id-rating" onclick="goTo('reviews')" style="background:none;border:none;cursor:pointer;font-size:13.5px;">
+              4.9
+              <span class="stars">★★★★★</span>
+              <span class="count">(214 reviews)</span>
+            </button>
+            <span class="sep">·</span>
+            <button class="pill" onclick="goTo('vouches')" style="background:none;border:none;">
+              <svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              42 vouches
+            </button>
           </div>
-          <div class="profile-meta">
-            <h1 class="profile-name">${name}</h1>
-            <div class="profile-cat">${p.category || 'Service Provider'}</div>
-            <div class="profile-loc">📍 ${profile.location || 'London, UK'}</div>
-            <div class="stars-row">
-              <span class="stars">${UI.stars(p.rating || 0)}</span>
-              <span class="rating-num">${p.rating || 'N/A'}</span>
-              <span class="vouch-cnt">(${p.vouch_count || 0} vouches)</span>
-            </div>
-            <div class="meta-pills">
-              ${p.verified ? '<span class="meta-pill pill-green">✓ Verified</span>' : ''}
-              ${p.available ? '<span class="meta-pill pill-green">● Available now</span>' : '<span class="meta-pill pill-grey">Not available</span>'}
-              ${p.years_experience ? `<span class="meta-pill pill-grey">${p.years_experience} yrs exp</span>` : ''}
-              ${p.hourly_rate ? `<span class="meta-pill pill-amber">From ${UI.formatPrice(p.hourly_rate)}/hr</span>` : ''}
-            </div>
+
+          <div class="id-line2">
+            Bridal makeup artist · <span class="price">£65–£320</span> · <span class="area">Brixton, SW2</span>
+          </div>
+
+          <div class="id-status">
+            <span class="dot"></span>Available today<span class="next"> · Next slot 2:30 PM</span>
           </div>
         </div>
 
-        ${p.bio ? `
-        <div class="section">
-          <div class="section-title">About</div>
-          <p class="bio-text">${p.bio}</p>
-        </div>` : ''}
-
-        ${(p.skills||[]).length ? `
-        <div class="section">
-          <div class="section-title">Skills</div>
-          <div class="skills-grid">${(p.skills||[]).map(s=>`<span class="skill-chip">${s}</span>`).join('')}</div>
-        </div>` : ''}
-
-        ${services.length ? `
-        <div class="section">
-          <div class="section-title">Services & Pricing</div>
-          <div class="services-list" id="servicesList">
-            ${services.map(s => `
-              <div class="service-card" data-id="${s.id}" data-price="${s.price}" data-name="${s.name}" onclick="selectService(this)">
-                <div class="service-info">
-                  <h3>${s.name}</h3>
-                  <p>${s.description || ''} ${s.duration_hours ? '· ' + s.duration_hours + 'h' : ''}</p>
-                </div>
-                <div class="service-price">${UI.formatPrice(s.price)}<span>fixed price</span></div>
-              </div>
-            `).join('')}
-          </div>
-        </div>` : ''}
-
-        ${vouches.length ? `
-        <div class="section">
-          <div class="section-title">Vouches (${vouches.length})</div>
-          <div class="vouches-list">
-            ${vouches.slice(0,6).map(v => {
-              const author   = v.profiles || {};
-              const aInitials= (author.full_name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-              return `
-              <div class="vouch-card">
-                <div class="vouch-head">
-                  ${author.avatar_url
-                    ? `<img class="vouch-av" src="${author.avatar_url}" alt="${author.full_name}">`
-                    : `<div class="vouch-av-init">${aInitials}</div>`}
-                  <div>
-                    <div class="vouch-author">${author.full_name || 'Community member'}</div>
-                    <div class="vouch-date">${UI.formatDate(v.created_at)}</div>
-                  </div>
-                  <div class="vouch-stars">${UI.stars(v.rating)}</div>
-                </div>
-                <p class="vouch-text">${v.text || ''}</p>
-              </div>`;
-            }).join('')}
-          </div>
-        </div>` : ''}
-      </div>
-
-      <div class="right-col">
-        ${buildBookingWidget(p, services)}
-      </div>
-    </main>
-  `;
-
-  // Auto-select first service
-  const firstService = document.querySelector('.service-card');
-  if (firstService) selectService(firstService);
-}
-
-function buildBookingWidget(p, services) {
-  return `
-    <div class="booking-card">
-      <div class="booking-price">
-        ${p.hourly_rate ? UI.formatPrice(p.hourly_rate) + '<span> / hr</span>' : '<span>Price on request</span>'}
-      </div>
-      <div class="booking-vouch">✦ ${p.vouch_count || 0} vouches · ${p.rating || 'New'} rating</div>
-
-      ${services.length ? `
-      <div class="book-field">
-        <div class="book-label">Select service</div>
-        <select class="book-input" id="serviceSelect" onchange="onServiceSelect(this)">
-          <option value="">Choose a service…</option>
-          ${services.map(s=>`<option value="${s.id}" data-price="${s.price}">${s.name} (${UI.formatPrice(s.price)})</option>`).join('')}
-        </select>
-      </div>` : ''}
-
-      <div class="book-row">
-        <div>
-          <div class="book-label">Date</div>
-          <input type="date" class="book-input" id="bookDate" min="${new Date().toISOString().split('T')[0]}">
-        </div>
-        <div>
-          <div class="book-label">Time</div>
-          <input type="time" class="book-input" id="bookTime" value="09:00">
+        <div class="id-actions">
+          <button class="icon-btn" id="saveBtn" title="Save to favourites" aria-label="Save">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>
+            </svg>
+          </button>
+          <button class="icon-btn" id="shareBtn" title="Copy link" aria-label="Share">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+          </button>
         </div>
       </div>
-      <div class="book-field">
-        <div class="book-label">Message to provider <span style="font-weight:400;color:var(--t3)">(optional)</span></div>
-        <textarea class="book-input" id="bookMessage" placeholder="Describe what you need…"></textarea>
-      </div>
 
-      <button class="btn-book" id="bookBtn" onclick="handleBook()">
-        Request booking
+      <!-- 3 honest CTAs: Book / Message / Save (no fake call) -->
+      <div class="id-cta-row">
+        <button class="cta-pill primary" onclick="startBooking()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book now
+        </button>
+        <button class="cta-pill secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+          Message
+        </button>
+        <button class="cta-pill tertiary" onclick="goTo('vouches')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          Vouches
+        </button>
+      </div>
+    </div>
+
+    <!-- Photo strip -->
+    <div class="photo-strip">
+      <div class="photo-cell feature" onclick="openLightbox(0)">
+        <div class="ph"><div class="ph-label">Bridal · Editorial</div></div>
+        <div class="credit">Aanu Adeoye Photography</div>
+      </div>
+      <div class="photo-cell" onclick="openLightbox(1)">
+        <div class="ph"><div class="ph-label">Studio · 12 mar</div></div>
+        <div class="when">a week ago</div>
+      </div>
+      <div class="photo-cell more" onclick="openLightbox(2)">
+        <div style="text-align:center; position:relative; z-index:1;">
+          <div class="more-num">+38</div>
+          <div class="more-lbl">View all</div>
+        </div>
+      </div>
+      <button class="view-all-btn" onclick="openLightbox(0)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        See all 41 photos
       </button>
-      <div class="book-trust">
-        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-        Protected by Sowo escrow
-      </div>
-      <div class="book-divider"></div>
-      <div class="book-share">
-        <button class="share-btn" onclick="shareProfile()">Share profile</button>
-        <button class="share-btn" onclick="reportProvider()">Report</button>
+    </div>
+
+    <!-- Sticky tabs (jump scroll) -->
+    <div class="tabs-sticky">
+      <div class="tabs-bar">
+        <button class="tab active" data-target="overview">Overview</button>
+        <button class="tab" data-target="services">Services</button>
+        <button class="tab" data-target="vouches">Vouches <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:4px;">42</span></button>
+        <button class="tab" data-target="reviews">Reviews <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:4px;">214</span></button>
       </div>
     </div>
-  `;
-}
 
-function selectService(el) {
-  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedServiceId = el.dataset.id;
-  const select = document.getElementById('serviceSelect');
-  if (select) select.value = el.dataset.id;
-}
-
-function onServiceSelect(el) {
-  selectedServiceId = el.value;
-  document.querySelectorAll('.service-card').forEach(c => {
-    c.classList.toggle('selected', c.dataset.id === el.value);
-  });
-}
-
-async function handleBook() {
-  if (!currentUser) {
-    window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
-    return;
-  }
-  const date    = document.getElementById('bookDate').value;
-  const time    = document.getElementById('bookTime').value;
-  const message = document.getElementById('bookMessage').value;
-
-  if (!date) { UI.toast('Please select a date', 'error'); return; }
-
-  const service = selectedServiceId
-    ? (providerData?.services || []).find(s => s.id === selectedServiceId)
-    : null;
-
-  const priceStr = service ? UI.formatPrice(service.price) : (providerData?.hourly_rate ? UI.formatPrice(providerData.hourly_rate) + '/hr' : 'TBD');
-  const serviceName = service?.name || 'General service';
-
-  document.getElementById('confirmMsg').innerHTML = `
-    <strong>${providerData?.profiles?.full_name || 'Provider'}</strong> · ${serviceName}<br>
-    📅 ${new Date(date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})} at ${time}<br>
-    💷 ${priceStr}<br><br>
-    Once confirmed, payment will be held in escrow until the job is complete.
-  `;
-
-  document.getElementById('confirmModal').classList.add('show');
-}
-
-document.getElementById('confirmPayBtn').addEventListener('click', async () => {
-  UI.setLoading(document.getElementById('confirmPayBtn'), true);
-  closeModal();
-
-  try {
-    const booking = await Bookings.create({
-      consumerId:  currentUser.id,
-      providerId:  providerId,
-      serviceId:   selectedServiceId || null,
-      date:        document.getElementById('bookDate').value,
-      time:        document.getElementById('bookTime').value,
-      message:     document.getElementById('bookMessage').value,
-      totalAmount: providerData?.hourly_rate || 0,
-    });
-
-    // If Stripe is configured, initiate checkout
-    if (SOWO_CONFIG.stripe.publishableKey !== 'YOUR_STRIPE_PUBLISHABLE_KEY' && selectedServiceId) {
-      const resp = await fetch('/api/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          bookingId: booking.id,
-          serviceId: selectedServiceId,
-          userId:    currentUser.id,
-        }),
-      });
-      const { url } = await resp.json();
-      if (url) { window.location.href = url; return; }
-    }
-
-    // No Stripe yet, just show success
-    document.getElementById('successModal').classList.add('show');
-
-  } catch (err) {
-    UI.toast(err.message || 'Booking failed. Please try again.', 'error');
-  }
-});
-
-function closeModal() {
-  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
-}
-document.querySelectorAll('.modal-overlay').forEach(m => {
-  m.addEventListener('click', e => { if (e.target === m) closeModal(); });
-});
-
-function shareProfile() {
-  navigator.share
-    ? navigator.share({ title: document.title, url: window.location.href })
-    : (navigator.clipboard.writeText(window.location.href), UI.toast('Link copied!', 'success'));
-}
-function reportProvider() { UI.toast('Report submitted. Thank you.', 'success'); }
-
-/* Demo fallback */
-function renderDemoPage(demoId) {
-  const profiles = {
-    '1': {
-      name:'Amara Osei', cat:'Beauty & Makeup', loc:'Hackney, London',rating:4.9,vouch_count:47,
-      bio:'Award-winning makeup artist with 8 years of experience in bridal, editorial, and event makeup. Fully insured, specialising in all skin tones.',
-      skills:['Bridal','Editorial','Airbrush','Glam','Natural looks'],
-      verified:true,available:true,hourly_rate:8500,
-      img:'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&q=80',
-      services:[
-        {id:'s1',name:'Bridal makeup',description:'Full glam for your wedding day',price:15000,duration_hours:2},
-        {id:'s2',name:'Editorial look',description:'High-fashion or campaign makeup',price:12000,duration_hours:2},
-        {id:'s3',name:'Event glam',description:'Party or occasion makeup',price:8500,duration_hours:1},
-      ],
-      vouches:[
-        {author:'Sade O.',date:'March 2026',rating:5,text:'Amara did my bridal makeup and I was blown away. She understood exactly what I wanted.'},
-        {author:'Kezia T.',date:'Feb 2026',rating:5,text:'Incredible skill with deeper skin tones. The finish lasted all day. Highly recommend.'},
-        {author:'Rachel B.',date:'Jan 2026',rating:5,text:'So professional and talented. Great communication the whole way through.'},
-      ]
-    },
-    '2': {
-      name:'Jade Chen', cat:'Nail Technician', loc:'Shoreditch, London',rating:4.8,vouch_count:62,
-      bio:'Specialising in gel, acrylic, and nail art. Known for intricate designs and long-lasting results. Walk-ins welcome most days.',
-      skills:['Gel nails','Nail art','Acrylics','Nail extensions','Nail repair'],
-      verified:true,available:true,hourly_rate:5500,
-      img:'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80',
-      services:[
-        {id:'s1',name:'Gel manicure',description:'Long-lasting gel colour and finish',price:4500,duration_hours:1},
-        {id:'s2',name:'Acrylic full set',description:'Full acrylic extensions with design',price:7000,duration_hours:2},
-        {id:'s3',name:'Nail art session',description:'Custom nail art on your existing set',price:3500,duration_hours:1},
-      ],
-      vouches:[
-        {author:'Lucy W.',date:'March 2026',rating:5,text:'My nails have never looked this good. Jade is incredibly talented and so precise.'},
-        {author:'Mia P.',date:'Feb 2026',rating:5,text:'The designs she creates are unreal. Always gets compliments when I leave.'},
-        {author:'Emma H.',date:'Jan 2026',rating:4,text:'Great service, really clean setup and the nails lasted over 3 weeks.'},
-      ]
-    },
-    '3': {
-      name:'Sofia Mensah', cat:'Barber', loc:'Moss Side, Manchester',rating:4.9,vouch_count:38,
-      bio:'Master barber specialising in afro-textured hair. Fades, tapers, and line-ups done with precision. 6 years in the industry.',
-      skills:['Fades','Tapers','Afro hair','Line-ups','Kids cuts'],
-      verified:true,available:true,hourly_rate:4000,
-      img:'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80',
-      services:[
-        {id:'s1',name:'Fresh cut & lineup',description:'Full cut with precision lineup',price:4000,duration_hours:1},
-        {id:'s2',name:'Skin fade',description:'Bald or skin fade with clean finish',price:4500,duration_hours:1},
-        {id:'s3',name:'Kids cut',description:'Relaxed cut for children under 12',price:2500,duration_hours:1},
-      ],
-      vouches:[
-        {author:'Theo W.',date:'March 2026',rating:5,text:'Best barber I have found. Gets it right every single time without me having to explain twice.'},
-        {author:'Jabril H.',date:'Feb 2026',rating:5,text:'My son loves coming here. Sofia is patient and the cuts are always clean.'},
-        {author:'Ryan O.',date:'Jan 2026',rating:5,text:'Professional, precise, and the fade is always on point. Will not go anywhere else.'},
-      ]
-    },
-    '4': {
-      name:'Kofi Asante', cat:'Private Chef', loc:'Islington, London',rating:5.0,vouch_count:29,
-      bio:'Trained in Paris. Specialising in West African fusion and contemporary European cuisine. Available for dinner parties, events, and bespoke dining experiences.',
-      skills:['West African','European','Events','Meal prep','Dietary adaptations'],
-      verified:true,available:true,hourly_rate:15000,
-      img:'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=600&q=80',
-      services:[
-        {id:'s1',name:'Dinner party (up to 8)',description:'3-course meal, ingredients included',price:60000,duration_hours:4},
-        {id:'s2',name:'Weekly meal prep',description:'5 days of meals for 2 people',price:30000,duration_hours:3},
-        {id:'s3',name:'Pop-up supper club',description:'Immersive dining for up to 20 guests',price:120000,duration_hours:6},
-      ],
-      vouches:[
-        {author:'James L.',date:'March 2026',rating:5,text:'Kofi cooked for my birthday and every guest was raving. Absolutely outstanding food.'},
-        {author:'Sophie M.',date:'Feb 2026',rating:5,text:'The West African fusion menu was unlike anything I have tasted. Truly special.'},
-        {author:'Dan P.',date:'Jan 2026',rating:5,text:'Reliable, creative, and the food is world-class. Booked him three times already.'},
-      ]
-    },
-    '5': {
-      name:'Maya Patel', cat:'Hairdresser', loc:'Brixton, London',rating:4.7,vouch_count:91,
-      bio:'Creative colourist and stylist with a speciality in natural hair. Balayage, locs, and protective styles done beautifully.',
-      skills:['Balayage','Natural hair','Locs','Protective styles','Colour correction'],
-      verified:false,available:true,hourly_rate:7000,
-      img:'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80',
-      services:[
-        {id:'s1',name:'Balayage & colour',description:'Full balayage or colour service',price:12000,duration_hours:3},
-        {id:'s2',name:'Loc maintenance',description:'Retwist, tighten and style',price:8000,duration_hours:2},
-        {id:'s3',name:'Protective style',description:'Braids, twists or cornrows',price:9000,duration_hours:3},
-      ],
-      vouches:[
-        {author:'Ama D.',date:'March 2026',rating:5,text:'Maya transformed my hair. The balayage looks so natural and the condition improved too.'},
-        {author:'Tia R.',date:'Feb 2026',rating:5,text:'Finally found someone who really understands natural hair. My locs have never looked better.'},
-        {author:'Kezia N.',date:'Dec 2025',rating:4,text:'Great skills and really relaxed atmosphere. Took a bit longer than expected but worth it.'},
-      ]
-    },
-    '6': {
-      name:'Zara Ahmed', cat:'Massage Therapist', loc:'Canary Wharf, London',rating:4.9,vouch_count:54,
-      bio:'Swedish, deep tissue, and pregnancy massage. ITEC qualified with 7 years experience. Home visits available across East and Central London.',
-      skills:['Deep tissue','Swedish','Pregnancy','Sports massage','Hot stone'],
-      verified:true,available:true,hourly_rate:9500,
-      img:'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=600&q=80',
-      services:[
-        {id:'s1',name:'Swedish massage (60 min)',description:'Full-body relaxation massage',price:9500,duration_hours:1},
-        {id:'s2',name:'Deep tissue (90 min)',description:'Targeted muscle relief and tension release',price:13000,duration_hours:1},
-        {id:'s3',name:'Pregnancy massage',description:'Safe, soothing massage for expectant mothers',price:11000,duration_hours:1},
-      ],
-      vouches:[
-        {author:'Claire S.',date:'March 2026',rating:5,text:'Zara is amazing. I came in with serious back tension and left feeling completely new.'},
-        {author:'Nina B.',date:'Feb 2026',rating:5,text:'Best massage I have ever had. Her deep tissue work is exceptional and she is so professional.'},
-        {author:'Aisha K.',date:'Jan 2026',rating:5,text:'Had a pregnancy massage and it was exactly what I needed. Gentle, caring, and effective.'},
-      ]
-    },
-    '7': {
-      name:'Lola Adewumi', cat:'Lash Technician', loc:'Peckham, London',rating:4.8,vouch_count:77,
-      bio:'Classic, hybrid, and volume lashes done to perfection. Lash lifts also available. 5-star rated on Google with a loyal client base.',
-      skills:['Classic lashes','Volume lashes','Hybrid','Lash lift','Lash tint'],
-      verified:true,available:true,hourly_rate:6000,
-      img:'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&q=80',
-      services:[
-        {id:'s1',name:'Classic lash set',description:'Natural, individual lash extensions',price:6000,duration_hours:2},
-        {id:'s2',name:'Volume lash set',description:'Full, dramatic volume fan lashes',price:8000,duration_hours:2},
-        {id:'s3',name:'Lash lift & tint',description:'Curl and lift your natural lashes',price:5500,duration_hours:1},
-      ],
-      vouches:[
-        {author:'Bianca O.',date:'March 2026',rating:5,text:'Lola is the only person I trust with my lashes. So precise and the retention is incredible.'},
-        {author:'Fatou D.',date:'Feb 2026',rating:5,text:'My lashes lasted over 5 weeks with no gaps. Will never go anywhere else.'},
-        {author:'Priya M.',date:'Jan 2026',rating:5,text:'Really clean studio, super professional and the results are stunning every time.'},
-      ]
-    },
-    '8': {
-      name:'Priya Sharma', cat:'Skincare & Facials', loc:'Kensington, London',rating:4.9,vouch_count:43,
-      bio:'Clinical aesthetician with a results-driven approach. HydraFacial, microneedling, and chemical peels tailored to your skin goals.',
-      skills:['HydraFacial','Chemical peels','Microneedling','LED therapy','Bespoke facials'],
-      verified:true,available:true,hourly_rate:11000,
-      img:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80',
-      services:[
-        {id:'s1',name:'HydraFacial',description:'Deep cleanse, exfoliate and hydrate',price:12000,duration_hours:1},
-        {id:'s2',name:'Chemical peel',description:'Resurfacing treatment for tone and texture',price:10000,duration_hours:1},
-        {id:'s3',name:'Microneedling session',description:'Collagen-stimulating skin renewal treatment',price:15000,duration_hours:1},
-      ],
-      vouches:[
-        {author:'Hannah W.',date:'March 2026',rating:5,text:'My skin has genuinely never looked better. Priya is so knowledgeable and thorough.'},
-        {author:'Meera S.',date:'Feb 2026',rating:5,text:'The HydraFacial left my skin glowing for weeks. So worth it. Will be back monthly.'},
-        {author:'Tanya R.',date:'Jan 2026',rating:5,text:'Professional, clean, and the results speak for themselves. Highly recommend.'},
-      ]
-    },
-    '9': {
-      name:'Marcus Reid', cat:'Photographer', loc:'Shoreditch, London',rating:4.8,vouch_count:33,
-      bio:'Commercial and portrait photographer specialising in beauty and editorial work. Studio and location shoots available across London.',
-      skills:['Beauty','Editorial','Studio','Location','Retouching'],
-      verified:false,available:true,hourly_rate:20000,
-      img:'https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=600&q=80',
-      services:[
-        {id:'s1',name:'Portrait session (1hr)',description:'Studio or location portrait shoot',price:20000,duration_hours:1},
-        {id:'s2',name:'Editorial shoot (half day)',description:'4-hour creative editorial shoot',price:60000,duration_hours:4},
-        {id:'s3',name:'Brand content shoot',description:'Full day commercial photography',price:120000,duration_hours:8},
-      ],
-      vouches:[
-        {author:'Olu A.',date:'March 2026',rating:5,text:'Marcus captured exactly the vision I had. The images are stunning and delivered fast.'},
-        {author:'Sara F.',date:'Feb 2026',rating:5,text:'So talented and easy to work with. The brand shoot he did for us exceeded expectations.'},
-        {author:'James T.',date:'Dec 2025',rating:4,text:'Great eye, very professional. The retouching was clean and the turnaround was quick.'},
-      ]
-    },
-    '10': {
-      name:'Fatima Al-Hassan', cat:'Personal Trainer', loc:'Camden, London',rating:5.0,vouch_count:61,
-      bio:'NASM certified personal trainer specialising in strength training, nutrition coaching, and body recomposition. Online and in-person sessions available.',
-      skills:['Strength training','Nutrition','HIIT','Body recomposition','Online coaching'],
-      verified:true,available:true,hourly_rate:8000,
-      img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80',
-      services:[
-        {id:'s1',name:'1-to-1 PT session',description:'In-person personal training session',price:8000,duration_hours:1},
-        {id:'s2',name:'Monthly coaching',description:'4 sessions + nutrition plan per month',price:28000,duration_hours:4},
-        {id:'s3',name:'Online programme',description:'Custom 8-week training + nutrition plan',price:20000,duration_hours:1},
-      ],
-      vouches:[
-        {author:'Tolu B.',date:'March 2026',rating:5,text:'Fatima is the best PT I have ever had. Down to earth, knowledgeable and genuinely motivating.'},
-        {author:'Sam O.',date:'Feb 2026',rating:5,text:'Lost 8kg in 3 months following her programme. The nutrition advice alone was worth it.'},
-        {author:'Diane K.',date:'Jan 2026',rating:5,text:'She adapts sessions to exactly what you need. I have never felt stronger or more confident.'},
-      ]
-    },
-  };
-  const demo = profiles[demoId] || profiles['1'];
-
-  document.title = demo.name + ' - Sowo';
-  document.getElementById('pageContent').innerHTML = `
-    <main>
-      <div class="left-col">
-        <div class="profile-header">
-          <div class="avatar-wrap">
-            <div class="avatar-init">${demo.name.split(' ').map(w=>w[0]).join('')}</div>
-            <div class="verified-ring">✓</div>
+    <!-- Info stack with real expanders -->
+    <div class="info-stack" id="overview">
+      <div class="info-row expandable" onclick="toggleRow(this)">
+        <div class="info-row-head">
+          <div class="ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
-          <div class="profile-meta">
-            <h1 class="profile-name">${demo.name} <span style="font-size:14px;color:var(--t3);font-weight:400">(Demo)</span></h1>
-            <div class="profile-cat">${demo.cat}</div>
-            <div class="profile-loc">📍 ${demo.loc}</div>
-            <div class="stars-row">
-              <span class="stars">${UI.stars(demo.rating)}</span>
-              <span class="rating-num">${demo.rating}</span>
-              <span class="vouch-cnt">(${demo.vouch_count} vouches)</span>
-            </div>
-            <div class="meta-pills">
-              <span class="meta-pill pill-green">✓ Verified</span>
-              <span class="meta-pill pill-green">● Available now</span>
-              <span class="meta-pill pill-amber">From ${UI.formatPrice(demo.hourly_rate)}/hr</span>
-            </div>
+          <div class="body">
+            <span class="accent">Available today</span> · Next free slot 2:30 PM
+            <div class="sub">Mon–Sat 8 AM – 8 PM · Sundays by request</div>
+          </div>
+          <div class="chev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
           </div>
         </div>
-        <div class="section">
-          <div class="section-title">About</div>
-          <p class="bio-text">${demo.bio}</p>
-        </div>
-        <div class="section">
-          <div class="section-title">Skills</div>
-          <div class="skills-grid">${demo.skills.map(s=>`<span class="skill-chip">${s}</span>`).join('')}</div>
-        </div>
-        <div class="section">
-          <div class="section-title">Services & Pricing</div>
-          <div class="services-list">
-            ${demo.services.map(s=>`
-              <div class="service-card" style="cursor:default">
-                <div class="service-info"><h3>${s.name}</h3><p>${s.description} · ${s.duration_hours}h</p></div>
-                <div class="service-price">${UI.formatPrice(s.price)}<span>fixed price</span></div>
-              </div>`).join('')}
-          </div>
-        </div>
-        <div class="section">
-          <div class="section-title">Vouches (${demo.vouch_count})</div>
-          <div class="vouches-list">
-            ${demo.vouches.map(v=>`
-              <div class="vouch-card">
-                <div class="vouch-head">
-                  <div class="vouch-av-init">${v.author.slice(0,2).toUpperCase()}</div>
-                  <div><div class="vouch-author">${v.author}</div><div class="vouch-date">${v.date}</div></div>
-                  <div class="vouch-stars">${UI.stars(v.rating)}</div>
-                </div>
-                <p class="vouch-text">${v.text}</p>
-              </div>`).join('')}
+        <div class="info-row-detail">
+          <div class="hours-grid">
+            <div class="day today">Mon · today</div><div class="time today">8:00 AM – 8:00 PM · 2:30 PM next</div>
+            <div class="day">Tue</div><div class="time">8:00 AM – 8:00 PM</div>
+            <div class="day">Wed</div><div class="time">8:00 AM – 8:00 PM</div>
+            <div class="day">Thu</div><div class="time">8:00 AM – 8:00 PM</div>
+            <div class="day">Fri</div><div class="time">8:00 AM – 8:00 PM</div>
+            <div class="day">Sat</div><div class="time">9:00 AM – 6:00 PM</div>
+            <div class="day">Sun</div><div class="time">By request</div>
           </div>
         </div>
       </div>
-      <div class="right-col">
-        <div class="booking-card">
-          <div class="booking-price">${UI.formatPrice(demo.hourly_rate)}<span> / hr</span></div>
-          <div class="booking-vouch">✦ ${demo.vouch_count} vouches · ${demo.rating} rating</div>
-          <div style="background:#FEF3E0;border:1px solid #F5D88E;border-radius:10px;padding:14px 16px;font-size:13px;color:#8B5E0A;margin-bottom:16px">
-            ⚡ This is a demo profile. <a href="/signup" style="color:var(--green);font-weight:700">Sign up</a> to book real providers.
+
+      <div class="info-row expandable" onclick="toggleRow(this)">
+        <div class="info-row-head">
+          <div class="ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           </div>
-          <div class="book-row">
-            <div><div class="book-label">Date</div><input type="date" class="book-input" disabled></div>
-            <div><div class="book-label">Time</div><input type="time" class="book-input" value="09:00" disabled></div>
+          <div class="body">
+            Brixton, London SW2 · <span style="color: var(--muted);">Travels to Greater London</span>
+            <div class="sub">Mobile service · Studio sessions by appt</div>
           </div>
-          <a href="/signup" class="btn-book" style="text-decoration:none">Sign up to book →</a>
-          <div class="book-trust">
-            <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:var(--teal)"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-            Protected by Sowo escrow
+          <div class="chev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="info-row-detail">
+          <strong>Mobile service area:</strong> Greater London inside the M25. Travel within Zone 1–3 included; £25 surcharge for Zone 4–6.<br>
+          <strong>Studio:</strong> 14 Coldharbour Lane, Brixton, SW2 — bookable 2:00–7:00 PM weekdays.<br>
+          <strong>Out of area:</strong> Quote on request for weddings outside London.
+        </div>
+      </div>
+
+      <div class="info-row expandable" onclick="toggleRow(this)">
+        <div class="info-row-head">
+          <div class="ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+          </div>
+          <div class="body">
+            <span class="accent">42 named vouches</span> from people in the community
+            <div class="sub">Trusted by Brixton Brides Collective, Yeti Studio, KOJ Films</div>
+          </div>
+          <div class="chev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="info-row-detail">
+          A vouch is a named, public reference from someone who has worked with Amara — past brides, directors, agency owners, fellow MUAs. Vouches are portable and exist before any booking on Sowo. <button class="block-link" onclick="event.stopPropagation();goTo('vouches');return false;" style="margin-top:8px;">See all 42 →</button>
+        </div>
+      </div>
+
+      <div class="info-row expandable" onclick="toggleRow(this)">
+        <div class="info-row-head">
+          <div class="ico">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div class="body">
+            <strong>Escrow protected</strong> · Funds released only when you confirm
+            <div class="sub">Sowo holds payment until the work is done — no chargebacks, no chase</div>
+          </div>
+          <div class="chev">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="info-row-detail">
+          You pay when you book. Sowo holds the funds. They release to Amara only when you mark the booking complete (or 24h after — whichever is sooner). If anything goes wrong, message Sowo Support in-app and we'll mediate before any money moves. ID-verified providers only.
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="block" id="about">
+      <div class="block-head">
+        <div class="block-title">About <em>Amara</em></div>
+      </div>
+      <p class="about-text">Brixton-based makeup artist working with brown skin, deep tones, and the kind of lighting that doesn't do them favours. Twelve years between London and Lagos, four of those at MAC, the rest freelance — bridal, editorial, film.</p>
+      <p class="about-text">I'll come to you with a kit packed for your skin, not the average. Trial sessions are free for weddings booked four weeks out.</p>
+
+      <div class="spec-row">
+        <span class="chip chip-green">Bridal</span>
+        <span class="chip chip-green">Editorial</span>
+        <span class="chip chip-green">Deep skin tones</span>
+        <span class="chip chip-green">Film &amp; TV</span>
+        <span class="chip chip-green">Mature skin</span>
+        <span class="chip chip-green">Mehndi-compatible</span>
+      </div>
+    </div>
+
+    <!-- SERVICES (with real "Choose" picks that drive the booking card) -->
+    <div class="block" id="services">
+      <div class="block-head">
+        <div class="block-title"><em>Services</em> &amp; rates</div>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--muted);">Pick one to start booking →</span>
+      </div>
+      <div class="svc-list">
+        <div class="svc-item">
+          <div>
+            <div class="svc-name">Bridal trial &amp; wedding day</div>
+            <div class="svc-desc">Two-hour trial 4 weeks ahead, then full bridal application on the day. Includes touch-up kit.</div>
+          </div>
+          <div class="svc-dur">Trial + day</div>
+          <div class="svc-price">£180<small>from</small></div>
+          <button class="svc-pick" data-svc="Bridal · trial + day" data-price="180">Choose</button>
+        </div>
+        <div class="svc-item">
+          <div>
+            <div class="svc-name">Editorial &amp; campaign</div>
+            <div class="svc-desc">Print, lookbook, brand campaigns. Per-shot pricing on enquiry.</div>
+          </div>
+          <div class="svc-dur">Half-day</div>
+          <div class="svc-price">£320<small>day rate</small></div>
+          <button class="svc-pick" data-svc="Editorial · day rate" data-price="320">Choose</button>
+        </div>
+        <div class="svc-item">
+          <div>
+            <div class="svc-name">Soft glam — full face</div>
+            <div class="svc-desc">Special occasions, photoshoots, dinners. Lashes included.</div>
+          </div>
+          <div class="svc-dur">90 min</div>
+          <div class="svc-price">£95<small>flat</small></div>
+          <button class="svc-pick" data-svc="Soft glam · 90 min" data-price="95">Choose</button>
+        </div>
+        <div class="svc-item">
+          <div>
+            <div class="svc-name">Makeup lesson — 1:1</div>
+            <div class="svc-desc">Learn your face. Your kit, your skin. Two-hour session at the studio.</div>
+          </div>
+          <div class="svc-dur">2 hr</div>
+          <div class="svc-price">£65<small>flat</small></div>
+          <button class="svc-pick" data-svc="Makeup lesson · 2 hr" data-price="65">Choose</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VOUCHES -->
+    <div class="block" id="vouches">
+      <div class="block-head">
+        <div class="block-title">Community <em>vouches</em> · 42</div>
+      </div>
+      <p class="about-text" style="font-size:14px; color:var(--muted);">Vouches are named references from people who know Amara's work — colleagues, past clients, employers. Portable reputation that travels with the provider.</p>
+      <div class="vouch-strip">
+        <div class="vouch">
+          <div class="vouch-head">
+            <span class="vouch-rel">Bride · Mar 2025</span>
+            <span class="vouch-verified">
+              <svg width="10" height="10" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              Verified
+            </span>
+          </div>
+          <div class="vouch-quote">She arrived early, fed me toast while she worked, and made my mother cry. I have rewatched the videos a dozen times. Worth every penny twice over.</div>
+          <div class="vouch-by">
+            <div class="vouch-av">YO</div>
+            <div>
+              <div class="vouch-name">Yetunde Ojo</div>
+              <div class="vouch-from">Married Mar 2025 · Peckham</div>
+            </div>
+          </div>
+        </div>
+        <div class="vouch">
+          <div class="vouch-head">
+            <span class="vouch-rel">Director · KOJ Films</span>
+            <span class="vouch-verified">
+              <svg width="10" height="10" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+              Verified
+            </span>
+          </div>
+          <div class="vouch-quote">Three short films, two music videos, one ad. Amara reads the script, asks the right questions, never delays a set. The kit is unmatched for African skin.</div>
+          <div class="vouch-by">
+            <div class="vouch-av">KO</div>
+            <div>
+              <div class="vouch-name">Kola Ojuolape</div>
+              <div class="vouch-from">Director · KOJ Films</div>
+            </div>
           </div>
         </div>
       </div>
-    </main>`;
-}
+      <button class="block-link" style="margin-top: 22px;">Show all 42 vouches →</button>
+    </div>
 
-init();
-</script>
+    <!-- REVIEWS -->
+    <div class="block" id="reviews">
+      <div class="block-head">
+        <div class="block-title">Reviews on <em>Sowo</em> · 214</div>
+        <span style="font-family:var(--mono);font-size:10.5px;color:var(--muted);">Verified bookings only</span>
+      </div>
+
+      <div class="reviews-summary">
+        <div class="reviews-score">
+          <div class="num">4.9</div>
+          <div class="stars">★★★★★</div>
+          <div class="count">214 reviews</div>
+        </div>
+        <div class="reviews-bars">
+          <div class="bar-row"><div class="b-lbl">5★</div><div class="b-track"><div class="b-fill" style="width:88%"></div></div><div class="b-num">188</div></div>
+          <div class="bar-row"><div class="b-lbl">4★</div><div class="b-track"><div class="b-fill" style="width:10%"></div></div><div class="b-num">22</div></div>
+          <div class="bar-row"><div class="b-lbl">3★</div><div class="b-track"><div class="b-fill" style="width:1.5%"></div></div><div class="b-num">3</div></div>
+          <div class="bar-row"><div class="b-lbl">2★</div><div class="b-track"><div class="b-fill" style="width:0.5%"></div></div><div class="b-num">1</div></div>
+          <div class="bar-row"><div class="b-lbl">1★</div><div class="b-track"><div class="b-fill" style="width:0%"></div></div><div class="b-num">0</div></div>
+        </div>
+      </div>
+
+      <div class="review-list">
+        <div class="review">
+          <div class="review-av">SA</div>
+          <div>
+            <div class="review-head">
+              <span class="review-name">Sade A.</span>
+              <span class="review-stars">★★★★★</span>
+              <span class="review-date">2 weeks ago</span>
+              <span class="review-svc">Bridal</span>
+            </div>
+            <p class="review-text">Booked Amara for my registry day. She was on time, calm, and somehow made me look like myself but better. The lashes lasted through happy tears and a humid day at the venue. Already rebooked her for the proper wedding in June.</p>
+          </div>
+        </div>
+        <div class="review">
+          <div class="review-av">DO</div>
+          <div>
+            <div class="review-head">
+              <span class="review-name">Dami O.</span>
+              <span class="review-stars">★★★★★</span>
+              <span class="review-date">1 month ago</span>
+              <span class="review-svc">Soft glam</span>
+            </div>
+            <p class="review-text">Got the soft glam for a campaign shoot. Amara figured out my skin in ten minutes — no flashback, no patchiness on camera. The art director clocked it straight away. Will rebook.</p>
+          </div>
+        </div>
+        <div class="review">
+          <div class="review-av">RH</div>
+          <div>
+            <div class="review-head">
+              <span class="review-name">Rachel H.</span>
+              <span class="review-stars">★★★★☆</span>
+              <span class="review-date">2 months ago</span>
+              <span class="review-svc">Makeup lesson</span>
+            </div>
+            <p class="review-text">Two hours, two pages of notes. Amara is patient and very honest about what works on me — she vetoed half the products I'd brought, kindly. Took one star off only because the studio was a touch warm; everything else was excellent.</p>
+          </div>
+        </div>
+      </div>
+      <button class="block-link" style="margin-top: 22px;">Show all 214 reviews →</button>
+    </div>
+
+  </div>
+
+  <!-- ━━━ RIGHT SIDEBAR ━━━ -->
+  <aside class="book-side">
+    <div class="book-card" id="bookCard">
+      <div class="book-eyebrow">Starting from</div>
+      <div class="book-price">£65<span class="unit">/session</span></div>
+      <div class="book-sub" id="bookSub">Trial sessions free with bridal bookings</div>
+
+      <!-- STEP 1 -->
+      <div class="book-step-label"><span>Step 1 · Pick a service</span><span class="num" id="step1Status"></span></div>
+      <div class="book-svc">
+        <div class="book-svc-row" data-svc="Bridal · trial + day" data-price="180">
+          <span class="svc-l">Bridal · trial + day</span>
+          <span class="svc-dur-mini">Trial + day</span>
+          <span class="svc-r">£180+</span>
+        </div>
+        <div class="book-svc-row" data-svc="Editorial · day rate" data-price="320">
+          <span class="svc-l">Editorial · day rate</span>
+          <span class="svc-dur-mini">Half-day</span>
+          <span class="svc-r">£320</span>
+        </div>
+        <div class="book-svc-row" data-svc="Soft glam · 90 min" data-price="95">
+          <span class="svc-l">Soft glam · full face</span>
+          <span class="svc-dur-mini">90 min</span>
+          <span class="svc-r">£95</span>
+        </div>
+        <div class="book-svc-row" data-svc="Makeup lesson · 2 hr" data-price="65">
+          <span class="svc-l">Makeup lesson</span>
+          <span class="svc-dur-mini">2 hr</span>
+          <span class="svc-r">£65</span>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="book-step-label"><span>Step 2 · When?</span><span class="num" id="step2Status"></span></div>
+      <div class="book-fields">
+        <div class="book-fields-row">
+          <div>
+            <label class="book-label">Date</label>
+            <input type="date" id="bookDate" class="book-input" placeholder="Pick a date">
+          </div>
+          <div>
+            <label class="book-label">Time</label>
+            <input type="time" id="bookTime" class="book-input" placeholder="—">
+          </div>
+        </div>
+        <div>
+          <label class="book-label">Brief (optional)</label>
+          <textarea id="bookMsg" class="book-input" rows="3" placeholder="Bridal trial for a May wedding, deep skin, low-key makeup…"></textarea>
+        </div>
+      </div>
+
+      <!-- LIVE SUMMARY -->
+      <div class="book-summary" id="bookSummary">
+        <div id="summaryLine">—</div>
+        <div class="total"><span>Total</span><span id="summaryTotal">—</span></div>
+      </div>
+
+      <button class="book-btn" id="bookBtn" disabled>Pick a service to continue</button>
+      <button class="book-msg-btn">Message first</button>
+
+      <div class="book-foot">
+        <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        <span>Held in escrow. Released only when you confirm the work is done.</span>
+      </div>
+    </div>
+
+    <!-- Mini provider card -->
+    <div class="mini-card">
+      <div class="mini-av">AO</div>
+      <div class="mini-info">
+        <div class="mini-name">Amara Osei</div>
+        <div class="mini-resp"><span class="dot"></span>Replies in &lt;1 hour</div>
+      </div>
+      <button class="icon-btn" style="border:none;width:32px;height:32px;color:var(--muted);" title="Message">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+      </button>
+    </div>
+
+    <!-- Trust strip — single readable line -->
+    <div class="trust-strip-mini">
+      <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+      <span><strong>ID-verified, 4 years on Sowo, £2,000 booking protection.</strong> Every payment held in escrow until you confirm the work.</span>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-counter" id="lbCounter">01 / 41</div>
+  <button class="lb-close" onclick="closeLightbox()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button class="lb-nav prev" onclick="lbStep(-1)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="lb-image"><div class="ph-label" id="lbLabel">Bridal · Editorial</div></div>
+  <button class="lb-nav next" onclick="lbStep(1)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+  <span id="toastMsg">Saved</span>
+</div>
+
 <script>
-(function() {
-  var raw = sessionStorage.getItem('sowo_session');
-  if (!raw) return;
-  try {
-    var user = JSON.parse(raw);
-    var name = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : (user.name || (user.email||'').split('@')[0]);
-    var initials = name.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
-    var email = user.email || '';
-    document.querySelectorAll('.nav-auth, .nav-cta').forEach(function(b){ b.style.display='none'; });
-    var userEl = document.getElementById('nav-user');
-    if (userEl) userEl.classList.add('visible');
-    var av = document.getElementById('nav-av');
-    if (av) {
-      var photo = localStorage.getItem('sowo_avatar_' + email);
-      if (photo) { av.style.backgroundImage='url('+photo+')'; av.style.backgroundSize='cover'; av.style.backgroundPosition='center'; av.textContent=''; }
-      else { av.textContent = initials; }
+  /* ── State ── */
+  let chosenSvc = null;
+  let chosenPrice = 0;
+
+  /* ── Save toggle ── */
+  const saveBtn = document.getElementById('saveBtn');
+  saveBtn.addEventListener('click', () => {
+    saveBtn.classList.toggle('saved');
+    showToast(saveBtn.classList.contains('saved') ? 'Saved to favourites' : 'Removed');
+  });
+
+  /* ── Share ── */
+  document.getElementById('shareBtn').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(location.href); } catch(e){}
+    showToast('Link copied');
+  });
+
+  /* ── Toast ── */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1600);
+  }
+
+  /* ── Tabs (jump scroll + active tracking) ── */
+  function goTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      goTo(t.dataset.target);
+    });
+  });
+
+  /* Active tab on scroll */
+  const sections = ['overview','services','vouches','reviews'].map(id => document.getElementById(id));
+  function updateActiveTab() {
+    const y = window.scrollY + 200;
+    let active = sections[0];
+    sections.forEach(s => { if (s && s.offsetTop <= y) active = s; });
+    document.querySelectorAll('.tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.target === active.id);
+    });
+  }
+  window.addEventListener('scroll', updateActiveTab, { passive: true });
+
+  /* ── Info row expanders ── */
+  function toggleRow(row) { row.classList.toggle('open'); }
+
+  /* ── Lightbox ── */
+  const labels = ['Bridal · Editorial', 'Studio · 12 Mar', 'Bridal trial · Brixton', 'Soft glam · 28 Feb', 'Editorial · KOJ Films'];
+  let lbIdx = 0;
+  function openLightbox(i) {
+    lbIdx = i || 0;
+    updateLb();
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+  function lbStep(d) { lbIdx = (lbIdx + d + labels.length) % labels.length; updateLb(); }
+  function updateLb() {
+    document.getElementById('lbLabel').textContent = labels[lbIdx];
+    document.getElementById('lbCounter').textContent = String(lbIdx+1).padStart(2,'0') + ' / 41';
+  }
+  document.addEventListener('keydown', e => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') lbStep(1);
+    if (e.key === 'ArrowLeft') lbStep(-1);
+  });
+
+  /* ── Booking flow ── */
+  function pickService(name, price, fromButton) {
+    chosenSvc = name; chosenPrice = price;
+    // sidebar rows
+    document.querySelectorAll('.book-svc-row').forEach(r => {
+      r.classList.toggle('selected', r.dataset.svc === name);
+    });
+    // services list buttons
+    document.querySelectorAll('.svc-pick').forEach(b => {
+      const isMatch = b.dataset.svc === name;
+      b.classList.toggle('selected', isMatch);
+      b.textContent = isMatch ? '✓ Selected' : 'Choose';
+    });
+    document.getElementById('step1Status').textContent = '✓';
+    document.getElementById('bookSub').textContent = name + ' selected';
+    updateBookingState();
+    if (fromButton) {
+      // scroll the booking sidebar into view on small screens
+      if (window.innerWidth < 1080) document.getElementById('bookCard').scrollIntoView({behavior:'smooth', block:'start'});
+      showToast(name + ' picked');
     }
-    var n = document.getElementById('nav-dd-name'); if(n) n.textContent = name;
-    var e = document.getElementById('nav-dd-email'); if(e) e.textContent = email;
-    if (av) {
-      av.addEventListener('click', function(ev){ ev.stopPropagation(); document.getElementById('nav-dropdown').classList.toggle('open'); });
-      document.addEventListener('click', function(){ var d=document.getElementById('nav-dropdown'); if(d) d.classList.remove('open'); });
-      document.getElementById('nav-dropdown').addEventListener('click', function(ev){ ev.stopPropagation(); });
+  }
+
+  document.querySelectorAll('.book-svc-row').forEach(r => {
+    r.addEventListener('click', () => pickService(r.dataset.svc, parseInt(r.dataset.price)));
+  });
+  document.querySelectorAll('.svc-pick').forEach(b => {
+    b.addEventListener('click', () => pickService(b.dataset.svc, parseInt(b.dataset.price), true));
+  });
+
+  function startBooking() {
+    document.getElementById('bookCard').scrollIntoView({behavior:'smooth', block:'start'});
+    if (!chosenSvc) {
+      goTo('services');
+      showToast('Pick a service to start');
+    } else {
+      document.getElementById('bookDate').focus();
     }
-    var so = document.getElementById('nav-signout-btn');
-    if (so) so.addEventListener('click', function(){ sessionStorage.removeItem('sowo_session'); window.location.reload(); });
-  } catch(e) {}
-})();
+  }
+
+  /* Date / time tracking */
+  ['bookDate','bookTime','bookMsg'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateBookingState);
+  });
+  // min date = today
+  document.getElementById('bookDate').min = new Date().toISOString().split('T')[0];
+
+  function updateBookingState() {
+    const d = document.getElementById('bookDate').value;
+    const t = document.getElementById('bookTime').value;
+    const btn = document.getElementById('bookBtn');
+    const sum = document.getElementById('bookSummary');
+    document.getElementById('step2Status').textContent = (d && t) ? '✓' : '';
+
+    if (chosenSvc && d && t) {
+      btn.disabled = false;
+      btn.textContent = 'Request booking · £' + chosenPrice;
+      sum.classList.add('show');
+      const dateStr = new Date(d).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+      document.getElementById('summaryLine').textContent = chosenSvc + ' · ' + dateStr + ' at ' + t;
+      document.getElementById('summaryTotal').textContent = '£' + chosenPrice;
+    } else if (chosenSvc) {
+      btn.disabled = true;
+      btn.textContent = 'Pick a date & time';
+      sum.classList.remove('show');
+    } else {
+      btn.disabled = true;
+      btn.textContent = 'Pick a service to continue';
+      sum.classList.remove('show');
+    }
+  }
+
+  document.getElementById('bookBtn').addEventListener('click', () => {
+    if (document.getElementById('bookBtn').disabled) return;
+    showToast('Booking requested · Amara will reply in <1 hour');
+  });
+
+  updateActiveTab();
 </script>
+
 </body>
 </html>

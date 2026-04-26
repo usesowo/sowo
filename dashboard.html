@@ -1,1049 +1,1060 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sowo - Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          brand: {
-            50:  '#edf4f1',
-            100: '#d3e7de',
-            200: '#a4ccbd',
-            300: '#72ae9a',
-            400: '#3f9178',
-            500: '#085041',
-            600: '#074839',
-            700: '#063d31',
-            800: '#052f25',
-            900: '#031f18',
-          },
-          mint: '#9FE1CB',
-        },
-        fontFamily: {
-          sans: ['Inter', 'system-ui', 'sans-serif'],
-          serif: ['Lora', 'Georgia', 'serif'],
-        }
-      }
-    }
-  }
-</script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard · Sowo</title>
+<link rel="stylesheet" href="shared.css">
 <style>
-  body { font-family: 'Inter', system-ui, sans-serif; }
-  .view { display: none; }
-  .view.active { display: block; }
-  .nav-item.active { background: #edf4f1; color: #085041; font-weight: 600; }
-  .nav-item.active .nav-icon { color: #085041; }
-  .scroll-hide::-webkit-scrollbar { display: none; }
-  .scroll-hide { scrollbar-width: none; }
-  .chat-bubble-user   { border-radius: 18px 18px 4px 18px; }
-  .chat-bubble-other  { border-radius: 18px 18px 18px 4px; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
-  .view.active { animation: fadeIn .18s ease-out; }
-  /* toggle */
-  .toggle { position:relative; display:inline-flex; width:40px; height:22px; }
-  .toggle input { opacity:0; width:0; height:0; }
-  .toggle-slider { position:absolute; inset:0; background:#d1d5db; border-radius:999px; cursor:pointer; transition:.2s; }
-  .toggle-slider::before { content:''; position:absolute; width:16px; height:16px; border-radius:50%; background:#fff; top:3px; left:3px; transition:.2s; }
-  .toggle input:checked + .toggle-slider { background:#085041; }
-  .toggle input:checked + .toggle-slider::before { transform:translateX(18px); }
+  body { background: var(--paper); }
+  html { scroll-behavior: smooth; }
+
+  /* ═══ LAYOUT ═══ */
+  .dash-wrap {
+    display: grid;
+    grid-template-columns: 248px 1fr;
+    min-height: calc(100vh - 64px);
+  }
+
+  /* ─── SIDEBAR ─── */
+  .dash-side {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 20px 24px;
+    display: flex; flex-direction: column;
+    position: sticky; top: 64px;
+    height: calc(100vh - 64px);
+  }
+  .dash-user {
+    display: flex; align-items: center; gap: 12px;
+    padding: 4px 6px 22px;
+    border-bottom: 1px solid rgba(245,240,232,0.10);
+    margin-bottom: 22px;
+  }
+  .du-av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--a); color: var(--ink);
+    display: grid; place-items: center;
+    font-family: var(--serif);
+    font-size: 15px; font-weight: 500;
+  }
+  .du-name { font-family: var(--serif); font-size: 17px; letter-spacing: -0.01em; line-height: 1.1; }
+  .du-role {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--a); margin-top: 3px;
+  }
+
+  .ds-section + .ds-section { margin-top: 18px; }
+  .ds-section h5 {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(245,240,232,0.32);
+    padding: 0 8px; margin-bottom: 4px;
+  }
+  .ds-link {
+    display: flex; align-items: center; gap: 11px;
+    padding: 9px 10px;
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.65);
+    border-radius: 5px;
+    transition: color 0.12s, background 0.12s;
+    cursor: pointer;
+    position: relative;
+  }
+  .ds-link:hover { background: rgba(245,240,232,0.05); color: var(--paper); }
+  .ds-link.active { color: var(--paper); }
+  .ds-link.active::before {
+    content: ''; position: absolute;
+    left: -20px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--a);
+  }
+  .ds-link svg { flex-shrink: 0; opacity: 0.85; }
+  .ds-link .badge {
+    margin-left: auto;
+    background: var(--a); color: var(--ink);
+    font-family: var(--mono);
+    font-size: 9.5px; font-weight: 500;
+    padding: 2px 7px; border-radius: 999px;
+    line-height: 1.4;
+  }
+  .ds-link .pulse {
+    margin-left: auto;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gl);
+    animation: pulse 2.4s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .dash-side-foot {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid rgba(245,240,232,0.10);
+  }
+  .dash-side-foot .ds-link { color: rgba(245,240,232,0.40); font-size: 12.5px; padding: 7px 10px; }
+
+  /* ─── MAIN ─── */
+  .dash-main {
+    padding: 36px 48px 80px;
+    max-width: 1280px;
+    width: 100%;
+  }
+
+  /* ─── GREETING ─── */
+  .greet {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px; align-items: end;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 32px;
+  }
+  .g-eye {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .g-eye .live-dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--g); margin-right: 6px; vertical-align: 1px;
+    animation: pulse 2.4s infinite;
+  }
+  .greet h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(40px, 4.5vw, 56px);
+    line-height: 1.0;
+    letter-spacing: -0.035em;
+    margin-top: 10px;
+  }
+  .greet h1 em { font-style: italic; color: var(--g); }
+  .g-sub { color: var(--muted); font-size: 14px; margin-top: 12px; max-width: 480px; line-height: 1.6; }
+  .g-sub a { color: var(--ink); border-bottom: 1px solid var(--line-2); padding-bottom: 1px; }
+  .g-sub a:hover { border-bottom-color: var(--ink); }
+
+  .g-actions { display: flex; gap: 8px; }
+
+  /* ─── FOCAL HERO: NEXT BOOKING ─── */
+  .focal {
+    background: var(--ink); color: var(--paper);
+    padding: 40px 44px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 130px 1fr 280px;
+    gap: 36px; align-items: stretch;
+    position: relative; overflow: hidden;
+  }
+  /* Subtle date-corner accent */
+  .focal::before {
+    content: 'NEXT'; position: absolute;
+    top: 18px; right: 24px;
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.18em;
+    color: rgba(245,240,232,0.30);
+  }
+
+  .focal-date {
+    text-align: center;
+    padding-right: 32px;
+    border-right: 1px solid rgba(245,240,232,0.12);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .focal-date .day {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.14em; color: var(--a);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .focal-date .num {
+    font-family: var(--serif);
+    font-weight: 400; font-style: italic;
+    font-size: 80px; line-height: 0.9;
+    letter-spacing: -0.04em; color: var(--paper);
+  }
+  .focal-date .mo {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.14em; color: rgba(245,240,232,0.55);
+    text-transform: uppercase; margin-top: 8px;
+  }
+  .focal-date .countdown {
+    font-size: 11px; color: var(--gl);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(245,240,232,0.10);
+  }
+
+  .focal-meta {
+    display: flex; flex-direction: column; justify-content: center;
+    min-width: 0;
+  }
+  .focal-with {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(245,240,232,0.50); margin-bottom: 8px;
+  }
+  .focal-name {
+    font-family: var(--serif);
+    font-size: 38px; font-weight: 400;
+    letter-spacing: -0.025em; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .focal-svc {
+    font-size: 14px; color: rgba(245,240,232,0.65);
+    margin-bottom: 22px;
+  }
+  .focal-rows {
+    display: flex; flex-direction: column; gap: 10px;
+    border-top: 1px solid rgba(245,240,232,0.10);
+    padding-top: 18px;
+  }
+  .focal-row {
+    display: grid; grid-template-columns: 90px 1fr;
+    gap: 16px; align-items: baseline;
+    font-size: 13px;
+  }
+  .focal-row .k {
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: rgba(245,240,232,0.40);
+  }
+  .focal-row .v { color: rgba(245,240,232,0.92); }
+  .focal-row .v strong { color: var(--paper); font-weight: 500; }
+  .focal-row .v .escrow {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gl); margin-left: 6px;
+  }
+  .focal-row .v .escrow svg { fill: var(--gl); }
+
+  .focal-aside {
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding-left: 32px;
+    border-left: 1px solid rgba(245,240,232,0.12);
+  }
+  .focal-prep {
+    background: rgba(159,225,203,0.06);
+    border: 1px solid rgba(159,225,203,0.18);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .focal-prep .prep-eye {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gl); margin-bottom: 6px;
+  }
+  .focal-prep p {
+    font-family: var(--serif); font-style: italic;
+    font-size: 13.5px; line-height: 1.45;
+    color: rgba(245,240,232,0.85);
+  }
+  .focal-actions { display: flex; flex-direction: column; gap: 8px; }
+  .focal-btn {
+    height: 44px; font-size: 13.5px; font-weight: 500;
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: all 0.15s; cursor: pointer;
+  }
+  .focal-btn.primary { background: var(--a); color: var(--ink); }
+  .focal-btn.primary:hover { background: #D88D1A; transform: translateY(-1px); }
+  .focal-btn.ghost {
+    background: transparent; color: var(--paper);
+    border: 1px solid rgba(245,240,232,0.25);
+  }
+  .focal-btn.ghost:hover { border-color: var(--paper); }
+
+  /* ─── ESCROW BAR (signature trust moment) ─── */
+  .escrow-bar {
+    display: grid; grid-template-columns: auto 1fr auto auto;
+    gap: 24px; align-items: center;
+    padding: 18px 28px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    margin-bottom: 40px;
+  }
+  .escrow-bar .badge {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--g);
+    padding: 5px 10px;
+    border: 1px solid var(--gs);
+    background: var(--gs);
+    border-radius: 999px;
+  }
+  .escrow-bar .badge svg { fill: var(--g); }
+  .escrow-bar .label-line {
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+  }
+  .escrow-bar .label-line strong { color: var(--ink); font-weight: 500; }
+  .escrow-amount {
+    font-family: var(--serif);
+    font-size: 32px; font-weight: 400;
+    letter-spacing: -0.025em;
+    color: var(--ink); line-height: 1;
+  }
+  .escrow-amount em { font-style: italic; color: var(--g); }
+  .escrow-bar .see-link {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px;
+    cursor: pointer;
+    transition: color 0.12s, border-color 0.12s;
+  }
+  .escrow-bar .see-link:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* ─── CONTENT GRID ─── */
+  .d-grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 44px;
+  }
+  .d-section { margin-bottom: 44px; }
+  .d-section-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .d-section-head h2 {
+    font-family: var(--serif);
+    font-weight: 400; font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  .d-section-head h2 em { font-style: italic; color: var(--g); }
+  .d-section-head .see {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid transparent; padding-bottom: 2px;
+  }
+  .d-section-head .see:hover { color: var(--ink); border-bottom-color: var(--ink); }
+
+  /* ─── ACTIVE REQUEST CARD ─── */
+  .req-card {
+    background: var(--as);
+    padding: 24px 26px;
+    position: relative;
+    border-left: 2px solid var(--a);
+  }
+  .req-card .req-mono {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ad);
+    display: flex; gap: 14px; align-items: center;
+  }
+  .req-card .req-mono .sep { color: rgba(139,94,10,0.4); }
+  .req-card .title {
+    font-family: var(--serif);
+    font-size: 22px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.2;
+    margin: 8px 0 10px;
+    color: var(--ink);
+  }
+  .req-card .desc {
+    font-size: 13.5px; color: var(--ink-2);
+    line-height: 1.6; margin-bottom: 18px;
+    max-width: 540px;
+  }
+  .req-card .quotes-row {
+    padding-top: 16px;
+    border-top: 1px solid rgba(139,94,10,0.18);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .req-card .quotes-row .left {
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .req-card .qnum {
+    font-family: var(--serif); font-style: italic;
+    font-size: 36px; font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1; color: var(--ink);
+  }
+  .req-card .qlbl {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ad);
+  }
+  .req-card .qlbl strong { color: var(--ink); font-weight: 500; }
+  .req-btn {
+    background: var(--ink); color: var(--paper);
+    padding: 11px 22px; font-size: 13px; font-weight: 500;
+    border-radius: 999px; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .req-btn:hover { background: var(--g); }
+
+  /* ─── ACTIVITY ─── */
+  .activity {
+    border-top: 1px solid var(--ink);
+  }
+  .act {
+    display: grid;
+    grid-template-columns: 80px 28px 1fr auto;
+    gap: 18px; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding 0.15s;
+  }
+  .act:hover { padding-left: 8px; padding-right: 8px; background: rgba(232,222,200,0.4); }
+  .act .when {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted); letter-spacing: 0.04em;
+  }
+  .act .dot-wrap { display: grid; place-items: center; }
+  .act .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--g);
+  }
+  .act .dot.amber { background: var(--a); }
+  .act .dot.ink { background: var(--ink); }
+  .act .dot.muted { background: var(--muted-2); }
+  .act .txt { font-size: 13.5px; color: var(--ink-2); line-height: 1.4; }
+  .act .txt strong { color: var(--ink); font-weight: 500; }
+  .act .cta {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink); white-space: nowrap;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px;
+  }
+  .act .cta:hover { border-bottom-color: var(--ink); }
+
+  /* ─── VOUCH PROMPT (signature anchor) ─── */
+  .vouch-anchor {
+    background: var(--ink); color: var(--paper);
+    padding: 32px;
+    position: relative; overflow: hidden;
+  }
+  .vouch-anchor::after {
+    content: '"'; position: absolute;
+    top: -30px; right: 12px;
+    font-family: var(--serif); font-style: italic;
+    font-size: 220px; line-height: 1;
+    color: var(--a); opacity: 0.16;
+  }
+  .vouch-eye {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gl); margin-bottom: 10px;
+  }
+  .vouch-anchor h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 32px; letter-spacing: -0.025em;
+    line-height: 1.1; margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .vouch-anchor h3 em { font-style: italic; color: var(--a); }
+  .vouch-anchor p {
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.62);
+    line-height: 1.6;
+    margin-bottom: 22px;
+    max-width: 380px;
+    position: relative; z-index: 1;
+  }
+  .vp-who {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 22px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(245,240,232,0.10);
+    border-bottom: 1px solid rgba(245,240,232,0.10);
+    position: relative; z-index: 1;
+  }
+  .vp-av {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--a); color: var(--ink);
+    display: grid; place-items: center;
+    font-family: var(--serif); font-weight: 500;
+    font-size: 14px;
+  }
+  .vp-name { font-size: 14px; font-weight: 500; color: var(--paper); }
+  .vp-detail { font-size: 12px; color: rgba(245,240,232,0.55); margin-top: 2px; }
+  .vouch-actions {
+    display: flex; gap: 8px;
+    position: relative; z-index: 1;
+  }
+  .vouch-btn {
+    flex: 1; height: 42px;
+    border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    transition: all 0.15s; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .vouch-btn.primary { background: var(--a); color: var(--ink); flex: 2; }
+  .vouch-btn.primary:hover { background: #D88D1A; transform: translateY(-1px); }
+  .vouch-btn.ghost {
+    background: transparent; color: rgba(245,240,232,0.7);
+    border: 1px solid rgba(245,240,232,0.18);
+  }
+  .vouch-btn.ghost:hover { border-color: var(--paper); color: var(--paper); }
+  .vouch-more {
+    margin-top: 16px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(245,240,232,0.15);
+    position: relative; z-index: 1;
+  }
+  .vouch-more strong { color: var(--gl); }
+
+  /* ─── SAVED PROVIDERS (address book) ─── */
+  .saved-list {
+    display: flex; flex-direction: column;
+  }
+  .saved {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 14px; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding 0.15s;
+  }
+  .saved:hover { padding-left: 8px; padding-right: 8px; }
+  .saved:hover .s-name { color: var(--g); }
+  .s-av {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--gs); color: var(--g);
+    display: grid; place-items: center;
+    font-family: var(--serif); font-size: 15px;
+    font-weight: 500;
+  }
+  .s-av.amber { background: var(--as); color: var(--ad); }
+  .s-name {
+    font-family: var(--serif);
+    font-weight: 500; font-size: 17px;
+    letter-spacing: -0.01em;
+    line-height: 1.1; margin-bottom: 3px;
+    transition: color 0.15s;
+  }
+  .s-meta {
+    font-size: 12px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .s-meta .dot {
+    width: 3px; height: 3px; border-radius: 50%;
+    background: var(--muted-2);
+  }
+  .s-meta .vouches {
+    color: var(--g); font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: 0.04em;
+  }
+  .s-action {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted-2);
+    transition: color 0.15s;
+  }
+  .saved:hover .s-action { color: var(--ink); }
+
+  /* ─── PATCH (real neighbourhood) ─── */
+  .patch {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    padding: 22px 24px;
+  }
+  .patch-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .patch-head h3 {
+    font-family: var(--serif);
+    font-weight: 500; font-size: 20px;
+    letter-spacing: -0.01em; line-height: 1.2;
+  }
+  .patch-head .patch-sub {
+    font-family: var(--mono); font-size: 10.5px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); margin-top: 4px;
+  }
+  .patch-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    background: var(--as); color: var(--ad);
+    padding: 4px 9px; border-radius: 999px;
+  }
+  .patch-tag .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--a); }
+
+  .patch-list {
+    display: flex; flex-direction: column;
+  }
+  .patch-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 12px; align-items: center;
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding 0.15s;
+  }
+  .patch-row:hover { padding-left: 6px; padding-right: 6px; }
+  .patch-row .pin {
+    width: 28px; height: 28px;
+    background: var(--g); color: var(--paper);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 11px; font-weight: 500;
+    border-radius: 50% 50% 50% 4px;
+    transform: rotate(-45deg);
+    margin-left: 4px;
+  }
+  .patch-row .pin span { transform: rotate(45deg); }
+  .patch-row .pin.amber { background: var(--a); color: var(--ink); }
+  .patch-row .place-name {
+    font-size: 13.5px; color: var(--ink); font-weight: 500;
+  }
+  .patch-row .place-meta {
+    font-size: 11.5px; color: var(--muted); margin-top: 1px;
+    font-family: var(--mono); letter-spacing: 0.02em;
+  }
+  .patch-row .dist {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--muted);
+  }
+  .patch-row:hover .place-name { color: var(--g); }
+  .patch-foot {
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .patch-foot .ftxt { font-size: 12px; color: var(--muted); }
+  .patch-foot .open-map {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 1px;
+  }
+  .patch-foot .open-map:hover { border-bottom-color: var(--ink); }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    height: 40px; padding: 0 18px;
+    font-size: 13.5px; font-weight: 500;
+    border-radius: 999px;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-quiet {
+    background: transparent; color: var(--ink);
+    border-color: var(--line);
+  }
+  .btn-quiet:hover { border-color: var(--ink); }
+  .btn-ink {
+    background: var(--ink); color: var(--paper);
+  }
+  .btn-ink:hover { background: var(--g); transform: translateY(-1px); }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: var(--paper);
+    padding: 12px 22px; border-radius: 999px;
+    font-size: 13px; font-weight: 500;
+    z-index: 300; opacity: 0; pointer-events: none;
+    transition: all 0.25s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast svg { fill: var(--gl); }
 </style>
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body>
 
-<div class="flex min-h-screen">
-
-  <!-- ═══════════ SIDEBAR ═══════════ -->
-  <aside class="w-64 bg-white border-r border-gray-100 flex flex-col shrink-0">
-
-    <!-- Logo -->
-    <div class="px-5 py-4 border-b border-gray-100 flex items-center gap-2.5">
-      <svg width="32" height="30" viewBox="0 0 120 110" fill="none">
-        <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="9" stroke-linecap="round"/>
-        <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="9" stroke-linecap="round"/>
-        <circle cx="60" cy="10" r="12" fill="#EF9F27"/>
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-left">
+    <a href="browse.html" class="nav-logo">
+      <svg width="22" height="22" viewBox="0 0 120 110" fill="none">
+        <path d="M10 90 C10 44 30 10 60 10" stroke="#085041" stroke-width="10" stroke-linecap="round"/>
+        <path d="M60 10 C90 10 110 44 110 90" stroke="#EF9F27" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="60" cy="10" r="11" fill="#EF9F27"/>
         <circle cx="60" cy="10" r="5" fill="#0A0A0A"/>
       </svg>
-      <span class="font-serif font-semibold text-xl text-gray-900 tracking-tight">Sowo</span>
+      Sowo
+    </a>
+    <a href="browse.html" class="nav-link">Browse</a>
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+  </div>
+  <div></div>
+  <div class="nav-right">
+    <a href="#" class="nav-auth">Messages</a>
+    <a href="#" class="nav-cta" style="background:var(--ink);color:var(--paper);border-color:var(--ink);">Post a request</a>
+  </div>
+</nav>
+
+<div class="dash-wrap">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="dash-side">
+    <div class="dash-user">
+      <div class="du-av">A</div>
+      <div>
+        <div class="du-name">Adaeze</div>
+        <div class="du-role">Hackney · since 2024</div>
+      </div>
     </div>
 
-    <!-- Nav -->
-    <nav class="flex-1 px-3 py-4 space-y-0.5">
-      <a href="#" data-view="dashboard" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-        <svg class="nav-icon w-4.5 h-4.5 w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-width="2"/></svg>
-        Dashboard
-      </a>
-      <a href="#" data-view="profile" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-        <svg class="nav-icon w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4" stroke-width="2"/></svg>
-        My Profile
-      </a>
-      <a href="#" data-view="requests" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-        <svg class="nav-icon w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        Requests & Messages
-      </a>
-      <a href="#" data-view="settings" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-        <svg class="nav-icon w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-        Settings
-      </a>
+    <nav class="ds-section">
+      <div class="ds-link active">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+        Overview
+      </div>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Bookings
+        <span class="badge">2</span>
+      </div>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Messages
+        <span class="pulse"></span>
+      </div>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        Saved
+      </div>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        My vouches
+        <span class="badge">9</span>
+      </div>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Requests
+      </div>
     </nav>
 
-    <!-- User footer -->
-    <div class="p-3 border-t border-gray-100">
-      <div id="sb-user" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
-        <div id="sb-av" class="w-9 h-9 rounded-full bg-brand-500 text-white grid place-items-center text-sm font-bold shrink-0">?</div>
-        <div class="flex-1 min-w-0">
-          <div id="sb-name" class="text-sm font-semibold truncate text-gray-900">Loading…</div>
-          <div id="sb-email" class="text-xs text-gray-500 truncate"></div>
-        </div>
-        <button onclick="Auth.signOut()" title="Sign out" class="p-1 rounded hover:bg-gray-200">
-          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-        </button>
+    <div class="ds-section">
+      <h5>Account</h5>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Profile
+      </div>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        Payment
+      </div>
+      <div class="ds-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </div>
+    </div>
+
+    <div class="dash-side-foot">
+      <div class="ds-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        Help
+      </div>
+      <div class="ds-link">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Sign out
       </div>
     </div>
   </aside>
 
-  <!-- ═══════════ MAIN ═══════════ -->
-  <main class="flex-1 flex flex-col min-w-0">
+  <!-- ─── MAIN ─── -->
+  <main class="dash-main">
 
-    <!-- Top bar -->
-    <header class="bg-white border-b border-gray-100 px-8 py-3.5 flex items-center justify-between gap-6 shrink-0">
-      <div class="flex-1 max-w-lg">
-        <div class="relative">
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round"/></svg>
-          <input type="text" placeholder="Search requests, providers…" class="w-full pl-9 pr-4 py-2 bg-gray-50 border border-transparent rounded-lg text-sm focus:bg-white focus:border-brand-300 focus:ring-2 focus:ring-brand-100 outline-none"/>
+    <!-- Greeting (honest, matches what's on screen) -->
+    <div class="greet">
+      <div>
+        <div class="g-eye"><span class="live-dot"></span>Tuesday · 21 April</div>
+        <h1>Good afternoon,<br><em>Adaeze.</em></h1>
+        <p class="g-sub">Amara's at your flat in <strong style="color:var(--ink);">four days</strong>. There's a quote in for your dinner-party request, and <a href="#">Sofia is waiting on a vouch</a> from Sunday.</p>
+      </div>
+      <div class="g-actions">
+        <a href="browse.html" class="btn btn-quiet">Browse</a>
+        <a href="#" class="btn btn-ink">Post a request</a>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════
+         FOCAL HERO: NEXT BOOKING — the one obvious next thing
+         ════════════════════════════════════════════════════════════ -->
+    <div class="focal">
+      <div class="focal-date">
+        <div class="day">Friday</div>
+        <div class="num">25</div>
+        <div class="mo">April</div>
+        <div class="countdown">in 4 days · 11:30 AM</div>
+      </div>
+
+      <div class="focal-meta">
+        <div class="focal-with">Booked with</div>
+        <div class="focal-name">Amara Osei</div>
+        <div class="focal-svc">Soft glam — full face · 90 min</div>
+        <div class="focal-rows">
+          <div class="focal-row">
+            <span class="k">Where</span>
+            <span class="v"><strong>Your flat</strong> · 14 Lansdowne Drive, Hackney E8</span>
+          </div>
+          <div class="focal-row">
+            <span class="k">Provider</span>
+            <span class="v"><strong>Replies in &lt;1 hour</strong> · 42 vouches</span>
+          </div>
+          <div class="focal-row">
+            <span class="k">Payment</span>
+            <span class="v"><strong>£95</strong> <span class="escrow"><svg width="9" height="9" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>held in escrow</span></span>
+          </div>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <button class="relative p-2 rounded-lg hover:bg-gray-100" id="notifBtn">
-          <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-          <span id="notif-dot" class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full hidden"></span>
-        </button>
-        <button onclick="switchView('requests')" class="bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5 transition-colors">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-          New Request
-        </button>
-      </div>
-    </header>
 
-    <!-- Views container -->
-    <div class="flex-1 overflow-y-auto scroll-hide">
-
-      <!-- ══════════════════════════════════════
-           DASHBOARD HOME
-      ══════════════════════════════════════ -->
-      <section id="view-dashboard" class="view active p-8">
-        <div class="mb-7">
-          <h1 id="home-greeting" class="text-2xl font-bold text-gray-900">Good morning</h1>
-          <p class="text-sm text-gray-500 mt-1">Here's what's happening with your requests today.</p>
+      <div class="focal-aside">
+        <div class="focal-prep">
+          <div class="prep-eye">A note from Amara</div>
+          <p>"Wash your face the morning of — no SPF or oils. I'll bring everything else."</p>
         </div>
-
-        <!-- Stats row -->
-        <div class="grid grid-cols-4 gap-4 mb-8">
-          <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Account status</div>
-            <div class="mt-2 flex items-end justify-between">
-              <div class="text-sm font-bold text-amber-600">Pending review</div>
-            </div>
-            <div class="text-xs text-gray-400 mt-1">We'll notify you when live</div>
-          </div>
-          <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Booking requests</div>
-            <div class="mt-2 flex items-end justify-between">
-              <div class="text-2xl font-bold text-gray-900">0</div>
-            </div>
-            <div class="text-xs text-gray-400 mt-1">Available once live</div>
-          </div>
-          <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Profile views</div>
-            <div class="mt-2 flex items-end justify-between">
-              <div class="text-2xl font-bold text-gray-900"></div>
-            </div>
-            <div class="text-xs text-gray-400 mt-1">Tracked once verified</div>
-          </div>
-          <div class="bg-white rounded-xl p-5 border border-gray-100">
-            <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Earnings</div>
-            <div class="mt-2 flex items-end justify-between">
-              <div class="text-2xl font-bold text-gray-900">£0</div>
-            </div>
-            <div class="text-xs text-gray-400 mt-1">Processed via escrow</div>
-          </div>
-        </div>
-
-        <!-- Main content split -->
-        <div class="grid grid-cols-3 gap-6">
-
-          <!-- Account checklist -->
-          <div class="col-span-2 bg-white rounded-xl border border-gray-100">
-            <div class="px-6 py-4 border-b border-gray-100">
-              <h2 class="font-semibold text-gray-900">Getting started</h2>
-              <p class="text-xs text-gray-400 mt-0.5">Complete these steps to go live on Sowo</p>
-            </div>
-            <div class="divide-y divide-gray-100">
-              <div class="px-6 py-4 flex items-center gap-4">
-                <div class="w-8 h-8 rounded-full bg-brand-500 text-white grid place-items-center shrink-0">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                </div>
-                <div class="flex-1">
-                  <div class="font-semibold text-gray-900 text-sm">Create your account</div>
-                  <div class="text-xs text-gray-400 mt-0.5">Signed up and verified email</div>
-                </div>
-                <span class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">Done</span>
-              </div>
-              <div class="px-6 py-4 flex items-center gap-4">
-                <div class="w-8 h-8 rounded-full bg-brand-500 text-white grid place-items-center shrink-0">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                </div>
-                <div class="flex-1">
-                  <div class="font-semibold text-gray-900 text-sm">Submit your provider listing</div>
-                  <div class="text-xs text-gray-400 mt-0.5">Profile, services, and pricing submitted</div>
-                </div>
-                <span class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">Done</span>
-              </div>
-              <div class="px-6 py-4 flex items-center gap-4">
-                <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 grid place-items-center shrink-0">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="flex-1">
-                  <div class="font-semibold text-gray-900 text-sm">Profile under review</div>
-                  <div class="text-xs text-gray-400 mt-0.5">Our team is reviewing your listing, usually within 48 hours</div>
-                </div>
-                <span class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full">In progress</span>
-              </div>
-              <div class="px-6 py-4 flex items-center gap-4 opacity-50">
-                <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-400 grid place-items-center shrink-0">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/></svg>
-                </div>
-                <div class="flex-1">
-                  <div class="font-semibold text-gray-700 text-sm">Go live and start receiving bookings</div>
-                  <div class="text-xs text-gray-400 mt-0.5">You'll receive an email when your profile is approved</div>
-                </div>
-                <span class="text-[11px] font-semibold text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">Pending</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Right col -->
-          <div class="space-y-5">
-            <!-- Listing preview -->
-            <div class="bg-white rounded-xl border border-gray-100 p-5">
-              <div class="flex items-center justify-between mb-4">
-                <h2 class="font-semibold text-gray-900">Your listing</h2>
-                <button onclick="switchView('edit-listing')" class="text-xs text-brand-500 font-semibold hover:text-brand-700">Edit →</button>
-              </div>
-              <div class="flex items-center gap-3">
-                <div id="listing-av" class="w-12 h-12 rounded-xl bg-brand-500 text-white grid place-items-center font-bold text-lg shrink-0">?</div>
-                <div>
-                  <div id="listing-name" class="font-semibold text-gray-900 text-sm"></div>
-                  <div id="listing-cat" class="text-xs text-gray-400 mt-0.5"></div>
-                  <span class="inline-block mt-1.5 text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">Pending review</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Quick links -->
-            <div class="bg-white rounded-xl border border-gray-100 p-5">
-              <h2 class="font-semibold text-gray-900 mb-3">Quick links</h2>
-              <div class="space-y-2">
-                <a href="/browse.html" class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 text-sm text-gray-700 font-medium transition-colors">
-                  <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke-width="2"/><path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round"/></svg>
-                  Browse marketplace
-                </a>
-                <button onclick="switchView('edit-listing')" class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 text-sm text-gray-700 font-medium transition-colors w-full text-left">
-                  <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  Update your listing
-                </button>
-                <a href="/" class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-50 text-sm text-gray-700 font-medium transition-colors">
-                  <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" stroke-width="2" stroke-linecap="round"/></svg>
-                  Back to homepage
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- ══════════════════════════════════════
-           MY PROFILE
-      ══════════════════════════════════════ -->
-      <section id="view-profile" class="view p-8">
-        <div class="mb-7">
-          <h1 class="text-2xl font-bold text-gray-900">My Profile</h1>
-          <p class="text-sm text-gray-500 mt-1">Your personal information and provider account details.</p>
-        </div>
-
-        <div class="grid grid-cols-3 gap-6">
-          <!-- Avatar card -->
-          <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <div class="flex flex-col items-center text-center">
-              <div class="relative group cursor-pointer" id="av-upload-trigger" title="Upload photo">
-                <div id="prof-av-big" class="w-24 h-24 rounded-full bg-brand-500 text-white grid place-items-center text-3xl font-bold overflow-hidden bg-cover bg-center select-none">?</div>
-                <div class="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3" stroke-width="2"/></svg>
-                </div>
-                <input type="file" id="av-file-input" accept="image/*" class="hidden"/>
-              </div>
-              <div id="prof-name-big" class="mt-4 font-bold text-lg text-gray-900"></div>
-              <div id="prof-role" class="text-sm text-gray-500 mt-0.5">Service provider</div>
-              <div class="mt-3 inline-flex items-center gap-1.5 text-xs text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full font-medium border border-amber-100">
-                Pending review
-              </div>
-            </div>
-
-            <div class="mt-6 pt-6 border-t border-gray-100 space-y-4">
-              <div>
-                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Category</div>
-                <div id="prof-category" class="text-sm font-medium text-gray-700"></div>
-              </div>
-              <div>
-                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Listing status</div>
-                <div class="text-sm font-medium text-amber-600">Under review</div>
-              </div>
-              <div>
-                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Rating</div>
-                <div class="text-sm font-medium text-gray-700">No reviews yet</div>
-              </div>
-              <div>
-                <div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">Bookings completed</div>
-                <div class="text-sm font-medium text-gray-700">0</div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Details form -->
-          <div class="col-span-2 space-y-5">
-            <!-- Personal info -->
-            <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
-              <!-- Collapsible header -->
-              <button id="prof-collapse-btn" class="w-full flex items-center justify-between px-6 py-4 hover:bg-gray-50 transition-colors group" aria-expanded="false">
-                <h2 class="font-semibold text-gray-900">Personal Information</h2>
-                <div class="flex items-center gap-3">
-                  <span id="prof-edit-btn" class="text-sm text-brand-500 font-medium hidden">Edit</span>
-                  <svg id="prof-chevron" class="w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                </div>
-              </button>
-              <!-- Collapsible body -->
-              <div id="prof-body" class="hidden px-6 pb-6 border-t border-gray-100">
-                <div class="grid grid-cols-2 gap-5 mt-5">
-                  <div>
-                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">First name</label>
-                    <input id="pf-fname" type="text" disabled class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
-                  </div>
-                  <div>
-                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Last name</label>
-                    <input id="pf-lname" type="text" disabled class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
-                  </div>
-                  <div>
-                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Email</label>
-                    <input id="pf-email" type="email" disabled class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-500"/>
-                  </div>
-                  <div>
-                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Phone</label>
-                    <input id="pf-phone" type="tel" disabled placeholder="Not set" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
-                  </div>
-                  <div class="col-span-2">
-                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</label>
-                    <input id="pf-location" type="text" disabled placeholder="Not set" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700"/>
-                  </div>
-                  <div class="col-span-2">
-                    <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Bio</label>
-                    <textarea id="pf-bio" rows="3" disabled placeholder="Describe your services and what makes you unique…" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm outline-none bg-gray-50 text-gray-700 resize-none"></textarea>
-                  </div>
-                </div>
-                <div id="prof-save-row" class="hidden mt-5 flex justify-end gap-3">
-                  <button id="prof-cancel-btn" class="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg border border-gray-200">Cancel</button>
-                  <button id="prof-save-btn" class="px-4 py-2 text-sm font-semibold text-white bg-brand-500 hover:bg-brand-600 rounded-lg">Save changes</button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Notifications -->
-            <div class="bg-white rounded-xl border border-gray-100 p-6">
-              <h3 class="font-semibold text-gray-900 mb-4">Notifications</h3>
-              <div class="space-y-1">
-                <label class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div>
-                    <div class="text-sm font-medium text-gray-900">Email notifications</div>
-                    <div class="text-xs text-gray-500">Get notified about new booking requests and messages</div>
-                  </div>
-                  <label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
-                </label>
-                <label class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div>
-                    <div class="text-sm font-medium text-gray-900">SMS notifications</div>
-                    <div class="text-xs text-gray-500">Text me for urgent booking alerts only</div>
-                  </div>
-                  <label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label>
-                </label>
-                <label class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div>
-                    <div class="text-sm font-medium text-gray-900">Listing visible to clients</div>
-                    <div class="text-xs text-gray-500">Your profile will appear in search once approved</div>
-                  </div>
-                  <label class="toggle"><input type="checkbox" checked/><span class="toggle-slider"></span></label>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ══════════════════════════════════════
-           MY REQUESTS (list)
-      ══════════════════════════════════════ -->
-      <section id="view-requests" class="view p-8">
-        <div class="flex items-center justify-between mb-7">
-          <div>
-            <h1 class="text-2xl font-bold text-gray-900">Requests & Messages</h1>
-            <p class="text-sm text-gray-500 mt-1">Booking requests and conversations with clients will appear here once your profile is live.</p>
-          </div>
-        </div>
-        <div class="bg-white rounded-xl border border-gray-100 p-16 text-center">
-          <svg class="w-12 h-12 text-gray-200 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-          <p class="font-semibold text-gray-700">No requests yet</p>
-          <p class="text-sm text-gray-400 mt-1">Your profile is under review. Once approved, booking requests will show up here.</p>
-          <a href="/provider.html" id="view-public-profile" class="inline-flex items-center gap-2 mt-5 px-5 py-2.5 text-sm font-semibold text-brand-600 border border-brand-200 rounded-lg hover:bg-brand-50 transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-            View public listing
+        <div class="focal-actions">
+          <a href="provider.html" class="focal-btn primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Message Amara
           </a>
+          <a href="#" class="focal-btn ghost">Booking details</a>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- ══════════════════════════════════════
-           REQUEST DETAIL + MESSAGING
-      ══════════════════════════════════════ -->
-      <section id="view-request-detail" class="view p-8">
-        <button id="back-btn" class="flex items-center gap-1.5 text-sm text-brand-500 font-medium hover:text-brand-700 mb-6">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          Back to requests
-        </button>
+    <!-- ════════════════════════════════════════════════════════════
+         ESCROW BAR — signature trust moment
+         ════════════════════════════════════════════════════════════ -->
+    <div class="escrow-bar">
+      <span class="badge">
+        <svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        Sowo Pocket
+      </span>
+      <div class="label-line">
+        <strong>£235 of yours</strong> is currently held in escrow across 2 bookings.
+        <br><span style="color:var(--muted); font-size:12px;">Released only when you confirm the work is done.</span>
+      </div>
+      <div class="escrow-amount"><em>£</em>235</div>
+      <a href="#" class="see-link">Breakdown →</a>
+    </div>
 
-        <div class="grid grid-cols-3 gap-6">
-          <!-- Left col: request info + provider list -->
-          <div class="space-y-5">
-            <div class="bg-white rounded-xl border border-gray-100 p-6">
-              <span id="rd-status" class="text-[11px] font-semibold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full">Open</span>
-              <h2 id="rd-title" class="font-bold text-xl text-gray-900 mt-3"></h2>
-              <p id="rd-desc" class="text-sm text-gray-500 mt-2 leading-relaxed"></p>
-              <div class="mt-5 grid grid-cols-2 gap-4 text-sm">
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Category</div><div class="mt-1 font-medium" id="rd-cat"></div></div>
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Budget</div><div class="mt-1 font-medium" id="rd-budget"></div></div>
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</div><div class="mt-1 font-medium" id="rd-location"></div></div>
-                <div><div class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Posted</div><div class="mt-1 font-medium" id="rd-posted"></div></div>
-              </div>
-              <div class="mt-5 pt-5 border-t border-gray-100 flex gap-2">
-                <button class="flex-1 text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-200 rounded-lg py-2 transition-colors">Edit</button>
-                <button class="flex-1 text-sm font-medium text-red-600 hover:bg-red-50 border border-red-100 rounded-lg py-2 transition-colors">Close</button>
-              </div>
+    <!-- ─── TWO COLUMN GRID ─── -->
+    <div class="d-grid">
+
+      <!-- LEFT COLUMN -->
+      <div>
+
+        <!-- Active request -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Your <em>request</em> · live</h2>
+            <a href="#" class="see">Edit →</a>
+          </div>
+
+          <div class="req-card">
+            <div class="req-mono">
+              <span>Posted 2h ago</span>
+              <span class="sep">·</span>
+              <span>4 views</span>
+              <span class="sep">·</span>
+              <span style="color: var(--ink); font-weight: 500;">★ 3 quotes in</span>
             </div>
-
-            <div class="bg-white rounded-xl border border-gray-100">
-              <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="font-semibold text-gray-900">Providers</h3>
-                <span id="rd-pcount" class="text-[11px] font-semibold text-brand-700 bg-brand-50 px-2 py-0.5 rounded-full"></span>
+            <div class="title">Private chef for a dinner of 8 — Saturday 17 May</div>
+            <div class="desc">Looking for someone who can cook West African with confidence. Jollof, grilled fish, plantain, sides. Budget £350–450 for food &amp; service. Own kitchen in N1.</div>
+            <div class="quotes-row">
+              <div class="left">
+                <span class="qnum">3</span>
+                <span class="qlbl"><strong>Kwame Mensah</strong>, <strong>Tola Adeyemi</strong> &amp; one other<br>have sent quotes</span>
               </div>
-              <div id="provider-list" class="divide-y divide-gray-100"></div>
+              <a href="#" class="req-btn">Review quotes →</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Activity — tightened to 4 actionable items -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Recent <em>activity</em></h2>
+            <a href="#" class="see">All</a>
+          </div>
+
+          <div class="activity">
+            <div class="act">
+              <div class="when">2h ago</div>
+              <div class="dot-wrap"><div class="dot amber"></div></div>
+              <div class="txt"><strong>Kwame Mensah</strong> sent a quote for your private chef request — £395</div>
+              <a href="#" class="cta">View quote</a>
+            </div>
+            <div class="act">
+              <div class="when">4h ago</div>
+              <div class="dot-wrap"><div class="dot"></div></div>
+              <div class="txt">Booking confirmed — <strong>Amara Osei</strong>, Fri 25 April, 11:30</div>
+              <a href="#" class="cta">Open</a>
+            </div>
+            <div class="act">
+              <div class="when">Yesterday</div>
+              <div class="dot-wrap"><div class="dot amber"></div></div>
+              <div class="txt"><strong>Priya Nair</strong> replied about Sunday slots — <em>"How about the 11th?"</em></div>
+              <a href="#" class="cta">Reply</a>
+            </div>
+            <div class="act">
+              <div class="when">Sunday</div>
+              <div class="dot-wrap"><div class="dot muted"></div></div>
+              <div class="txt">Session completed with <strong>Sofia Mensah</strong> · barber · £55 released</div>
+              <a href="#" class="cta">Vouch</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div>
+
+        <!-- VOUCH PROMPT — signature anchor at top of right rail -->
+        <div class="vouch-anchor">
+          <div class="vouch-eye">Someone's waiting on your word</div>
+          <h3>Sofia cut your hair<br>on <em>Sunday.</em></h3>
+          <p>She's asked for a vouch — a named, public reference that travels with her. Two minutes from you. Means everything for her next booking.</p>
+
+          <div class="vp-who">
+            <div class="vp-av">SM</div>
+            <div>
+              <div class="vp-name">Sofia Mensah</div>
+              <div class="vp-detail">Barber · Hackney · 16 vouches so far</div>
             </div>
           </div>
 
-          <!-- Right col: conversation -->
-          <div class="col-span-2 bg-white rounded-xl border border-gray-100 flex flex-col" style="min-height:600px">
-            <!-- Provider header -->
-            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div id="active-av" class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 text-white grid place-items-center font-bold text-sm">MB</div>
+          <div class="vouch-actions">
+            <button class="vouch-btn primary" onclick="showToast('Opening vouch flow…')">Leave a vouch</button>
+            <button class="vouch-btn ghost">Skip</button>
+          </div>
+
+          <div class="vouch-more">2 others awaiting · <strong>Marcus &amp; Priya</strong></div>
+        </div>
+
+        <!-- Saved providers — address book feel -->
+        <section class="d-section" style="margin-top: 40px;">
+          <div class="d-section-head">
+            <h2>Your <em>people</em></h2>
+            <a href="#" class="see">All 7</a>
+          </div>
+          <div class="saved-list">
+            <a href="provider.html" class="saved">
+              <div class="s-av">AO</div>
+              <div>
+                <div class="s-name">Amara Osei</div>
+                <div class="s-meta">Makeup · Hackney <span class="dot"></span><span class="vouches">42 vouches</span></div>
+              </div>
+              <span class="s-action">Book →</span>
+            </a>
+            <a href="provider.html" class="saved">
+              <div class="s-av">PN</div>
+              <div>
+                <div class="s-name">Priya Nair</div>
+                <div class="s-meta">Nails · Shoreditch <span class="dot"></span><span class="vouches">38 vouches</span></div>
+              </div>
+              <span class="s-action">Book →</span>
+            </a>
+            <a href="provider.html" class="saved">
+              <div class="s-av amber">SM</div>
+              <div>
+                <div class="s-name">Sofia Mensah</div>
+                <div class="s-meta">Barber · Hackney <span class="dot"></span><span class="vouches">16 vouches</span></div>
+              </div>
+              <span class="s-action">Book →</span>
+            </a>
+            <a href="provider.html" class="saved">
+              <div class="s-av">MR</div>
+              <div>
+                <div class="s-name">Marcus Reid</div>
+                <div class="s-meta">Chef · Islington <span class="dot"></span><span class="vouches">11 vouches</span></div>
+              </div>
+              <span class="s-action">Book →</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Patch — real neighbourhood, named places -->
+        <section class="d-section">
+          <div class="d-section-head">
+            <h2>Your <em>patch</em></h2>
+            <a href="browse.html" class="see">Map</a>
+          </div>
+          <div class="patch">
+            <div class="patch-head">
+              <div>
+                <h3>Hackney E8</h3>
+                <div class="patch-sub">42 providers within 2 miles</div>
+              </div>
+              <span class="patch-tag"><span class="dot"></span>You</span>
+            </div>
+
+            <div class="patch-list">
+              <a href="browse.html" class="patch-row">
+                <div class="pin"><span>9</span></div>
                 <div>
-                  <div class="font-semibold text-gray-900 text-sm flex items-center gap-1.5">
-                    <span id="active-name"></span>
-                    <svg class="w-4 h-4 text-brand-500" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#085041"/><path d="M8 12l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </div>
-                  <div class="text-xs text-gray-500 flex items-center gap-1.5">
-                    <span id="active-sub"></span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
-                    <span>Online</span>
-                  </div>
+                  <div class="place-name">London Fields</div>
+                  <div class="place-meta">9 providers · barbers, MUAs, nails</div>
                 </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="Call">
-                  <svg class="w-4.5 h-4.5 w-[18px] h-[18px] text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.5a1 1 0 01-.5 1.21l-2.26 1.13a11 11 0 005.52 5.52l1.13-2.26a1 1 0 011.21-.5l4.5 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2A16 16 0 013 5z"/></svg>
-                </button>
-                <button class="bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Hire</button>
-              </div>
-            </div>
-
-            <!-- Summary strip -->
-            <div id="active-summary" class="px-6 py-3.5 bg-gradient-to-r from-brand-50 to-white border-b border-gray-100 flex items-center gap-6 text-sm shrink-0"></div>
-
-            <!-- Messages -->
-            <div id="msg-thread" class="flex-1 overflow-y-auto scroll-hide px-6 py-5 space-y-4 bg-gray-50"></div>
-
-            <!-- Composer -->
-            <div class="border-t border-gray-100 px-4 py-3 shrink-0">
-              <div class="flex gap-2">
-                <button class="p-2 rounded-lg hover:bg-gray-100 shrink-0">
-                  <svg class="w-[18px] h-[18px] text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
-                </button>
-                <input id="composer" type="text" placeholder="Type a message…" class="flex-1 px-4 py-2 bg-gray-50 border border-transparent rounded-lg text-sm focus:bg-white focus:border-brand-300 focus:ring-2 focus:ring-brand-100 outline-none"/>
-                <button id="send-btn" class="bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold px-4 py-2 rounded-lg flex items-center gap-1.5 transition-colors">
-                  Send
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                </button>
-              </div>
-              <div class="mt-2 flex gap-1.5 flex-wrap">
-                <button class="text-xs text-gray-600 hover:text-brand-700 bg-gray-100 hover:bg-brand-50 px-2.5 py-1 rounded-full transition-colors">Accept quote</button>
-                <button class="text-xs text-gray-600 hover:text-brand-700 bg-gray-100 hover:bg-brand-50 px-2.5 py-1 rounded-full transition-colors">Ask about availability</button>
-                <button class="text-xs text-gray-600 hover:text-brand-700 bg-gray-100 hover:bg-brand-50 px-2.5 py-1 rounded-full transition-colors">Negotiate price</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ══════════════════════════════════════
-           SETTINGS
-      ══════════════════════════════════════ -->
-      <section id="view-settings" class="view p-8">
-        <div class="mb-7">
-          <h1 class="text-2xl font-bold text-gray-900">Settings</h1>
-          <p class="text-sm text-gray-500 mt-1">Account, security, and billing preferences.</p>
-        </div>
-        <div class="max-w-2xl space-y-4">
-          <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-4">Security</h2>
-            <div class="space-y-3 text-sm">
-              <div class="flex items-center justify-between py-2">
-                <div><div class="font-medium">Change password</div><div class="text-gray-500 text-xs mt-0.5">Last changed 30 days ago</div></div>
-                <button class="text-brand-500 font-medium hover:text-brand-700 text-sm">Update</button>
-              </div>
-              <div class="flex items-center justify-between py-2 border-t border-gray-100">
-                <div><div class="font-medium">Two-factor authentication</div><div class="text-gray-500 text-xs mt-0.5">Add an extra layer of security</div></div>
-                <label class="toggle"><input type="checkbox"/><span class="toggle-slider"></span></label>
-              </div>
-            </div>
-          </div>
-          <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-4">Account</h2>
-            <div class="space-y-2 text-sm">
-              <button onclick="Auth.signOut()" class="w-full flex items-center gap-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                Sign out
-              </button>
-              <button class="w-full flex items-center gap-3 p-3 rounded-lg border border-red-100 hover:bg-red-50 text-red-600 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                Delete account
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ══════════════════════════════════════
-           EDIT LISTING
-      ══════════════════════════════════════ -->
-      <section id="view-edit-listing" class="view p-8">
-        <div class="flex items-center gap-3 mb-7">
-          <button onclick="switchView('dashboard')" class="flex items-center gap-1.5 text-sm text-brand-500 font-medium hover:text-brand-700">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            Back
-          </button>
-          <span class="text-gray-300">/</span>
-          <h1 class="text-2xl font-bold text-gray-900">Edit Listing</h1>
-        </div>
-
-        <div class="max-w-2xl space-y-5">
-
-          <!-- Basic info -->
-          <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-5">Basic Information</h2>
-            <div class="space-y-4">
-              <div class="grid grid-cols-2 gap-4">
+                <div class="dist">0.4 mi</div>
+              </a>
+              <a href="browse.html" class="patch-row">
+                <div class="pin amber"><span>6</span></div>
                 <div>
-                  <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Display name</label>
-                  <input id="el-name" type="text" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
+                  <div class="place-name">Broadway Market</div>
+                  <div class="place-meta">6 providers · 3 chefs, 2 stylists</div>
                 </div>
+                <div class="dist">0.8 mi</div>
+              </a>
+              <a href="browse.html" class="patch-row">
+                <div class="pin"><span>14</span></div>
                 <div>
-                  <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Category</label>
-                  <select id="el-category" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none bg-white">
-                    <option value="">Select category</option>
-                    <option>Hair & Beauty</option>
-                    <option>Nails</option>
-                    <option>Makeup</option>
-                    <option>Barber</option>
-                    <option>Massage</option>
-                    <option>Lashes & Brows</option>
-                    <option>Skincare</option>
-                    <option>Photography</option>
-                    <option>Personal Training</option>
-                    <option>Private Chef</option>
-                    <option>Cleaning</option>
-                    <option>Other</option>
-                  </select>
+                  <div class="place-name">Dalston</div>
+                  <div class="place-meta">14 providers · everything</div>
                 </div>
-              </div>
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Location</label>
-                <input id="el-location" type="text" placeholder="e.g. Brixton, London" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
-              </div>
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Rate (£)</label>
-                <input id="el-rate" type="text" placeholder="e.g. 45" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
-              </div>
+                <div class="dist">1.1 mi</div>
+              </a>
+              <a href="browse.html" class="patch-row">
+                <div class="pin amber"><span>13</span></div>
+                <div>
+                  <div class="place-name">Stoke Newington</div>
+                  <div class="place-meta">13 providers · tailors, MUAs</div>
+                </div>
+                <div class="dist">1.6 mi</div>
+              </a>
+            </div>
+
+            <div class="patch-foot">
+              <span class="ftxt">2 of your saved live within walking distance.</span>
+              <a href="browse.html" class="open-map">Open map →</a>
             </div>
           </div>
+        </section>
 
-          <!-- Bio & skills -->
-          <div class="bg-white rounded-xl border border-gray-100 p-6">
-            <h2 class="font-semibold text-gray-900 mb-5">About & Services</h2>
-            <div class="space-y-4">
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Bio</label>
-                <textarea id="el-bio" rows="4" placeholder="Describe your experience and what makes you stand out…" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none resize-none"></textarea>
-              </div>
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Skills / specialisms</label>
-                <input id="el-skills" type="text" placeholder="e.g. Balayage, Knotless braids, Natural hair" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"/>
-              </div>
-              <div>
-                <label class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Services offered</label>
-                <textarea id="el-services" rows="3" placeholder="List the services you offer and prices…" class="mt-1.5 w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none resize-none"></textarea>
-              </div>
-            </div>
-          </div>
+      </div>
 
-          <!-- Save -->
-          <div class="flex justify-end gap-3 pb-8">
-            <button onclick="switchView('dashboard')" class="px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-lg border border-gray-200">Cancel</button>
-            <button id="el-save-btn" class="px-5 py-2.5 text-sm font-semibold text-white bg-brand-500 hover:bg-brand-600 rounded-lg flex items-center gap-2">
-              Save changes
-            </button>
-          </div>
+    </div>
 
-        </div>
-      </section>
-
-    </div><!-- /views -->
   </main>
-</div><!-- /flex -->
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg width="14" height="14" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+  <span id="toastMsg">Saved</span>
+</div>
 
 <script>
-
-/* ═══════════════════════════════════════
-   VIEW ROUTING
-═══════════════════════════════════════ */
-const VIEWS = ['dashboard','profile','requests','request-detail','settings','edit-listing'];
-
-function switchView(id) {
-  VIEWS.forEach(v => {
-    const el = document.getElementById('view-' + v);
-    if (el) el.classList.toggle('active', v === id);
-  });
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const nav = document.querySelector(`.nav-item[data-view="${id}"]`);
-  if (nav) nav.classList.add('active');
-}
-
-document.querySelectorAll('.nav-item').forEach(n =>
-  n.addEventListener('click', e => { e.preventDefault(); switchView(n.dataset.view); })
-);
-
-document.getElementById('back-btn').addEventListener('click', () => switchView('requests'));
-
-// Send message
-const composer = document.getElementById('composer');
-const sendBtn  = document.getElementById('send-btn');
-
-function sendMsg() {
-  const text = composer.value.trim();
-  if (!text) return;
-  const threadEl = document.getElementById('msg-thread');
-  // Remove typing indicator
-  const typing = threadEl.querySelector('.animate-bounce')?.closest('div.flex');
-  if (typing) typing.remove();
-
-  const wrap = document.createElement('div');
-  wrap.className = 'flex items-end justify-end gap-2';
-  wrap.innerHTML = `<div class="chat-bubble-user bg-brand-500 text-white px-4 py-2.5 max-w-sm"><p class="text-sm leading-relaxed">${text.replace(/</g,'&lt;')}</p><div class="text-[10px] text-brand-200 mt-1 text-right">Just now</div></div>`;
-  threadEl.appendChild(wrap);
-  composer.value = '';
-  threadEl.scrollTop = threadEl.scrollHeight;
-}
-sendBtn.addEventListener('click', sendMsg);
-composer.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
-
-/* ═══════════════════════════════════════
-   EDIT LISTING populate + save
-═══════════════════════════════════════ */
-/* helpers to convert between stored format and plain text */
-function servicesToText(services) {
-  if (!services || !services.length) return '';
-  if (typeof services === 'string') return services;
-  return services.map(function(s) {
-    if (!s || typeof s !== 'object') return String(s);
-    var price = s.price ? '£' + (s.price / 100).toFixed(0) : '';
-    return price ? s.name + ' ' + price : s.name;
-  }).join('\n');
-}
-
-function textToServices(text) {
-  return text.split('\n').map(function(line) {
-    line = line.trim();
-    if (!line) return null;
-    var match = line.match(/^(.+?)\s*[-–]\s*£?(\d+(?:\.\d+)?)$/);
-    if (match) return { name: match[1].trim(), price: Math.round(parseFloat(match[2]) * 100) };
-    return { name: line, price: 0 };
-  }).filter(Boolean);
-}
-
-function skillsToText(skills) {
-  if (!skills) return '';
-  if (Array.isArray(skills)) return skills.join(', ');
-  return String(skills);
-}
-
-function openEditListing(email) {
-  try {
-    const providers = JSON.parse(localStorage.getItem('sowo_providers') || '[]');
-    const listing = providers.find(function(p) {
-      return p && p.email && p.email.trim().toLowerCase() === email.toLowerCase();
-    });
-    if (!listing) return;
-    var set = function(id, val) { var el = document.getElementById(id); if (el) el.value = val || ''; };
-    var lname = listing.name || (listing.firstName ? listing.firstName + (listing.lastName ? ' ' + listing.lastName : '') : '');
-    set('el-name',     lname);
-    set('el-category', listing.category || listing.service || '');
-    set('el-location', listing.location || listing.city || '');
-    var rate = listing.hourly_rate ? (listing.hourly_rate / 100).toFixed(0) : (listing.rate || '');
-    set('el-rate',     rate);
-    set('el-bio',      listing.bio || listing.description || '');
-    set('el-skills',   skillsToText(listing.skills));
-    set('el-services', servicesToText(listing.services));
-  } catch(e) {}
-}
-
-function saveEditListing(email) {
-  try {
-    const providers = JSON.parse(localStorage.getItem('sowo_providers') || '[]');
-    const idx = providers.findIndex(function(p) {
-      return p && p.email && p.email.trim().toLowerCase() === email.toLowerCase();
-    });
-    var get = function(id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-    const updated = idx >= 0 ? Object.assign({}, providers[idx]) : { email: email };
-    updated.name        = get('el-name');
-    updated.category    = get('el-category');
-    updated.location    = get('el-location');
-    updated.hourly_rate = Math.round((parseFloat(get('el-rate')) || 0) * 100);
-    updated.bio         = get('el-bio');
-    updated.skills      = get('el-skills').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
-    updated.services    = textToServices(get('el-services'));
-    if (idx >= 0) { providers[idx] = updated; } else { providers.push(updated); }
-    localStorage.setItem('sowo_providers', JSON.stringify(providers));
-
-    // Refresh listing card on dashboard
-    const cat   = updated.category || '';
-    const lname = updated.name || email.split('@')[0];
-    const linitials = lname.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
-    document.getElementById('listing-av').textContent    = linitials;
-    document.getElementById('listing-name').textContent  = lname;
-    document.getElementById('listing-cat').textContent   = cat;
-    document.getElementById('prof-category').textContent = cat;
-
-    showToast('Listing updated');
-    switchView('dashboard');
-  } catch(e) { showToast('Could not save, try again', 'error'); }
-}
-
-/* ═══════════════════════════════════════
-   TOAST
-═══════════════════════════════════════ */
-function showToast(msg, type) {
-  const t = document.createElement('div');
-  const bg = type === 'error' ? '#b91c1c' : '#085041';
-  t.textContent = msg;
-  t.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(10px);padding:11px 22px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:9999;background:' + bg + ';color:#fff;box-shadow:0 4px 20px rgba(0,0,0,.2);white-space:nowrap;opacity:0;transition:opacity .18s,transform .18s';
-  document.body.appendChild(t);
-  requestAnimationFrame(function() {
-    t.style.opacity = '1';
-    t.style.transform = 'translateX(-50%) translateY(0)';
-  });
-  setTimeout(function() {
-    t.style.opacity = '0';
-    t.style.transform = 'translateX(-50%) translateY(6px)';
-    setTimeout(function() { t.remove(); }, 200);
-  }, 2600);
-}
-
-/* ═══════════════════════════════════════
-   AUTH + USER DATA (sessionStorage)
-═══════════════════════════════════════ */
-function init() {
-  const raw = sessionStorage.getItem('sowo_session');
-  if (!raw) { window.location.replace('/login.html'); return; }
-
-  const user = JSON.parse(raw);
-  const name     = user.firstName ? user.firstName + (user.lastName ? ' ' + user.lastName : '') : user.name || user.email.split('@')[0];
-  const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-  const email    = user.email || '';
-  const hour     = new Date().getHours();
-  const greet    = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-
-  // Sidebar user
-  document.getElementById('sb-name').textContent  = name;
-  document.getElementById('sb-email').textContent = email;
-  document.getElementById('sb-av').textContent    = initials;
-
-  // Sign out button
-  document.querySelector('[onclick="Auth.signOut()"]') && document.querySelectorAll('[onclick="Auth.signOut()"]').forEach(b => {
-    b.removeAttribute('onclick');
-    b.addEventListener('click', () => { sessionStorage.removeItem('sowo_session'); window.location.href = '/login.html'; });
-  });
-
-  // Profile page
-  document.getElementById('prof-av-big').textContent   = initials;
-  document.getElementById('prof-name-big').textContent = name;
-  const parts = name.split(' ');
-  const fn = document.getElementById('pf-fname');
-  const ln = document.getElementById('pf-lname');
-  if (fn) fn.value = parts[0] || '';
-  if (ln) ln.value = parts.slice(1).join(' ') || '';
-  const em = document.getElementById('pf-email');
-  if (em) em.value = email;
-
-  // Greeting
-  document.getElementById('home-greeting').textContent = greet + ', ' + name.split(' ')[0];
-
-  // Load provider listing data
-  try {
-    const providers = JSON.parse(localStorage.getItem('sowo_providers') || '[]');
-    const listing = providers.find(function(p) {
-      return p && p.email && p.email.trim().toLowerCase() === email.toLowerCase();
-    });
-    if (listing) {
-      const lname = listing.firstName
-        ? listing.firstName + (listing.lastName ? ' ' + listing.lastName : '')
-        : listing.name || email.split('@')[0];
-      const linitials = lname.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0, 2);
-      const cat = listing.category || listing.service || listing.serviceType || '';
-
-      // Dashboard listing card
-      document.getElementById('listing-av').textContent   = linitials;
-      document.getElementById('listing-name').textContent = lname;
-      document.getElementById('listing-cat').textContent  = cat;
-
-      // Profile page
-      document.getElementById('prof-category').textContent = cat;
-      const bio = listing.bio || listing.description || listing.about || '';
-      if (bio) { const b = document.getElementById('pf-bio'); if(b) b.value = bio; }
-      const loc = listing.location || listing.city || '';
-      if (loc) { const l = document.getElementById('pf-location'); if(l) l.value = loc; }
-      const phone = listing.phone || listing.phoneNumber || '';
-      if (phone) { const ph = document.getElementById('pf-phone'); if(ph) ph.value = phone; }
-
-      // Wire view public listing button
-      const viewBtn = document.getElementById('view-public-profile');
-      if (viewBtn) {
-        viewBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          sessionStorage.setItem('sowo_preview', JSON.stringify(listing));
-          window.location.href = '/provider.html';
-        });
-      }
-    }
-  } catch(e) {}
-
-  // Edit listing save
-  const elSaveBtn = document.getElementById('el-save-btn');
-  if (elSaveBtn) elSaveBtn.addEventListener('click', function() { saveEditListing(email); });
-
-  // Populate edit listing fields whenever the view opens patch switchView globally
-  const _baseSwitchView = switchView;
-  window.switchView = function(id) {
-    _baseSwitchView(id);
-    if (id === 'edit-listing') openEditListing(email);
-  };
-
-  // Load any previously saved profile overrides from localStorage
-  const profileKey = 'sowo_profile_' + email;
-  try {
-    const saved = JSON.parse(localStorage.getItem(profileKey) || 'null');
-    if (saved) {
-      if (saved.firstName) {
-        const savedName = saved.firstName + (saved.lastName ? ' ' + saved.lastName : '');
-        const savedInitials = savedName.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
-        document.getElementById('pf-fname').value            = saved.firstName;
-        document.getElementById('pf-lname').value            = saved.lastName || '';
-        document.getElementById('prof-name-big').textContent = savedName;
-        document.getElementById('sb-name').textContent       = savedName;
-        document.getElementById('home-greeting').textContent = greet + ', ' + saved.firstName;
-        if (!document.getElementById('prof-av-big').style.backgroundImage) {
-          document.getElementById('prof-av-big').textContent = savedInitials;
-          document.getElementById('sb-av').textContent       = savedInitials;
-        }
-        // keep session in sync
-        const sess2 = JSON.parse(sessionStorage.getItem('sowo_session') || '{}');
-        sess2.firstName = saved.firstName; sess2.lastName = saved.lastName || '';
-        sessionStorage.setItem('sowo_session', JSON.stringify(sess2));
-      }
-      if (saved.phone)    { const el = document.getElementById('pf-phone');    if(el) el.value = saved.phone; }
-      if (saved.location) { const el = document.getElementById('pf-location'); if(el) el.value = saved.location; }
-      if (saved.bio)      { const el = document.getElementById('pf-bio');      if(el) el.value = saved.bio; }
-    }
-  } catch(e) {}
-
-  // Collapse toggle
-  const collapseBtn = document.getElementById('prof-collapse-btn');
-  const profBody    = document.getElementById('prof-body');
-  const chevron     = document.getElementById('prof-chevron');
-  const editBtnSpan = document.getElementById('prof-edit-btn');
-
-  collapseBtn.addEventListener('click', function() {
-    const isOpen = !profBody.classList.contains('hidden');
-    if (isOpen) {
-      profBody.classList.add('hidden');
-      chevron.style.transform = '';
-      editBtnSpan.classList.add('hidden');
-      collapseBtn.setAttribute('aria-expanded', 'false');
-    } else {
-      profBody.classList.remove('hidden');
-      chevron.style.transform = 'rotate(180deg)';
-      editBtnSpan.classList.remove('hidden');
-      collapseBtn.setAttribute('aria-expanded', 'true');
-    }
-  });
-
-  // Profile edit / save / cancel
-  const editBtn    = editBtnSpan;
-  const saveBtn    = document.getElementById('prof-save-btn');
-  const cancelBtn  = document.getElementById('prof-cancel-btn');
-  const saveRow    = document.getElementById('prof-save-row');
-  const profFields = ['pf-fname','pf-lname','pf-phone','pf-location','pf-bio'];
-  let   origValues = {};
-
-  function setEditing(on) {
-    if (on) {
-      profFields.forEach(function(id) {
-        const el = document.getElementById(id);
-        if (el) origValues[id] = el.value;
-      });
-    }
-    profFields.forEach(function(id) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.disabled = !on;
-      if (on) {
-        el.classList.remove('bg-gray-50');
-        el.classList.add('bg-white');
-        el.style.borderColor = '';
-      } else {
-        el.classList.add('bg-gray-50');
-        el.classList.remove('bg-white');
-        el.style.borderColor = '';
-      }
-    });
-    saveRow.classList.toggle('hidden', !on);
-    // hide Edit label while save row is showing; show it again after
-    editBtnSpan.classList.toggle('hidden', on);
-    if (on) {
-      const fname = document.getElementById('pf-fname');
-      if (fname) { fname.focus(); fname.select(); }
-    }
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1800);
   }
-
-  if (editBtn)   editBtn.addEventListener('click', function() { setEditing(true); });
-
-  if (cancelBtn) cancelBtn.addEventListener('click', function() {
-    profFields.forEach(function(id) {
-      const el = document.getElementById(id);
-      if (el && origValues[id] !== undefined) el.value = origValues[id];
-    });
-    setEditing(false);
-  });
-
-  if (saveBtn) saveBtn.addEventListener('click', function() {
-    const fn  = document.getElementById('pf-fname').value.trim();
-    const ln  = document.getElementById('pf-lname').value.trim();
-    const ph  = document.getElementById('pf-phone').value.trim();
-    const loc = document.getElementById('pf-location').value.trim();
-    const bio = document.getElementById('pf-bio').value.trim();
-
-    // Persist to localStorage
-    try {
-      localStorage.setItem(profileKey, JSON.stringify({ firstName: fn, lastName: ln, phone: ph, location: loc, bio: bio }));
-    } catch(e) {}
-
-    if (fn) {
-      const newName     = fn + (ln ? ' ' + ln : '');
-      const newInitials = newName.split(' ').map(function(w){return w[0];}).join('').toUpperCase().slice(0,2);
-
-      // Update session
-      const sess = JSON.parse(sessionStorage.getItem('sowo_session') || '{}');
-      sess.firstName = fn; sess.lastName = ln;
-      sessionStorage.setItem('sowo_session', JSON.stringify(sess));
-
-      // Update UI
-      document.getElementById('prof-name-big').textContent = newName;
-      document.getElementById('sb-name').textContent       = newName;
-      document.getElementById('home-greeting').textContent = greet + ', ' + fn;
-      if (!document.getElementById('prof-av-big').style.backgroundImage) {
-        document.getElementById('prof-av-big').textContent = newInitials;
-        document.getElementById('sb-av').textContent       = newInitials;
-      }
-    }
-
-    setEditing(false);
-    showToast('Changes saved');
-  });
-
-  // ── Profile picture upload ──────────────────────────────
-  const avatarKey = 'sowo_avatar_' + email;
-
-  function applyAvatar(dataUrl) {
-    const bigAv = document.getElementById('prof-av-big');
-    const sbAv  = document.getElementById('sb-av');
-    bigAv.style.backgroundImage = 'url(' + dataUrl + ')';
-    bigAv.style.backgroundSize  = 'cover';
-    bigAv.style.backgroundPosition = 'center';
-    bigAv.textContent = '';
-    sbAv.style.backgroundImage = 'url(' + dataUrl + ')';
-    sbAv.style.backgroundSize  = 'cover';
-    sbAv.style.backgroundPosition = 'center';
-    sbAv.textContent = '';
-  }
-
-  // Load saved photo
-  try {
-    const saved = localStorage.getItem(avatarKey);
-    if (saved) applyAvatar(saved);
-  } catch(e) {}
-
-  // Trigger file picker
-  document.getElementById('av-upload-trigger').addEventListener('click', function() {
-    document.getElementById('av-file-input').click();
-  });
-
-  document.getElementById('av-file-input').addEventListener('change', function(e) {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = function(ev) {
-      const dataUrl = ev.target.result;
-      try { localStorage.setItem(avatarKey, dataUrl); } catch(err) {}
-      applyAvatar(dataUrl);
-    };
-    reader.readAsDataURL(file);
-    // reset so same file can be re-selected
-    e.target.value = '';
-  });
-}
-
-init();
 </script>
+
 </body>
 </html>

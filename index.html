@@ -260,11 +260,11 @@ nav{
 .feed-card-meta{font-size:.78rem;color:#9ca3af}
 
 /* ── Manifesto ────────────────────────────────────────────────── */
-.manifesto-section{padding:100px 40px;background:#F5F0E6}
+.manifesto-section{padding:100px 40px;background:#D9C9A8;border-bottom:1px solid #C4AF8A}
 .manifesto-inner{max-width:900px;margin:0 auto;text-align:center}
-.manifesto-text{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.35;letter-spacing:-.02em;color:#1B1A17}
-.manifesto-text em{font-style:italic;color:#C65D3F}
-.m-strike{color:#807A6E;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:rgba(128,122,110,.5)}
+.manifesto-text{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.35;letter-spacing:-.02em;color:#0a0a0a}
+.manifesto-text em{font-style:italic;color:#0a0a0a}
+.m-strike{color:#6b5e4a;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:#6b5e4a}
 
 /* ── Featured providers ───────────────────────────────────────── */
 .providers-section{padding:72px 0 56px;background:#f9fafb}
@@ -302,8 +302,15 @@ nav{
 .pcard-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:14px;border-top:1px solid #f3f4f6}
 .pcard-price{font-size:.82rem;color:#6b7280}
 .pcard-price strong{font-size:1rem;color:#0a0a0a;font-weight:700}
-.pcard-book{background:#085041;color:#fff;border:none;padding:9px 20px;border-radius:30px;font-size:.82rem;font-weight:700;cursor:pointer;transition:background .18s}
-.pcard-book:hover{background:#0a6b52}
+.pcard-book{
+  display:block;margin:0 20px 18px;padding:10px;
+  background:#0a0a0a;color:#fff;
+  font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+  text-align:center;border:none;cursor:pointer;
+  opacity:0;transform:translateY(6px);
+  transition:opacity 0.2s,transform 0.2s;
+}
+.pcard:hover .pcard-book{opacity:1;transform:translateY(0)}
 
 /* Editorial grid */
 .services-grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:20px}
@@ -397,9 +404,11 @@ nav{
 .rv-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.07)}
 .rv-head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .rv-av{
-  width:44px;height:44px;border-radius:50%;
-  display:grid;place-items:center;font-weight:700;font-size:.9rem;
-  color:#fff;flex-shrink:0;
+  width:40px;height:40px;
+  display:grid;place-items:center;
+  font-family:'Lora',serif;font-size:17px;font-weight:500;
+  color:#0a0a0a;background:#fff;
+  border:1px solid #e5e7eb;flex-shrink:0;
 }
 .rv-meta .rv-name{font-weight:700;font-size:.9rem;color:#0a0a0a}
 .rv-meta .rv-svc{font-size:.75rem;color:#6b7280;margin-top:2px}
@@ -487,6 +496,51 @@ footer a:hover{color:#fff}
 .footer-bottom nav{position:static;height:auto;background:transparent;border:none;padding:0;box-shadow:none;backdrop-filter:none}
 .footer-bottom nav a{font-size:.8rem;margin-left:24px;color:#9ca3af}
 .footer-bottom nav a:hover{color:#fff}
+
+/* ─── Cat-panel (picture-in-picture) ─── */
+.cat-panel-section{padding:0 48px 48px}
+.cat-panel{
+  position:relative;max-width:1064px;margin:0 auto;
+  background:#D9C9A8;padding:40px;border-radius:20px;
+  display:flex;align-items:center;
+  transition:opacity 0.2s;
+}
+.cat-panel-img{flex:1;height:520px;overflow:hidden;border-radius:12px}
+.cat-panel-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.cat-panel-text{
+  position:absolute;top:50%;left:80px;
+  transform:translateY(-50%);
+  z-index:2;
+  display:inline-flex;flex-direction:column;gap:18px;
+  background:#D9C9A8;border:1px solid #C4AF8A;
+  padding:36px;max-width:340px;
+}
+.cat-panel-text h2{font-family:'Lora',serif;font-size:1.45rem;font-weight:700;color:#0a0a0a;line-height:1.2}
+.cat-panel-text ul{list-style:none}
+.cat-panel-text li{display:flex;gap:10px;align-items:flex-start;font-size:.875rem;color:#374151;line-height:1.5;margin-bottom:8px}
+.cat-panel-text li::before{content:'✓';color:#085041;font-weight:700;flex-shrink:0}
+.cat-panel-cta a{
+  display:inline-block;padding:12px 24px;
+  background:#085041;color:#fff;
+  font-size:.875rem;font-weight:700;border-radius:8px;
+  transition:background .15s;
+}
+.cat-panel-cta a:hover{background:#064033}
+
+/* ─── Provider card badges / distance ─── */
+.pcard-badge{
+  position:absolute;top:10px;right:10px;
+  background:#085041;color:#9FE1CB;
+  font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 8px;
+}
+.pcard-kicker{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#6b7280;margin-bottom:4px;
+}
+.pcard-distance{font-size:9.5px;color:#9ca3af;letter-spacing:.04em}
+.pcard-vouch{font-size:.82rem;color:#6b7280;display:flex;align-items:center;gap:4px}
 </style>
 </head>
 <body>
@@ -598,6 +652,11 @@ footer a:hover{color:#fff}
   <!-- Centred headline -->
   <div class="hero-main">
 
+    <div class="hero-eyebrow">
+      <span></span>
+      TRUSTED PROVIDERS, NEAR YOU
+    </div>
+
     <h1>Find someone who<br><em>gets you</em></h1>
 
     <form class="search-bar" action="/browse.html" method="get" role="search">
@@ -616,16 +675,55 @@ footer a:hover{color:#fff}
     </form>
   </div>
 
-
-  <!-- Slideshow -->
-  <div class="hero-card-wrap">
-    <div class="hero-slideshow-frame">
-    <div class="hero-slideshow" id="hero-slideshow">
-      <img src="/images/hero-main.jpg" alt="Beauty provider" loading="eager" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;">
+  <!-- Category nav -->
+  <div id="catNav" class="cat-nav">
+    <div class="cat-item active" data-cat="all">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="3" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="14" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="14" width="7" height="7" rx="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>All</span>
     </div>
-    </div><!-- /hero-slideshow-frame -->
+    <div class="cat-item" data-cat="Beauty and Makeup">
+      <svg viewBox="0 0 24 24"><path d="M7 4v16M7 4c0 0 2-2 5-2s5 2 5 2v4c0 0-2 2-5 2S7 8 7 8V4z" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 8v8a5 5 0 0010 0V8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Beauty</span>
+    </div>
+    <div class="cat-item" data-cat="Hair Stylist">
+      <svg viewBox="0 0 24 24"><path d="M5 3c0 5 3 7 3 12M5 3c0 5-3 7-3 12M8 15l-6 0M13 3l-4 9 4 9M13 3l4 9-4 9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Hair</span>
+    </div>
+    <div class="cat-item" data-cat="Nails">
+      <svg viewBox="0 0 24 24"><path d="M9 3.5V4a3 3 0 00-3 3v8a6 6 0 0012 0V7a3 3 0 00-3-3v-.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 4h6" stroke-linecap="round"/></svg>
+      <span>Nails</span>
+    </div>
+    <div class="cat-item" data-cat="Barber">
+      <svg viewBox="0 0 24 24"><path d="M6 3l12 18M6 21L18 3M7.5 10.5a2.5 2.5 0 110-5 2.5 2.5 0 010 5zm9 8a2.5 2.5 0 110-5 2.5 2.5 0 010 5z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Barber</span>
+    </div>
+    <div class="cat-item" data-cat="Photography">
+      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Photography</span>
+    </div>
   </div>
 
+  <!-- Filter pills (dynamic per category) -->
+  <div class="hero-pills" id="pills"></div>
+
+</section>
+
+<!-- Cat-panel (picture-in-picture) -->
+<section class="cat-panel-section">
+  <div class="cat-panel" id="catPanel">
+    <div class="cat-panel-img">
+      <img id="panelImg" src="/images/makeup-hero.jpg" alt="Find the right provider for you">
+    </div>
+    <div class="cat-panel-text">
+      <h2 id="panelTitle">Find the right provider for you</h2>
+      <ul id="panelBullets">
+        <li>143 providers active near London right now</li>
+        <li>Real names, real vouches — no anonymous stars</li>
+        <li>Home visits or studio — book in minutes</li>
+      </ul>
+      <div class="cat-panel-cta"><a href="/browse.html" id="panelCta">Browse providers</a></div>
+    </div>
+  </div>
 </section>
 
 <!-- ─────────────────────────────────────────────────────────────────────────
@@ -686,8 +784,8 @@ footer a:hover{color:#fff}
   <div class="providers-inner">
     <div class="providers-header">
       <div>
-        <h2 class="providers-title">Top-rated providers near you</h2>
-        <p class="providers-sub">Vetted professionals, real reviews, ready to book today</p>
+        <h2 class="providers-title">Providers near you with <em style="font-style:italic">most vouches</em></h2>
+        <p class="providers-sub">Named vouches, not anonymous stars. Real people, real accountability.</p>
       </div>
       <a href="/browse.html" class="see-all-link">See all <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
@@ -746,110 +844,86 @@ footer a:hover{color:#fff}
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av" style="background:#7c3aed">EF</div>
+          <div class="rv-av">EF</div>
           <div class="rv-meta">
-            <div class="rv-name">Elizabeth F.</div>
+            <div class="rv-name">Efua F.</div>
             <div class="rv-svc">Beauty &amp; Makeup · Hackney</div>
           </div>
         </div>
         <div class="rv-stars">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">My makeup artist arrived on time, listened to exactly what I wanted for my engagement shoot, and nailed it. I've already booked her twice more. Sowo is brilliant.</p>
+        <p class="rv-text">My makeup artist arrived on time, listened to exactly what I wanted for my engagement shoot, and nailed it. I've already booked her twice more.</p>
       </div>
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av" style="background:#0891b2">LK</div>
+          <div class="rv-av">AK</div>
           <div class="rv-meta">
-            <div class="rv-name">Lisa K.</div>
+            <div class="rv-name">Adaeze K.</div>
             <div class="rv-svc">Nail Technician · Peckham</div>
           </div>
         </div>
         <div class="rv-stars">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">Found a nail tech through Sowo who came to my flat on a Sunday morning. Her nail art was stunning. Got so many compliments. Already booked her for next month.</p>
+        <p class="rv-text">Found a nail tech through Sowo who came to my flat on a Sunday morning. Her nail art was stunning. Already booked her for next month.</p>
       </div>
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av" style="background:#dc2626">JO</div>
+          <div class="rv-av">JO</div>
           <div class="rv-meta">
-            <div class="rv-name">James O.</div>
-            <div class="rv-svc">Private Chef · Islington</div>
+            <div class="rv-name">Jide O.</div>
+            <div class="rv-svc">Photographer · Islington</div>
           </div>
         </div>
         <div class="rv-stars">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">Hired a private chef for my wife's 40th birthday dinner. The food was restaurant quality: three courses, perfectly timed. Every guest asked how we pulled it off. Sowo.</p>
+        <p class="rv-text">Booked a photographer for my wife's traditional engagement. The shots were everything. He understood the colours, the culture, the vibe. Pure quality.</p>
       </div>
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av" style="background:#0d9488">AV</div>
+          <div class="rv-av">AV</div>
           <div class="rv-meta">
-            <div class="rv-name">Anne-Lise V.</div>
+            <div class="rv-name">Adaora V.</div>
             <div class="rv-svc">Barber · Brixton</div>
           </div>
         </div>
         <div class="rv-stars">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">Booked a barber to come to my house before a big job interview. He was professional, quick, and the cut was spot on. Didn't even need to leave home. 10/10.</p>
+        <p class="rv-text">Booked a barber to come to my house before a big job interview. Professional, quick, spot-on cut. Didn't even need to leave home. 10/10.</p>
       </div>
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av" style="background:#b45309">FA</div>
+          <div class="rv-av">FA</div>
           <div class="rv-meta">
             <div class="rv-name">Fatima A.</div>
             <div class="rv-svc">Hairdresser · Lewisham</div>
           </div>
         </div>
         <div class="rv-stars">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">I have natural hair and it's hard finding someone who knows how to treat it properly. My hairdresser from Sowo was incredible. She listened, used the right products, and gave me the best braid style I've ever had.</p>
+        <p class="rv-text">I have natural hair and it's hard finding someone who knows how to treat it. My hairdresser from Sowo was incredible — best braid style I've ever had.</p>
       </div>
 
       <div class="rv-card">
         <div class="rv-head">
-          <div class="rv-av" style="background:#4f46e5">SS</div>
+          <div class="rv-av">SS</div>
           <div class="rv-meta">
-            <div class="rv-name">Sophie S.</div>
+            <div class="rv-name">Sade S.</div>
             <div class="rv-svc">Beauty &amp; Makeup · Camden</div>
           </div>
         </div>
         <div class="rv-stars">
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="rv-text">Honestly the best platform for booking beauty services. I've used it three times now and each provider has been top quality. No more scrolling Instagram hoping someone responds.</p>
+        <p class="rv-text">Honestly the best platform for booking beauty services. Three times now, each provider top quality. No more scrolling Instagram hoping someone responds.</p>
       </div>
 
     </div>
@@ -1016,6 +1090,91 @@ footer a:hover{color:#fff}
 </footer>
 
 <script>
+/* ── Category nav + cat-panel ───────────────────────────────────── */
+(function() {
+  var CAT_PILLS = {
+    'all':              ['Bridal Makeup','Braids','Fades','Gel Nails','Portrait Shoot'],
+    'Beauty and Makeup':['Bridal Makeup','Event Makeup','Lashes','Skincare','Home Visit'],
+    'Hair Stylist':     ['Natural Hair','Braids','Locs','Weaves','Twist Out'],
+    'Nails':            ['Gel Nails','Acrylic','Nail Art','Pedicure','Manicure'],
+    'Barber':           ['Fade','Shape-Up','Beard Trim','Kids Cut','Bald Fade'],
+    'Photography':      ['Portraits','Events','Headshots','Family','Brand'],
+  };
+  var CAT_PANELS = {
+    'all': {
+      title: 'Find the right provider for you',
+      bullets: ['143 providers active near London right now','Real names, real vouches — no anonymous stars','Home visits or studio — book in minutes'],
+      photo: '/images/makeup-hero.jpg', link: '/browse.html'
+    },
+    'Beauty and Makeup': {
+      title: 'Beauty &amp; Makeup artists near you',
+      bullets: ['Bridal, event &amp; everyday looks','Home visits available across London','All providers community-vouched'],
+      photo: '/images/makeup-hero.jpg', link: '/browse.html?cat=beauty'
+    },
+    'Hair Stylist': {
+      title: 'Hair stylists who know your hair',
+      bullets: ['Natural hair specialists &amp; weavers','Locs, braids, twists &amp; more','Book studio or home visit'],
+      photo: '/images/lashes-hero.jpg', link: '/browse.html?cat=hair'
+    },
+    'Nails': {
+      title: 'Nail technicians near you',
+      bullets: ['Gel, acrylic, nail art &amp; pedicures','Home visits across the UK','Same-week appointments available'],
+      photo: '/images/nails-hero.jpg', link: '/browse.html?cat=nails'
+    },
+    'Barber': {
+      title: 'Barbers who know your cut',
+      bullets: ['Fades, shape-ups &amp; beard trims','Mobile barbers come to you','Afro &amp; textured hair specialists'],
+      photo: '/images/makeup-hero.jpg', link: '/browse.html?cat=barber'
+    },
+    'Photography': {
+      title: 'Photographers for every moment',
+      bullets: ['Portraits, events &amp; brand shoots','Studio or location — your choice','Packages from £90'],
+      photo: '/images/makeup-hero.jpg', link: '/browse.html?cat=photography'
+    },
+  };
+
+  var catNav   = document.getElementById('catNav');
+  var pillsEl  = document.getElementById('pills');
+  var panelEl  = document.getElementById('catPanel');
+  var panelTitle   = document.getElementById('panelTitle');
+  var panelBullets = document.getElementById('panelBullets');
+  var panelImg     = document.getElementById('panelImg');
+  var panelCta     = document.getElementById('panelCta');
+
+  if (!catNav || !pillsEl || !panelEl) return;
+
+  function renderPills(cat) {
+    var pills = CAT_PILLS[cat] || [];
+    pillsEl.innerHTML = pills.map(function(p) {
+      return '<button class="h-pill" onclick="location.href=\'/browse.html?cat=' + encodeURIComponent(p) + '\'">' + p + '</button>';
+    }).join('');
+  }
+
+  function updatePanel(cat) {
+    var d = CAT_PANELS[cat] || CAT_PANELS['all'];
+    renderPills(cat);
+    panelEl.style.opacity = '0';
+    setTimeout(function() {
+      panelTitle.innerHTML = d.title;
+      panelBullets.innerHTML = d.bullets.map(function(b) { return '<li>' + b + '</li>'; }).join('');
+      panelImg.src = d.photo;
+      panelImg.alt = d.title;
+      if (panelCta) panelCta.href = d.link;
+      panelEl.style.opacity = '1';
+    }, 150);
+  }
+
+  catNav.addEventListener('click', function(e) {
+    var btn = e.target.closest('.cat-item');
+    if (!btn) return;
+    document.querySelectorAll('.cat-item').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    updatePanel(btn.dataset.cat);
+  });
+
+  updatePanel('all');
+})();
+
 /* ── Auth nav state ─────────────────────────────────────────────── */
 (function() {
   const raw = sessionStorage.getItem('sowo_session');
@@ -1109,84 +1268,35 @@ document.getElementById('useLocationBtn').addEventListener('click', function() {
 
 /* ── Featured providers ──────────────────────────────────────── */
 const MOCK_PROVIDERS = [
-  {
-    name: 'Amara Osei',
-    category: 'Makeup artist',
-    location: 'Brixton, London',
-    rating: 4.9,
-    reviews: 134,
-    price: 65,
-    verified: true,
-    img: '/images/makeup-hero.jpg',
-    initials: 'AO',
-  },
-  {
-    name: 'Priya Nair',
-    category: 'Nail technician',
-    location: 'Shoreditch, London',
-    rating: 4.8,
-    reviews: 98,
-    price: 45,
-    verified: true,
-    img: '/images/nails-hero.jpg',
-    initials: 'PN',
-  },
-  {
-    name: 'Sofia Mensah',
-    category: 'Barber',
-    location: 'Hackney, London',
-    rating: 5.0,
-    reviews: 62,
-    price: 55,
-    verified: true,
-    img: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80',
-    initials: 'SM',
-  },
-  {
-    name: 'Marcus Reid',
-    category: 'Private chef',
-    location: 'Islington, London',
-    rating: 4.9,
-    reviews: 47,
-    price: 120,
-    verified: true,
-    img: '/images/chef-hero.jpg',
-    initials: 'MR',
-  },
+  { name:'Amara O.',  category:'Beauty & Makeup', location:'Brixton, London',    reviews:47,  price:85,  img:'/images/makeup-hero.jpg',
+    availability:'Available today', distance:'1.2 mi' },
+  { name:'Kwame O.',  category:'Barber',           location:'Peckham, London',    reviews:53,  price:35,  img:'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80',
+    availability:'Available today', distance:'2.8 mi' },
+  { name:'Zara M.',   category:'Hair Stylist',      location:'Brixton, London',    reviews:34,  price:65,  img:'/images/lashes-hero.jpg',
+    availability:'Next: Mon',       distance:'0.9 mi' },
+  { name:'Ngozi O.',  category:'Nail Technician',   location:'Shoreditch, London', reviews:88,  price:45,  img:'/images/nails-hero.jpg',
+    availability:'Available today', distance:'3.4 mi' },
 ];
 
-function renderProviderCard(p) {
-  const stars = Math.round(p.rating);
-  const starStr = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+function renderProviderCard(p, idx) {
   return `
     <div class="pcard">
       <div class="pcard-img-wrap">
-        <img src="${p.img}" alt="${p.name}" loading="lazy"
-             onerror="this.style.display='none'">
-        ${p.verified ? '<span class="pcard-verified">Verified</span>' : ''}
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+        <div class="pcard-badge">${p.availability || 'Available today'}</div>
       </div>
       <div class="pcard-body">
-        <div class="pcard-avatar-row">
-          <div class="pcard-avatar">${p.initials}</div>
-          <div>
-            <div class="pcard-name">${p.name}</div>
-            <div class="pcard-cat">${p.category}</div>
-          </div>
+        <div class="pcard-kicker">
+          <span>${p.category.toUpperCase()}</span>
+          <span class="pcard-distance">◎ ${p.distance || '1.0 mi'}</span>
         </div>
-        <div class="pcard-location">
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          ${p.location}
-        </div>
-        <div class="pcard-stars">
-          <span class="star">${starStr}</span>
-          <span>${p.rating.toFixed(1)}</span>
-          <span class="rcount">(${p.reviews} reviews)</span>
-        </div>
+        <div class="pcard-name">${p.name}</div>
         <div class="pcard-foot">
-          <div class="pcard-price">From <strong>£${p.price}</strong></div>
-          <button class="pcard-book" onclick="location.href='/providers'">Book</button>
+          <div class="pcard-price">From <strong>£${p.price}</strong><span style="font-size:.78rem;color:#9ca3af">/hr</span></div>
+          <div class="pcard-vouch">♥ ${p.reviews} vouches</div>
         </div>
       </div>
+      <button class="pcard-book" onclick="location.href='/browse.html'">Book</button>
     </div>`;
 }
 
@@ -1200,25 +1310,22 @@ async function loadFeaturedProviders() {
       providers = await Providers.list({ limit: 4 });
     }
     if (!providers || providers.length === 0) providers = MOCK_PROVIDERS;
-    row.innerHTML = providers.slice(0, 4).map(p => {
-      // Normalise shape whether real or mock
+    row.innerHTML = providers.slice(0, 4).map((p, i) => {
       const profile = p.profiles || {};
       const svc = (p.services && p.services[0]) || {};
       return renderProviderCard({
-        name:      profile.full_name || p.name || 'Provider',
-        category:  p.category       || p.category || 'Beauty',
-        location:  profile.location || p.location || 'London',
-        rating:    parseFloat(p.rating || p.rating) || 4.8,
-        reviews:   p.vouch_count    || p.reviews   || 0,
-        price:     svc.price ? Math.round(svc.price / 100) : (p.price || 50),
-        verified:  p.available !== false,
-        img:       profile.avatar_url || p.img || '',
-        initials:  (profile.full_name || p.name || 'P').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),
-      });
+        name:         profile.full_name || p.name || 'Provider',
+        category:     p.category || 'Beauty',
+        location:     profile.location || p.location || 'London',
+        reviews:      p.vouch_count || p.reviews || 0,
+        price:        svc.price ? Math.round(svc.price / 100) : (p.price || 50),
+        img:          profile.avatar_url || p.img || '',
+        availability: p.availability || 'Available today',
+        distance:     p.distance || '1.0 mi',
+      }, i);
     }).join('');
   } catch (e) {
-    // Silent fallback to mocks
-    row.innerHTML = MOCK_PROVIDERS.map(renderProviderCard).join('');
+    row.innerHTML = MOCK_PROVIDERS.map((p, i) => renderProviderCard(p, i)).join('');
   }
 }
 

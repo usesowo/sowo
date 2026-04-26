@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amara Osei · Makeup artist · Sowo</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ═══ PROVIDER PROFILE ═══ */
+
+  .crumbs {
+    padding: 20px 40px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .crumbs .container { display: flex; gap: 10px; align-items: center; }
+  .crumbs a:hover { color: var(--ink); }
+  .crumbs .sep { color: var(--muted-2); }
+
+  /* ─── Hero ─── */
+  .pp-hero {
+    padding: 20px 40px 80px;
+    border-bottom: 1px solid var(--line);
+  }
+  .pp-hero-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .pp-portrait {
+    aspect-ratio: 4/5;
+    position: relative;
+  }
+  .pp-portrait .ph { position: absolute; inset: 0; }
+  .pp-portrait .corner-tag {
+    position: absolute; top: 20px; left: 20px;
+    background: var(--a); color: var(--ink);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    padding: 6px 12px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .pp-intro .eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+  }
+  .pp-intro .eyebrow .role-tag { margin-left: auto; }
+  .pp-intro h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    margin-bottom: 10px;
+  }
+  .pp-intro .trade {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--g);
+    letter-spacing: -0.01em;
+    margin-bottom: 32px;
+  }
+
+  /* Stat row */
+  .pp-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-bottom: 36px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 20px 0;
+  }
+  .pp-stat { padding: 0 4px; }
+  .pp-stat + .pp-stat { border-left: 1px solid var(--line); padding-left: 20px; }
+  .pp-stat .v {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .pp-stat .l {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Bio */
+  .pp-bio {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    margin-bottom: 28px;
+    max-width: 520px;
+  }
+  .pp-bio strong { color: var(--ink); font-weight: 500; }
+
+  /* Location tags */
+  .pp-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 36px;
+  }
+
+  /* Booking card */
+  .pp-book {
+    position: sticky; top: 96px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 32px 32px 28px;
+    border-radius: 0;
+    margin-top: 80px;
+  }
+  .pp-book .mono { color: var(--gl); }
+  .pp-book h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    margin: 4px 0 18px;
+    color: var(--paper);
+  }
+  .pp-book h3 em { font-style: italic; color: var(--a); }
+
+  .pp-services {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(245,240,232,0.14);
+  }
+  .pp-svc {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(245,240,232,0.08);
+    align-items: baseline;
+  }
+  .pp-svc:last-child { border-bottom: 0; }
+  .pp-svc .name { font-size: 14px; color: var(--paper); font-weight: 500; }
+  .pp-svc .dur { font-size: 12px; color: rgba(245,240,232,0.5); }
+  .pp-svc .price {
+    font-family: var(--serif);
+    font-size: 20px;
+    color: var(--paper);
+    letter-spacing: -0.02em;
+  }
+  .pp-book-ctas {
+    display: grid; gap: 10px;
+    margin-top: 24px;
+  }
+  .btn-amber-full {
+    background: var(--a); color: var(--ink);
+    padding: 16px; font-weight: 600; font-size: 14px;
+    border-radius: 0;
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+  .btn-amber-full:hover { background: #D88D1A; }
+  .btn-msg {
+    background: transparent; color: var(--paper);
+    border: 1px solid rgba(245,240,232,0.3);
+    padding: 14px;
+    font-size: 13px;
+    border-radius: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .btn-msg:hover { border-color: var(--paper); }
+  .pp-book .avail-note {
+    margin-top: 16px;
+    font-size: 12px;
+    color: rgba(245,240,232,0.5);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pp-book .avail-note .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gl);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* ─── Section ─── */
+  .section {
+    padding: 80px 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-head {
+    max-width: 1400px; margin: 0 auto 48px;
+    display: grid; grid-template-columns: 200px 1fr; gap: 40px;
+    align-items: baseline;
+  }
+  .section-head .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .section-head h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 44px;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+  .section-head h2 em { font-style: italic; color: var(--g); }
+  .section-body { max-width: 1400px; margin: 0 auto; padding-left: 240px; }
+
+  /* ─── Work gallery ─── */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .gallery .g-item { aspect-ratio: 1/1; position: relative; }
+  .gallery .g-item.tall { grid-row: span 2; aspect-ratio: 1/2; }
+  .gallery .ph { position: absolute; inset: 0; }
+
+  /* ─── Vouch wall (signature moment) ─── */
+  .vouch-section { background: var(--paper-2); }
+  .vouch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .vouch {
+    padding: 32px 32px 28px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    position: relative;
+    display: flex; flex-direction: column;
+    min-height: 260px;
+  }
+  .vouch .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex; justify-content: space-between;
+  }
+  .vouch .tag .verified {
+    color: var(--g);
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .vouch blockquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    flex: 1;
+  }
+  .vouch blockquote::before {
+    content: '"';
+    font-family: var(--serif);
+    font-size: 64px;
+    font-style: italic;
+    color: var(--a);
+    line-height: 0.5;
+    vertical-align: -0.05em;
+    margin-right: 2px;
+  }
+  .vouch .by {
+    display: flex; align-items: center; gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .vouch .by-av {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--as); color: var(--ad);
+    display: grid; place-items: center;
+    font-size: 12px; font-weight: 600;
+  }
+  .vouch .by-meta { flex: 1; }
+  .vouch .by-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+  .vouch .by-sub { font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .vouch .when {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    text-align: right;
+  }
+  .vouch.wide { grid-column: span 2; }
+  .vouch.wide blockquote { font-size: 28px; max-width: 720px; }
+
+  /* ─── Credentials ─── */
+  .cred-list {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px;
+  }
+  .cred {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .cred .year {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 3px;
+  }
+  .cred .c-title {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .cred .c-sub { font-size: 13px; color: var(--muted); }
+
+  /* ─── Availability calendar ─── */
+  .cal {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .cal-head {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 8px 0;
+    text-align: center;
+  }
+  .cal-day {
+    aspect-ratio: 1/1.1;
+    border: 1px solid var(--line);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.12s;
+    position: relative;
+  }
+  .cal-day:hover { border-color: var(--ink); }
+  .cal-day .d { font-family: var(--serif); font-size: 20px; font-weight: 500; }
+  .cal-day .slots { font-size: 10.5px; color: var(--muted); }
+  .cal-day.off { opacity: 0.3; cursor: default; }
+  .cal-day.full .d { text-decoration: line-through; }
+  .cal-day.selected { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .cal-day.selected .slots { color: var(--gl); }
+  .cal-day .avail-pip {
+    position: absolute; top: 10px; right: 10px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--g);
+  }
+
+  .cal-wrap {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .cal-months {
+    display: flex; justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .cal-months h3 {
+    font-family: var(--serif);
+    font-weight: 500; font-size: 24px;
+    letter-spacing: -0.01em;
+  }
+  .cal-arrows { display: flex; gap: 8px; }
+  .cal-arrows button {
+    width: 36px; height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--ink);
+  }
+  .cal-arrows button:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  .slots-panel {
+    background: var(--paper-2);
+    padding: 28px;
+    border: 1px solid var(--line);
+  }
+  .slots-panel .day-lbl {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 22px; letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .slots-panel .day-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .slots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .slot {
+    padding: 12px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-size: 13px;
+    text-align: center;
+    color: var(--ink);
+    transition: all 0.12s;
+  }
+  .slot:hover { border-color: var(--ink); }
+  .slot.selected { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .slot.unavail { opacity: 0.35; text-decoration: line-through; cursor: default; }
+
+  /* ─── FAQ ─── */
+  .faq-list { border-top: 1px solid var(--ink); }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  .faq-q {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 0;
+    width: 100%;
+    text-align: left;
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .faq-q .plus {
+    font-family: var(--serif);
+    font-size: 28px;
+    color: var(--g);
+    font-weight: 400;
+  }
+  .faq-a {
+    padding: 0 0 24px;
+    color: var(--ink-2);
+    max-width: 720px;
+    line-height: 1.65;
+  }
+  .faq-item.closed .faq-a { display: none; }
+  .faq-item.closed .faq-q .plus::after { content: '+'; }
+  .faq-item:not(.closed) .faq-q .plus::after { content: '−'; }
+  .faq-q .plus::after { display: inline; }
+
+  /* ─── Related providers ─── */
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .rel-card { cursor: pointer; }
+  .rel-card .ph { aspect-ratio: 1/1; margin-bottom: 14px; }
+  .rel-card .rel-name {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 3px;
+  }
+  .rel-card .rel-trade { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .rel-card .rel-foot {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: var(--ink-2);
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav class="nav">
+  <div class="nav-left">
+    <a href="browse.html" class="nav-logo">
+      <svg width="26" height="26" viewBox="0 0 120 120" fill="none">
+        <path d="M12 95 C12 48 32 14 60 14" stroke="#085041" stroke-width="10" stroke-linecap="round"/>
+        <path d="M60 14 C88 14 108 48 108 95" stroke="#EF9F27" stroke-width="10" stroke-linecap="round"/>
+        <circle cx="60" cy="14" r="9" fill="#0A0A0A"/>
+      </svg>
+      Sowo
+    </a>
+    <a href="browse.html" class="nav-link">Browse</a>
+    <a href="#" class="nav-link">How it works</a>
+    <a href="#" class="nav-link">For providers</a>
+  </div>
+  <div></div>
+  <div class="nav-right">
+    <a href="#" class="nav-auth">Post a request</a>
+    <a href="dashboard.html" class="nav-avatar">AO</a>
+  </div>
+</nav>
+
+<!-- ═══ BREADCRUMBS ═══ -->
+<div class="crumbs">
+  <div class="container">
+    <a href="browse.html">Browse</a>
+    <span class="sep">/</span>
+    <a href="browse.html">Beauty &amp; Hair</a>
+    <span class="sep">/</span>
+    <a href="browse.html">Makeup</a>
+    <span class="sep">/</span>
+    <span>Amara Osei</span>
+  </div>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="pp-hero">
+  <div class="pp-hero-inner">
+
+    <div class="pp-intro">
+      <div class="eyebrow">
+        Nº 001 · Hackney &amp; East London
+        <span class="role-tag provider"><span class="dot"></span>Provider</span>
+      </div>
+      <h1>Amara<br>Osei.</h1>
+      <div class="trade">Bridal &amp; editorial makeup</div>
+
+      <div class="pp-stats">
+        <div class="pp-stat">
+          <div class="v">24</div>
+          <div class="l">Community vouches</div>
+        </div>
+        <div class="pp-stat">
+          <div class="v">8<span style="font-size:14px;color:var(--muted);">yrs</span></div>
+          <div class="l">Doing this</div>
+        </div>
+        <div class="pp-stat">
+          <div class="v">146</div>
+          <div class="l">Bookings fulfilled</div>
+        </div>
+        <div class="pp-stat">
+          <div class="v">&lt;1hr</div>
+          <div class="l">Reply time</div>
+        </div>
+      </div>
+
+      <p class="pp-bio">
+        <strong>I do makeup the way my aunties taught me — slowly, carefully, with an eye for undertones that a brush-and-go shop will miss.</strong> Eight years between Lagos, Brixton and now Hackney. I specialise in brown and Black skin, bridal looks, and the kind of photo-ready finish that still feels like you.
+      </p>
+
+      <div class="pp-tags">
+        <span class="chip chip-green">Mobile · comes to you</span>
+        <span class="chip chip-green">Afro &amp; textured hair friendly</span>
+        <span class="chip chip-green">Speaks Yoruba</span>
+        <span class="chip">Bridal packages</span>
+        <span class="chip">Women-only service available</span>
+      </div>
+    </div>
+
+    <!-- Booking sidecar -->
+    <div>
+      <div class="pp-portrait">
+        <div class="ph" data-label="portrait / amara"></div>
+        <div class="corner-tag">Most vouched · March</div>
+      </div>
+
+      <div class="pp-book">
+        <div class="mono">Starting from</div>
+        <h3><em>£85</em> per session</h3>
+
+        <div class="pp-services">
+          <div class="pp-svc">
+            <div>
+              <div class="name">Everyday &amp; event makeup</div>
+              <div class="dur">60 min · mobile</div>
+            </div>
+            <div class="price">£85</div>
+          </div>
+          <div class="pp-svc">
+            <div>
+              <div class="name">Bridal — trial + day</div>
+              <div class="dur">2.5hr trial + 3hr event</div>
+            </div>
+            <div class="price">£450</div>
+          </div>
+          <div class="pp-svc">
+            <div>
+              <div class="name">Editorial &amp; photo shoot</div>
+              <div class="dur">Half day · includes lashes</div>
+            </div>
+            <div class="price">£220</div>
+          </div>
+          <div class="pp-svc">
+            <div>
+              <div class="name">Group (3+ people)</div>
+              <div class="dur">From 45 min each</div>
+            </div>
+            <div class="price">£65<span style="font-size:12px;color:rgba(245,240,232,0.5);">/pp</span></div>
+          </div>
+        </div>
+
+        <div class="pp-book-ctas">
+          <a href="#calendar" class="btn-amber-full">Check availability</a>
+          <button class="btn-msg">Message Amara</button>
+        </div>
+
+        <div class="avail-note">
+          <span class="dot"></span>
+          Typically replies within 40 minutes
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ WORK ═══ -->
+<section class="section">
+  <div class="section-head">
+    <div class="num">Nº 01 — Work</div>
+    <h2>Recent work,<br><em>her own</em> words.</h2>
+  </div>
+  <div class="section-body">
+    <div class="gallery">
+      <div class="g-item tall"><div class="ph" data-label="bridal / studio"></div></div>
+      <div class="g-item"><div class="ph" data-label="editorial"></div></div>
+      <div class="g-item"><div class="ph" data-label="natural glam"></div></div>
+      <div class="g-item"><div class="ph" data-label="bridal / home"></div></div>
+      <div class="g-item"><div class="ph" data-label="soft beat"></div></div>
+    </div>
+    <div style="margin-top:32px;">
+      <a href="#" class="btn btn-ghost">See all 47 looks →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VOUCHES ═══ -->
+<section class="section vouch-section">
+  <div class="section-head">
+    <div class="num">Nº 02 — Vouched by</div>
+    <h2>24 people<br>from <em>the community.</em></h2>
+  </div>
+  <div class="section-body">
+    <p style="max-width:560px;color:var(--muted);margin-bottom:36px;font-size:14px;line-height:1.65;">
+      Vouches aren't anonymous ratings. Every one is a named person who booked Amara, paid in full,
+      and stands by the work. If they left, they can't vouch.
+    </p>
+
+    <div class="vouch-grid">
+
+      <div class="vouch wide">
+        <div class="tag">
+          <span>Bridal · Nov 2025</span>
+          <span class="verified">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+            Verified booking
+          </span>
+        </div>
+        <blockquote>
+          Booked Amara for my wedding in Lagos. She understood my skin tone without a single swatch. Every aunt at the party asked for her number — and you know that means something.
+        </blockquote>
+        <div class="by">
+          <div class="by-av">TA</div>
+          <div class="by-meta">
+            <div class="by-name">Tolu Adebayo</div>
+            <div class="by-sub">Lagos · booked the full bridal package</div>
+          </div>
+          <div class="when">Nov 2025</div>
+        </div>
+      </div>
+
+      <div class="vouch">
+        <div class="tag">
+          <span>Editorial · Oct 2025</span>
+          <span class="verified">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+            Verified
+          </span>
+        </div>
+        <blockquote>
+          She prepped my skin properly before touching foundation. The shoot ran long, the makeup held. I've already rebooked for February.
+        </blockquote>
+        <div class="by">
+          <div class="by-av">KN</div>
+          <div class="by-meta">
+            <div class="by-name">Kemi Nwosu</div>
+            <div class="by-sub">Stylist · Dalston</div>
+          </div>
+          <div class="when">Oct 2025</div>
+        </div>
+      </div>
+
+      <div class="vouch">
+        <div class="tag">
+          <span>Birthday · Sep 2025</span>
+          <span class="verified">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+            Verified
+          </span>
+        </div>
+        <blockquote>
+          I don't normally wear makeup. I told her that and she listened — light hand, barely there, but photos came out beautiful. That's skill.
+        </blockquote>
+        <div class="by">
+          <div class="by-av">MA</div>
+          <div class="by-meta">
+            <div class="by-name">Maya Asante</div>
+            <div class="by-sub">Hackney</div>
+          </div>
+          <div class="when">Sep 2025</div>
+        </div>
+      </div>
+
+      <div class="vouch">
+        <div class="tag">
+          <span>Graduation · Jul 2025</span>
+          <span class="verified">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+            Verified
+          </span>
+        </div>
+        <blockquote>
+          Came to my mum's house, set up in the living room, did three of us in under two hours. Calm energy, clean kit, finished on time.
+        </blockquote>
+        <div class="by">
+          <div class="by-av">FO</div>
+          <div class="by-meta">
+            <div class="by-name">Folake Odunsi</div>
+            <div class="by-sub">Stratford · graduation</div>
+          </div>
+          <div class="when">Jul 2025</div>
+        </div>
+      </div>
+
+      <div class="vouch">
+        <div class="tag">
+          <span>Wedding · Jun 2025</span>
+          <span class="verified">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+            Verified
+          </span>
+        </div>
+        <blockquote>
+          She asked to see photos of me at my happiest before the trial. Ended up matching the energy, not just the face. Unreal.
+        </blockquote>
+        <div class="by">
+          <div class="by-av">RS</div>
+          <div class="by-meta">
+            <div class="by-name">Ranti Sowande</div>
+            <div class="by-sub">Bride · Peckham</div>
+          </div>
+          <div class="when">Jun 2025</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:32px;">
+      <a href="#" class="btn btn-ghost">Read all 24 vouches →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CREDENTIALS & EXPERIENCE ═══ -->
+<section class="section">
+  <div class="section-head">
+    <div class="num">Nº 03 — Credentials</div>
+    <h2>Eight years,<br><em>trained and verified.</em></h2>
+  </div>
+  <div class="section-body">
+    <div class="cred-list">
+      <div class="cred">
+        <div class="year">2019 — Now</div>
+        <div>
+          <div class="c-title">Freelance makeup artist</div>
+          <div class="c-sub">London &amp; Lagos · Bridal, editorial, events</div>
+        </div>
+      </div>
+      <div class="cred">
+        <div class="year">2017 — 2019</div>
+        <div>
+          <div class="c-title">House of Makeup, Lagos</div>
+          <div class="c-sub">Lead artist · bridal department</div>
+        </div>
+      </div>
+      <div class="cred">
+        <div class="year">2016</div>
+        <div>
+          <div class="c-title">Bobbi Brown Pro Certification</div>
+          <div class="c-sub">Artistry for brown &amp; Black skin · NYC</div>
+        </div>
+      </div>
+      <div class="cred">
+        <div class="year">2015</div>
+        <div>
+          <div class="c-title">BA Fashion Styling</div>
+          <div class="c-sub">London College of Fashion</div>
+        </div>
+      </div>
+      <div class="cred">
+        <div class="year">Verified</div>
+        <div>
+          <div class="c-title">Sowo ID &amp; insurance check</div>
+          <div class="c-sub">Government ID verified · Public liability cover in force</div>
+        </div>
+      </div>
+      <div class="cred">
+        <div class="year">Verified</div>
+        <div>
+          <div class="c-title">Bank &amp; tax registered</div>
+          <div class="c-sub">UK self-employed · HMRC on record</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ AVAILABILITY ═══ -->
+<section class="section" id="calendar" style="background:var(--paper-2);">
+  <div class="section-head">
+    <div class="num">Nº 04 — Book her</div>
+    <h2>Check <em>when</em><br>she's free.</h2>
+  </div>
+  <div class="section-body">
+
+    <div class="cal-wrap">
+
+      <div>
+        <div class="cal-months">
+          <h3>April 2026</h3>
+          <div class="cal-arrows">
+            <button>←</button>
+            <button>→</button>
+          </div>
+        </div>
+
+        <div class="cal">
+          <div class="cal-head">Mon</div>
+          <div class="cal-head">Tue</div>
+          <div class="cal-head">Wed</div>
+          <div class="cal-head">Thu</div>
+          <div class="cal-head">Fri</div>
+          <div class="cal-head">Sat</div>
+          <div class="cal-head">Sun</div>
+
+          <div class="cal-day off"><div class="d">30</div></div>
+          <div class="cal-day off"><div class="d">31</div></div>
+          <div class="cal-day"><div class="d">1</div><div class="slots">3 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day full"><div class="d">2</div><div class="slots">Booked</div></div>
+          <div class="cal-day"><div class="d">3</div><div class="slots">5 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">4</div><div class="slots">2 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day off"><div class="d">5</div></div>
+
+          <div class="cal-day"><div class="d">6</div><div class="slots">4 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">7</div><div class="slots">1 slot</div><div class="avail-pip"></div></div>
+          <div class="cal-day full"><div class="d">8</div><div class="slots">Booked</div></div>
+          <div class="cal-day"><div class="d">9</div><div class="slots">3 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day selected"><div class="d">10</div><div class="slots">Selected</div></div>
+          <div class="cal-day"><div class="d">11</div><div class="slots">2 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day off"><div class="d">12</div></div>
+
+          <div class="cal-day"><div class="d">13</div><div class="slots">5 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">14</div><div class="slots">3 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">15</div><div class="slots">4 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day full"><div class="d">16</div><div class="slots">Booked</div></div>
+          <div class="cal-day"><div class="d">17</div><div class="slots">2 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">18</div><div class="slots">1 slot</div><div class="avail-pip"></div></div>
+          <div class="cal-day off"><div class="d">19</div></div>
+
+          <div class="cal-day"><div class="d">20</div><div class="slots">4 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">21</div><div class="slots">3 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">22</div><div class="slots">5 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">23</div><div class="slots">2 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">24</div><div class="slots">4 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day"><div class="d">25</div><div class="slots">3 slots</div><div class="avail-pip"></div></div>
+          <div class="cal-day off"><div class="d">26</div></div>
+        </div>
+      </div>
+
+      <div class="slots-panel">
+        <div class="mono" style="margin-bottom:4px;">Friday</div>
+        <div class="day-lbl">10 April</div>
+        <div class="day-sub">Pick a time for your session</div>
+
+        <div class="slots-grid">
+          <button class="slot">09:00</button>
+          <button class="slot unavail">10:30</button>
+          <button class="slot selected">11:30 AM</button>
+          <button class="slot">13:00</button>
+          <button class="slot">14:30</button>
+          <button class="slot unavail">16:00</button>
+          <button class="slot">17:30</button>
+          <button class="slot">19:00</button>
+        </div>
+
+        <hr class="rule" style="margin:24px 0;">
+        <div style="display:flex;justify-content:space-between;font-size:13px;">
+          <span style="color:var(--muted);">Everyday &amp; event makeup</span>
+          <span style="font-weight:500;">£85</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:13px;margin-top:8px;">
+          <span style="color:var(--muted);">Hackney area · mobile fee</span>
+          <span style="font-weight:500;">Included</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:16px;padding-top:16px;border-top:1px solid var(--line);">
+          <span style="font-weight:500;">Total</span>
+          <span style="font-family:var(--serif);font-size:24px;letter-spacing:-0.02em;">£85</span>
+        </div>
+
+        <button class="btn btn-green" style="width:100%;margin-top:20px;justify-content:center;padding:16px;border-radius:0;">Request booking · Fri 11:30</button>
+        <p style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5;">
+          You won't be charged until Amara confirms. Sowo holds payment in escrow.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="section">
+  <div class="section-head">
+    <div class="num">Nº 05 — FAQ</div>
+    <h2>The <em>usual</em><br>questions.</h2>
+  </div>
+  <div class="section-body">
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">Do you travel outside Hackney? <span class="plus"></span></button>
+        <div class="faq-a">
+          Yes — anywhere in Zone 1–3 is included in the session price. Further afield (outside the M25) I charge £0.45/mile each way, agreed before I confirm. For overseas weddings, we discuss separately.
+        </div>
+      </div>
+      <div class="faq-item closed">
+        <button class="faq-q">What products do you use? <span class="plus"></span></button>
+      </div>
+      <div class="faq-item closed">
+        <button class="faq-q">How far in advance should I book a bridal? <span class="plus"></span></button>
+      </div>
+      <div class="faq-item closed">
+        <button class="faq-q">What's your cancellation policy? <span class="plus"></span></button>
+      </div>
+      <div class="faq-item closed">
+        <button class="faq-q">Can you work on sensitive or reactive skin? <span class="plus"></span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RELATED ═══ -->
+<section class="section" style="background:var(--paper-2);border-bottom:0;">
+  <div class="section-head">
+    <div class="num">Nº 06 — Also vouched</div>
+    <h2>Others in<br><em>Hackney</em>.</h2>
+  </div>
+  <div class="section-body">
+    <div class="rel-grid">
+      <a href="provider.html" class="rel-card">
+        <div class="ph" data-label="portrait"></div>
+        <div class="rel-name">Folake Adeyemi</div>
+        <div class="rel-trade">Bridal makeup · 18 vouches</div>
+        <div class="rel-foot"><span>Shoreditch</span><span>From £65</span></div>
+      </a>
+      <a href="provider.html" class="rel-card">
+        <div class="ph" data-label="portrait"></div>
+        <div class="rel-name">Priscilla Mba</div>
+        <div class="rel-trade">Editorial · 31 vouches</div>
+        <div class="rel-foot"><span>Dalston</span><span>From £120</span></div>
+      </a>
+      <a href="provider.html" class="rel-card">
+        <div class="ph" data-label="portrait"></div>
+        <div class="rel-name">Adaeze Okoye</div>
+        <div class="rel-trade">Natural glam · 9 vouches</div>
+        <div class="rel-foot"><span>Hackney</span><span>From £55</span></div>
+      </a>
+      <a href="provider.html" class="rel-card">
+        <div class="ph" data-label="portrait"></div>
+        <div class="rel-name">Imani Johnson</div>
+        <div class="rel-trade">Skin-first · 27 vouches</div>
+        <div class="rel-foot"><span>Clapton</span><span>From £70</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="mark">Sowo.</div>
+      <p>Ìṣẹ́ Owó — skilled work, trusted hands. A community marketplace for the diaspora, built in London.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="browse.html">Browse providers</a></li>
+        <li><a href="#">Post a request</a></li>
+        <li><a href="#">Categories</a></li>
+        <li><a href="#">Neighbourhoods</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Providers</h5>
+      <ul>
+        <li><a href="#">Become a provider</a></li>
+        <li><a href="#">How vouching works</a></li>
+        <li><a href="#">Pricing &amp; fees</a></li>
+        <li><a href="#">Provider code</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Sowo</h5>
+      <ul>
+        <li><a href="#">Our story</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <div>© 2026 Sowo Ltd · London</div>
+    <div style="display:flex;gap:24px;">
+      <a href="#" style="color:rgba(245,240,232,0.45);">Privacy</a>
+      <a href="#" style="color:rgba(245,240,232,0.45);">Terms</a>
+      <a href="#" style="color:rgba(245,240,232,0.45);">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.parentElement.classList.toggle('closed');
+    });
+  });
+</script>
+</body>
+</html>
