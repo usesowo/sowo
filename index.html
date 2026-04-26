@@ -170,7 +170,7 @@ nav{
 .section-link:hover{gap:8px}
 
 /* ── Stats bar ───────────────────────────────────────────────── */
-.stats-bar{background:#F5F0E6;padding:36px 40px;margin-top:48px;overflow-x:auto}
+.stats-bar{background:#EDE6D8;padding:40px 40px;border-top:1px solid #D8D1C2;border-bottom:1px solid #D8D1C2;overflow-x:auto}
 .stats-bar-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:0;min-width:480px}
 .stat-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center}
 .stat-num{font-family:'Fraunces',serif;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:400;color:#0a0a0a;letter-spacing:-.02em;line-height:1}
@@ -205,11 +205,24 @@ nav{
 .feed-card-meta{font-size:.78rem;color:#9ca3af}
 
 /* ── Manifesto ────────────────────────────────────────────────── */
-.manifesto-section{padding:100px 40px;background:#D9C9A8;border-bottom:1px solid #C4AF8A}
+.manifesto-section{padding:100px 40px 80px;background:#D9C9A8;border-bottom:1px solid #C4AF8A}
 .manifesto-inner{max-width:900px;margin:0 auto;text-align:center}
-.manifesto-text{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.35;letter-spacing:-.02em;color:#0a0a0a}
+.manifesto-text{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.35;letter-spacing:-.02em;color:#0a0a0a;margin-bottom:48px}
 .manifesto-text em{font-style:italic;color:#0a0a0a}
-.m-strike{color:#6b5e4a;text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:#6b5e4a}
+.m-strike{color:#8B7355;text-decoration:line-through;text-decoration-thickness:1.5px;text-decoration-color:#8B7355}
+.manifesto-cta{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.manifesto-btn-primary{
+  display:inline-flex;align-items:center;padding:14px 32px;
+  background:#0a0a0a;color:#F5F0E8;
+  font-size:.9rem;font-weight:600;border-radius:50px;
+  transition:background .15s;
+}
+.manifesto-btn-primary:hover{background:#085041}
+.manifesto-btn-ghost{
+  font-size:.9rem;font-weight:600;color:#4a3f2f;
+  transition:color .15s;
+}
+.manifesto-btn-ghost:hover{color:#0a0a0a}
 
 /* ── Featured providers ───────────────────────────────────────── */
 .providers-section{padding:72px 0 56px;background:#F5F0E8}
@@ -452,7 +465,7 @@ footer a:hover{color:#fff}
   flex:1;overflow:hidden;border-radius:10px;
   height:480px;max-height:480px;
 }
-.cat-panel-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.cat-panel-img img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
 .cat-panel-text{
   position:absolute;top:50%;left:72px;
   transform:translateY(-50%);
@@ -680,6 +693,31 @@ footer a:hover{color:#fff}
   ─────────────────────────────────────────────────────────────────────────
 -->
 
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat-item">
+      <div class="stat-num">2,400+</div>
+      <div class="stat-lbl">Verified providers</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">UK-wide</div>
+      <div class="stat-lbl">London &amp; beyond</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num" style="font-style:italic">Named</div>
+      <div class="stat-lbl">Vouches, not stars</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-num">Free</div>
+      <div class="stat-lbl">To list your services</div>
+    </div>
+  </div>
+</div>
+
 <!-- LIVE FEED -->
 <section class="feed-section" id="marketplace">
   <div class="feed-inner">
@@ -710,6 +748,10 @@ footer a:hover{color:#fff}
       We didn't build it for <span class="m-strike">five stars.</span><br>
       We built it for the moment you say, <em>"finally, someone who gets it."</em>
     </p>
+    <div class="manifesto-cta">
+      <a href="/browse.html" class="manifesto-btn-primary">Browse providers</a>
+      <a href="/become-provider.html" class="manifesto-btn-ghost">List your service →</a>
+    </div>
   </div>
 </section>
 
@@ -1048,32 +1090,32 @@ footer a:hover{color:#fff}
     'all': {
       title: 'Find the right provider for you',
       bullets: ['143 providers active near London right now','Real names, real vouches — no anonymous stars','Home visits or studio — book in minutes'],
-      photo: '/images/makeup-hero.jpg', link: '/browse.html'
+      photo: '/images/lashes-hero.jpg', link: '/browse.html'
     },
     'Beauty and Makeup': {
       title: 'Beauty &amp; Makeup artists near you',
       bullets: ['Bridal, event &amp; everyday looks','Home visits available across London','All providers community-vouched'],
-      photo: '/images/makeup-hero.jpg', link: '/browse.html?cat=beauty'
+      photo: '/images/lashes-hero.jpg', link: '/browse.html?cat=beauty'
     },
     'Hair Stylist': {
       title: 'Hair stylists who know your hair',
       bullets: ['Natural hair specialists &amp; weavers','Locs, braids, twists &amp; more','Book studio or home visit'],
-      photo: '/images/lashes-hero.jpg', link: '/browse.html?cat=hair'
+      photo: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=1400&q=85', link: '/browse.html?cat=hair'
     },
     'Nails': {
       title: 'Nail technicians near you',
       bullets: ['Gel, acrylic, nail art &amp; pedicures','Home visits across the UK','Same-week appointments available'],
-      photo: '/images/nails-hero.jpg', link: '/browse.html?cat=nails'
+      photo: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=1400&q=85', link: '/browse.html?cat=nails'
     },
     'Barber': {
       title: 'Barbers who know your cut',
       bullets: ['Fades, shape-ups &amp; beard trims','Mobile barbers come to you','Afro &amp; textured hair specialists'],
-      photo: '/images/makeup-hero.jpg', link: '/browse.html?cat=barber'
+      photo: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1400&q=85', link: '/browse.html?cat=barber'
     },
     'Photography': {
       title: 'Photographers for every moment',
       bullets: ['Portraits, events &amp; brand shoots','Studio or location — your choice','Packages from £90'],
-      photo: '/images/makeup-hero.jpg', link: '/browse.html?cat=photography'
+      photo: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1400&q=85', link: '/browse.html?cat=photography'
     },
   };
 
@@ -1212,7 +1254,7 @@ document.getElementById('useLocationBtn').addEventListener('click', function() {
 
 /* ── Featured providers ──────────────────────────────────────── */
 const MOCK_PROVIDERS = [
-  { name:'Amara O.',  category:'Beauty & Makeup', location:'Brixton, London',    reviews:47,  price:85,  img:'/images/makeup-hero.jpg',
+  { name:'Amara O.',  category:'Beauty & Makeup', location:'Brixton, London',    reviews:47,  price:85,  img:'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80',
     availability:'Available today', distance:'1.2 mi' },
   { name:'Kwame O.',  category:'Barber',           location:'Peckham, London',    reviews:53,  price:35,  img:'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=600&q=80',
     availability:'Available today', distance:'2.8 mi' },
