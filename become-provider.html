@@ -300,7 +300,7 @@ const CATEGORY_ICONS = {
   'Personal Trainer':'🏋️',
 };
 
-const CATEGORIES = Object.keys(CATEGORY_ICONS);
+const PROVIDER_CATEGORIES = Object.keys(CATEGORY_ICONS);
 
 function init() {
   // 1. Pre-fill from a saved local draft synchronously — never blocks paint.
@@ -415,7 +415,7 @@ function stepCategory() {
   return `
     <div class="step-head"><h2>What do you do?</h2><p>Choose your main category. You can add more skills on the next step.</p></div>
     <div class="cat-grid">
-      ${CATEGORIES.map(cat=>`
+      ${PROVIDER_CATEGORIES.map(cat=>`
         <div class="cat-option ${formData.category===cat?'selected':''}" onclick="selectCat('${cat}',this)">
           <div class="cat-icon">${CATEGORY_ICONS[cat]||'⚙️'}</div>${cat}
         </div>`).join('')}
